@@ -24,7 +24,9 @@
   const moveProgress = () => {
     let num: number = 0
     let isUp: boolean = true;
+    let resetTime: boolean = false;
     interval = setInterval(() => {
+      let count: number = 0;
       if (isUp) {
         num += 15
         if (num > 100) {
@@ -38,7 +40,14 @@
           isUp = !isUp;
         }
       }
-      progress.set(num)
+      if (!isUp && count%5==0) {
+        progress.set(0)
+        num = 0;
+        isUp = true;
+        count += 1;
+      } else {
+        progress.set(num)
+      }
     }, 1400);
   };
   moveProgress();
