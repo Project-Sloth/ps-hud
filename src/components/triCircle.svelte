@@ -5,39 +5,42 @@
   export let height: number = 65;
   export let width: number = 65;
   export let stroke: number = 3;
-  export let progress: number = 10;
+  let progress: number = 100;
   export let progressColor: string = "stroke-red-500";
   export let innerColor: string = "black";
   export let icon = null;
-  export let rotate: {degree: number, x: number, y: number} = null;
-  export let translate: {x: number, y:number} = null;
 
   let triangle;
-  let pathLength;
+  let triangle2;
+
+  let pathTri1Length;
+  let pathTri2Length;
+
 
   onMount(() => {
-    pathLength = triangle.getTotalLength();
+    pathTri1Length = triangle.getTotalLength();
+    pathTri2Length = triangle2.getTotalLength();
   });
 
 </script>
 
 <div class="flex ml-1">
-  <svg width={width} height={height} viewBox="0 0 24 24" transform="scale(-1,1)">
-    <g transform="rotate({rotate?.degree} {rotate?.x} {rotate?.y}) translate({translate?.x} {translate?.y})">
-    <path bind:this={triangle} d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
+  <svg width={width} height={height} viewBox="0 0 100 100">
+    <g>
+    <path d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
       class="{progressColor} stroke-cap-round stroke-join-round"
       opacity="0.4"
       fill="{innerColor}"
       stroke-width={stroke}
-      stroke-dasharray={pathLength +' ' + pathLength}
+      stroke-dasharray={pathTri1Length +' ' + pathTri1Length}
       stroke-dashoffset={0}
     />
     <svg viewBox="3 -3 18 29">
-      <path bind:this={triangle} d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
+      <path d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
         fill="{innerColor}"
         stroke="transparent"
         stroke-width={stroke}
-        stroke-dasharray={pathLength +' ' + pathLength}
+        stroke-dasharray={pathTri1Length +' ' + pathTri1Length}
         stroke-dashoffset={0}
       />
     </svg>
@@ -45,9 +48,8 @@
       class="{progressColor} stroke-cap-round stroke-join-round"
       fill="transparent"
       stroke-width={stroke}
-      stroke-dasharray={pathLength +' ' + pathLength}
-      stroke-dashoffset={pathLength - progress / 100 * pathLength}
-      transform="rotate(-120, {12}, {14.5})"
+      stroke-dasharray={pathTri1Length +' ' + pathTri1Length}
+      stroke-dashoffset={pathTri1Length - progress / 100 * pathTri1Length}
     />
     </g>
     <Fa icon={icon} scale={0.25} translateY={0.10} flip={"horizontal"} style="color:white"/>

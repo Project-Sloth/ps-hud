@@ -11,7 +11,6 @@
   let normalizedRadius: number = radius - stroke * 2;
   let circumference = normalizedRadius * 2 * Math.PI;
   let strokeDashoffset: number = circumference - progress / 100 * circumference;
-  console.log("Nmm", normalizedRadius)
 
   $: strokeDashoffset = circumference - progress / 100 * circumference;
 </script>
