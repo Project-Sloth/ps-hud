@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@fortawesome/free-regular-svg-icons': ^6.1.0
   '@fortawesome/free-solid-svg-icons': ^6.0.0
   '@sveltejs/vite-plugin-svelte': ^1.0.0-next.39
   '@tsconfig/svelte': ^2.0.1
@@ -16,6 +17,7 @@ specifiers:
   windicss: ^3.5.1
 
 dependencies:
+  '@fortawesome/free-regular-svg-icons': 6.1.0
   '@fortawesome/free-solid-svg-icons': 6.0.0
   svelte-fa: 2.4.0
 
@@ -42,6 +44,20 @@ packages:
     resolution: {integrity: sha512-CA3MAZBTxVsF6SkfkHXDerkhcQs0QPofy43eFdbWJJkZiq3SfiaH1msOkac59rQaqto5EqWnASboY1dBuKen5w==}
     engines: {node: '>=6'}
     requiresBuild: true
+    dev: false
+
+  /@fortawesome/fontawesome-common-types/6.1.0:
+    resolution: {integrity: sha512-lFIJ5opxOKG9q88xOsuJJAdRZ+2WRldsZwUR/7MJoOMUMhF/LkHUjwWACIEPTa5Wo6uTDHvGRIX+XutdN7zYxA==}
+    engines: {node: '>=6'}
+    requiresBuild: true
+    dev: false
+
+  /@fortawesome/free-regular-svg-icons/6.1.0:
+    resolution: {integrity: sha512-MLSBZ3AprHZXVG6zVg9Jd/mGZrlX/1jxqQsHhvZuhdRdL9bZQyXHe5RmP0n4IOth/fdnoj3fs+EnbW/O+0K4dw==}
+    engines: {node: '>=6'}
+    requiresBuild: true
+    dependencies:
+      '@fortawesome/fontawesome-common-types': 6.1.0
     dev: false
 
   /@fortawesome/free-solid-svg-icons/6.0.0:

@@ -4,10 +4,9 @@
   import Fa from 'svelte-fa'
 
   export let radius: number = 25;
-  export let stroke: number = 7;
+  export let stroke: number = 25;
   export let progress: number = 100;
   export let progressColor: string = "#3FA554";
-  export let innerColor: string = "black";
   export let icon = null;
 
   const progressTween = tweened(progress, {
@@ -34,7 +33,7 @@
 >
   <circle
     opacity="0.4"
-    stroke="{progressColor}"
+    stroke="grey"
     stroke-dashoffset={0}
     stroke-dasharray={circumference + ' ' + circumference}
     stroke-width={stroke}
@@ -44,19 +43,9 @@
     transform="rotate(-90, {radius}, {radius})"
   />
   <circle
-    fill="{innerColor}"
-    stroke="transparent"
-    stroke-dashoffset={0}
-    stroke-dasharray={circumference +' ' + circumference}
-    stroke-width={stroke-0.6}
-    r={normalizedRadius - (stroke/2) + 0.1}
-    cx={radius}
-    cy={radius}
-    transform="rotate(-90, {radius}, {radius})"
-  />
-  <circle
     stroke="{progressColor}"
     fill="transparent"
+    opacity="1"
     stroke-dashoffset={strokeDashoffset}
     stroke-dasharray={circumference + ' ' + circumference}
     stroke-width={stroke}
@@ -65,5 +54,5 @@
     cy={radius}
     transform="rotate(-90, {radius}, {radius})"
   />
-  <Fa icon={icon} scale={0.40} style="color:white"/>
+    <Fa icon={icon} scale={0.50} style="color:black;"/>
 </svg>

@@ -1,26 +1,56 @@
 <script lang="ts">
+  import { tweened } from 'svelte/motion';
+  import { cubicOut } from 'svelte/easing';
   import Fa from 'svelte-fa'
-  export let width: number = 54;
-  export let height: number = 54;
-  export let stroke: number = 17;
+
+  export let width: number = 50;
+  export let height: number = 50;
+  export let stroke: number = 15;
   export let progress: number = 100;
-  export let progressColor: string = "stroke-red-500"
+  export let progressColor: string = "#3FA554"
   export let innerColor: string = "black"
   export let icon = null;
+  export let startPostion: "top-left" | "top-right" | "bottom-right" | "bottom-left" = "top-left";
 
-  // let normalizedRadius: number = radius - stroke * 2;
-  // let circumference = normalizedRadius * 2 * Math.PI;
+  let rotateDegree: number = 0;
   let perimeter: number = (width + height) * 2;
   let strokeDashoffset: number = 10;
 
-  $: strokeDashoffset = perimeter - progress / 100 * perimeter;
+  const progressTween = tweened(progress, {
+		duration: 600,
+		easing: cubicOut
+	});
+
+  $: {
+    switch (startPostion) {
+      case "top-left":
+        rotateDegree = 0;
+        break;
+      case "top-right":
+        rotateDegree = 90;
+        break;
+      case "bottom-right":
+        rotateDegree = 180;
+        break;
+      case "bottom-left":
+        rotateDegree = 270;
+        break;
+    }
+  }
+
+  $: {
+    progressTween.set(progress)
+  }
+
+  $: strokeDashoffset = perimeter - $progressTween / 100 * perimeter;
 </script>
 
-<div class="flex ml-2">
+<div class="mr-1">
   <svg width={width} height={height}>
+    <g transform="rotate({rotateDegree} {width/2} {height/2})">
     <rect
       opacity="0.4"
-      class="{progressColor}"
+      stroke="{progressColor}"
       width={width}
       height={height}
       stroke-width={stroke}
@@ -40,7 +70,7 @@
       stroke-dashoffset={0}
     />
     <rect
-      class="{progressColor}"
+      stroke="{progressColor}"
       fill="transparent"
       width={width}
       height={height}
@@ -48,6 +78,7 @@
       stroke-dasharray={perimeter +' ' + perimeter}
       stroke-dashoffset={strokeDashoffset}
     />
-    <Fa icon={icon} scale={0.5} style="color:white"/>
+    </g>
+    <Fa icon={icon} scale={0.4} style="color:white"/>
   </svg>
 </div>
