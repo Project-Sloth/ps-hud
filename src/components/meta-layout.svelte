@@ -26,15 +26,15 @@
     <div class="absolute bottom-[0.3vw]">
       <div
         class="static flex flex-col ml-1" 
-        style="width: max-content; gap: {spaceBetween+'em'};">
+        style="gap: {spaceBetween+'em'};">
           <IconsList isReversed/>
       </div>
     </div>
   {:else if layout == "right-column"}
-    <div class="absolute bottom-[0.3vw] right-[1vh] w-100vw">
+    <div class="absolute bottom-[0.3vw] right-[0.25rem] overflow-hidden">
       <div
-        class="static flex flex-col ml-auto" 
-        style="width: max-content; gap: {spaceBetween+'em'};">
+        class="static flex flex-col" 
+        style="gap: {spaceBetween+'em'};">
           <IconsList isReversed/>
       </div>
     </div>

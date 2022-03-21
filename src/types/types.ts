@@ -1,5 +1,5 @@
 import type { IconDefinition } from '@fortawesome/free-solid-svg-icons'
-// translate({translate?.x} {translate?.y})
+
 export type shapeType = {
   height: number,
   icon: IconDefinition,
