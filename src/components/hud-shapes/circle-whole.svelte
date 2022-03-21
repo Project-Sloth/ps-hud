@@ -1,6 +1,8 @@
 <script lang="ts">
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
+  import { faHeart, IconDefinition,
+  } from '@fortawesome/free-regular-svg-icons'
   import Fa from 'svelte-fa'
 
   export let radius: number = 25;
@@ -24,6 +26,7 @@
 
   $: strokeDashoffset = circumference - $progressTween / 100 * circumference;
   
+  // filter= "drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4))"
 </script>
 
 <svg
@@ -32,8 +35,8 @@
   viewBox = "0 0 {radius*2} {radius*2}"
 >
   <circle
-    opacity="0.4"
-    stroke="grey"
+    opacity="0.3"
+    stroke="{progressColor}"
     stroke-dashoffset={0}
     stroke-dasharray={circumference + ' ' + circumference}
     stroke-width={stroke}
@@ -45,7 +48,7 @@
   <circle
     stroke="{progressColor}"
     fill="transparent"
-    opacity="1"
+    opacity="0.4"
     stroke-dashoffset={strokeDashoffset}
     stroke-dasharray={circumference + ' ' + circumference}
     stroke-width={stroke}
@@ -54,5 +57,5 @@
     cy={radius}
     transform="rotate(-90, {radius}, {radius})"
   />
-    <Fa icon={icon} scale={0.50} style="color:black;"/>
+    <Fa icon={icon} scale={0.50} style="color:{progressColor};"/>
 </svg>
