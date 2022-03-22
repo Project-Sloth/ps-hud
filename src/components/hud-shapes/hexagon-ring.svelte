@@ -3,29 +3,18 @@
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
   import Fa from 'svelte-fa';
+  import type { shapePropsType } from "../../types/types"
+  import { defaultShapeProps } from "../../types/types"
 
-  export let height: number = 50;
-  export let width: number = 50;
-  export let ringSize: number = 1.8;
-  export let progressValue: number = 2;
-  export let progressColor: string = "stroke-red-500";
-  export let innerColor: string = "black";
-  export let rotateDegree: number = 0;
-  export let translateX: number = 0;
-  export let translateY: number = 0;
-  export let icon = null;
-  export let iconScaling: number = 0.40;
-  export let iconColor: string = "white";
-  export let iconTranslateX: number = 0;
-  export let iconTranslateY: number = 0;
+  export let props: shapePropsType = defaultShapeProps();
 
-  const progressTween = tweened(progressValue, {
+  const progressTween = tweened(props.progressValue, {
 		duration: 600,
 		easing: cubicOut
 	});
 
   $: {
-    progressTween.set(progressValue)
+    progressTween.set(props.progressValue)
   }
 
   let hexagon;
@@ -39,7 +28,7 @@
 
 </script>
 
-  <svg width={width} height={height} viewBox="0 0 15 15" transform="scale(-1,1)">
+  <svg width={props.width} height={props.height} viewBox="0 0 15 15" transform="scale(-1,1)">
     <!-- <defs>
       <linearGradient id="gradient-stroke" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
           <stop offset="0" stop-color="#14d4ff" />
@@ -51,24 +40,24 @@
     <!-- opacity="0.75" -->
     <g 
       transform="
-        { rotateDegree > 0 ? "rotate("+rotateDegree+" "+width/4+" "+height/4+")": ""}
-        { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+        { props.rotateDegree > 0 ? "rotate("+props.rotateDegree+" "+props.width/4+" "+props.height/4+")": ""}
+        { props.translateX | props.translateY ? "translate("+props.translateX+" "+props.translateY+")" : ""}"
     >
       <path d="M1.5 4.5V10.5L7.5 14L13.5 10.5V4.5L7.5 1L1.5 4.5Z"
         class="stroke-cap-round"
-        stroke="{progressColor}"
-        opacity="0.40"
-        fill="{innerColor}"
-        stroke-width={ringSize}
+        stroke="{props.outlineColor}"
+        opacity="{props.outlineColorOpacity}"
+        fill="{props.innerColor}"
+        stroke-width={props.ringSize}
         stroke-dasharray={pathLength +' ' + pathLength}
         stroke-dashoffset={0}
         transform="rotate(90, {7.5}, {7.5})"
       />
-      <svg viewBox={ringSize == 1 ? "0 -0.75 15 16.5" :"0 -1.5 15 18"}>
+      <svg viewBox={props.ringSize == 1 ? "0 -0.75 15 16.5" : "0 -1.5 15 18"}>
         <path d="M1.5 4.5V10.5L7.5 14L13.5 10.5V4.5L7.5 1L1.5 4.5Z"
-          fill="{innerColor}"
+          fill="{props.innerColor}"
           stroke="transparent"
-          stroke-width={ringSize}
+          stroke-width={props.ringSize}
           stroke-dasharray={pathLength +' ' + pathLength}
           stroke-dashoffset={0}
           transform="rotate(90, {7.5}, {7.5})"
@@ -78,13 +67,14 @@
       <!-- stroke="url(#gradient-stroke)" -->
       <path bind:this={hexagon} d="M1.5 4.5V10.5L7.5 14L13.5 10.5V4.5L7.5 1L1.5 4.5Z"
         class="stroke-cap-round"
-        stroke="{progressColor}"
+        stroke="{props.progressColor}"
         fill="transparent"
-        stroke-width={ringSize}
+        stroke-width={props.ringSize}
         stroke-dasharray={pathLength +' ' + pathLength}
         stroke-dashoffset={strokeDashoffset}
         transform="rotate(90, {7.5}, {7.5})"
       />
     </g>
-    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX} translateY={iconTranslateY} flip={"horizontal"} style="color:{iconColor}"/>
+    <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
+      translateY={props.iconTranslateY} flip={"horizontal"} style="color:{props.iconColor}"/>
   </svg>

@@ -2,39 +2,28 @@
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
   import Fa from 'svelte-fa'
+  import type { shapePropsType } from "../../types/types"
+  import { defaultShapeProps } from "../../types/types"
 
-  export let height: number = 50;
-  export let width: number = 50;
-  export let ringSize: number = 7;
-  export let progressValue: number = 100;
-  export let progressColor: string = "#3FA554";
-  export let innerColor: string = "black";
-  export let rotateDegree: number = 0;
-  export let translateX: number = 0;
-  export let translateY: number = 0;
-  export let icon = null;
-  export let iconScaling: number = 0.40;
-  export let iconColor: string = "white";
-  export let iconTranslateX: number = 0;
-  export let iconTranslateY: number = 0;
+  export let props: shapePropsType = defaultShapeProps();
   
   let radius: number = 25;
 
-  const progressTween = tweened(progressValue, {
+  const progressTween = tweened(props.progressValue, {
 		duration: 600,
 		easing: cubicOut
 	});
   $: {
-    progressTween.set(progressValue)
+    progressTween.set(props.progressValue)
   }
 
-  let normalizedRadius: number = radius - (ringSize/2);
+  let normalizedRadius: number = radius - (props.ringSize/2);
   let circumference: number = normalizedRadius * 2 * Math.PI;
   let strokeDashoffset: number = circumference - $progressTween / 100 * circumference;
 
   $: {
-    radius = height > width ? height/2 : width/2;
-    normalizedRadius = radius - (ringSize/2);
+    radius = props.height > props.width ? props.height/2 : props.width/2;
+    normalizedRadius = radius - (props.ringSize/2);
     circumference = normalizedRadius * 2 * Math.PI;
     strokeDashoffset = circumference - $progressTween / 100 * circumference;
   }
@@ -42,48 +31,49 @@
 </script>
 
 <svg
-  width={radius*2 }
-  height={radius*2 }
-  viewBox = "0 0 {radius*2} {radius*2}"
+  width={radius * 2}
+  height={radius * 2}
+  viewBox = "0 0 {radius * 2} {radius * 2}"
 >
   <g 
     transform="
-    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+width/2+" "+height/2+")": ""}
-    { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+    { props.rotateDegree > 0 ? "rotate("+props.rotateDegree+" "+props.width/2+" "+props.height/2+")": ""}
+    { props.translateX | props.translateY ? "translate("+props.translateX+" "+props.translateY+")" : ""}"
   >
     <circle
-      opacity="0.4"
-      stroke="{progressColor}"
+      opacity="{props.outlineColorOpacity}"
+      stroke="{props.outlineColor}"
       stroke-dashoffset={0}
       stroke-dasharray={circumference + ' ' + circumference}
-      stroke-width={ringSize}
+      stroke-width={props.ringSize}
       r={normalizedRadius}
       cx={radius}
       cy={radius}
       transform="rotate(-90, {radius}, {radius})"
     />
     <circle
-      fill="{innerColor}"
+      fill="{props.innerColor}"
       stroke="transparent"
       stroke-dashoffset={0}
       stroke-dasharray={circumference +' ' + circumference}
-      stroke-width={ringSize-0.6}
-      r={normalizedRadius - (ringSize/2) + 0.1}
+      stroke-width={props.ringSize-0.6}
+      r={normalizedRadius - (props.ringSize/2) + 0.1}
       cx={radius}
       cy={radius}
       transform="rotate(-90, {radius}, {radius})"
     />
     <circle
-      stroke="{progressColor}"
+      stroke="{props.progressColor}"
       fill="transparent"
       stroke-dashoffset={strokeDashoffset}
       stroke-dasharray={circumference + ' ' + circumference}
-      stroke-width={ringSize}
+      stroke-width={props.ringSize}
       r={normalizedRadius}
       cx={radius}
       cy={radius}
       transform="rotate(-90, {radius}, {radius})"
     />
   </g>
-  <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX} translateY={iconTranslateY} style="color:{iconColor}"/>
+  <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
+    translateY={props.iconTranslateY} style="color:{props.iconColor}"/>
 </svg>

@@ -5,4 +5,3 @@
 <main class="bg-dark-300 min-h-screen">
   <MetaLayout />
 </main>
-

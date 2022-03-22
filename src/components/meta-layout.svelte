@@ -1,9 +1,9 @@
 <script lang="ts">
-  import PlayerHudStore from '../stores/playerHudStore';
+  import PlayerHudStore from '../stores/playerHudStatusStore';
   import IconsList from './icons-list.svelte';
 
-  export let layout: "standard" | "left-bottom-column" | "right-column" | "bottom-center" | "bottom-right" | "top-left-row" = "right-column";
-  export let spaceBetween: number = 0;
+  export let layout: "standard" | "left-bottom-column" | "right-column" | "bottom-center" | "bottom-right" | "top-left-row" = "bottom-center";
+  export let spaceBetween: number = 0.2;
 </script>
 
 

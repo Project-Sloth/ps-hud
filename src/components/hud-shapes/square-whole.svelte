@@ -2,76 +2,52 @@
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
   import Fa from 'svelte-fa'
+  import type { shapePropsType } from "../../types/types"
+  import { defaultShapeProps } from "../../types/types"
 
-  export let width: number = 250;
-  export let height: number = 50;
-  export let stroke: number = 50;
-  export let progress: number = 100;
-  export let progressColor: string = "#3FA554"
-  export let innerColor: string = "black"
-  export let icon = null;
-  export let startPostion: "top-left" | "top-right" | "bottom-right" | "bottom-left" = "top-left";
+  export let props: shapePropsType = defaultShapeProps();
 
-  let rotateDegree: number = 0;
   let strokeDashoffset: number = 10;
 
-  const progressTween = tweened(progress, {
+  const progressTween = tweened(props.progressValue, {
 		duration: 600,
 		easing: cubicOut
 	});
 
   $: {
-    switch (startPostion) {
-      case "top-left":
-        rotateDegree = 0;
-        break;
-      case "top-right":
-        rotateDegree = 90;
-        break;
-      case "bottom-right":
-        rotateDegree = 180;
-        break;
-      case "bottom-left":
-        rotateDegree = 270;
-        break;
-    }
+    progressTween.set(props.progressValue)
   }
 
-  $: {
-    progressTween.set(progress)
-  }
-
-  $: strokeDashoffset = width - $progressTween / 100 * width;
+  $: strokeDashoffset = props.width - $progressTween / 100 * props.width;
 
 </script>
 
-<div>
-  <svg id="line-progress" height={height} width={width} transform="scale(1,1)">
-    <g transform="rotate({0} {width/2} {height/2})">
+<div class="border-3 border-black">
+  <svg id="line-progress" height={props.height} width={props.width}>
+    <g transform="rotate({props.rotateDegree} {props.width/2} {props.height/2})">
       <line
-        opacity="0.4"
-        stroke="{progressColor}"
-        x1="0"
-        y1="50%"
-        x2="100%"
-        y2="50%"
-        stroke-width={width}
+        opacity="{props.outlineColorOpacity}"
+        stroke="{props.outlineColor}"
+        x1="50%"
+        y1="100%"
+        x2="50%"
+        y2="0%"
+        stroke-width={props.width}
       />
       <line
-        x1="0"
-        y1="50%"
-        x2="100%"
-        y2="50%"
-        stroke={progressColor} 
+        x1="50%"
+        y1="100%"
+        x2="50%"
+        y2="0%"
+        stroke={props.progressColor} 
         fill="transparent" 
-        stroke-dasharray="{width}" 
+        stroke-dasharray="{props.width}" 
         stroke-dashoffset="{strokeDashoffset}" 
-        stroke-width={width}
+        stroke-width={props.width}
       />
     </g>
-    <Fa icon={icon} scale={0.50} style="color:white" translateX={-1.0} translateY={-0.03}/>
-    <text class="font-semibold" fill="white" x="55%" y="50%" dominant-baseline="middle" text-anchor="middle">
-      Healthy
-    </text>
+    <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
+      translateY={props.iconTranslateY} style="color:{props.iconColor}"
+    />
   </svg>
 </div>
