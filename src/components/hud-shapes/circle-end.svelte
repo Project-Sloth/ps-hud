@@ -8,7 +8,6 @@
   export let props: shapePropsType = defaultShapeProps();
 
   let strokeDashoffset: number = 10;
-  let minimalAxis: number = props.width;
 
   const progressTween = tweened(props.progressValue, {
 		duration: 600,
@@ -17,16 +16,15 @@
 
   $: {
     progressTween.set(props.progressValue)
-    minimalAxis = props.width > props.height ? props.height : props.width;
   }
 
-  $: strokeDashoffset = minimalAxis - $progressTween / 100 * minimalAxis;
+  $: strokeDashoffset = props.width - $progressTween / 100 * props.width;
 
 </script>
 
 <div class="border-3 border-black">
-  <svg height={minimalAxis} width={minimalAxis}>
-    <g transform="rotate( {props.rotateDegree} {minimalAxis/2} {minimalAxis/2})">
+  <svg id="line-progress" height={props.height} width={props.width}>
+    <g transform="rotate({props.rotateDegree} {props.width/2} {props.height/2})">
       <line
         opacity="{props.outlineColorOpacity}"
         stroke="{props.outlineColor}"
@@ -34,7 +32,7 @@
         y1="100%"
         x2="50%"
         y2="0%"
-        stroke-width={minimalAxis}
+        stroke-width={props.width}
       />
       <line
         x1="50%"
@@ -43,9 +41,9 @@
         y2="0%"
         stroke={props.progressColor} 
         fill="transparent" 
-        stroke-dasharray="{minimalAxis}" 
+        stroke-dasharray="{props.width}" 
         stroke-dashoffset="{strokeDashoffset}" 
-        stroke-width={minimalAxis}
+        stroke-width={props.width}
       />
     </g>
     <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
