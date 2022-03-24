@@ -50,7 +50,7 @@
 
 {#each iconsToShow.length ? iconsToShow : globalIconList as shapeName }
   {#if $PlayerHudUIStore.icons[shapeName].isShowing && !iconsToNotShow.includes(shapeName)}
-    <div transition:fade="{{duration: 1000}}" class="my-auto">
+    <div in:fade|local out:fade|local class="my-auto">
       <MetaShape hudIconInfo={{...$PlayerHudUIStore.icons[shapeName], progressValue: num, ...optionsForAll, ...options[shapeName] }} />
     </div>
   {/if}
