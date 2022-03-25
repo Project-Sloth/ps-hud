@@ -25,7 +25,7 @@
 </script>
 
 <div class="border-3 border-black">
-  <svg height={minimalAxis} width={minimalAxis}>
+  <svg height={minimalAxis-0} width={minimalAxis-0}>
     <g transform="rotate( {props.rotateDegree} {minimalAxis/2} {minimalAxis/2})">
       <line
         opacity="{props.outlineColorOpacity}"

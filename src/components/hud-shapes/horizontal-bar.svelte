@@ -17,17 +17,25 @@
 
   $: {
     progressTween.set(props.progressValue)
-    strokeDashoffset = props.width - $progressTween / 100 * props.width;
+  }
+
+  $: strokeDashoffset = props.width - $progressTween / 100 * props.width;
+
+  $: {
     text = props.text;
     if (props.conditionalText) {
       text = props.conditionalText(props.progressValue);
     }
   }
 
+  // <Fa icon={props.icon} scale={props.iconScaling*2} translateX={props.iconTranslateX}
+  //         translateY={props.iconTranslateY+0.2} style="color:{props.iconColor}"
+  //       />
+
 </script>
 
-<div class="border-3 border-black">
-  <svg height={props.height} width={props.width}>
+<div class="border-4 border-black relative">
+  <svg height={props.height-8} width={props.width}>
     <g transform="rotate( {props.rotateDegree} {props.height/2} {props.width/4})">
       <line
         opacity="{props.outlineColorOpacity}"
@@ -51,14 +59,21 @@
       />
     </g>
     <g dominant-baseline="middle">
+      {#if !text}
         <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
           translateY={props.iconTranslateY} style="color:{props.iconColor}"
         />
-      {#if text}
-        <text class="font-semibold" display="inline-block" font-size="large" fill="white" x="52.5%" y="55%" dominant-baseline="middle" text-anchor="middle">
-          {text}
-        </text>
       {/if}
+      <span>{text}</span>
     </g>
   </svg>
+  {#if text}
+    <div class="absolute top-0 left-0 w-full h-full">
+      <div class="flex justify-center items-center h-full text-xl text-white">
+        <Fa icon={props.icon} scale={props.iconScaling*2} translateX={props.iconTranslateX}
+          translateY={props.iconTranslateY} style="color:{props.iconColor}"/>
+        <span class="ml-2">{text}</span>
+      </div>
+    </div>
+  {/if}
 </div>

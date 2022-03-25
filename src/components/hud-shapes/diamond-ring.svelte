@@ -7,6 +7,7 @@
   import { defaultShapeProps } from "../../types/types"
 
   export let props: shapePropsType = defaultShapeProps();
+  let strokeDashoffset: number = 10;
 
   const progressTween = tweened(props.progressValue, {
 		duration: 600,
@@ -17,14 +18,14 @@
     progressTween.set(props.progressValue)
   }
 
+  $: strokeDashoffset = pathLength - $progressTween / 100 * pathLength;
+
   let bolt;
   let pathLength;
 
   onMount(() => {
     pathLength = bolt.getTotalLength();
   });
-
-  $: strokeDashoffset = pathLength - $progressTween / 100 * pathLength;
 
 </script>
 

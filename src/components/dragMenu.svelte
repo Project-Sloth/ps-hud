@@ -96,7 +96,7 @@
     <p class="">Customize Icon Settings</p>
     <Select label="Customize Shape Setting" items={[...shapes]} handleFunction={handleShapeUpdate}/>
     <Select label="Customize Layout Setting" items={[...layouts]} handleFunction={handleLayoutUpdate}/>
-    <button on:click={handleClick}>Click me</button>
+    <!-- <button on:click={handleClick}>Click me</button> -->
   </div>
 </section>
 

@@ -34,6 +34,7 @@
   width={radius * 2}
   height={radius * 2}
   viewBox = "0 0 {radius * 2} {radius * 2}"
+  overflow="visible"
 >
   <g 
     transform="
@@ -42,6 +43,7 @@
   >
     <circle
       opacity="{props.outlineColorOpacity}"
+      style="filter: drop-shadow(0px 0px 6px {props.progressColor}) contrast(200%);"
       stroke="{props.outlineColor}"
       stroke-dashoffset={0}
       stroke-dasharray={circumference + ' ' + circumference}
@@ -63,6 +65,7 @@
       transform="rotate(-90, {radius}, {radius})"
     />
     <circle
+      style="filter: drop-shadow(0px 0px 6px {props.progressColor}) contrast(300%) contrast(175%);"
       stroke="{props.progressColor}"
       fill="transparent"
       stroke-dashoffset={strokeDashoffset}
@@ -74,6 +77,8 @@
       transform="rotate(-90, {radius}, {radius})"
     />
   </g>
-  <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
-    translateY={props.iconTranslateY} style="color:{props.iconColor}"/>
+  <g style="filter: drop-shadow(0px 0px 6px {props.progressColor}) contrast(300%);">
+    <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
+    translateY={props.iconTranslateY} style="color:{props.iconColor || props.progressColor}"/>
+  </g>
 </svg>

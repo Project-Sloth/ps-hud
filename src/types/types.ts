@@ -17,7 +17,7 @@ export type playerHudIcons = {
   dev: hudIconType,
 }
 
-export const layouts = ["standard" , "left-bottom-column" , "right-column" , "bottom-center" ,
+export const layouts = ["standard" , "left-bottom-column" , "right-column" , "center-bottom" ,
 "bottom-right" , "top-left-row" , "esx-hud-hard-to-let-go" ] as const;
 
 export type layoutkind = typeof layouts[number];
@@ -30,6 +30,8 @@ export type shapekind = typeof shapes[number];
 
 // Text is only on Horizontal bar, TODO; create sub/parent types
 export type hudIconType = {
+  borderColor: string,
+  borderSize: number,
   conditionalText: (val: number) => string,
   defaultColor: string,
   height: number,
@@ -60,24 +62,26 @@ export type optionalPlayerHudIconsType = Partial<{ [Property in keyof playerHudI
 
 export function defaultHudIcon(name = "", showing=false, color="red", icon=null,): hudIconType {
   return {
+    borderColor: "black",
+    borderSize: 0,
     conditionalText: null,
     defaultColor: color,
     height: 50,
     icon: icon,
-    iconColor: "white",
-    iconScaling: 0.55,
+    iconColor: "",
+    iconScaling: 0.40,
     iconTranslateX: 0,
     iconTranslateY: 0,
     isShowing: showing,
-    innerColor: "black",
+    innerColor: "transparent",
     name: name,
     outlineColor: "",
     outlineColorOpacity: 0.4,
     progressColor: color,
     progressValue: 100,
-    ringSize: 2,
+    ringSize: 5,
     rotateDegree: 0,
-    shape: "horizontal-bar",
+    shape: "circle-ring",
     text: "",
     translateX: 0,
     translateY: 0,

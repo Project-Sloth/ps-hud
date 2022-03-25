@@ -2,7 +2,6 @@
   import type { layoutkind } from '../types/types';
   import PlayerHudUIStore from '../stores/playerHudUIStore';
   import IconsList from './icons-list.svelte';
-  import { fade } from 'svelte/transition';
   export let spaceBetween: number = 0.2;
 
   let layout: layoutkind = "standard";
@@ -19,14 +18,12 @@
 
   $: {
     layout = $PlayerHudUIStore.layout;
-    console.log("Layout", layout)
   }
 
 </script> 
 
 {#if $PlayerHudUIStore.show || true}
-  {#if layout == "bottom-center"}
-    <div transition:fade="{{duration: 1000}}">
+  {#if layout == "center-bottom"}
       <div class="absolute bottom-[0.3vw] w-100vw">
         <div
           class="static flex flex-row mx-auto" 
@@ -34,45 +31,35 @@
             <IconsList />
         </div>
       </div>
-    </div>
   {:else if layout == "bottom-right"}
-    <div transition:fade="{{duration: 1000}}">
       <div
         class="absolute bottom-[0.3vw] right-[3vh] flex flex-row"
         style="gap: {spaceBetween+'em'};">
-            <IconsList isReversed/>
+            <IconsList />
       </div>
-    </div>
   {:else if layout == "left-bottom-column"}
-    <div transition:fade="{{duration: 1000}}">
       <div class="absolute bottom-[0.3vw]">
         <div
           class="static flex flex-col ml-1" 
           style="gap: {spaceBetween+'em'};">
-            <IconsList isReversed/>
+            <IconsList />
         </div>
       </div>
-    </div>
   {:else if layout == "right-column"}
-    <div transition:fade="{{duration: 1000}}">
       <div class="absolute bottom-[0.3vw] right-[0.25rem] overflow-hidden">
         <div
           class="static flex flex-col" 
           style="gap: {spaceBetween+'em'};">
-            <IconsList isReversed/>
+            <IconsList />
         </div>
       </div>
-    </div>
   {:else if layout == "top-left-row"}
-    <div transition:fade="{{duration: 1000}}">
       <div 
         class="absolute top-[0.3vw] left-[0.3vh] flex flex-row"
         style="gap: {spaceBetween+'em'};">
         <IconsList />
       </div>
-    </div>
   {:else if layout == "esx-hud-hard-to-let-go"}
-    <div transition:fade="{{duration: 1000}}">
       <div 
         class="absolute bottom-[0.3vw] left-[3vh] flex flex-row"
         style="">
@@ -81,24 +68,21 @@
           options={
             {
               health: { height: 50, width: 250, text: "Healthy", progressColor: "red",
-              conditionalText: condtionalHealthBarText },
-              armor:  { height: 50, width: 75 }
+              conditionalText: condtionalHealthBarText, shape: "horizontal-bar" },
+              armor:  { height: 50, width: 75, shape: "horizontal-bar" }
             }}/>
         </div>
         <div class="flex flex-row gap-2">
-          <IconsList iconsToNotShow={["health", "armor"]} optionsForAll={{ shape: "square-ring",
-            ringSize: 10, height: 50, width: 50, iconScaling: 0.40 }} />
+          <IconsList iconsToNotShow={["health", "armor"]} optionsForAll={{
+            ringSize: 2, height: 50, width: 50, iconScaling: 0.40 }} />
         </div>
       </div>
-    </div>
   {:else if layout == "standard"}
-    <div transition:fade="{{duration: 1000}}">
       <div 
         class="absolute bottom-[0.3vw] left-[3vh] flex flex-row"
         style="gap: {spaceBetween+'em'};">
         <IconsList />
       </div>
-    </div>
   {/if}
 {/if}
 <!-- <div class="mt-auto mb-3">
