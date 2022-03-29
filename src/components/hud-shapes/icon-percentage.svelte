@@ -19,12 +19,6 @@
   $: if (props.iconColor == "white") props.iconColor = props.progressColor
 </script>
 
-<style>
-  .glow {
-    filter: drop-shadow(0px 0px 6px #116466);
-  }
-</style>
-
 <svg width={props.width} height={props.height} viewBox="0 0 {props.width} {props.height}">
   <filter id="glow" width="100%" height="100%" x="0" y="0" filterUnits="userSpaceOnUse">
     <feOffset in="SourceAlpha" result="shadowOffsetOuter1"/>
@@ -58,3 +52,9 @@
     {Math.round($progressTween)+"%"}
   </text>
 </svg>
+
+<style>
+  .glow {
+    filter: drop-shadow(0px 0px 6px #116466);
+  }
+</style>

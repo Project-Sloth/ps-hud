@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import WindiCSS from 'vite-plugin-windicss'
 import { minify } from "html-minifier";
+import viteCompression from 'vite-plugin-compression';
 
 const minifyHtml = () => {
   return {
@@ -18,7 +19,9 @@ export default defineConfig(({ mode }) => {
   const isProduction = mode === 'production';
 
   return {
-    plugins: [WindiCSS(), svelte(), isProduction && minifyHtml()],
+    plugins: [WindiCSS(), svelte(),
+      isProduction && minifyHtml(),
+      isProduction && viteCompression({algorithm: "brotliCompress", ext:".bz"})],
     build: {
       minify: isProduction,
     },

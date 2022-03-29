@@ -65,7 +65,7 @@
       transform="rotate(-90, {radius}, {radius})"
     />
     <circle
-      style="filter: drop-shadow(0px 0px 6px {props.progressColor}) contrast(300%) contrast(175%);"
+      style="filter: drop-shadow(0px 0px 10px {props.progressColor}) contrast(300%) contrast(175%);"
       stroke="{props.progressColor}"
       fill="transparent"
       stroke-dashoffset={strokeDashoffset}
@@ -77,7 +77,7 @@
       transform="rotate(-90, {radius}, {radius})"
     />
   </g>
-  <g style="filter: drop-shadow(0px 0px 6px {props.progressColor}) contrast(300%);">
+  <g style="filter: drop-shadow(0px 0px 10px {props.progressColor}) contrast(300%);">
     <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
     translateY={props.iconTranslateY} style="color:{props.iconColor || props.progressColor}"/>
   </g>

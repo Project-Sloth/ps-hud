@@ -34,16 +34,6 @@
 
 </script>
 
-<style>
-    .progress-container .top {
-        z-index:2;
-      }
-    .progress-content .top{
-        z-index:1;
-      }
-</style>
-
-
 <svg id="cylinder-progress" width="100px" height="200px" viewBox="0 0 150 250">
   <g class="progress-container" fill={props.outlineColor} opacity={props.outlineColorOpacity}>
     <rect x="0" y="20" width="100%" height="80"></rect>
@@ -65,3 +55,12 @@
     translateY={props.iconTranslateY || -0.3} style="color:{props.iconColor}"
   />
 </svg>
+
+<style>
+  .progress-container .top {
+      z-index:2;
+    }
+  .progress-content .top{
+      z-index:1;
+    }
+</style>

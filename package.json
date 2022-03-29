@@ -4,12 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
+    "@rgossiaux/svelte-headlessui": "^1.0.0-beta.12",
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.39",
     "@tsconfig/svelte": "^2.0.1",
     "html-minifier": "^4.0.0",
@@ -19,12 +20,14 @@
     "tslib": "^2.3.1",
     "typescript": "^4.6.2",
     "vite": "^2.8.6",
+    "vite-plugin-compression": "^0.5.1",
     "vite-plugin-windicss": "^1.8.3",
     "windicss": "^3.5.1"
   },
   "dependencies": {
     "@fortawesome/free-regular-svg-icons": "^6.1.0",
     "@fortawesome/free-solid-svg-icons": "^6.0.0",
+    "@neodrag/svelte": "^1.1.4",
     "svelte-fa": "^2.4.0"
   }
 }

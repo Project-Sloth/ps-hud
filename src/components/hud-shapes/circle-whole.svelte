@@ -65,7 +65,7 @@
       cy={radius}
       transform="rotate(-90, {radius}, {radius})"
     />
-    <circle
+    <!-- <circle
       stroke="black"
       fill="transparent"
       stroke-width={3}
@@ -73,8 +73,10 @@
       cx={radius}
       cy={radius}
       transform="rotate(-90, {radius}, {radius})"
-    />
+    /> -->
   </g>
-  <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
-    translateY={props.iconTranslateY} style="color:{props.iconColor}"/>
+  <g style="filter: drop-shadow(0px 0px 11px #000000) contrast(200%);">
+    <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
+    translateY={props.iconTranslateY} style="color:{props.iconColor || props.progressColor}"/>
+  </g>
 </svg>
