@@ -3,18 +3,31 @@
   import { cubicOut } from 'svelte/easing';
   import { onMount } from 'svelte';
   import Fa from 'svelte-fa';
-  import type { shapePropsType } from "../../types/types"
-  import { defaultShapeProps } from "../../types/types"
 
-  export let props: shapePropsType = defaultShapeProps();
+  export let height: number = 50;
+  export let icon: any = null;
+  export let iconColor: string = "red";
+  export let iconScaling: number = 0.45;
+  export let iconTranslateX: number = 0;
+  export let iconTranslateY: number = 0;
+  export let innerColor: string = "#212121";
+  export let outlineColor: string = "red";
+  export let outlineColorOpacity: number = 0.4;
+  export let progressColor: string = "red";
+  export let progressValue: number = 100;
+  export let ringSize: number = 4;
+  export let rotateDegree: number = 0;
+  export let translateX: number = 0;
+  export let translateY: number = 0;
+  export let width: number = 50;
 
-  const progressTween = tweened(props.progressValue, {
+  const progressTween = tweened(progressValue, {
 		duration: 600,
 		easing: cubicOut
 	});
 
   $: {
-    progressTween.set(props.progressValue)
+    progressTween.set(progressValue)
   }
 
   let triangle;
@@ -28,42 +41,45 @@
 </script>
 
 <div>
-  <svg width={props.width} height={props.height} viewBox="0 0 24 24" transform="scale(-1,1)">
-    <g 
-      transform="
-        { props.rotateDegree > 0 ? "rotate("+props.rotateDegree+" "+props.width/4+" "+props.height/4+")": ""}
-        { props.translateX | props.translateY ? "translate("+props.translateX+" "+props.translateY+")" : ""}"
-    >
+  <svg
+    width={width}
+    height={height}
+    viewBox="0 0 24 24"
+    transform="
+      scale(-1,1)
+      { rotateDegree > 0 ? "rotate("+rotateDegree+" "+12+" "+14.5+")": ""}
+      { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+  >
+    <path d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
+      class="stroke-cap-round stroke-join-round"
+      stroke="{outlineColor}"
+      opacity="{outlineColorOpacity}"
+      fill="{innerColor}"
+      stroke-width={ringSize}
+      stroke-dasharray={pathLength +' ' + pathLength}
+      stroke-dashoffset={0}
+    />
+    <svg viewBox="2 {0.4-ringSize} 20 {24 + ringSize*1.5}">
       <path d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
-        class="stroke-cap-round stroke-join-round"
-        stroke="{props.outlineColor}"
-        opacity="{props.outlineColorOpacity}"
-        fill="{props.innerColor}"
-        stroke-width={props.ringSize}
+        fill="{innerColor}"
+        stroke="transparent"
+        stroke-width={ringSize}
         stroke-dasharray={pathLength +' ' + pathLength}
         stroke-dashoffset={0}
       />
-      <svg viewBox="2 {0.4-props.ringSize} 20 {24 + props.ringSize*1.5}">
-        <path d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
-          fill="{props.innerColor}"
-          stroke="transparent"
-          stroke-width={props.ringSize}
-          stroke-dasharray={pathLength +' ' + pathLength}
-          stroke-dashoffset={0}
-        />
-      </svg>
-      <path bind:this={triangle}
-        d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
-        class="stroke-cap-round"
-        stroke="{props.progressColor}"
-        fill="transparent"
-        stroke-width={props.ringSize}
-        stroke-dasharray={pathLength +' ' + pathLength}
-        stroke-dashoffset={strokeDashoffset}
-        transform="rotate(-120, {12}, {14.5})"
-      />
-    </g>
-    <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
-    translateY={props.iconTranslateY || 0.10 } flip={"horizontal"} style="color:{props.iconColor}"/>
+    </svg>
+    <path bind:this={triangle}
+      d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
+      class="stroke-cap-round"
+      stroke="{progressColor}"
+      fill="transparent"
+      stroke-width={ringSize}
+      stroke-dasharray={pathLength +' ' + pathLength}
+      stroke-dashoffset={strokeDashoffset}
+      transform="rotate(-120, {12}, {14.5})"
+    />
+    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+    translateY={iconTranslateY } flip={"horizontal"} style="color:{iconColor}"/>
+    <!-- || 0.10 -->
   </svg>
 </div>

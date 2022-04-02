@@ -2,24 +2,37 @@
   import { tweened } from 'svelte/motion';
   import { linear  } from 'svelte/easing';
   import Fa from 'svelte-fa';
-  import type { shapePropsType } from "../../types/types"
-  import { defaultShapeProps } from "../../types/types"
 
-  export let props: shapePropsType = defaultShapeProps();
+  export let height: number = 50;
+  export let icon: any = null;
+  export let iconColor: string = "red";
+  export let iconScaling: number = 0.45;
+  export let iconTranslateX: number = 0;
+  export let iconTranslateY: number = 0;
+  export let innerColor: string = "#212121";
+  export let outlineColor: string = "red";
+  export let outlineColorOpacity: number = 0.4;
+  export let progressColor: string = "red";
+  export let progressValue: number = 100;
+  export let ringSize: number = 4;
+  export let rotateDegree: number = 0;
+  export let translateX: number = 0;
+  export let translateY: number = 0;
+  export let width: number = 50;
 
-  const progressTween = tweened(props.progressValue, {
+  const progressTween = tweened(progressValue, {
 		duration: 1200,
 		easing: linear,
 	});
 
   $: {
-    progressTween.set(props.progressValue);
+    progressTween.set(progressValue);
   }
 
-  $: if (props.iconColor == "white") props.iconColor = props.progressColor
+  $: if (iconColor == "white") iconColor = progressColor
 </script>
 
-<svg width={props.width} height={props.height} viewBox="0 0 {props.width} {props.height}">
+<svg width={width} height={height} viewBox="0 0 {width} {height}">
   <filter id="glow" width="100%" height="100%" x="0" y="0" filterUnits="userSpaceOnUse">
     <feOffset in="SourceAlpha" result="shadowOffsetOuter1"/>
     <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="5"/>
@@ -44,11 +57,11 @@
       <feMergeNode in="shadowMatrixOuter5"/>
     </feMerge>
   </filter>
-  <g class="glow" style="filter: drop-shadow(0px 0px 6px {props.progressColor}) contrast(300%);">
-    <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
-    translateY={props.iconTranslateY || 0.20} style="color:{props.iconColor || props.progressColor}"/>
+  <g class="glow" style="filter: drop-shadow(0px 0px 6px {progressColor}) contrast(300%);">
+    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+    translateY={iconTranslateY || 0.20} style="color:{iconColor || progressColor}"/>
   </g>
-  <text class="font-semibold" fill="white" x="55%" y="25%" dominant-baseline="middle" text-anchor="middle">
+  <text class="font-semibold text-lg" fill="white" x="55%" y="35%" dominant-baseline="middle" text-anchor="middle">
     {Math.round($progressTween)+"%"}
   </text>
 </svg>

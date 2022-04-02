@@ -32,10 +32,10 @@
   // filter= "drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4))"
 </script>
 
-<div class="border-4 border-black">
+<div class="">
   <svg
-    width={radius-8}
-    height={radius-8}
+    width={radius}
+    height={radius}
     viewBox = "0 0 {radius*2} {radius*2}"
   >
     <g 

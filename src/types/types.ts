@@ -17,22 +17,22 @@ export type playerHudIcons = {
   dev: hudIconType,
 }
 
-export const layouts = ["standard" , "left-bottom-column" , "right-column" , "center-bottom" ,
-"bottom-right" , "top-left-row" , "esx-hud-hard-to-let-go" ] as const;
+export const layouts = ["standard", "left-bottom-column", "right-column", "center-bottom",
+"bottom-right", "top-left-row", "esx-hud-hard-to-let-go" ] as const;
 
 export type layoutkind = typeof layouts[number];
 
-export const shapes = [ "circle-ring"  , "circle-whole" ,"square-ring" , "star-ring" , "triangle-ring" ,
-  "hexagon-ring" , "diamond-ring" , "square-circular-fill" , "square-whole" ,
-  "vertical-bar" , "icon-percentage" , "circle-end" , "cylinder" , "horizontal-bar"] as const;
+export const shapes = [ "circle-ring", "circle-square-fill", "circle-whole", "square-ring",
+  "square-circular-fill", "square-whole", "star-ring", "triangle-ring", "hexagon-ring", "hexagon-square-fill",
+  "diamond-ring", "vertical-bar", "icon-percentage", "circle-end", "cylinder", "horizontal-bar"] as const;
 
 export type shapekind = typeof shapes[number];
 
 // Text is only on Horizontal bar, TODO; create sub/parent types
 export type hudIconType = {
-  borderColor: string,
-  borderSize: number,
-  conditionalText: (val: number) => string,
+  // borderColor: string,
+  // borderSize: number,
+  // conditionalText: (val: number) => string,
   defaultColor: string,
   height: number,
   icon: IconDefinition,
@@ -50,7 +50,7 @@ export type hudIconType = {
   ringSize: number,
   rotateDegree: number,
   shape: shapekind,
-  text: string,
+  // text: string,
   translateX: number,
   translateY: number,
   width: number
@@ -62,18 +62,18 @@ export type optionalPlayerHudIconsType = Partial<{ [Property in keyof playerHudI
 
 export function defaultHudIcon(name = "", showing=false, color="red", icon=null,): hudIconType {
   return {
-    borderColor: "black",
-    borderSize: 0,
-    conditionalText: null,
+    // borderColor: "black",
+    // borderSize: 0,
+    // conditionalText: null,
     defaultColor: color,
     height: 50,
     icon: icon,
-    iconColor: "",
+    iconColor: color,
     iconScaling: 0.40,
     iconTranslateX: 0,
     iconTranslateY: 0,
     isShowing: showing,
-    innerColor: "transparent",
+    innerColor: "#212121",
     name: name,
     outlineColor: "",
     outlineColorOpacity: 0.4,
@@ -82,7 +82,7 @@ export function defaultHudIcon(name = "", showing=false, color="red", icon=null,
     ringSize: 5,
     rotateDegree: 0,
     shape: "circle-ring",
-    text: "",
+    // text: "",
     translateX: 0,
     translateY: 0,
     width: 50,
@@ -90,6 +90,7 @@ export function defaultHudIcon(name = "", showing=false, color="red", icon=null,
 }
 
 export type shapePropsType =  Omit<hudIconType, "shape" | "isShowing" | "name" >;
+export type customizableShapePropsType = Omit<hudIconType, "isShowing" | "name" | "progressValue" | "icon" >;
 
 export function defaultShapeProps(): shapePropsType {
   return (({ shape, isShowing, name, ...o }) => o)(defaultHudIcon());

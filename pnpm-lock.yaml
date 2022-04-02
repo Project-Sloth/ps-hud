@@ -4,7 +4,6 @@ specifiers:
   '@fortawesome/free-regular-svg-icons': ^6.1.0
   '@fortawesome/free-solid-svg-icons': ^6.0.0
   '@neodrag/svelte': ^1.1.4
-  '@rgossiaux/svelte-headlessui': ^1.0.0-beta.12
   '@sveltejs/vite-plugin-svelte': ^1.0.0-next.39
   '@tsconfig/svelte': ^2.0.1
   html-minifier: ^4.0.0
@@ -12,6 +11,7 @@ specifiers:
   svelte-check: ^2.4.5
   svelte-fa: ^2.4.0
   svelte-preprocess: ^4.10.4
+  svelte-select: ^4.4.7
   tslib: ^2.3.1
   typescript: ^4.6.2
   vite: ^2.8.6
@@ -24,9 +24,9 @@ dependencies:
   '@fortawesome/free-solid-svg-icons': 6.0.0
   '@neodrag/svelte': 1.1.4
   svelte-fa: 2.4.0
+  svelte-select: 4.4.7
 
 devDependencies:
-  '@rgossiaux/svelte-headlessui': 1.0.0-beta.12_svelte@3.46.4
   '@sveltejs/vite-plugin-svelte': 1.0.0-next.39_svelte@3.46.4+vite@2.8.6
   '@tsconfig/svelte': 2.0.1
   html-minifier: 4.0.0
@@ -97,14 +97,6 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
-    dev: true
-
-  /@rgossiaux/svelte-headlessui/1.0.0-beta.12_svelte@3.46.4:
-    resolution: {integrity: sha512-UgLV9PwlwkJYObYSzxm5kh5HbyEps3oMbihL1BY7CpZ26j0q6O6WaG4d95eiMilhzyHfRYRm/VLyNPJISBFqAA==}
-    peerDependencies:
-      svelte: ^3.44.0
-    dependencies:
-      svelte: 3.46.4
     dev: true
 
   /@rollup/pluginutils/4.2.0:
@@ -1017,6 +1009,10 @@ packages:
       svelte: 3.46.4
       typescript: 4.6.2
     dev: true
+
+  /svelte-select/4.4.7:
+    resolution: {integrity: sha512-fIf9Z8rPI6F8naHZ9wjXT0Pv5gLyhdHAFkHFJnCfVVfELE8e82uOoF0xEVQP6Kir+b4Q5yOvNAzZ61WbSU6A0A==}
+    dev: false
 
   /svelte/3.46.4:
     resolution: {integrity: sha512-qKJzw6DpA33CIa+C/rGp4AUdSfii0DOTCzj/2YpSKKayw5WGSS624Et9L1nU1k2OVRS9vaENQXp2CVZNU+xvIg==}

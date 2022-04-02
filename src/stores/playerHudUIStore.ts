@@ -3,10 +3,11 @@ import { faHeart, faShieldAlt, faHamburger, faTint, faBrain, faStream,
   faParachuteBox, faMeteor, faLungs, faOilCan, faUserSlash,
   faTachometerAltFast, faTerminal, faHeadset, faMicrophone,
 } from '@fortawesome/free-solid-svg-icons'
-import type { playerHudIcons, shapekind, layoutkind } from '../types/types';
+import type { playerHudIcons, shapekind, layoutkind, customizableShapePropsType } from '../types/types';
 import { defaultHudIcon } from '../types/types';
 
 type playerHudUIType = {
+  globalIconSettings: customizableShapePropsType,
   icons: playerHudIcons,
   layout: layoutkind
   show: boolean,
@@ -49,8 +50,7 @@ type playerHudUpdateMessageType = {
 const store = () => {
   let debugShow: boolean = true;
   let playerHudUIState: playerHudUIType = {
-    show: true,
-    layout: "standard",
+    globalIconSettings: (({ isShowing, name, icon, progressValue, ...o }) => o)(defaultHudIcon()),
     icons: {
       voice: defaultHudIcon("voice", true || debugShow, "#FFFFFF", faMicrophone),
       health: defaultHudIcon("health", true ||debugShow, "rgb(33, 171, 97)", faHeart), //"#3FA554"
@@ -67,6 +67,8 @@ const store = () => {
       nos: defaultHudIcon("nos", false || debugShow, "#D64763", faMeteor),
       dev: defaultHudIcon("dev", false || debugShow, "rgb(0, 0, 0)", faTerminal),
     },
+    layout: "standard",
+    show: true,
     showingOrder: ["voice", "health", "armor", "hunger", "thirst", "stress", "oxygen", "armed",
       "parachute", "engine", "cruise", "nos", "dev"],
   }
@@ -74,10 +76,82 @@ const store = () => {
   const { subscribe, set, update } = writable(playerHudUIState);
 
   const methods = {
+    updateAllHeight(height: number) {
+      update(state => {
+        for (let icon in state.icons) {
+          state.icons[icon].height = height;
+        }
+        return state;
+      })
+    },
+    updateAllIconScale(scale: number) {
+      update(state => {
+        for (let icon in state.icons) {
+          state.icons[icon].iconScaling = scale;
+        }
+        return state;
+      })
+    },
+    updateAllRingSize(ringSize: number) {
+      update(state => {
+        for (let icon in state.icons) {
+          state.icons[icon].ringSize = ringSize;
+        }
+        return state;
+      })
+    },
+    updateAllRotateDegree(degree: number) {
+      update(state => {
+        for (let icon in state.icons) {
+          state.icons[icon].rotateDegree = degree;
+        }
+        return state;
+      })
+    },
     updateAllShapes(shape: shapekind) {
       update(state => {
         for (let icon in state.icons) {
           state.icons[icon].shape = shape;
+        }
+        return state;
+      })
+    },
+    updateAllTranslateIconX(x: number) {
+      update(state => {
+        for (let icon in state.icons) {
+          state.icons[icon].iconTranslateX = x;
+        }
+        return state;
+      })
+    },
+    updateAllTranslateIconY(y: number) {
+      update(state => {
+        for (let icon in state.icons) {
+          state.icons[icon].iconTranslateY = y;
+        }
+        return state;
+      })
+    },
+    updateAllTranslateX(x: number) {
+      update(state => {
+        for (let icon in state.icons) {
+          state.icons[icon].translateX = x;
+        }
+        return state;
+      })
+    },
+    updateAllTranslateY(y: number) {
+      update(state => {
+        for (let icon in state.icons) {
+          state.icons[icon].translateY = y;
+        }
+        return state;
+      })
+    },
+    updateAllWidth(width: number) {
+      update(state => {
+        for (let icon in state.icons) {
+          state.icons[icon].width = width;
         }
         return state;
       })

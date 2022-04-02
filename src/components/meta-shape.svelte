@@ -1,7 +1,9 @@
 <script lang="ts">
+  import { fade } from 'svelte/transition';
   import type { hudIconType, shapePropsType } from "../types/types"
   import CircleRing from './hud-shapes/circle-ring.svelte';
   import CircleWhole from "./hud-shapes/circle-whole.svelte";
+  import CircleSquareFill from "./hud-shapes/circle-square-fill.svelte";
   import CircleEnd from "./hud-shapes/circle-end.svelte";
   import Cylinder from "./hud-shapes/cylinder.svelte";
   import HorizontalBar from "./hud-shapes/horizontal-bar.svelte";
@@ -9,6 +11,7 @@
   import StarRing from './hud-shapes/star-ring.svelte'
   import TriangleRing from './hud-shapes/triangle-ring.svelte';
   import HexagonRing from './hud-shapes/hexagon-ring.svelte';
+  import HexagonSquareFill from "./hud-shapes/hexagon-square-fill.svelte";
   import DiamondRing from './hud-shapes/diamond-ring.svelte';
   import SquareCircularFill from './hud-shapes/square-circular-fill.svelte';
   import SquareWhole from './hud-shapes/square-whole.svelte';
@@ -27,12 +30,16 @@
   
 </script>
 
+<!-- <div transition:fade|local="{{duration: 1000, delay: 1000}}">
+</div> -->
 {#if hudIconInfo.shape == 'circle-ring'}
-  <CircleRing props={shapeProps} />
+  <CircleRing {...shapeProps} />
+{:else if hudIconInfo.shape == 'circle-square-fill'}
+  <CircleSquareFill {...shapeProps} />
 {:else if hudIconInfo.shape == 'circle-whole'}
-  <CircleWhole props={shapeProps} />
+  <CircleWhole {...shapeProps} />
 {:else if hudIconInfo.shape == 'circle-end'}
-  <CircleEnd props={shapeProps} />
+  <CircleEnd {...shapeProps} />
 {:else if hudIconInfo.shape == 'cylinder'}
   <Cylinder props={shapeProps} />
 {:else if hudIconInfo.shape == 'horizontal-bar'}
@@ -40,17 +47,19 @@
 {:else if hudIconInfo.shape == 'square-circular-fill'}
   <SquareCircularFill props={shapeProps} />
 {:else if hudIconInfo.shape == 'square-ring'}
-  <SquareRing props={shapeProps} />
+  <SquareRing {...shapeProps} />
 {:else if hudIconInfo.shape == 'star-ring'}
-  <StarRing props={shapeProps} />
+  <StarRing {...shapeProps} />
 {:else if hudIconInfo.shape == 'triangle-ring'}
-  <TriangleRing props={shapeProps} />
+  <TriangleRing {...shapeProps} />
 {:else if hudIconInfo.shape == 'hexagon-ring'}
   <HexagonRing props={shapeProps} />
+{:else if hudIconInfo.shape == 'hexagon-square-fill'}
+  <HexagonSquareFill {...shapeProps} />
 {:else if hudIconInfo.shape == 'diamond-ring'}
-  <DiamondRing props={shapeProps} />
+  <DiamondRing {...shapeProps} />
 {:else if hudIconInfo.shape == 'square-whole'}
-  <SquareWhole props={shapeProps} />
+  <SquareWhole {...shapeProps} />
 {:else if hudIconInfo.shape == 'icon-percentage'}
-  <IconPercentage props={shapeProps} />
+  <IconPercentage {...shapeProps} />
 {/if }

@@ -45,13 +45,12 @@
   moveProgress();
   onDestroy(() => clearInterval(interval));
 
-// div had this transition:fade="{{duration: 1000}}"         but this causes leak?
 </script>
 
 {#each iconsToShow.length ? iconsToShow : globalIconList as shapeName }
   {#if $PlayerHudUIStore.icons[shapeName].isShowing && !iconsToNotShow.includes(shapeName)}
     <div transition:fade|local="{{duration: 1000}}" class="my-auto">
-      <MetaShape hudIconInfo={{...$PlayerHudUIStore.icons[shapeName], progressValue: num, ...optionsForAll, ...options[shapeName] }} />
+      <MetaShape hudIconInfo={{...$PlayerHudUIStore.icons[shapeName], progressValue: num, ...optionsForAll, ...options[shapeName]}} />
     </div>
   {/if}
 {/each}

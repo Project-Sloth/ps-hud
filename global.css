@@ -1,6 +1,7 @@
 /* Theme colors. */
 :root {
-  --silent-hud-primary: #dc143c;
+  --silent-hud-primary: rgb(220, 20, 60);
+  --silent-hud-primary-hover: rgba(220, 20, 60, 0.6);
   --silent-hud-secondary: #444444;
 }
 
@@ -15,4 +16,8 @@
 * {
   margin: 0;
   padding: 0;
+}
+
+html {
+  overflow: hidden;
 }

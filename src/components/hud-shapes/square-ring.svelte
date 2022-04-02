@@ -2,65 +2,78 @@
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
   import Fa from 'svelte-fa'
-  import type { shapePropsType } from "../../types/types"
-  import { defaultShapeProps } from "../../types/types"
+  
+  export let height: number = 50;
+  export let icon: any = null;
+  export let iconColor: string = "red";
+  export let iconScaling: number = 0.45;
+  export let iconTranslateX: number = 0;
+  export let iconTranslateY: number = 0;
+  export let innerColor: string = "#212121";
+  export let outlineColor: string = "red";
+  export let outlineColorOpacity: number = 0.4;
+  export let progressColor: string = "red";
+  export let progressValue: number = 100;
+  export let ringSize: number = 4;
+  export let rotateDegree: number = 0;
+  export let translateX: number = 0;
+  export let translateY: number = 0;
+  export let width: number = 50;
 
-  export let props: shapePropsType = defaultShapeProps();
-
-  let perimeter: number = (props.width + props.height) * 2;
+  let perimeter: number = (width + height) * 2;
   let strokeDashoffset: number = 10;
 
-  const progressTween = tweened(props.progressValue, {
+  const progressTween = tweened(progressValue, {
 		duration: 600,
 		easing: cubicOut
 	});
 
-  $: {
-    progressTween.set(props.progressValue)
-  }
-
+  $: perimeter = (width + height) * 2;
+  $: progressTween.set(progressValue);
   $: strokeDashoffset = perimeter - $progressTween / 100 * perimeter;
 </script>
 
 <div class="">
-  <svg width={props.width} height={props.height}>
-    <g 
-      transform="
-      { props.rotateDegree > 0 ? "rotate("+props.rotateDegree+" "+props.width/2+" "+props.height/2+")": ""}
-      { props.translateX | props.translateY ? "translate("+props.translateX+" "+props.translateY+")" : ""}"
-    >
+  <svg
+    width={width}
+    height={height}
+    transform="
+      { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
+      { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+  >
+    <g>
       <rect
-        opacity="{props.outlineColorOpacity}"
-        stroke="{props.outlineColor}"
-        width={props.width}
-        height={props.height}
-        stroke-width={props.ringSize}
+        opacity="{outlineColorOpacity}"
+        stroke="{outlineColor}"
+        width={width}
+        height={height}
+        stroke-width={ringSize}
         stroke-dasharray={perimeter +' ' + perimeter}
         shape-rendering="geometricPrecision"
         stroke-dashoffset={0}
       />
       <rect
-        fill="{props.innerColor}"
-        transform="translate({props.ringSize/2-0.1} {props.ringSize/2-0.3})"
+        fill="{innerColor}"
+        transform="translate({ringSize/2-0.1} {ringSize/2-0.3})"
         stroke="transparent"
         shape-rendering="geometricPrecision"
-        width={props.width-props.ringSize+0.2}
-        height={props.height-props.ringSize+0.2}
-        stroke-width={props.ringSize}
+        width={width-ringSize+0.2}
+        height={height-ringSize+0.2}
+        stroke-width={ringSize}
         stroke-dasharray={perimeter +' ' + perimeter}
         stroke-dashoffset={0}
       />
       <rect
-        stroke="{props.progressColor}"
+        stroke="{progressColor}"
         fill="transparent"
-        width={props.width}
-        height={props.height}
-        stroke-width={props.ringSize-0.1}
+        width={width}
+        height={height}
+        stroke-width={ringSize-0.1}
         stroke-dasharray={perimeter +' ' + perimeter}
         stroke-dashoffset={strokeDashoffset}
       />
     </g>
-    <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
-      translateY={props.iconTranslateY} style="color:{props.iconColor}"/>
+    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+      translateY={iconTranslateY} style="color:{iconColor || progressColor}"/>
   </svg>
 </div>

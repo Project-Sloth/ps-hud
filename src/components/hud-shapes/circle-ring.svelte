@@ -2,32 +2,51 @@
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
   import Fa from 'svelte-fa'
-  import type { shapePropsType } from "../../types/types"
-  import { defaultShapeProps } from "../../types/types"
 
-  export let props: shapePropsType = defaultShapeProps();
+  export let height: number = 50;
+  export let icon: any = null;
+  export let iconColor: string = "red";
+  export let iconScaling: number = 0.45;
+  export let iconTranslateX: number = 0;
+  export let iconTranslateY: number = 0;
+  export let innerColor: string = "#212121";
+  export let outlineColor: string = "red";
+  export let outlineColorOpacity: number = 0.4;
+  export let progressColor: string = "red";
+  export let progressValue: number = 100;
+  export let ringSize: number = 4;
+  export let rotateDegree: number = 0;
+  export let translateX: number = 0;
+  export let translateY: number = 0;
+  export let width: number = 50;
   
   let radius: number = 25;
 
-  const progressTween = tweened(props.progressValue, {
+  const progressTween = tweened(progressValue, {
 		duration: 600,
 		easing: cubicOut
 	});
   $: {
-    progressTween.set(props.progressValue)
+    progressTween.set(progressValue)
   }
 
-  let normalizedRadius: number = radius - (props.ringSize/2);
+  let normalizedRadius: number = radius - (ringSize/2);
   let circumference: number = normalizedRadius * 2 * Math.PI;
   let strokeDashoffset: number = circumference - $progressTween / 100 * circumference;
 
+  $: radius = height > width ? height/2 : width/2;
   $: {
-    radius = props.height > props.width ? props.height/2 : props.width/2;
-    normalizedRadius = radius - (props.ringSize/2);
+    normalizedRadius = radius - (ringSize/2);
     circumference = normalizedRadius * 2 * Math.PI;
-    strokeDashoffset = circumference - $progressTween / 100 * circumference;
   }
+  $: strokeDashoffset = circumference - $progressTween / 100 * circumference;
   
+  // track circle
+  //       style="filter: drop-shadow(0px 0px 6px {progressColor}) contrast(200%);"
+  // progress circle
+  //       style="filter: drop-shadow(0px 0px 10px {progressColor}) contrast(300%) contrast(175%);"
+  // icon
+  //       style="filter: drop-shadow(0px 0px 10px {progressColor}) contrast(300%);"
 </script>
 
 <svg
@@ -38,47 +57,45 @@
 >
   <g 
     transform="
-    { props.rotateDegree > 0 ? "rotate("+props.rotateDegree+" "+props.width/2+" "+props.height/2+")": ""}
-    { props.translateX | props.translateY ? "translate("+props.translateX+" "+props.translateY+")" : ""}"
+    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+radius+" "+radius+")": ""}
+    { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
   >
     <circle
-      opacity="{props.outlineColorOpacity}"
-      style="filter: drop-shadow(0px 0px 6px {props.progressColor}) contrast(200%);"
-      stroke="{props.outlineColor}"
+      opacity={outlineColorOpacity}
+      stroke={outlineColor}
       stroke-dashoffset={0}
       stroke-dasharray={circumference + ' ' + circumference}
-      stroke-width={props.ringSize}
+      stroke-width={ringSize}
       r={normalizedRadius}
       cx={radius}
       cy={radius}
       transform="rotate(-90, {radius}, {radius})"
     />
     <circle
-      fill="{props.innerColor}"
+      fill={innerColor}
       stroke="transparent"
       stroke-dashoffset={0}
       stroke-dasharray={circumference +' ' + circumference}
-      stroke-width={props.ringSize-0.6}
-      r={normalizedRadius - (props.ringSize/2) + 0.1}
+      stroke-width={ringSize-0.6}
+      r={normalizedRadius - (ringSize/2) + 0.1}
       cx={radius}
       cy={radius}
       transform="rotate(-90, {radius}, {radius})"
     />
     <circle
-      style="filter: drop-shadow(0px 0px 10px {props.progressColor}) contrast(300%) contrast(175%);"
-      stroke="{props.progressColor}"
+      stroke={progressColor}
       fill="transparent"
       stroke-dashoffset={strokeDashoffset}
       stroke-dasharray={circumference + ' ' + circumference}
-      stroke-width={props.ringSize}
+      stroke-width={ringSize}
       r={normalizedRadius}
       cx={radius}
       cy={radius}
       transform="rotate(-90, {radius}, {radius})"
     />
   </g>
-  <g style="filter: drop-shadow(0px 0px 10px {props.progressColor}) contrast(300%);">
-    <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
-    translateY={props.iconTranslateY} style="color:{props.iconColor || props.progressColor}"/>
+  <g >
+    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+    translateY={iconTranslateY} style="color:{iconColor || progressColor}"/>
   </g>
 </svg>
