@@ -85,7 +85,7 @@
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Icon Size</p>
-      <NumberInput min={0} max={1} value={0.40} step={0.01} handleUpdateFunction={PlayerHudUIStore.updateAllIconScale}/>
+      <NumberInput min={0} max={3} value={0.40} step={0.01} handleUpdateFunction={PlayerHudUIStore.updateAllIconScale}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Icon Color</p>

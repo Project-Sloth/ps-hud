@@ -20,6 +20,8 @@
   export let translateX: number = 0;
   export let translateY: number = 0;
   export let width: number = 50;
+  export let xAxisRound: number = 20;
+  export let yAxisRound: number = 5;
 
   let strokeDashoffset: number = 10;
   let square: any = null;
@@ -47,7 +49,13 @@
 </script>
 
 <div class="">
-  <svg height={height} width={width}>
+  <svg
+    height={height}
+    width={width}
+    transform="
+    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
+    { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+  >
     <rect
       stroke={progressColor}
       width={width-10}
@@ -55,8 +63,8 @@
       stroke-dasharray={pathLength + " " + pathLength}
       stroke-dashoffset={strokeDashoffset}
       stroke-width={ringSize}
-      rx={20}
-      ry={10}
+      rx={xAxisRound}
+      ry={yAxisRound}
       x="5" y="5"
       bind:this={square}
     />

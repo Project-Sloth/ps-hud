@@ -42,7 +42,7 @@
     <!-- opacity="0.75" -->
     <g 
       transform="
-        { props.rotateDegree > 0 ? "rotate("+props.rotateDegree+" "+props.width/7.5+" "+props.height/7.5+")": ""}
+        { props.rotateDegree > 0 ? "rotate("+props.rotateDegree+" "+7.5+" "+7.5+")": ""}
         { props.translateX | props.translateY ? "translate("+props.translateX+" "+props.translateY+")" : ""}"
     >
       <path d="M1.5 4.5V10.5L7.5 14L13.5 10.5V4.5L7.5 1L1.5 4.5Z"

@@ -21,7 +21,7 @@
   export let width: number = 50;
 
   const progressTween = tweened(progressValue, {
-		duration: 1200,
+		duration: 600,
 		easing: linear,
 	});
 
@@ -61,7 +61,7 @@
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
     translateY={iconTranslateY || 0.20} style="color:{iconColor || progressColor}"/>
   </g>
-  <text class="font-semibold text-lg" fill="white" x="55%" y="35%" dominant-baseline="middle" text-anchor="middle">
+  <text class="font-semibold text-lg" fill="white" x="55%" y="20%" dominant-baseline="middle" text-anchor="middle">
     {Math.round($progressTween)+"%"}
   </text>
 </svg>

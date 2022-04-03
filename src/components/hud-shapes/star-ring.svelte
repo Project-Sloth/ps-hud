@@ -49,7 +49,7 @@
 >
   <g 
   transform="
-    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+20+" "+20+")": ""}
+    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+19.35+" "+22+")": ""}
     { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
   >
     <clipPath id="cut-out">

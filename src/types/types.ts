@@ -22,9 +22,13 @@ export const layouts = ["standard", "left-bottom-column", "right-column", "cente
 
 export type layoutkind = typeof layouts[number];
 
-export const shapes = [ "circle-ring", "circle-square-fill", "circle-whole", "square-ring",
-  "square-circular-fill", "square-whole", "star-ring", "triangle-ring", "hexagon-ring", "hexagon-square-fill",
-  "diamond-ring", "vertical-bar", "icon-percentage", "circle-end", "cylinder", "horizontal-bar"] as const;
+export const shapes = [
+  "badge", "circle-ring", "circle-circle-fill", "circle-square-fill", "circle-whole", "cylinder",
+  "diamond-ring", "diamond-whole", "hexagon-ring", "hexagon-whole", "horizontal-bar",
+  "icon-percentage", "pill-ring", "pill-whole",
+  "square-circular-fill", "square-ring", "square-whole", "star-ring", "triangle-ring", 
+  "vertical-bar",
+] as const;
 
 export type shapekind = typeof shapes[number];
 
