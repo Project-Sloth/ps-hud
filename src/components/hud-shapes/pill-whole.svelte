@@ -23,6 +23,7 @@
   export let yAxisRound: number = 18;
 
   let strokeDashoffset: number = 10;
+  let maximumAxis: number = height;
 
   const progressTween = tweened(progressValue, {
 		duration: 600,
@@ -30,6 +31,7 @@
 	});
 
   $: progressTween.set(progressValue);
+  $: maximumAxis = height > width ? height : width;
 
   $: strokeDashoffset = height - $progressTween / 100 * height;
 
@@ -49,7 +51,6 @@
         stroke={progressColor}
         width={width}
         height={height}
-        stroke-width={ringSize}
         rx={xAxisRound}
         ry={yAxisRound}
       />
@@ -72,7 +73,7 @@
       stroke={progressColor} 
       stroke-dasharray={height}
       stroke-dashoffset={strokeDashoffset}
-      stroke-width={height}
+      stroke-width={maximumAxis}
       clip-path="url(#cut-out)"
     />
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}

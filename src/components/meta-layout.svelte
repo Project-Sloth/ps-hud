@@ -2,7 +2,7 @@
   import type { layoutkind } from '../types/types';
   import PlayerHudUIStore from '../stores/playerHudUIStore';
   import IconsList from './icons-list.svelte';
-  export let spaceBetween: number = 0.1;
+  export let spaceBetween: number = 1.4;
   export let spaceBottom: number = 0;
 
   let layout: layoutkind = "standard";

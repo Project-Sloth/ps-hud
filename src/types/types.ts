@@ -32,6 +32,81 @@ export const shapes = [
 
 export type shapekind = typeof shapes[number];
 
+export const hudIconDefaults: IconDefaultType = {
+  'badge': {
+    'height': 4,
+    'width': 35,
+    'iconScaling': 1.4,
+    'rotateDegree': 0,
+    'ringSize': 0,
+    'translateX': 0,
+    'translateY': 0,
+    'iconTranslateX': 0,
+    'iconTranslateY': 0,
+  },
+  'circle-ring': {
+    'height': 50,
+    'width': 50,
+    'iconScaling': 0.4,
+    'ringSize': 5,
+    'translateX': 0,
+    'translateY': 0,
+    'iconTranslateX': 0,
+    'iconTranslateY': 0
+  },
+  'circle-circle-fill': {
+    'height': 50,
+    'width': 50,
+    'iconScaling': 0.55,
+    'ringSize': 5,
+    'translateX': 0,
+    'translateY': 0,
+    'iconTranslateX': 0,
+    'iconTranslateY': 0
+  },
+  "circle-square-fill": {
+    'height': 50,
+    'width': 50,
+    'iconScaling': 0.55,
+    'ringSize': 5,
+    'translateX': 0,
+    'translateY': 0,
+    'iconTranslateX': 0,
+    'iconTranslateY': 0,
+  },
+  "circle-whole": {
+    'height': 50,
+    'width': 50,
+    'iconScaling': 0.55,
+    'ringSize': 5,
+    'translateX': 0,
+    'translateY': 0,
+    'iconTranslateX': 0,
+    'iconTranslateY': 0,
+  },
+  "diamond-ring": {
+    'height': 60,
+    'width': 60,
+    'iconScaling': 0.3,
+    'ringSize': 1.5,
+    'translateX': 0,
+    'translateY': 0,
+    'iconTranslateX': 0,
+    'iconTranslateY': 0,
+  },
+  "diamond-whole" : {
+    'height': 60,
+    'width': 60,
+    'iconScaling': 0.35,
+    'ringSize': 0,
+    'translateX': 0,
+    'translateY': 0,
+    'iconTranslateX': 0,
+    'iconTranslateY': 0,
+  }
+}
+
+
 // Text is only on Horizontal bar, TODO; create sub/parent types
 export type hudIconType = {
   // borderColor: string,
@@ -63,6 +138,8 @@ export type hudIconType = {
 export type optionalHudIconType = Partial<hudIconType>;
 
 export type optionalPlayerHudIconsType = Partial<{ [Property in keyof playerHudIcons]: optionalHudIconType }>;
+
+export type IconDefaultType = Partial<{ [key in shapekind]: optionalHudIconType }>
 
 export function defaultHudIcon(name = "", showing=false, color="red", icon=null,): hudIconType {
   return {

@@ -61,18 +61,18 @@
         stroke-dashoffset={strokeDashoffset}
         stroke-width={width}
       />
-      <!-- <line
+      <line
         stroke={innerColor}
         x1="50%"
         y1={height-ringSize}
         x2="50%"
         y2={ringSize}
         stroke-width={width - (ringSize*2)}
-      /> -->
+      />
     </g>
     <g transform="rotate( {-rotateDegree} {height/2} {width/2})">
       <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-      translateY={iconTranslateY} style="color:{iconColor}"/>
+      translateY={iconTranslateY} style="color:{iconColor};"/>
     </g>
   </svg>
 </div>

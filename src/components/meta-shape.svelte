@@ -5,6 +5,8 @@
   import CircleRing from './hud-shapes/circle-ring.svelte';
   import CircleWhole from './hud-shapes/circle-whole.svelte';
   import CircleSquareFill from './hud-shapes/circle-square-fill.svelte';
+  import DiamondRing from './hud-shapes/diamond-ring.svelte';
+  import DiamondWhole from './hud-shapes/diamond-whole.svelte';
   import PillRing from './hud-shapes/pill-ring.svelte';
   import PillWhole from './hud-shapes/pill-whole.svelte';
   import Cylinder from './hud-shapes/cylinder.svelte';
@@ -14,7 +16,6 @@
   import TriangleRing from './hud-shapes/triangle-ring.svelte';
   import HexagonRing from './hud-shapes/hexagon-ring.svelte';
   import HexagonSquareFill from './hud-shapes/hexagon-whole.svelte';
-  import DiamondRing from './hud-shapes/diamond-ring.svelte';
   import SquareCircularFill from './hud-shapes/square-circular-fill.svelte';
   import SquareWhole from './hud-shapes/square-whole.svelte';
   import IconPercentage from './hud-shapes/icon-percentage.svelte';
@@ -32,7 +33,9 @@
   
 </script>
 
-{#if hudIconInfo.shape == 'circle-ring'}
+{#if hudIconInfo.shape == 'badge'}
+  <Badge {...shapeProps} />
+{:else if hudIconInfo.shape == 'circle-ring'}
   <CircleRing {...shapeProps} />
 {:else if hudIconInfo.shape == 'circle-circle-fill'}
   <CircleCircleFill {...shapeProps} />
@@ -42,8 +45,10 @@
   <CircleWhole {...shapeProps} />
 {:else if hudIconInfo.shape == 'cylinder'}
   <Cylinder props={shapeProps} />
-{:else if hudIconInfo.shape == 'badge'}
-  <Badge {...shapeProps} />
+{:else if hudIconInfo.shape == 'diamond-ring'}
+  <DiamondRing {...shapeProps} />
+{:else if hudIconInfo.shape == 'diamond-whole'}
+  <DiamondWhole {...shapeProps} />
 {:else if hudIconInfo.shape == 'horizontal-bar'}
   <HorizontalBar props={shapeProps} />
 {:else if hudIconInfo.shape == 'square-circular-fill'}
@@ -58,8 +63,6 @@
   <HexagonRing props={shapeProps} />
 {:else if hudIconInfo.shape == 'hexagon-whole'}
   <HexagonSquareFill {...shapeProps} />
-{:else if hudIconInfo.shape == 'diamond-ring'}
-  <DiamondRing {...shapeProps} />
 {:else if hudIconInfo.shape == 'square-whole'}
   <SquareWhole {...shapeProps} />
 {:else if hudIconInfo.shape == 'icon-percentage'}
