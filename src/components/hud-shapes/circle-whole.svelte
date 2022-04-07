@@ -10,8 +10,7 @@
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
-  export let outlineColor: string = "red";
-  export let outlineColorOpacity: number = 0.4;
+  export let innerColorOpacity: number = 0.4;
   export let progressColor: string = "red";
   export let progressValue: number = 100;
   export let rotateDegree: number = 0;
@@ -57,8 +56,8 @@
     { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
   >
     <circle
-      opacity={outlineColorOpacity}
-      stroke={outlineColor}
+      opacity={innerColorOpacity}
+      stroke={innerColor}
       stroke-dashoffset={0}
       stroke-dasharray={circumference + ' ' + circumference}
       stroke-width={stroke}

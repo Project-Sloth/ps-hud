@@ -6,17 +6,14 @@
 
   export let height: number = 50;
   export let icon: any = null;
-  export let iconColor: string = "red";
+  export let iconColor: string = "";
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
-  export let outlineColor: string = "red";
-  export let outlineColorOpacity: number = 0.4;
+  export let innerColorOpacity: number = 1;
   export let progressColor: string = "red";
   export let progressValue: number = 100;
-  export let ringSize: number = 4;
-  export let rotateDegree: number = 0;
   export let translateX: number = 0;
   export let translateY: number = 0;
   export let width: number = 50;
@@ -49,15 +46,15 @@
 
 </script>
 
-<div class="flex flex-col justify-center ml-2 bg-gray-600 px-1 pb-2 pt-4 rounded-lg bg-opacity-80">
+<div class="flex flex-col justify-center ml-2 px-1 pb-2 pt-4 rounded-lg"
+  style="background-color: {innerColor}; background-opacity: {innerColorOpacity};">
   <Fa class="mb-3" icon={icon} scale={iconScaling} translateX={iconTranslateX}
-    translateY={iconTranslateY} style="color:{progressColor}"
+    translateY={iconTranslateY} style="color:{iconColor ? iconColor : progressColor}"
   />
   <svg
     height={height}
     width={width}
     transform="
-    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
     { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
   >
   <defs>

@@ -10,11 +10,8 @@
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
-  export let outlineColor: string = "red";
-  export let outlineColorOpacity: number = 0.4;
   export let progressColor: string = "red";
   export let progressValue: number = 100;
-  export let ringSize: number = 4;
   export let rotateDegree: number = 0;
   export let translateX: number = 0;
   export let translateY: number = 0;

@@ -11,11 +11,9 @@
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
-  export let outlineColor: string = "red";
-  export let outlineColorOpacity: number = 0.4;
+  export let innerColorOpacity: number = 0.4;
   export let progressColor: string = "red";
   export let progressValue: number = 100;
-  export let ringSize: number = 4;
   export let rotateDegree: number = 0;
   export let translateX: number = 0;
   export let translateY: number = 0;
@@ -24,7 +22,8 @@
   let strokeDashoffset: number = 10;
   let line: any = null;
   let pathLength: number = 0;
-  let minimalAxis: number = height;
+  let minimumAxis: number = height;
+  
   $: minimumAxis = height > width ? height : width;
 
   onMount(() => {
@@ -61,8 +60,8 @@
       { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
   >
     <path d="M1.5 4.5V10.5L7.5 14L13.5 10.5V4.5L7.5 1L1.5 4.5Z"
-      fill="{outlineColor}"
-      opacity="{outlineColorOpacity}"
+      fill={innerColor}
+      opacity={innerColorOpacity}
       stroke-width={minimumAxis}
     />
     <clipPath id="cut-out">

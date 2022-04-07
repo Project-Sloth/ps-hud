@@ -2,7 +2,7 @@
   import { shapes, layouts } from '../../types/types'
   import { draggable } from '@neodrag/svelte';
   import PlayerHudUIStore from '../../stores/playerHudUIStore'
-  import type { shapekind, layoutkind, customizableShapePropsType } from '../../types/types'
+  import type { shapekind, layoutkind, customizableShapePropsType, } from '../../types/types'
   import Select from '../atoms/select.svelte'
   import NumberInput from '../atoms/number-input.svelte';
 
@@ -36,22 +36,22 @@
   <div class="flex justify-center mb-4">
     <div class="w-50">
       <p class="text-lg text-center">Change Icon Shape</p>
-      <Select valuesArray={shapes} handleSelectFunction={PlayerHudUIStore.updateAllShapes}/>  
+      <Select valuesArray={shapes} value={$PlayerHudUIStore.globalIconSettings.shape} handleSelectFunction={PlayerHudUIStore.updateAllShapes}/>
     </div>
   </div>
 
   <div class="mx-4 mb-4 grid grid-cols-4 gap-6">
     <div>
       <p class="text-base text-center mb-2">Change Width Size</p>
-      <NumberInput min={1} max={200} value={50} handleUpdateFunction={PlayerHudUIStore.updateAllWidth}/>
+      <NumberInput min={1} max={200} bind:value={$PlayerHudUIStore.globalIconSettings.width} handleUpdateFunction={PlayerHudUIStore.updateAllWidth}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Height Size</p>
-      <NumberInput min={1} max={200} value={50} handleUpdateFunction={PlayerHudUIStore.updateAllHeight}/>
+      <NumberInput min={1} max={200} bind:value={$PlayerHudUIStore.globalIconSettings.height} handleUpdateFunction={PlayerHudUIStore.updateAllHeight}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Ring Size</p>
-      <NumberInput min={1} max={25} value={4} step={0.5} handleUpdateFunction={PlayerHudUIStore.updateAllRingSize}/>
+      <NumberInput min={1} max={25} bind:value={$PlayerHudUIStore.globalIconSettings.ringSize} step={0.5} handleUpdateFunction={PlayerHudUIStore.updateAllRingSize}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Progress Color</p>
@@ -60,15 +60,15 @@
     </div>
     <div>
       <p class="text-base text-center mb-2">Change X-axis Position</p>
-      <NumberInput min={-10} max={10} value={0} step={0.25} handleUpdateFunction={PlayerHudUIStore.updateAllTranslateX}/>
+      <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.translateX} step={0.25} handleUpdateFunction={PlayerHudUIStore.updateAllTranslateX}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Y-axis Position</p>
-      <NumberInput min={-10} max={10} value={0} step={0.25} handleUpdateFunction={PlayerHudUIStore.updateAllTranslateY}/>
+      <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.translateY} step={0.25} handleUpdateFunction={PlayerHudUIStore.updateAllTranslateY}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Rotation</p>
-      <NumberInput min={0} max={360} value={0} handleUpdateFunction={PlayerHudUIStore.updateAllRotateDegree}/>
+      <NumberInput min={0} max={360} bind:value={$PlayerHudUIStore.globalIconSettings.rotateDegree} handleUpdateFunction={PlayerHudUIStore.updateAllRotateDegree}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Track Color</p>
@@ -77,15 +77,15 @@
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Icon X-axis Position</p>
-      <NumberInput min={-10} max={10} value={0} step={0.01} handleUpdateFunction={PlayerHudUIStore.updateAllTranslateIconX}/>
+      <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.iconTranslateX} step={0.01} handleUpdateFunction={PlayerHudUIStore.updateAllTranslateIconX}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Icon Y-axis Position</p>
-      <NumberInput min={-10} max={10} value={0} step={0.01} handleUpdateFunction={PlayerHudUIStore.updateAllTranslateIconY}/>
+      <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.iconTranslateY} step={0.01} handleUpdateFunction={PlayerHudUIStore.updateAllTranslateIconY}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Icon Size</p>
-      <NumberInput min={0} max={3} value={0.40} step={0.01} handleUpdateFunction={PlayerHudUIStore.updateAllIconScale}/>
+      <NumberInput min={0} max={3} bind:value={$PlayerHudUIStore.globalIconSettings.iconScaling} step={0.01} handleUpdateFunction={PlayerHudUIStore.updateAllIconScale}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Icon Color</p>

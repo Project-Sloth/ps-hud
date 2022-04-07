@@ -6,10 +6,12 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let iconRotateDegree: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
+  export let innerColorOpacity: number = 1;
   export let outlineColor: string = "red";
   export let outlineColorOpacity: number = 0.4;
   export let progressColor: string = "red";
@@ -73,6 +75,7 @@
     />
     <circle
       fill={innerColor}
+      fill-opacity={innerColorOpacity}
       stroke="transparent"
       stroke-dashoffset={0}
       stroke-dasharray={circumference +' ' + circumference}

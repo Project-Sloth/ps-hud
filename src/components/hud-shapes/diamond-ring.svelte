@@ -7,10 +7,12 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let iconRotateDegree: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
+  export let innerColorOpacity: number = 1;
   export let outlineColor: string = "red";
   export let outlineColorOpacity: number = 0.4;
   export let progressColor: string = "red";
@@ -51,17 +53,19 @@
         { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
     >
       <path d="M8.384 1.226a.463.463 0 0 0-.768 0l-4.56 6.468a.537.537 0 0 0 0 .612l4.56 6.469a.463.463 0 0 0 .768 0l4.56-6.469a.537.537 0 0 0 0-.612l-4.56-6.468z"
-        fill="{innerColor}"  
-        stroke="{outlineColor}"
+        fill={innerColor}
+        fill-opacity={innerColorOpacity}
+        stroke={outlineColor}
         stroke-width={ringSize}
         stroke-dasharray={pathLength +' ' + pathLength}
         stroke-dashoffset={0}
-        opacity="{outlineColorOpacity}"
+        opacity={outlineColorOpacity}
       />
       <svg viewBox="-1.5 4.5 19 7">
         <path d="M8.384 1.226a.463.463 0 0 0-.768 0l-4.56 6.468a.537.537 0 0 0 0 .612l4.56 6.469a.463.463 0 0 0 .768 0l4.56-6.469a.537.537 0 0 0 0-.612l-4.56-6.468z"
           stroke-width={ringSize-0.3}
-          fill="{innerColor}"
+          fill={innerColor}
+          fill-opacity={innerColorOpacity}
           stroke="transparent"
           stroke-dasharray={pathLength +' ' + pathLength}
           stroke-dashoffset={0}
@@ -69,7 +73,7 @@
       </svg>
       <path bind:this={diamond} d="M8.384 1.226a.463.463 0 0 0-.768 0l-4.56 6.468a.537.537 0 0 0 0 .612l4.56 6.469a.463.463 0 0 0 .768 0l4.56-6.469a.537.537 0 0 0 0-.612l-4.56-6.468z"
         class="stroke-cap-round stroke-join-round"
-        stroke="{progressColor}"
+        stroke={progressColor}
         stroke-width={ringSize}
         fill="transparent"
         stroke-dasharray={pathLength +' ' + pathLength}

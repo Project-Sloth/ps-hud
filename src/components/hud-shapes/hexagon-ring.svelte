@@ -3,19 +3,35 @@
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
   import Fa from 'svelte-fa';
-  import type { shapePropsType } from "../../types/types"
-  import { defaultShapeProps } from "../../types/types"
 
-  export let props: shapePropsType = defaultShapeProps();
+  export let height: number = 50;
+  export let icon: any = null;
+  export let iconColor: string = "red";
+  export let iconRotateDegree: number = 0;
+  export let iconScaling: number = 0.45;
+  export let iconTranslateX: number = 0;
+  export let iconTranslateY: number = 0;
+  export let innerColor: string = "#212121";
+  export let innerColorOpacity: number = 1;
+  export let outlineColor: string = "red";
+  export let outlineColorOpacity: number = 0.4;
+  export let progressColor: string = "red";
+  export let progressValue: number = 100;
+  export let ringSize: number = 4;
+  export let rotateDegree: number = 0;
+  export let translateX: number = 0;
+  export let translateY: number = 0;
+  export let width: number = 50;
+
   let strokeDashoffset: number = 10;
 
-  const progressTween = tweened(props.progressValue, {
+  const progressTween = tweened(progressValue, {
 		duration: 600,
 		easing: cubicOut
 	});
 
   $: {
-    progressTween.set(props.progressValue)
+    progressTween.set(progressValue)
   }
 
   $: strokeDashoffset = pathLength - $progressTween / 100 * pathLength;
@@ -30,7 +46,7 @@
 
 </script>
 
-  <svg width={props.width} height={props.height} viewBox="0 0 15 15" transform="scale(-1,1)">
+  <svg width={width} height={height} viewBox="0 0 15 15" transform="scale(-1,1)">
     <!-- <defs>
       <linearGradient id="gradient-stroke" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
           <stop offset="0" stop-color="#14d4ff" />
@@ -42,24 +58,25 @@
     <!-- opacity="0.75" -->
     <g 
       transform="
-        { props.rotateDegree > 0 ? "rotate("+props.rotateDegree+" "+7.5+" "+7.5+")": ""}
-        { props.translateX | props.translateY ? "translate("+props.translateX+" "+props.translateY+")" : ""}"
+        { rotateDegree > 0 ? "rotate("+rotateDegree+" "+7.5+" "+7.5+")": ""}
+        { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
     >
       <path d="M1.5 4.5V10.5L7.5 14L13.5 10.5V4.5L7.5 1L1.5 4.5Z"
         class="stroke-cap-round"
-        stroke="{props.outlineColor}"
-        opacity="{props.outlineColorOpacity}"
-        fill="{props.innerColor}"
-        stroke-width={props.ringSize}
+        stroke={outlineColor}
+        opacity={outlineColorOpacity}
+        fill={innerColor}
+        stroke-width={ringSize}
         stroke-dasharray={pathLength +' ' + pathLength}
         stroke-dashoffset={0}
         transform="rotate(90, {7.5}, {7.5})"
       />
-      <svg viewBox={props.ringSize == 1 ? "0 -0.75 15 16.5" : "0 -1.5 15 18"}>
+      <svg viewBox={ringSize == 1 ? "0 -0.75 15 16.5" : "0 -1.5 15 18"}>
         <path d="M1.5 4.5V10.5L7.5 14L13.5 10.5V4.5L7.5 1L1.5 4.5Z"
-          fill="{props.innerColor}"
+          fill={innerColor}
+          fill-opacity={innerColorOpacity}
           stroke="transparent"
-          stroke-width={props.ringSize}
+          stroke-width={ringSize}
           stroke-dasharray={pathLength +' ' + pathLength}
           stroke-dashoffset={0}
           transform="rotate(90, {7.5}, {7.5})"
@@ -69,14 +86,14 @@
       <!-- stroke="url(#gradient-stroke)" -->
       <path bind:this={hexagon} d="M1.5 4.5V10.5L7.5 14L13.5 10.5V4.5L7.5 1L1.5 4.5Z"
         class="stroke-cap-round"
-        stroke="{props.progressColor}"
+        stroke={progressColor}
         fill="transparent"
-        stroke-width={props.ringSize}
+        stroke-width={ringSize}
         stroke-dasharray={pathLength +' ' + pathLength}
         stroke-dashoffset={strokeDashoffset}
         transform="rotate(90, {7.5}, {7.5})"
       />
     </g>
-    <Fa icon={props.icon} scale={props.iconScaling} translateX={props.iconTranslateX}
-      translateY={props.iconTranslateY} flip={"horizontal"} style="color:{props.iconColor}"/>
+    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+      translateY={iconTranslateY} flip={"horizontal"} style="color:{iconColor}"/>
   </svg>

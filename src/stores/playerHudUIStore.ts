@@ -4,7 +4,7 @@ import { faHeart, faShieldAlt, faHamburger, faTint, faBrain, faStream,
   faTachometerAltFast, faTerminal, faHeadset, faMicrophone,
 } from '@fortawesome/free-solid-svg-icons'
 import type { playerHudIcons, shapekind, layoutkind, customizableShapePropsType } from '../types/types';
-import { defaultHudIcon, hudIconDefaults } from '../types/types';
+import { defaultHudIcon, createShapeIcon } from '../types/types';
 
 type playerHudUIType = {
   globalIconSettings: customizableShapePropsType,
@@ -112,10 +112,17 @@ const store = () => {
       update(state => {
         for (let icon in state.icons) {
           state.icons[icon].shape = shape;
-          if (hudIconDefaults[shape]) {
-            state.icons[icon] = {...state.icons[icon], ...hudIconDefaults[shape]};
+          let defaultShape = createShapeIcon(shape, 
+            {
+              defaultColor: state.icons[icon].defaultColor, icon: state.icons[icon].icon, iconColor: state.icons[icon].iconColor,
+              isShowing: state.icons[icon].isShowing, innerColor: state.icons[icon].innerColor, progressColor: state.icons[icon].progressColor,
+              name: state.icons[icon].name
+            });
+          if (defaultShape) {
+            state.icons[icon] = {...state.icons[icon], ...defaultShape};
           }
         }
+        state.globalIconSettings.shape == shape;
         return state;
       })
     },

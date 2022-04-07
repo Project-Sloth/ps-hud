@@ -10,11 +10,9 @@
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
-  export let outlineColor: string = "red";
-  export let outlineColorOpacity: number = 0.4;
+  export let innerColorOpacity: number = 0.4;
   export let progressColor: string = "red";
   export let progressValue: number = 100;
-  export let rotateDegree: number = 0;
   export let translateX: number = 0;
   export let translateY: number = 0;
   export let width: number = 50;
@@ -60,19 +58,18 @@
 >
   <g 
     transform="
-    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+radius+" "+radius+")": ""}
     { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
   >
   <circle
-    opacity={outlineColorOpacity}
-    stroke={outlineColor}
+    opacity={innerColorOpacity}
+    stroke={innerColor}
     stroke-width={stroke}
     r={normalizedRadius}
     cx={radius}
     cy={radius}
   />
   <circle
-    fill={outlineColor}
+    fill={progressColor}
     r={strokeDashoffset}
     cx={radius}
     cy={radius}

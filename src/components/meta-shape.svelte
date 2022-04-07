@@ -50,7 +50,7 @@
 {:else if hudIconInfo.shape == 'diamond-whole'}
   <DiamondWhole {...shapeProps} />
 {:else if hudIconInfo.shape == 'horizontal-bar'}
-  <HorizontalBar props={shapeProps} />
+  <HorizontalBar {...shapeProps} />
 {:else if hudIconInfo.shape == 'square-circular-fill'}
   <SquareCircularFill props={shapeProps} />
 {:else if hudIconInfo.shape == 'square-ring'}
@@ -60,7 +60,7 @@
 {:else if hudIconInfo.shape == 'triangle-ring'}
   <TriangleRing {...shapeProps} />
 {:else if hudIconInfo.shape == 'hexagon-ring'}
-  <HexagonRing props={shapeProps} />
+  <HexagonRing {...shapeProps} />
 {:else if hudIconInfo.shape == 'hexagon-whole'}
   <HexagonSquareFill {...shapeProps} />
 {:else if hudIconInfo.shape == 'square-whole'}

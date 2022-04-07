@@ -52,7 +52,7 @@
 </section>
 <!-- export let width = 240;
 export let height = 285; -->
-<div class="w-[256px] h-[310px] z-10" use:draggable={{ handle: colorPickerhandle, bounds: 'body', gpuAcceleration: false }}>
+<!-- <div class="w-[256px] h-[310px] z-10" use:draggable={{ handle: colorPickerhandle, bounds: 'body', gpuAcceleration: false }}>
   <div class="drag-bar bg-dark-900 rounded-t-lg" bind:this={colorPickerhandle}>
     <svg role="img" aria-label="drag handle" viewBox="0 0 24 24" height=24 width=24 class="mx-auto">
       <path
@@ -64,7 +64,7 @@ export let height = 285; -->
   <div class="border-dark-900 border-l-8 border-r-8 border-b-8  border-t-10">
     <ColorPicker height={286} on:colorChange={colorCallback}/>
   </div>
-</div>
+</div> -->
 
 <style>
   .drag-bar {
