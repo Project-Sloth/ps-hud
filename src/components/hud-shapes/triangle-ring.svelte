@@ -59,7 +59,7 @@
       stroke-dasharray={pathLength +' ' + pathLength}
       stroke-dashoffset={0}
     />
-    <svg viewBox="2 {0.4-ringSize} 20 {24 + ringSize*1.5}">
+    <!-- <svg viewBox="2 {0.4-ringSize} 20 {24 + ringSize*1.5}">
       <path d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
         fill="{innerColor}"
         stroke="transparent"
@@ -67,7 +67,7 @@
         stroke-dasharray={pathLength +' ' + pathLength}
         stroke-dashoffset={0}
       />
-    </svg>
+    </svg> -->
     <path bind:this={triangle}
       d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
       class="stroke-cap-round"

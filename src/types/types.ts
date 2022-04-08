@@ -136,6 +136,9 @@ export class baseIcon implements baseIconProps {
         this.width = 60;
         this.iconScaling = 0.35;
         break;
+      case "hexagon-whole":
+        this.iconScaling = 0.45;
+        break;
     }
     this.shape = shape;
     this.defaultColor = defaultColor;
@@ -167,6 +170,26 @@ export class ringIcon extends baseIcon implements ringIconProps {
         this.iconScaling = 0.3;
         this.ringSize = 1.5;
         break;
+      case "hexagon-ring":
+        this.iconScaling = 0.4;
+        this.ringSize = 2;
+        break;
+      case "square-ring":
+        this.ringSize = 12;
+        break;
+      case "star-ring":
+        this.height = 55;
+        this.width = 55;
+        this.ringSize = 3;
+        this.iconScaling = 0.35;
+        this.iconTranslateY = 0.06;
+        break;
+      case "triangle-ring":
+        this.height = 55;
+        this.width = 55;
+        this.iconScaling = 0.25;
+        this.iconTranslateY = 0.09;
+        break;
     }
   }
 }
@@ -185,6 +208,30 @@ export class roundEndIcon extends baseIcon implements roundEndIconProps {
         this.xAxisRound = 5;
         this.yAxisRound = 20;
         break;
+      case "pill-whole":
+        this.height = 75;
+        this.width = 50;
+        this.iconScaling = 0.55;
+        this.xAxisRound = 18;
+        this.yAxisRound = 18;
+        break;
+    }
+  }
+}
+
+export class pillRingIcon extends ringIcon implements roundEndIconProps {
+  xAxisRound = 5;
+  yAxisRound = 20;
+  constructor(shape: shapekind, optionalProps=null) {
+    super(shape, optionalProps);
+    switch (shape) {
+      case "pill-ring":
+        this.height = 80;
+        this.width = 50;
+        this.iconScaling = 0.40;
+        this.xAxisRound = 18;
+        this.yAxisRound = 18;
+        this.ringSize = 6.5;
     }
   }
 }
@@ -192,19 +239,27 @@ export class roundEndIcon extends baseIcon implements roundEndIconProps {
 export function createShapeIcon(shape: shapekind, optionalProps=null): object {
   switch (shape) {
     case "badge":
+    case "pill-whole":
       return new roundEndIcon(shape, optionalProps);
     case "circle-circle-fill":
     case "circle-square-fill":
     case "circle-whole":
     case "diamond-whole":
     case "hexagon-whole":
+    case "square-circular-fill":
+    case "square-whole":
       return new baseIcon(shape, optionalProps);
     case "circle-ring":
     case "diamond-ring":
     case "hexagon-ring":
+    case "square-ring":
+    case "star-ring":
+    case "triangle-ring":
       return new ringIcon(shape, optionalProps);
+    case "pill-ring":
+      return new pillRingIcon(shape, optionalProps);
     default:
-      return null;
+      return new baseIcon(shape, optionalProps);
   }
 }
 
