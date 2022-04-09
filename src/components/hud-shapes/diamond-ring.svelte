@@ -13,6 +13,7 @@
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
   export let innerColorOpacity: number = 1;
+  export let name: string = "";
   export let outlineColor: string = "red";
   export let outlineColorOpacity: number = 0.4;
   export let progressColor: string = "red";

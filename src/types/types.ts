@@ -1,59 +1,28 @@
 import type { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 
+export const iconNames = ["voice", "health", "armor", "hunger", "thirst", "stress",
+  "oxygen", "armed", "parachute", "engine", "harness", "cruise", "nos", "dev"] as const;
+export type iconNamesKind = typeof iconNames[number];
+
 export type playerHudIcons = {
-  voice: hudIconType,
-  health: hudIconType,
-  armor: hudIconType,
-  hunger: hudIconType,
-  thirst: hudIconType,
-  stress: hudIconType,
-  oxygen: hudIconType,
-  armed: hudIconType,
-  parachute: hudIconType,
-  engine: hudIconType,
-  harness: hudIconType,
-  cruise: hudIconType,
-  nos: hudIconType,
-  dev: hudIconType,
+  [key in iconNamesKind]: optionalHudIconType;
 }
 
-export const layouts = ["standard", "left-bottom-column", "right-column", "center-bottom",
-"bottom-right", "top-left-row", "esx-hud-hard-to-let-go" ] as const;
+export const iconLayouts = ["standard", "bottom-right-row", "center-bottom-row",
+"left-bottom-column", "right-bottom-column", "top-left-row" ] as const;
+export type layoutIconKind = typeof iconLayouts[number];
 
-export type layoutkind = typeof layouts[number];
+export const layoutPresets = ["esx-hud-hard-to-let-go"]
+export type layoutPresetKind = typeof layoutPresets[number];
 
 export const shapes = [
-  "badge", "circle-ring", "circle-circle-fill", "circle-square-fill", "circle-whole", "cylinder",
+  "badge", "circle-ring", "circle-circle-fill", "circle-square-fill", "circle-whole", //"cylinder",
   "diamond-ring", "diamond-whole", "hexagon-ring", "hexagon-whole", "horizontal-bar",
   "icon-percentage", "pill-ring", "pill-whole",
   "square-circular-fill", "square-ring", "square-whole", "star-ring", "triangle-ring", 
   "vertical-bar",
 ] as const;
-
 export type shapekind = typeof shapes[number];
-
-export type hudIconType = {
-  defaultColor: string,
-  height: number,
-  icon: IconDefinition,
-  iconColor: string,
-  iconScaling: number,
-  iconTranslateX: number,
-  iconTranslateY: number,
-  isShowing: boolean,
-  innerColor: string,
-  name: string,
-  outlineColor: string,
-  outlineColorOpacity: number,
-  progressColor: string,
-  progressValue: number,
-  ringSize: number,
-  rotateDegree: number,
-  shape: shapekind,
-  translateX: number,
-  translateY: number,
-  width: number
-}
 
 export interface baseIconInfo {
   defaultColor: string,
@@ -139,6 +108,9 @@ export class baseIcon implements baseIconProps {
       case "hexagon-whole":
         this.iconScaling = 0.45;
         break;
+      case "horizontal-bar":
+        this.iconScaling = 0.60;
+        break;
     }
     this.shape = shape;
     this.defaultColor = defaultColor;
@@ -187,8 +159,9 @@ export class ringIcon extends baseIcon implements ringIconProps {
       case "triangle-ring":
         this.height = 55;
         this.width = 55;
-        this.iconScaling = 0.25;
+        this.iconScaling = 0.3;
         this.iconTranslateY = 0.09;
+        this.ringSize = 3;
         break;
     }
   }
@@ -198,7 +171,7 @@ export class roundEndIcon extends baseIcon implements roundEndIconProps {
   xAxisRound = 5;
   yAxisRound = 20;
 
-  constructor(shape: shapekind, optionalProps=null) {
+  constructor(shape: shapekind, optionalProps={}) {
     super(shape, optionalProps);
     switch (shape) {
       case "badge":
@@ -222,7 +195,7 @@ export class roundEndIcon extends baseIcon implements roundEndIconProps {
 export class pillRingIcon extends ringIcon implements roundEndIconProps {
   xAxisRound = 5;
   yAxisRound = 20;
-  constructor(shape: shapekind, optionalProps=null) {
+  constructor(shape: shapekind, optionalProps={}) {
     super(shape, optionalProps);
     switch (shape) {
       case "pill-ring":
@@ -236,7 +209,7 @@ export class pillRingIcon extends ringIcon implements roundEndIconProps {
   }
 }
 
-export function createShapeIcon(shape: shapekind, optionalProps=null): object {
+export function createShapeIcon(shape: shapekind, optionalProps={}): optionalHudIconType {
   switch (shape) {
     case "badge":
     case "pill-whole":
@@ -246,8 +219,8 @@ export function createShapeIcon(shape: shapekind, optionalProps=null): object {
     case "circle-whole":
     case "diamond-whole":
     case "hexagon-whole":
+    case "horizontal-bar":
     case "square-circular-fill":
-    case "square-whole":
       return new baseIcon(shape, optionalProps);
     case "circle-ring":
     case "diamond-ring":
@@ -255,6 +228,7 @@ export function createShapeIcon(shape: shapekind, optionalProps=null): object {
     case "square-ring":
     case "star-ring":
     case "triangle-ring":
+    case "square-whole":
       return new ringIcon(shape, optionalProps);
     case "pill-ring":
       return new pillRingIcon(shape, optionalProps);
@@ -268,11 +242,9 @@ export interface shapeIcons {
   "icon-percentage": baseIconProps,
 }
 
-export type optionalHudIconType = Partial<hudIconType>;
+export type optionalHudIconType = Partial<baseIconProps & borderIconProps & ringIconProps & roundEndIcon & pillRingIcon>;
 
 export type optionalPlayerHudIconsType = Partial<{ [Property in keyof playerHudIcons]: optionalHudIconType }>;
-
-export type IconDefaultType = Partial<{ [key in shapekind]: optionalHudIconType }>
 
 export function defaultHudIcon(name = "", showing=false, color="red", icon=null): any {
   return createShapeIcon("circle-ring",
@@ -281,9 +253,7 @@ export function defaultHudIcon(name = "", showing=false, color="red", icon=null)
     });
 }
 
-export type shapePropsType =  Omit<hudIconType, "shape" | "isShowing" | "name" >;
-
-export type customizableShapePropsType = Omit<hudIconType, "isShowing" | "name" | "progressValue" | "icon" >;
+export type shapePropsType =  Omit<optionalHudIconType, "shape" | "isShowing" | "name" | "defaultColor" >;
 
 export function defaultShapeProps(): shapePropsType {
   return (({ shape, isShowing, name, ...o }) => o)(defaultHudIcon());

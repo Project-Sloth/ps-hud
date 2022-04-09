@@ -6,10 +6,13 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let iconRotateDegree: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
+  export let innerColorOpacity: number = 0.4;
+  export let name: string = "";
   export let outlineColor: string = "red";
   export let outlineColorOpacity: number = 0.4;
   export let progressColor: string = "red";
@@ -43,8 +46,8 @@
   >
     <g>
       <rect
-        opacity="{outlineColorOpacity}"
-        stroke="{outlineColor}"
+        opacity={outlineColorOpacity}
+        stroke={outlineColor}
         width={width}
         height={height}
         stroke-width={ringSize}
@@ -53,7 +56,8 @@
         stroke-dashoffset={0}
       />
       <rect
-        fill="{innerColor}"
+        fill={innerColor}
+        opacity={innerColorOpacity}
         transform="translate({ringSize/2-0.1} {ringSize/2-0.3})"
         stroke="transparent"
         shape-rendering="geometricPrecision"
@@ -64,7 +68,7 @@
         stroke-dashoffset={0}
       />
       <rect
-        stroke="{progressColor}"
+        stroke={progressColor}
         fill="transparent"
         width={width}
         height={height}

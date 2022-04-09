@@ -7,10 +7,13 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let iconRotateDegree: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
+  export let innerColorOpacity: number = 0.4;
+  export let name: string = "";
   export let outlineColor: string = "red";
   export let outlineColorOpacity: number = 0.4;
   export let progressColor: string = "red";
@@ -20,8 +23,8 @@
   export let translateX: number = 0;
   export let translateY: number = 0;
   export let width: number = 50;
-  export let xAxisRound: number = 20;
-  export let yAxisRound: number = 5;
+  export let xAxisRound: number = 18;
+  export let yAxisRound: number = 18;
 
   let strokeDashoffset: number = 10;
   let square: any = null;
@@ -39,8 +42,9 @@
   $: progressTween.set(progressValue);
 
   $: {
-    if (height && width) {
-      pathLength = square?.getTotalLength() + 5;
+    // Need this pointless if statment to refresh pathLength as these settings are getting changed
+    if (height && width && xAxisRound >= 0 && yAxisRound >= 0) {
+      pathLength = square?.getTotalLength()+5;
     }
   }
 

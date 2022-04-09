@@ -2,6 +2,6 @@
   export let name: string = "";
 </script>
 
-<button class="button bg-[var(--silent-hud-primary)] text-white font-bold py-2 px-4 my-2 rounded w-[150px]">
-  <span class="text-black py-3 font-semibold">{name}</span>
+<button class="button bg-[var(--silent-hud-primary)] text-white py-2 px-4 my-2 rounded w-[150px] uppercase">
+  <span class="text-black py-3 font-bold">{name}</span>
 </button>

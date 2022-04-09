@@ -11,8 +11,10 @@
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
   export let innerColorOpacity: number = 0.4;
+  export let name: string = "";
   export let progressColor: string = "red";
   export let progressValue: number = 100;
+  export let rotateDegree: number = 0;
   export let translateX: number = 0;
   export let translateY: number = 0;
   export let width: number = 50;
@@ -39,11 +41,10 @@
     stroke = radius;
     normalizedRadius = radius - (stroke/2);
     circumference = normalizedRadius * 2 * Math.PI;
-    console.log("Radius:", radius, "Noormalized Radius:", normalizedRadius);
   }
 
   $: {
-    strokeDashoffset = radius - $progressTween / 100 * radius;
+    strokeDashoffset = $progressTween / 100 * radius;
   }
 
 
@@ -75,7 +76,7 @@
     cy={radius}
   />
   </g>
-  <g style="filter: drop-shadow(0px 0px 11px #000000) contrast(200%); opacity: 0.50;">
+  <g style="filter: drop-shadow(0px 0px 11px #000000) contrast(200%); opacity: 0.60;">
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
     translateY={iconTranslateY} style="color:{iconColor || progressColor}"/>
   </g>

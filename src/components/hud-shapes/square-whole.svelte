@@ -10,8 +10,8 @@
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
-  export let outlineColor: string = "red";
-  export let outlineColorOpacity: number = 0.4;
+  export let innerColorOpacity: number = 0.4;
+  export let name: string = "";
   export let progressColor: string = "red";
   export let progressValue: number = 100;
   export let ringSize: number = 4;
@@ -36,14 +36,15 @@
   <svg
     height={height}
     width={width}
+    overflow="visible"
     transform="
       { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
       { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
     >
     <g>
       <line
-        opacity="{outlineColorOpacity}"
-        stroke="{outlineColor}"
+        opacity="{innerColorOpacity}"
+        stroke="{innerColor}"
         x1="50%"
         y1="100%"
         x2="50%"

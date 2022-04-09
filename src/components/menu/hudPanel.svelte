@@ -1,19 +1,20 @@
 <script>
   import Button from '../atoms/button.svelte'
   import Checkbox from '../atoms/checkbox.svelte'
+  import QBCoreLogo from '../../assets/qbcore_logo.svg'
 </script>
 
-<div class="text-sm flex flex-col text-[#c6c6c6]">
-  <div class="flex flex-row my-3 text-xl text-white">
-    <p>Reset HUD</p> <p class="ml-auto">QBCORE</p>
+<div class="text-sm flex flex-col text-[#e8e8e8]">
+  <div class="mt-3 flex flex-row text-2xl text-white min-h-10">
+    <p>Reset HUD </p> <img class="ml-auto w-[25%]" alt={"qbcore-logo"} src={QBCoreLogo}/>
   </div>
   <div class="mx-4 mb-4">
     <Button name="Reset Settings"/>
-    <p>If you want to reset your settings back to default; click this shiny button!</p>
-    <p>(you will have to relog for your menu to reset changes successfully)</p>
+    <p class="text-base">If you want to reset your settings back to default; click this shiny button!</p>
+    <p class="text-base">(you will have to relog for your menu to reset changes successfully)</p>
   
     <Button name="Reset Hud"/>
-    <p>If your hud is acting up, give it a good ol' reset! Or you can do /resethud</p>
+    <p class="text-base">If your hud is acting up, give it a good ol' reset! Or you can do /resethud</p>
   </div>
 
   <hr>
@@ -71,10 +72,10 @@
     <p>Vehicle</p>
   </div>
   <div class="mx-4 mb-4 flex flex-col gap-5">
-    <p class="font-semibold">
+    <p class="font-semibold text-base">
       Synced FPS option will result in less optimization, but keep your speedometer in real time, however, it will also be more demanding on your machine.
     </p>
-    <p class="font-semibold">
+    <p class="font-semibold text-base">
       Whether it's square or circle you desire, you have the ability to choose!
     </p>
     <Checkbox primaryText={"Minimap Enabled"} />
@@ -89,7 +90,7 @@
     <p>Compass</p>
   </div>
   <div class="mx-4 mb-4 flex flex-col gap-5">
-    <p class="font-semibold">
+    <p class="font-semibold text-base">
       Synced FPS option will result in less optimization, but keep your compass in real time, however, it will also be more demanding on your machine.
     </p>
     <Checkbox
@@ -119,9 +120,3 @@
     <Checkbox primaryText={"Enabled"} />
   </div>
 </div>
-
-<style>
-  hr {
-    opacity: 0.1;
-  }
-</style>

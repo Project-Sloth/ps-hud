@@ -1,16 +1,19 @@
 <script lang="ts">
   import { draggable } from '@neodrag/svelte';
-  import { faSliders, faCircleNotch} from '@fortawesome/free-solid-svg-icons'
+  import { faSliders, faCircleNotch, faTableColumns} from '@fortawesome/free-solid-svg-icons'
   import Fa from 'svelte-fa'
   import HudPanel from './menu/hudPanel.svelte';
   import StatusIconsPanel from './menu/statusIconsPanel.svelte';
+  import StatusLayout from './menu/statusLayout.svelte';
   import ColorPicker from './atoms/color-picker.svelte';
+
   let menuHandle;
   let colorPickerhandle;
 
   let tabArray: Array<{name: string, icon: any, content: any}> = [
-    {name: "Hud Settings", icon: faSliders, content: HudPanel},
-    {name: "Status Icons", icon: faCircleNotch, content: StatusIconsPanel},
+    { name: "Hud Settings", icon: faSliders,     content: HudPanel },
+    { name: "Status Icons", icon: faCircleNotch, content: StatusIconsPanel },
+    { name: "Status Layout", icon: faTableColumns, content: StatusLayout },
   ];
   let activeTab: {name: string, icon: any, content: any} = tabArray[0];
 
@@ -27,7 +30,7 @@
   } 
 </script>
 
-<section use:draggable={{ handle: menuHandle, bounds: 'body', gpuAcceleration: false }} class="bg-[#171717] rounded-lg shadow-lg text-white w-[50vw] h-[50vh] flex flex-col">
+<section class="w-[60vw] h-[50vh] flex flex-col bg-[#171717] rounded-lg shadow-lg text-white" use:draggable={{ handle: menuHandle, bounds: 'body', gpuAcceleration: false }}>
   <div class="drag-bar bg-dark-900 rounded-lg" bind:this={menuHandle}>
     <svg role="img" aria-label="drag handle" viewBox="0 0 24 24" height=24 width=24 class="mx-auto">
       <path

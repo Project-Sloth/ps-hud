@@ -1,102 +1,232 @@
 <script lang="ts">
-  import { shapes, layouts } from '../../types/types'
-  import { draggable } from '@neodrag/svelte';
+  import { shapes, iconNames } from '../../types/types'
   import PlayerHudUIStore from '../../stores/playerHudUIStore'
-  import type { shapekind, layoutkind, customizableShapePropsType, } from '../../types/types'
   import Select from '../atoms/select.svelte'
   import NumberInput from '../atoms/number-input.svelte';
 
-  // export let height: number = 50;
-  // export let icon: any = null;
-  // export let iconColor: string = "red";
-  // export let iconScaling: number = 0.45;
-  // export let iconTranslateX: number = 0;
-  // export let iconTranslateY: number = 0;
-  // export let innerColor: string = "#212121";
-  // export let outlineColor: string = "red";
-  // export let outlineColorOpacity: number = 0.4;
-  // export let progressColor: string = "red";
-  // export let progressValue: number = 100;
-  // export let ringSize: number = 4;
-  // export let rotateDegree: number = 0;
-  // export let translateX: number = 0;
-  // export let translateY: number = 0;
-  // export let width: number = 50;
-
-  function handleLayoutUpdate(layout: layoutkind) {
-    PlayerHudUIStore.updateLayout(layout);
+  function capFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 </script>
 
-<div class="text-sm flex flex-col text-[#c6c6c6]">
-  <div class="my-3 text-xl text-white">
+<div class="text-sm flex flex-col text-[#e8e8e8]">
+  <div class="my-3 text-2xl text-white">
     <p>Global Icons Settings</p>
   </div>
 
-  <div class="flex justify-center mb-4">
+  <div class="flex justify-center mb-8">
     <div class="w-50">
       <p class="text-lg text-center">Change Icon Shape</p>
-      <Select valuesArray={shapes} value={$PlayerHudUIStore.globalIconSettings.shape} handleSelectFunction={PlayerHudUIStore.updateAllShapes}/>
+      <Select valuesArray={shapes} value={$PlayerHudUIStore.globalIconSettings.shape}
+        handleSelectFunction={PlayerHudUIStore.updateAllShapes}
+      />
     </div>
   </div>
 
-  <div class="mx-4 mb-4 grid grid-cols-4 gap-6">
+  <div class="mx-4 mb-8 grid grid-cols-4 gap-6">
     <div>
       <p class="text-base text-center mb-2">Change Width Size</p>
-      <NumberInput min={1} max={200} bind:value={$PlayerHudUIStore.globalIconSettings.width} handleUpdateFunction={PlayerHudUIStore.updateAllWidth}/>
+      <NumberInput min={1} max={200} bind:value={$PlayerHudUIStore.globalIconSettings.width}
+        handleUpdateFunction={PlayerHudUIStore.updateAllWidth}
+      />
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Height Size</p>
-      <NumberInput min={1} max={200} bind:value={$PlayerHudUIStore.globalIconSettings.height} handleUpdateFunction={PlayerHudUIStore.updateAllHeight}/>
+      <NumberInput min={1} max={200} bind:value={$PlayerHudUIStore.globalIconSettings.height}
+        handleUpdateFunction={PlayerHudUIStore.updateAllHeight}
+      />
     </div>
-    <div>
-      <p class="text-base text-center mb-2">Change Ring Size</p>
-      <NumberInput min={1} max={25} bind:value={$PlayerHudUIStore.globalIconSettings.ringSize} step={0.5} handleUpdateFunction={PlayerHudUIStore.updateAllRingSize}/>
-    </div>
+
+    {#if $PlayerHudUIStore.globalIconSettings.ringSize != null}
+      <div>
+        <p class="text-base text-center mb-2">Change Ring Size</p>
+        <NumberInput min={1} max={25} bind:value={$PlayerHudUIStore.globalIconSettings.ringSize} step={0.5}
+          handleUpdateFunction={PlayerHudUIStore.updateAllRingSize}
+        />
+      </div>
+    {/if}
+
     <div>
       <p class="text-base text-center mb-2">Change Progress Color</p>
-      <div class="bg-orange-800 h-1/2 w-2/3 mx-auto border-white border-2">
+      <div class="h-1/2 w-2/3 mx-auto border-white border-2" style="background-color: var(--silent-hud-primary);">
       </div>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change X-axis Position</p>
-      <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.translateX} step={0.25} handleUpdateFunction={PlayerHudUIStore.updateAllTranslateX}/>
+      <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.translateX} step={0.25}
+        handleUpdateFunction={PlayerHudUIStore.updateAllTranslateX}
+      />
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Y-axis Position</p>
-      <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.translateY} step={0.25} handleUpdateFunction={PlayerHudUIStore.updateAllTranslateY}/>
+      <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.translateY} step={0.25}
+        handleUpdateFunction={PlayerHudUIStore.updateAllTranslateY}
+      />
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Rotation</p>
-      <NumberInput min={0} max={360} bind:value={$PlayerHudUIStore.globalIconSettings.rotateDegree} handleUpdateFunction={PlayerHudUIStore.updateAllRotateDegree}/>
+      <NumberInput min={0} max={360} bind:value={$PlayerHudUIStore.globalIconSettings.rotateDegree}
+        handleUpdateFunction={PlayerHudUIStore.updateAllRotateDegree}
+      />
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Track Color</p>
-      <div class="bg-orange-800 h-1/2 w-2/3 mx-auto border-white border-2">
+      <div class="h-1/2 w-2/3 mx-auto border-white border-2" style="background-color: var(--silent-hud-primary);">
       </div>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Icon X-axis Position</p>
-      <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.iconTranslateX} step={0.01} handleUpdateFunction={PlayerHudUIStore.updateAllTranslateIconX}/>
+      <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.iconTranslateX} step={0.01}
+        handleUpdateFunction={PlayerHudUIStore.updateAllTranslateIconX}
+      />
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Icon Y-axis Position</p>
-      <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.iconTranslateY} step={0.01} handleUpdateFunction={PlayerHudUIStore.updateAllTranslateIconY}/>
+      <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.iconTranslateY} step={0.01}
+        handleUpdateFunction={PlayerHudUIStore.updateAllTranslateIconY}
+      />
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Icon Size</p>
-      <NumberInput min={0} max={3} bind:value={$PlayerHudUIStore.globalIconSettings.iconScaling} step={0.01} handleUpdateFunction={PlayerHudUIStore.updateAllIconScale}/>
+      <NumberInput min={0} max={3} bind:value={$PlayerHudUIStore.globalIconSettings.iconScaling} step={0.01}
+        handleUpdateFunction={PlayerHudUIStore.updateAllIconScale}
+      />
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Icon Color</p>
-      <div class="bg-orange-800 h-1/2 w-2/3 mx-auto border-white border-2">
+      <div class="h-1/2 w-2/3 mx-auto border-white border-2" style="background-color: var(--silent-hud-primary);">
       </div>
     </div>
+
+    {#if $PlayerHudUIStore.globalIconSettings.xAxisRound != null}
+    <div>
+      <p class="text-base text-center mb-2">Change X-axis Curve</p>
+      <NumberInput min={0} max={100} bind:value={$PlayerHudUIStore.globalIconSettings.xAxisRound}
+        handleUpdateFunction={PlayerHudUIStore.updateAllRoundXAxis}
+      />
+    </div>
+    {/if}
+
+    {#if $PlayerHudUIStore.globalIconSettings.yAxisRound != null}
+    <div>
+      <p class="text-base text-center mb-2">Change Y-axis Curve</p>
+      <NumberInput min={0} max={100} bind:value={$PlayerHudUIStore.globalIconSettings.yAxisRound}
+        handleUpdateFunction={PlayerHudUIStore.updateAllRoundYAxis}
+      />
+    </div>
+    {/if}
   </div>
+
   <hr>
-  <div>
-    <p class="text-base text-center mb-2">Change Ring Size</p>
-    <NumberInput min={1} max={25} step={0.5} bind:value={$PlayerHudUIStore.icons.health.ringSize}/>
-  </div>
+
+  {#each iconNames as name}
+    <div class="mt-6 text-xl text-white">
+      <p>{capFirstLetter(name)} Icon Settings</p>
+    </div>
+    
+    <div class="flex justify-center mb-8">
+      <div class="w-50">
+        <p class="text-lg text-center">Change Icon Shape</p>
+        <Select valuesArray={shapes} value={$PlayerHudUIStore.icons[name].shape}
+          handleSelectFunction={(shapeName) => PlayerHudUIStore.updateIconShape(name, shapeName)}
+        />
+      </div>
+    </div>
+
+    <div class="mx-4 mb-8 grid grid-cols-4 gap-6">
+      <div>
+        <p class="text-base text-center mb-2">Change Width Size</p>
+        <NumberInput min={1} max={200} bind:value={$PlayerHudUIStore.icons[name].width}
+          handleUpdateFunction={(width) => PlayerHudUIStore.updateIconSetting(name, "width", width)}
+        />
+      </div>
+      <div>
+        <p class="text-base text-center mb-2">Change Height Size</p>
+        <NumberInput min={1} max={200} bind:value={$PlayerHudUIStore.icons[name].height}
+          handleUpdateFunction={(height) => PlayerHudUIStore.updateIconSetting(name, "height", height)}
+        />
+      </div>
+
+      {#if $PlayerHudUIStore.icons[name].ringSize != null}
+        <div>
+          <p class="text-base text-center mb-2">Change Ring Size</p>
+          <NumberInput min={1} max={25} bind:value={$PlayerHudUIStore.icons[name].ringSize} step={0.5}
+            handleUpdateFunction={(ringSize) => PlayerHudUIStore.updateIconSetting(name, "ringSize", ringSize)}
+          />
+        </div>
+      {/if}
+
+      <div>
+        <p class="text-base text-center mb-2">Change Progress Color</p>
+        <div class="h-1/2 w-2/3 mx-auto border-white border-2" style="background-color: var(--silent-hud-primary);">
+        </div>
+      </div>
+      <div>
+        <p class="text-base text-center mb-2">Change X-axis Position</p>
+        <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.icons[name].translateX} step={0.25}
+          handleUpdateFunction={(translateX) => PlayerHudUIStore.updateIconSetting(name, "translateX", translateX)}
+        />
+      </div>
+      <div>
+        <p class="text-base text-center mb-2">Change Y-axis Position</p>
+        <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.icons[name].translateY} step={0.25}
+          handleUpdateFunction={(translateY) => PlayerHudUIStore.updateIconSetting(name, "translateY", translateY)}
+        />
+      </div>
+      <div>
+        <p class="text-base text-center mb-2">Change Rotation</p>
+        <NumberInput min={0} max={360} bind:value={$PlayerHudUIStore.icons[name].rotateDegree}
+          handleUpdateFunction={(rotateDegree) => PlayerHudUIStore.updateIconSetting(name, "rotateDegree", rotateDegree)}
+        />
+      </div>
+      <div>
+        <p class="text-base text-center mb-2">Change Track Color</p>
+        <div class="h-1/2 w-2/3 mx-auto border-white border-2" style="background-color: var(--silent-hud-primary);">
+        </div>
+      </div>
+      <div>
+        <p class="text-base text-center mb-2">Change Icon X-axis Position</p>
+        <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.icons[name].iconTranslateX} step={0.01}
+          handleUpdateFunction={(iconTranslateX) => PlayerHudUIStore.updateIconSetting(name, "iconTranslateX", iconTranslateX)}
+        />
+      </div>
+      <div>
+        <p class="text-base text-center mb-2">Change Icon Y-axis Position</p>
+        <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.icons[name].iconTranslateY} step={0.01}
+          handleUpdateFunction={(iconTranslateY) => PlayerHudUIStore.updateIconSetting(name, "iconTranslateY", iconTranslateY)}
+        />
+      </div>
+      <div>
+        <p class="text-base text-center mb-2">Change Icon Size</p>
+        <NumberInput min={0} max={3} bind:value={$PlayerHudUIStore.icons[name].iconScaling} step={0.01}
+          handleUpdateFunction={(iconScaling) => PlayerHudUIStore.updateIconSetting(name, "iconScaling", iconScaling)}
+        />
+      </div>
+      <div>
+        <p class="text-base text-center mb-2">Change Icon Color</p>
+        <div class="h-1/2 w-2/3 mx-auto border-white border-2" style="background-color: var(--silent-hud-primary);">
+        </div>
+      </div>
+
+      {#if $PlayerHudUIStore.icons[name].xAxisRound != null}
+      <div>
+        <p class="text-base text-center mb-2">Change X-axis Curve</p>
+        <NumberInput min={0} max={100} bind:value={$PlayerHudUIStore.icons[name].xAxisRound}
+          handleUpdateFunction={(xAxisRound) => PlayerHudUIStore.updateIconSetting(name, "xAxisRound", xAxisRound)}
+        />
+      </div>
+      {/if}
+
+      {#if $PlayerHudUIStore.icons[name].yAxisRound != null}
+      <div>
+        <p class="text-base text-center mb-2">Change Y-axis Curve</p>
+        <NumberInput min={0} max={100} bind:value={$PlayerHudUIStore.icons[name].yAxisRound}
+          handleUpdateFunction={(yAxisRound) => PlayerHudUIStore.updateIconSetting(name, "yAxisRound", yAxisRound)}
+        />
+      </div>
+      {/if}
+    </div>
+    <hr>
+  {/each}
 </div>
 

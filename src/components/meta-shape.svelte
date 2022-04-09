@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { hudIconType, shapePropsType } from '../types/types'
+  import type { optionalHudIconType, shapePropsType } from '../types/types'
   import Badge from './hud-shapes/badge.svelte';
   import CircleCircleFill from './hud-shapes/circle-circle-fill.svelte';
   import CircleRing from './hud-shapes/circle-ring.svelte';
@@ -21,11 +21,11 @@
   import IconPercentage from './hud-shapes/icon-percentage.svelte';
   //import Octagon from './components/octagon.svelte';
 
-  export let hudIconInfo: hudIconType = null;
+  export let hudIconInfo: optionalHudIconType = null;
 
   let shapeProps: shapePropsType;
   $: {
-    shapeProps = (({ shape, isShowing, ...o }) => o)(hudIconInfo);
+    shapeProps = (({ shape, isShowing, defaultColor, ...o }) => o)(hudIconInfo);
     if (shapeProps.outlineColor == "") {
       shapeProps.outlineColor = shapeProps.progressColor;
     }
@@ -43,8 +43,8 @@
   <CircleSquareFill {...shapeProps} />
 {:else if hudIconInfo.shape == 'circle-whole'}
   <CircleWhole {...shapeProps} />
-{:else if hudIconInfo.shape == 'cylinder'}
-  <Cylinder props={shapeProps} />
+<!-- {:else if hudIconInfo.shape == 'cylinder'}
+  <Cylinder props={shapeProps} /> -->
 {:else if hudIconInfo.shape == 'diamond-ring'}
   <DiamondRing {...shapeProps} />
 {:else if hudIconInfo.shape == 'diamond-whole'}
@@ -52,7 +52,7 @@
 {:else if hudIconInfo.shape == 'horizontal-bar'}
   <HorizontalBar {...shapeProps} />
 {:else if hudIconInfo.shape == 'square-circular-fill'}
-  <SquareCircularFill props={shapeProps} />
+  <SquareCircularFill {...shapeProps} />
 {:else if hudIconInfo.shape == 'square-ring'}
   <SquareRing {...shapeProps} />
 {:else if hudIconInfo.shape == 'star-ring'}

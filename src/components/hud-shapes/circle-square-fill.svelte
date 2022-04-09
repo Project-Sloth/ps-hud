@@ -11,6 +11,7 @@
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
   export let innerColorOpacity: number = 0.4;
+  export let name: string = "";
   export let progressColor: string = "red";
   export let progressValue: number = 100;
   export let rotateDegree: number = 0;
@@ -92,7 +93,7 @@
     clip-path="url(#cut-out-circle)"
   />
   </g>
-  <g style="filter: drop-shadow(0px 0px 11px #000000) contrast(200%);">
+  <g style="filter: drop-shadow(0px 0px 6px #000000) contrast(200%);">
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
     translateY={iconTranslateY} style="color:{iconColor || progressColor}"/>
   </g>

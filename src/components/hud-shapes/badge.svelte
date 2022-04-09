@@ -14,6 +14,7 @@
   export let innerColorOpacity: number = 1;
   export let progressColor: string = "red";
   export let progressValue: number = 100;
+  export let rotateDegree: number = 0;
   export let translateX: number = 0;
   export let translateY: number = 0;
   export let width: number = 50;

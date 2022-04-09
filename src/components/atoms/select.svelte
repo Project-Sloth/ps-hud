@@ -17,12 +17,14 @@
   let items = valuesArray.map(humanReadableString);
   let itemvalue = items[0];
 
+$: {
   if (value) {
     let index = items.findIndex((element) => element.value == value);
     if (index) {
       itemvalue = items[index]
     }
-  }
+  } 
+}
 
   function handleSelect(event) {
     value = event.detail.value;

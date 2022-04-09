@@ -23,7 +23,7 @@
   let interval;
   let num: number = 0
 
-  const moveProgress = () => {
+  const moveProgress = (interval) => {
     let isUp: boolean = true;
     interval = setInterval(() => {
       if (isUp) {
@@ -42,7 +42,7 @@
     }, 1400);
   };
 
-  moveProgress();
+  moveProgress(interval);
   onDestroy(() => clearInterval(interval));
 
 </script>

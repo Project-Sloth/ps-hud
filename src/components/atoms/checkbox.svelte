@@ -20,13 +20,13 @@
 .primary-text {
   font-family: system-ui, sans-serif;
   line-height: 1.1;
-  font-size: 1.1em;
+  font-size: 1.2em;
 }
 
 .secondary-text {
   font-family: system-ui, sans-serif;
   line-height: 1.1;
-  font-size: 1em;
+  font-size: 1.1em;
 }
 
 input[type="checkbox"] {

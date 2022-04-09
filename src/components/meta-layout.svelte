@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { layoutkind } from '../types/types';
+  import type { layoutIconKind } from '../types/types';
   import PlayerHudUIStore from '../stores/playerHudUIStore';
   import IconsList from './icons-list.svelte';
-  export let spaceBetween: number = 0.2;
-  export let spaceBottom: number = 0;
+  export let spaceBetween: number = 2;
+  export let spaceBottom: number = 1;
 
-  let layout: layoutkind = "standard";
+  let layout: layoutIconKind = "standard";
 
   function condtionalHealthBarText(val: number) {
     if (val <= 0) {
@@ -32,66 +32,72 @@
 </script> 
 
 {#if $PlayerHudUIStore.show || true}
-  {#if layout == "center-bottom"}
+  {#if layout == "center-bottom-row"}
     <div class="absolute bottom-[0.3vw] w-100vw">
       <div
         class="static flex flex-row mx-auto" 
-        style="width: max-content; gap: {spaceBetween+'em'};">
+        style="width: max-content; gap: {spaceBetween+'px'}; margin-bottom: {spaceBottom+'px'};">
           <IconsList />
       </div>
     </div>
-  {:else if layout == "bottom-right"}
+  {:else if layout == "bottom-right-row"}
     <div
       class="absolute bottom-[0.3vw] right-[3vh] flex flex-row"
-      style="gap: {spaceBetween+'em'};">
+      style="gap: {spaceBetween+'px'};">
           <IconsList />
     </div>
   {:else if layout == "left-bottom-column"}
     <div class="absolute bottom-[0.3vw]">
       <div
         class="static flex flex-col ml-1" 
-        style="gap: {spaceBetween+'em'};">
+        style="gap: {spaceBetween+'px'};">
           <IconsList />
       </div>
     </div>
-  {:else if layout == "right-column"}
-    <div class="absolute bottom-[0.3vw] right-[0.25rem] overflow-hidden">
+  {:else if layout == "right-bottom-column"}
+    <div class="absolute bottom-[0.3vw] right-[0.25rem]">
       <div
         class="static flex flex-col" 
-        style="gap: {spaceBetween+'em'};">
+        style="gap: {spaceBetween+'px'};">
           <IconsList />
       </div>
     </div>
   {:else if layout == "top-left-row"}
     <div 
       class="absolute top-[0.3vw] left-[0.3vh] flex flex-row"
-      style="gap: {spaceBetween+'em'};">
+      style="gap: {spaceBetween+'px'};">
       <IconsList />
-    </div>
-  {:else if layout == "esx-hud-hard-to-let-go"}
-    <div 
-      class="absolute bottom-[0.3vw] left-[3vh] flex flex-row"
-      style="">
-      <div class="flex flex-row mr-4 gap-1">
-        <IconsList iconsToShow={["health", "armor"]}
-        options={{
-          
-        }}
-          />
-      </div>
-      <div class="flex flex-row gap-2">
-        <IconsList iconsToNotShow={["health", "armor"]} optionsForAll={{
-          ringSize: 2, height: 50, width: 50, iconScaling: 0.40 }} />
-      </div>
     </div>
   {:else if layout == "standard"}
     <div 
       class="absolute bottom-[0.3vw] left-[3vh] flex flex-row"
-      style="gap: {spaceBetween+'em'};">
+      style="gap: {spaceBetween+'px'}; margin-bottom: {spaceBottom+'px'};">
       <IconsList />
     </div>
   {/if}
 {/if}
+
+
+<!-- {:else if layout == "esx-hud-hard-to-let-go"}
+<div 
+    <div 
+<div 
+  class="absolute bottom-[0.3vw] left-[3vh] flex flex-row"
+  style="">
+  <div class="flex flex-row mr-4 gap-1">
+    <IconsList iconsToShow={["health", "armor"]}
+    options={{
+      
+    }}
+      />
+  </div>
+  <div class="flex flex-row gap-2">
+    <IconsList iconsToNotShow={["health", "armor"]} optionsForAll={{
+      ringSize: 2, height: 50, width: 50, iconScaling: 0.40 }} />
+  </div>
+</div> -->
+
+
 <!-- <div class="mt-auto mb-3">
   <div class="flex flex-row">
     <div class="flex flex-col ml-2 mr-5">

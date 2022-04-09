@@ -3,13 +3,13 @@ import { faHeart, faShieldAlt, faHamburger, faTint, faBrain, faStream,
   faParachuteBox, faMeteor, faLungs, faOilCan, faUserSlash,
   faTachometerAltFast, faTerminal, faHeadset, faMicrophone,
 } from '@fortawesome/free-solid-svg-icons'
-import type { playerHudIcons, shapekind, layoutkind, customizableShapePropsType } from '../types/types';
+import type { playerHudIcons, shapekind, layoutIconKind, iconNamesKind, optionalHudIconType } from '../types/types';
 import { defaultHudIcon, createShapeIcon } from '../types/types';
 
 type playerHudUIType = {
-  globalIconSettings: customizableShapePropsType,
+  globalIconSettings: optionalHudIconType,
   icons: playerHudIcons,
-  layout: layoutkind
+  layout: layoutIconKind
   show: boolean,
   showingOrder: Array<keyof playerHudIcons>
 }
@@ -48,7 +48,7 @@ type playerHudUpdateMessageType = {
 }
    
 const store = () => {
-  let debugShow: boolean = true;
+  let debugShow: boolean = false;
   let playerHudUIState: playerHudUIType = {
     globalIconSettings: (({ isShowing, name, icon, progressValue, ...o }) => o)(defaultHudIcon()),
     icons: {
@@ -70,7 +70,7 @@ const store = () => {
     layout: "standard",
     show: true,
     showingOrder: ["voice", "health", "armor", "hunger", "thirst", "stress", "oxygen", "armed",
-      "parachute", "engine", "cruise", "nos", "dev"],
+      "parachute", "engine", "harness", "cruise", "nos", "dev"],
   }
   
   const { subscribe, set, update } = writable(playerHudUIState);
@@ -100,6 +100,22 @@ const store = () => {
         return state;
       })
     },
+    updateAllRoundXAxis(xAxisCurve: number) {
+      update(state => {
+        for (let icon in state.icons) {
+          state.icons[icon].xAxisRound = xAxisCurve;
+        }
+        return state;
+      })
+    },
+    updateAllRoundYAxis(yAxisCurve: number) {
+      update(state => {
+        for (let icon in state.icons) {
+          state.icons[icon].yAxisRound = yAxisCurve;
+        }
+        return state;
+      })
+    },
     updateAllRotateDegree(degree: number) {
       update(state => {
         for (let icon in state.icons) {
@@ -111,18 +127,17 @@ const store = () => {
     updateAllShapes(shape: shapekind) {
       update(state => {
         for (let icon in state.icons) {
-          state.icons[icon].shape = shape;
           let defaultShape = createShapeIcon(shape, 
             {
               defaultColor: state.icons[icon].defaultColor, icon: state.icons[icon].icon, iconColor: state.icons[icon].iconColor,
               isShowing: state.icons[icon].isShowing, innerColor: state.icons[icon].innerColor, progressColor: state.icons[icon].progressColor,
               name: state.icons[icon].name
             });
-          if (defaultShape) {
-            state.icons[icon] = {...state.icons[icon], ...defaultShape};
-          }
+          state.icons[icon] = defaultShape;
+          state.icons[icon].shape = shape;
         }
-        state.globalIconSettings.shape == shape;
+        state.globalIconSettings.shape = shape;
+        state.globalIconSettings = createShapeIcon(shape);
         return state;
       })
     },
@@ -166,7 +181,28 @@ const store = () => {
         return state;
       })
     },
-    updateLayout(layout: layoutkind) {
+    updateIconShape(iconName: iconNamesKind, shape: shapekind) {
+      update(state => {
+         let defaultShape = createShapeIcon(shape, 
+          {
+            defaultColor: state.icons[iconName].defaultColor, icon: state.icons[iconName].icon, iconColor: state.icons[iconName].iconColor,
+            isShowing: state.icons[iconName].isShowing, innerColor: state.icons[iconName].innerColor, progressColor: state.icons[iconName].progressColor,
+            name: state.icons[iconName].name
+          });
+        state.icons[iconName] = defaultShape;
+        state.icons[iconName].shape = shape;
+        return state;
+      })
+    },
+    updateIconSetting(iconName: iconNamesKind, settingName: keyof optionalHudIconType, value: any) {
+      update(state => {
+        // keyof optionalHudIconType does not want to work, so we force any to pass type check
+        // keyof should work since its the exact same type as what key we are trying
+        state.icons[iconName][settingName as any] = value;
+        return state;
+     })
+    },
+    updateLayout(layout: layoutIconKind) {
       update(state => {
         state.layout = layout;
         return state;
