@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ColorPicker from '../atoms/color-picker.svelte';
   import { shapes, iconNames } from '../../types/types'
   import PlayerHudUIStore from '../../stores/playerHudUIStore'
   import Select from '../atoms/select.svelte'
@@ -7,6 +8,7 @@
   function capFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
+
 </script>
 
 <div class="text-sm flex flex-col text-[#e8e8e8]">
@@ -46,20 +48,19 @@
       </div>
     {/if}
 
-    <div>
+    <div class="h-1/2 w-2/3 flex flex-col mx-auto">
       <p class="text-base text-center mb-2">Change Progress Color</p>
-      <div class="h-1/2 w-2/3 mx-auto border-white border-2" style="background-color: var(--silent-hud-primary);">
-      </div>
+      <ColorPicker color={$PlayerHudUIStore.globalIconSettings.progressColor} updateFunction={(hexColor) => PlayerHudUIStore.updateAllProgressColor(hexColor)}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change X-axis Position</p>
-      <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.translateX} step={0.25}
+      <NumberInput min={-20} max={20} bind:value={$PlayerHudUIStore.globalIconSettings.translateX} step={0.25}
         handleUpdateFunction={PlayerHudUIStore.updateAllTranslateX}
       />
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Y-axis Position</p>
-      <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.translateY} step={0.25}
+      <NumberInput min={-20} max={20} bind:value={$PlayerHudUIStore.globalIconSettings.translateY} step={0.25}
         handleUpdateFunction={PlayerHudUIStore.updateAllTranslateY}
       />
     </div>
@@ -69,10 +70,9 @@
         handleUpdateFunction={PlayerHudUIStore.updateAllRotateDegree}
       />
     </div>
-    <div>
-      <p class="text-base text-center mb-2">Change Track Color</p>
-      <div class="h-1/2 w-2/3 mx-auto border-white border-2" style="background-color: var(--silent-hud-primary);">
-      </div>
+    <div class="h-1/2 w-2/3 flex flex-col mx-auto">
+      <p class="text-base text-center mb-2">Change Inner Color</p>
+      <ColorPicker color={$PlayerHudUIStore.globalIconSettings.innerColor} updateFunction={(hexColor) => PlayerHudUIStore.updateAllInnerColor(hexColor)}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Icon X-axis Position</p>
@@ -92,10 +92,9 @@
         handleUpdateFunction={PlayerHudUIStore.updateAllIconScale}
       />
     </div>
-    <div>
+    <div class="h-1/2 w-2/3 flex flex-col mx-auto">
       <p class="text-base text-center mb-2">Change Icon Color</p>
-      <div class="h-1/2 w-2/3 mx-auto border-white border-2" style="background-color: var(--silent-hud-primary);">
-      </div>
+        <ColorPicker color={$PlayerHudUIStore.globalIconSettings.iconColor} updateFunction={(hexColor) => PlayerHudUIStore.updateAllIconColor(hexColor)}/>
     </div>
 
     {#if $PlayerHudUIStore.globalIconSettings.xAxisRound != null}
@@ -120,7 +119,7 @@
   <hr>
 
   {#each iconNames as name}
-    <div class="mt-6 text-xl text-white">
+    <div class="mt-6 text-2xl text-white">
       <p>{capFirstLetter(name)} Icon Settings</p>
     </div>
     
@@ -156,20 +155,21 @@
         </div>
       {/if}
 
-      <div>
+      <div class="h-1/2 w-2/3 flex flex-col mx-auto">
         <p class="text-base text-center mb-2">Change Progress Color</p>
-        <div class="h-1/2 w-2/3 mx-auto border-white border-2" style="background-color: var(--silent-hud-primary);">
-        </div>
+        <ColorPicker color={$PlayerHudUIStore.icons[name].progressColor}
+          updateFunction={(hexColor) => PlayerHudUIStore.updateIconSetting(name, "progressColor", hexColor)}
+        />
       </div>
       <div>
         <p class="text-base text-center mb-2">Change X-axis Position</p>
-        <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.icons[name].translateX} step={0.25}
+        <NumberInput min={-20} max={20} bind:value={$PlayerHudUIStore.icons[name].translateX} step={0.25}
           handleUpdateFunction={(translateX) => PlayerHudUIStore.updateIconSetting(name, "translateX", translateX)}
         />
       </div>
       <div>
         <p class="text-base text-center mb-2">Change Y-axis Position</p>
-        <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.icons[name].translateY} step={0.25}
+        <NumberInput min={-20} max={20} bind:value={$PlayerHudUIStore.icons[name].translateY} step={0.25}
           handleUpdateFunction={(translateY) => PlayerHudUIStore.updateIconSetting(name, "translateY", translateY)}
         />
       </div>
@@ -179,10 +179,11 @@
           handleUpdateFunction={(rotateDegree) => PlayerHudUIStore.updateIconSetting(name, "rotateDegree", rotateDegree)}
         />
       </div>
-      <div>
-        <p class="text-base text-center mb-2">Change Track Color</p>
-        <div class="h-1/2 w-2/3 mx-auto border-white border-2" style="background-color: var(--silent-hud-primary);">
-        </div>
+      <div class="h-1/2 w-2/3 flex flex-col mx-auto">
+        <p class="text-base text-center mb-2">Change Inner Color</p>
+        <ColorPicker color={$PlayerHudUIStore.icons[name].innerColor}
+          updateFunction={(hexColor) => PlayerHudUIStore.updateIconSetting(name, "innerColor", hexColor)}
+        />
       </div>
       <div>
         <p class="text-base text-center mb-2">Change Icon X-axis Position</p>
@@ -202,10 +203,11 @@
           handleUpdateFunction={(iconScaling) => PlayerHudUIStore.updateIconSetting(name, "iconScaling", iconScaling)}
         />
       </div>
-      <div>
+      <div class="h-1/2 w-2/3 flex flex-col mx-auto">
         <p class="text-base text-center mb-2">Change Icon Color</p>
-        <div class="h-1/2 w-2/3 mx-auto border-white border-2" style="background-color: var(--silent-hud-primary);">
-        </div>
+          <ColorPicker color={$PlayerHudUIStore.icons[name].iconColor}
+            updateFunction={(hexColor) => PlayerHudUIStore.updateIconSetting(name, "iconColor", hexColor)}
+          />
       </div>
 
       {#if $PlayerHudUIStore.icons[name].xAxisRound != null}

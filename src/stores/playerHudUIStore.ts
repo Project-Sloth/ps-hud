@@ -90,7 +90,34 @@ const store = () => {
           state.icons[icon].iconScaling = scale;
         }
         return state;
-      })
+      });
+    },
+    updateAllIconColor(color: string) {
+      update(state => {
+        for (let icon in state.icons) {
+          state.icons[icon].iconColor = color;
+        }
+        state.globalIconSettings.iconColor = color;
+        return state;
+      });
+    },
+    updateAllInnerColor(color: string) {
+      update(state => {
+        for (let icon in state.icons) {
+          state.icons[icon].innerColor = color;
+        }
+        state.globalIconSettings.innerColor = color;
+        return state;
+      });
+    },
+    updateAllProgressColor(color: string) {
+      update(state => {
+        for (let icon in state.icons) {
+          state.icons[icon].progressColor = color;
+        }
+        state.globalIconSettings.progressColor = color;
+        return state;
+      });
     },
     updateAllRingSize(ringSize: number) {
       update(state => {
@@ -137,7 +164,12 @@ const store = () => {
           state.icons[icon].shape = shape;
         }
         state.globalIconSettings.shape = shape;
-        state.globalIconSettings = createShapeIcon(shape);
+        state.globalIconSettings = createShapeIcon(shape,
+          {
+          defaultColor: state.globalIconSettings.defaultColor, icon: state.globalIconSettings.icon, iconColor: state.globalIconSettings.iconColor,
+          isShowing: state.globalIconSettings.isShowing, innerColor: state.globalIconSettings.innerColor, progressColor: state.globalIconSettings.progressColor,
+          name: state.globalIconSettings.name
+        });
         return state;
       })
     },

@@ -87,7 +87,7 @@
       transform="rotate(-90, {radius}, {radius})"
     />
     <circle
-      stroke={progressColor}
+      stroke="{progressColor}"
       fill="transparent"
       stroke-dashoffset={strokeDashoffset}
       stroke-dasharray={circumference + ' ' + circumference}

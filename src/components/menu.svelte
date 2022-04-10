@@ -5,10 +5,8 @@
   import HudPanel from './menu/hudPanel.svelte';
   import StatusIconsPanel from './menu/statusIconsPanel.svelte';
   import StatusLayout from './menu/statusLayout.svelte';
-  import ColorPicker from './atoms/color-picker.svelte';
 
   let menuHandle;
-  let colorPickerhandle;
 
   let tabArray: Array<{name: string, icon: any, content: any}> = [
     { name: "Hud Settings", icon: faSliders,     content: HudPanel },
@@ -19,14 +17,6 @@
 
   function handleTabClick(index: number) {
     activeTab = tabArray[index];
-  }
-
-  function colorCallback(val: any) {
-    if (!val.detail) {
-      return
-    }
-    let colorPicked: {r: number, g: number, b: number, a: number} = val.detail;
-    console.log("("+colorPicked.r+", "+colorPicked.g+", "+colorPicked.b+", "+colorPicked.a+")");
   } 
 </script>
 
@@ -48,11 +38,14 @@
         </div>
       {/each}
     </div>
-    <div class="flex flex-col w-5/6 px-5 overflow-y-scroll bg-[#171717]">
-      <svelte:component this={activeTab.content}/>
-    </div>
+    {#each tabArray as tab}
+      <div style="display: {activeTab.name == tab.name ? 'flex' : 'none'};" class="flex-col w-5/6 px-5 overflow-y-scroll bg-[#171717]">
+        <svelte:component this={tab.content}/>
+      </div>
+    {/each}
   </div>
 </section>
+
 <!-- export let width = 240;
 export let height = 285; -->
 <!-- <div class="w-[256px] h-[310px] z-10" use:draggable={{ handle: colorPickerhandle, bounds: 'body', gpuAcceleration: false }}>

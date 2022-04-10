@@ -81,7 +81,7 @@ export class baseIcon implements baseIconProps {
   innerColorOpacity = 1;
   isShowing = true;
   name = "";
-  progressColor = "";
+  progressColor = "#ff783e";
   progressValue = 100;
   shape: shapekind = "circle-whole";
   rotateDegree = 0;
@@ -246,7 +246,7 @@ export type optionalHudIconType = Partial<baseIconProps & borderIconProps & ring
 
 export type optionalPlayerHudIconsType = Partial<{ [Property in keyof playerHudIcons]: optionalHudIconType }>;
 
-export function defaultHudIcon(name = "", showing=false, color="red", icon=null): any {
+export function defaultHudIcon(name = "", showing=false, color="#ff783e", icon=null): any {
   return createShapeIcon("circle-ring",
     { defaultColor: color, iconColor: color, isShowing: showing, icon: icon,
       innerColor: "#212121", progressColor: color, name: name

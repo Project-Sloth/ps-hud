@@ -2,10 +2,11 @@
   import Button from '../atoms/button.svelte'
   import Checkbox from '../atoms/checkbox.svelte'
   import QBCoreLogo from '../../assets/qbcore_logo.svg'
+
 </script>
 
 <div class="text-sm flex flex-col text-[#e8e8e8]">
-  <div class="mt-3 flex flex-row text-2xl text-white min-h-10">
+  <div class="mt-3 flex flex-row text-2xl text-white">
     <p>Reset HUD </p> <img class="ml-auto w-[25%]" alt={"qbcore-logo"} src={QBCoreLogo}/>
   </div>
   <div class="mx-4 mb-4">
