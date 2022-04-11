@@ -4,7 +4,7 @@
 </script>
 
 
-<label class="flex flex-row gap-4 cursor-pointer select-none {secondaryText ? "items-center" : ""}">
+<label class="flex flex-row gap-4 py-3 cursor-pointer select-none {secondaryText ? "items-center" : ""}">
   <input class="cursor-pointer" type="checkbox" name="checkbox" />
   {#if secondaryText}
     <div class="flex flex-col">

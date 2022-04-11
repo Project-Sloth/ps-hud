@@ -3,6 +3,7 @@
   import { cubicOut } from 'svelte/easing';
   import Fa from 'svelte-fa'
 
+  export let displayOutline: boolean = true;
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
@@ -63,17 +64,19 @@
     { rotateDegree > 0 ? "rotate("+rotateDegree+" "+radius+" "+radius+")": ""}
     { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
   >
-    <circle
-      opacity={outlineColorOpacity}
-      stroke={outlineColor}
-      stroke-dashoffset={0}
-      stroke-dasharray={circumference + ' ' + circumference}
-      stroke-width={ringSize}
-      r={normalizedRadius}
-      cx={radius}
-      cy={radius}
-      transform="rotate(-90, {radius}, {radius})"
-    />
+    {#if displayOutline}
+      <circle
+        opacity={outlineColorOpacity}
+        stroke={outlineColor}
+        stroke-dashoffset={0}
+        stroke-dasharray={circumference + ' ' + circumference}
+        stroke-width={ringSize}
+        r={normalizedRadius}
+        cx={radius}
+        cy={radius}
+        transform="rotate(-90, {radius}, {radius})"
+      />
+    {/if}
     <circle
       fill={innerColor}
       fill-opacity={innerColorOpacity}

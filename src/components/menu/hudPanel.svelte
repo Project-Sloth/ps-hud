@@ -2,6 +2,7 @@
   import Button from '../atoms/button.svelte'
   import Checkbox from '../atoms/checkbox.svelte'
   import QBCoreLogo from '../../assets/qbcore_logo.svg'
+  import Switch from '../atoms/switch.svelte'
 
 </script>
 
@@ -23,7 +24,7 @@
   <div class="my-3 text-xl text-white">
     <p>Options</p>
   </div>
-  <div class="mx-4 mb-4 flex flex-col gap-4">
+  <div class="mx-4 mb-4 flex flex-col">
     <Checkbox
       primaryText={"Show Minimap Only in Vehicle"}
       secondaryText={"Disabling this will always keep your minimap on your screen"}
@@ -44,7 +45,7 @@
     <p>Notifications</p>
   </div>
 
-  <div class="mx-4 mb-4 flex flex-col gap-5">
+  <div class="mx-4 mb-4 flex flex-col">
     <Checkbox primaryText={"Menu Sound Effect Enabled"} />
     <Checkbox primaryText={"Reset Hud Sound Effects Enabled"} />
     <Checkbox primaryText={"GUI Sound Effects Enabled"} />
@@ -58,7 +59,7 @@
   <div class="my-3 text-xl text-white">
     <p>Status</p>
   </div>
-  <div class="mx-4 mb-4 flex flex-col gap-5">
+  <div class="mx-4 mb-4 flex flex-col">
     <Checkbox primaryText={"Show Health Always"} />
     <Checkbox primaryText={"Show Armor Always"} />
     <Checkbox primaryText={"Show Hunger Always"} />
@@ -72,7 +73,7 @@
   <div class="my-3 text-xl text-white">
     <p>Vehicle</p>
   </div>
-  <div class="mx-4 mb-4 flex flex-col gap-5">
+  <div class="mx-4 mb-4 flex flex-col">
     <p class="font-semibold text-base">
       Synced FPS option will result in less optimization, but keep your speedometer in real time, however, it will also be more demanding on your machine.
     </p>
@@ -90,8 +91,9 @@
   <div class="my-3 text-xl text-white">
     <p>Compass</p>
   </div>
-  <div class="mx-4 mb-4 flex flex-col gap-5">
-    <p class="font-semibold text-base">
+  <div class="mx-4 mb-4 flex flex-col">
+    <Switch text="Compass FPS Optimized"/>
+    <p class="font-semibold text-base mb-1">
       Synced FPS option will result in less optimization, but keep your compass in real time, however, it will also be more demanding on your machine.
     </p>
     <Checkbox

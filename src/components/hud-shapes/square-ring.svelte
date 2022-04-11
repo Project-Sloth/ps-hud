@@ -3,6 +3,7 @@
   import { cubicOut } from 'svelte/easing';
   import Fa from 'svelte-fa'
   
+  export let displayOutline: boolean = true;
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
@@ -45,16 +46,18 @@
       { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
   >
     <g>
-      <rect
-        opacity={outlineColorOpacity}
-        stroke={outlineColor}
-        width={width}
-        height={height}
-        stroke-width={ringSize}
-        stroke-dasharray={perimeter +' ' + perimeter}
-        shape-rendering="geometricPrecision"
-        stroke-dashoffset={0}
-      />
+      {#if displayOutline}
+        <rect
+          opacity={outlineColorOpacity}
+          stroke={outlineColor}
+          width={width}
+          height={height}
+          stroke-width={ringSize}
+          stroke-dasharray={perimeter +' ' + perimeter}
+          shape-rendering="geometricPrecision"
+          stroke-dashoffset={0}
+        />
+      {/if}
       <rect
         fill={innerColor}
         opacity={innerColorOpacity}

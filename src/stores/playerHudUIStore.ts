@@ -76,80 +76,57 @@ const store = () => {
   const { subscribe, set, update } = writable(playerHudUIState);
 
   const methods = {
-    updateAllHeight(height: number) {
+    updateAllIconsSettings(settingName: keyof optionalHudIconType, value: any) {
       update(state => {
         for (let icon in state.icons) {
-          state.icons[icon].height = height;
+          if (state.icons[icon][settingName] != null) {
+            state.icons[icon][settingName] = value;
+          } 
         }
         return state;
       })
     },
+    updateAllDisplayOutline(show: boolean) {
+      methods.updateAllIconsSettings("displayOutline", show);
+    },
+    updateAllHeight(height: number) {
+      methods.updateAllIconsSettings("height", height);
+    },
     updateAllIconScale(scale: number) {
-      update(state => {
-        for (let icon in state.icons) {
-          state.icons[icon].iconScaling = scale;
-        }
-        return state;
-      });
+      methods.updateAllIconsSettings("iconScaling", scale)
     },
     updateAllIconColor(color: string) {
+      methods.updateAllIconsSettings("iconColor", color);
       update(state => {
-        for (let icon in state.icons) {
-          state.icons[icon].iconColor = color;
-        }
         state.globalIconSettings.iconColor = color;
-        return state;
+        return state
       });
     },
     updateAllInnerColor(color: string) {
+      methods.updateAllIconsSettings("innerColor", color)
       update(state => {
-        for (let icon in state.icons) {
-          state.icons[icon].innerColor = color;
-        }
         state.globalIconSettings.innerColor = color;
-        return state;
+        return state
       });
     },
     updateAllProgressColor(color: string) {
+      methods.updateAllIconsSettings("progressColor", color)
       update(state => {
-        for (let icon in state.icons) {
-          state.icons[icon].progressColor = color;
-        }
         state.globalIconSettings.progressColor = color;
-        return state;
+        return state
       });
     },
     updateAllRingSize(ringSize: number) {
-      update(state => {
-        for (let icon in state.icons) {
-          state.icons[icon].ringSize = ringSize;
-        }
-        return state;
-      })
+      methods.updateAllIconsSettings("ringSize", ringSize)
     },
     updateAllRoundXAxis(xAxisCurve: number) {
-      update(state => {
-        for (let icon in state.icons) {
-          state.icons[icon].xAxisRound = xAxisCurve;
-        }
-        return state;
-      })
+      methods.updateAllIconsSettings("xAxisRound", xAxisCurve)
     },
     updateAllRoundYAxis(yAxisCurve: number) {
-      update(state => {
-        for (let icon in state.icons) {
-          state.icons[icon].yAxisRound = yAxisCurve;
-        }
-        return state;
-      })
+      methods.updateAllIconsSettings("yAxisRound", yAxisCurve)
     },
     updateAllRotateDegree(degree: number) {
-      update(state => {
-        for (let icon in state.icons) {
-          state.icons[icon].rotateDegree = degree;
-        }
-        return state;
-      })
+      methods.updateAllIconsSettings("rotateDegree", degree)
     },
     updateAllShapes(shape: shapekind) {
       update(state => {
@@ -174,44 +151,19 @@ const store = () => {
       })
     },
     updateAllTranslateIconX(x: number) {
-      update(state => {
-        for (let icon in state.icons) {
-          state.icons[icon].iconTranslateX = x;
-        }
-        return state;
-      })
+      methods.updateAllIconsSettings("iconTranslateX", x)
     },
     updateAllTranslateIconY(y: number) {
-      update(state => {
-        for (let icon in state.icons) {
-          state.icons[icon].iconTranslateY = y;
-        }
-        return state;
-      })
+      methods.updateAllIconsSettings("iconTranslateY", y)
     },
     updateAllTranslateX(x: number) {
-      update(state => {
-        for (let icon in state.icons) {
-          state.icons[icon].translateX = x;
-        }
-        return state;
-      })
+      methods.updateAllIconsSettings("translateX", x)
     },
     updateAllTranslateY(y: number) {
-      update(state => {
-        for (let icon in state.icons) {
-          state.icons[icon].translateY = y;
-        }
-        return state;
-      })
+      methods.updateAllIconsSettings("translateY", y)
     },
     updateAllWidth(width: number) {
-      update(state => {
-        for (let icon in state.icons) {
-          state.icons[icon].width = width;
-        }
-        return state;
-      })
+      methods.updateAllIconsSettings("width", width)
     },
     updateIconShape(iconName: iconNamesKind, shape: shapekind) {
       update(state => {
@@ -293,7 +245,7 @@ const store = () => {
         } 
   
         if (data.armor <= 0) {
-          state.icons.armor.progressColor = "#FF0000";
+          state.icons.armor.progressColor = "#ff0000";
         } else {
           state.icons.armor.progressColor = state.icons.armor.defaultColor;
         }
@@ -395,13 +347,15 @@ const store = () => {
         if (data.nitroActive) {
           state.icons.nos.progressColor = state.icons.nos.defaultColor;
         } else {
-          state.icons.nos.progressColor = "#FFFFFF";
+          state.icons.nos.progressColor = "#ffffff";
         }
   
-        if (data.talking && data.radio) {
-          state.icons.voice.progressColor = "#D64763";
-        } else if (data.talking) {
-          state.icons.voice.progressColor = '#FFFF3E';
+        if (data.talking) {
+          if (data.radio) {
+            state.icons.voice.progressColor = "#D64763";
+          } else {
+            state.icons.voice.progressColor = '#ffff3e';
+          }
         } else {
           state.icons.voice.progressColor = state.icons.voice.defaultColor;
         }

@@ -48,7 +48,7 @@
     { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
   >
   <defs>
-    <clipPath id="cut-out">
+    <clipPath id="cut-out-{name}">
       <rect
         stroke={progressColor}
         width={width}
@@ -76,7 +76,7 @@
       stroke-dasharray={height}
       stroke-dashoffset={strokeDashoffset}
       stroke-width={maximumAxis}
-      clip-path="url(#cut-out)"
+      clip-path="url(#cut-out-{name})"
     />
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
       translateY={iconTranslateY} style="color:{iconColor}"

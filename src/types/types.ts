@@ -54,6 +54,7 @@ export interface borderIconProps extends baseIconProps {
 }
 
 export interface ringIconProps extends baseIconProps {
+  displayOutline: boolean,
   iconRotateDegree: number,
   outlineColor: string,
   outlineColorOpacity: number,
@@ -89,8 +90,6 @@ export class baseIcon implements baseIconProps {
   translateY = 0;
   width = 50;
 
-  // { defaultColor: string; icon: IconDefinition; iconColor: string, isShowing: boolean, innerColor: string, progressColor: string }) {
-
   constructor(shape: shapekind,
     { defaultColor="", icon=null, iconColor="", isShowing=false, innerColor="orange", progressColor="orange", name="" }={}) {
 
@@ -124,6 +123,7 @@ export class baseIcon implements baseIconProps {
 }
 
 export class ringIcon extends baseIcon implements ringIconProps {
+  displayOutline = true;
   iconRotateDegree = 0;
   outlineColor = "";
   outlineColorOpacity = 0.4;
@@ -183,10 +183,10 @@ export class roundEndIcon extends baseIcon implements roundEndIconProps {
         break;
       case "pill-whole":
         this.height = 75;
-        this.width = 50;
+        this.width = 42;
         this.iconScaling = 0.55;
-        this.xAxisRound = 18;
-        this.yAxisRound = 18;
+        this.xAxisRound = 25;
+        this.yAxisRound = 25;
         break;
     }
   }
@@ -254,7 +254,3 @@ export function defaultHudIcon(name = "", showing=false, color="#ff783e", icon=n
 }
 
 export type shapePropsType =  Omit<optionalHudIconType, "shape" | "isShowing" | "name" | "defaultColor" >;
-
-export function defaultShapeProps(): shapePropsType {
-  return (({ shape, isShowing, name, ...o }) => o)(defaultHudIcon());
-}

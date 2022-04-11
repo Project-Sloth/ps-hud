@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { ColorPicker, dimensions, Color } from 'svelte-colorpick'
-	export let color;
+	import { ColorPicker, Color } from 'svelte-colorpick'
+	export let color = Color.hex('#ff783e');
   export let updateFunction: (colorHex) => void = null;
 
   $: {
     if (updateFunction) {
-      if (color.toHex) {
+      if (color.toHex && color.toHex() != "#ff783e") {
 				updateFunction(color.toHex());
       }
     }

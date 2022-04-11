@@ -37,7 +37,7 @@
 <div class="mx-[-7px]">
   <svg version="1.1" width={width} height={height} viewBox="0 0 16 16">
     <defs>
-      <clipPath id="cut-out">
+      <clipPath id="cut-out-{name}">
         <path d="M8.384 1.226a.463.463 0 0 0-.768 0l-4.56 6.468a.537.537 0 0 0 0 .612l4.56 6.469a.463.463 0 0 0 .768 0l4.56-6.469a.537.537 0 0 0 0-.612l-4.56-6.468z"
           fill="transparent"
         />
@@ -61,7 +61,7 @@
         stroke-dasharray={16}
         stroke-dashoffset={strokeDashoffset}
         stroke-width={width}
-        clip-path="url(#cut-out)"
+        clip-path="url(#cut-out-{name})"
       />
     </g>
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}

@@ -4,6 +4,7 @@
   import { onMount } from 'svelte';
   import Fa from 'svelte-fa';
 
+  export let displayOutline: boolean = true;
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
@@ -53,15 +54,17 @@
         { rotateDegree > 0 ? "rotate("+rotateDegree+" "+8+" "+8+")": ""}
         { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
     >
-      <path d="M8.384 1.226a.463.463 0 0 0-.768 0l-4.56 6.468a.537.537 0 0 0 0 .612l4.56 6.469a.463.463 0 0 0 .768 0l4.56-6.469a.537.537 0 0 0 0-.612l-4.56-6.468z"
-        fill={innerColor}
-        fill-opacity={innerColorOpacity}
-        stroke={outlineColor}
-        stroke-width={ringSize}
-        stroke-dasharray={pathLength +' ' + pathLength}
-        stroke-dashoffset={0}
-        opacity={outlineColorOpacity}
-      />
+      {#if displayOutline}
+        <path d="M8.384 1.226a.463.463 0 0 0-.768 0l-4.56 6.468a.537.537 0 0 0 0 .612l4.56 6.469a.463.463 0 0 0 .768 0l4.56-6.469a.537.537 0 0 0 0-.612l-4.56-6.468z"
+          fill={innerColor}
+          fill-opacity={innerColorOpacity}
+          stroke={outlineColor}
+          stroke-width={ringSize}
+          stroke-dasharray={pathLength +' ' + pathLength}
+          stroke-dashoffset={0}
+          opacity={outlineColorOpacity}
+        />
+      {/if}
       <svg viewBox="-1.5 4.5 19 7">
         <path d="M8.384 1.226a.463.463 0 0 0-.768 0l-4.56 6.468a.537.537 0 0 0 0 .612l4.56 6.469a.463.463 0 0 0 .768 0l4.56-6.469a.537.537 0 0 0 0-.612l-4.56-6.468z"
           stroke-width={ringSize-0.3}

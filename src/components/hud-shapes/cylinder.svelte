@@ -4,9 +4,8 @@
   import { onMount } from 'svelte';
   import Fa from 'svelte-fa';
   import type { shapePropsType } from "../../types/types"
-  import { defaultShapeProps } from "../../types/types"
 
-  export let props: shapePropsType = defaultShapeProps();
+  export let props: any = {};
 
   const progressTween = tweened(props.progressValue, {
 		duration: 600,

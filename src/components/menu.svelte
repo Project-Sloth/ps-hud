@@ -20,8 +20,8 @@
   } 
 </script>
 
-<section class="w-[60vw] h-[50vh] flex flex-col bg-[#171717] rounded-lg shadow-lg text-white" use:draggable={{ handle: menuHandle, bounds: 'body', gpuAcceleration: false }}>
-  <div class="drag-bar bg-dark-900 rounded-lg" bind:this={menuHandle}>
+<section class="w-[60vw] h-[50vh] flex flex-col bg-[#171717] rounded-2xl shadow-lg text-white" use:draggable={{ handle: menuHandle, bounds: 'body', gpuAcceleration: false }}>
+  <div class="drag-bar bg-dark-900 rounded-2xl" bind:this={menuHandle}>
     <svg role="img" aria-label="drag handle" viewBox="0 0 24 24" height=24 width=24 class="mx-auto">
       <path
         fill="white"

@@ -4,6 +4,7 @@
   import { onMount } from 'svelte';
   import Fa from 'svelte-fa'
 
+  export let displayOutline: boolean = true;
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
