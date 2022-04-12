@@ -45,42 +45,40 @@
   // filter= "drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4))"
 </script>
 
-<div class="">
-  <svg
-    width={radius}
-    height={radius}
-    viewBox = "0 0 {radius*2} {radius*2}"
+<svg
+  width={radius}
+  height={radius}
+  viewBox = "0 0 {radius*2} {radius*2}"
+>
+  <g 
+  transform="
+    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+width+" "+height+")": ""}
+    { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
   >
-    <g 
-    transform="
-      { rotateDegree > 0 ? "rotate("+rotateDegree+" "+width+" "+height+")": ""}
-      { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
-    >
-      <circle
-        opacity="{innerColorOpacity}"
-        stroke="{innerColor}"
-        fill="transparent"
-        stroke-dashoffset={0}
-        stroke-dasharray={circumference + ' ' + circumference}
-        stroke-width={normalizedRadius*2}
-        r={normalizedRadius}
-        cx={radius}
-        cy={radius}
-        transform="rotate(-90, {radius}, {radius})"
-      />
-      <circle
-        stroke="{progressColor}"
-        fill="transparent"
-        stroke-dashoffset={strokeDashoffset}
-        stroke-dasharray={circumference + ' ' + circumference}
-        stroke-width={normalizedRadius*2}
-        r={normalizedRadius}
-        cx={radius}
-        cy={radius}
-        transform="rotate(-90, {radius}, {radius})"
-      />
-    </g>
-    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-    translateY={iconTranslateY} style="color:{iconColor}"/>
-  </svg>
-</div>
+    <circle
+      opacity="{innerColorOpacity}"
+      stroke="{innerColor}"
+      fill="transparent"
+      stroke-dashoffset={0}
+      stroke-dasharray={circumference + ' ' + circumference}
+      stroke-width={normalizedRadius*2}
+      r={normalizedRadius}
+      cx={radius}
+      cy={radius}
+      transform="rotate(-90, {radius}, {radius})"
+    />
+    <circle
+      stroke="{progressColor}"
+      fill="transparent"
+      stroke-dashoffset={strokeDashoffset}
+      stroke-dasharray={circumference + ' ' + circumference}
+      stroke-width={normalizedRadius*2}
+      r={normalizedRadius}
+      cx={radius}
+      cy={radius}
+      transform="rotate(-90, {radius}, {radius})"
+    />
+  </g>
+  <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+  translateY={iconTranslateY} style="color:{iconColor}"/>
+</svg>

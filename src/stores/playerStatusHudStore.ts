@@ -6,7 +6,7 @@ import { faHeart, faShieldAlt, faHamburger, faTint, faBrain, faStream,
 import type { playerHudIcons, shapekind, layoutIconKind, iconNamesKind, optionalHudIconType } from '../types/types';
 import { defaultHudIcon, createShapeIcon } from '../types/types';
 
-type playerHudUIType = {
+type playerStatusType = {
   globalIconSettings: optionalHudIconType,
   icons: playerHudIcons,
   layout: layoutIconKind
@@ -48,15 +48,15 @@ type playerHudUpdateMessageType = {
 }
    
 const store = () => {
-  let debugShow: boolean = false;
-  let playerHudUIState: playerHudUIType = {
+  const debugShow: boolean = false;
+  const playerHudUIState: playerStatusType = {
     globalIconSettings: (({ isShowing, name, icon, progressValue, ...o }) => o)(defaultHudIcon()),
     icons: {
       voice: defaultHudIcon("voice", true || debugShow, "#FFFFFF", faMicrophone),
       health: defaultHudIcon("health", true ||debugShow, "rgb(33, 171, 97)", faHeart), //"#3FA554"
       armor: defaultHudIcon("armor", true || debugShow, "#326dbf", faShieldAlt),
       hunger: defaultHudIcon("hunger", true || debugShow, "#dd6e14", faHamburger),
-      thirst: defaultHudIcon("thirst", false || debugShow, "#1a7cad", faTint),
+      thirst: defaultHudIcon("thirst", true || debugShow, "#1a7cad", faTint),
       stress: defaultHudIcon("stress", false || debugShow, "rgb(220, 6, 6)", faBrain),
       oxygen: defaultHudIcon("oxygen", false || debugShow, "rgb(138, 168, 189)", faLungs),
       armed: defaultHudIcon("armed", false || debugShow, "rgb(255, 72, 133)", faStream),
@@ -216,7 +216,7 @@ const store = () => {
         // I dont think this gets used
         //state.cinematic = data.cinematic;
 
-        if (data.dynamicHealth == true) {
+        if (data.dynamicHealth) {
           if (data.health >= 100) {
             state.icons.health.isShowing = false; 
           }
@@ -227,14 +227,14 @@ const store = () => {
           state.icons.health.isShowing = true;
         }
 
-        if (data.playerDead == false) {
-          state.icons.health.progressColor = state.icons.health.defaultColor;
-        } else {
+        if (data.playerDead) {
           state.icons.health.progressColor = "#ff0000";
           state.icons.health.progressValue = 100;
+        } else {
+          state.icons.health.progressColor = state.icons.health.defaultColor;
         }
   
-        if (data.dynamicArmor == true) {
+        if (data.dynamicArmor) {
           if (data.armor == 0) {
             state.icons.armor.isShowing = false; 
           } else {
@@ -250,7 +250,7 @@ const store = () => {
           state.icons.armor.progressColor = state.icons.armor.defaultColor;
         }
   
-        if (data.dynamicHunger == true) {
+        if (data.dynamicHunger) {
           if (data.hunger >= 100) {
             state.icons.hunger.isShowing = false;
           } else {
@@ -266,7 +266,7 @@ const store = () => {
           state.icons.hunger.progressColor  = state.icons.hunger.defaultColor;
         }
   
-        if (data.dynamicThirst == true) {
+        if (data.dynamicThirst) {
           if (data.thirst >= 100) {
             state.icons.thirst.isShowing = false;
           } else{
@@ -282,7 +282,7 @@ const store = () => {
           state.icons.thirst.progressColor = state.icons.thirst.defaultColor;
         }
   
-        if (data.dynamicStress == true) {
+        if (data.dynamicStress) {
           if (data.stress == 0) {
             state.icons.stress.isShowing = false; 
           } else {
@@ -292,7 +292,7 @@ const store = () => {
           state.icons.stress.isShowing = true;
         } 
   
-        if (data.dynamicOxygen == true) {
+        if (data.dynamicOxygen) {
           if (data.oxygen >= 100) {
             state.icons.oxygen.isShowing = false;
           } else {
@@ -370,19 +370,19 @@ const store = () => {
           state.icons.voice.icon = faMicrophone;
         }
 
-        if (data.cruise == true) {
+        if (data.cruise) {
           state.icons.cruise.isShowing = true;
         } else {
           state.icons.cruise.isShowing = false;
         }
   
-        if (data.harness == true) {
+        if (data.harness) {
           state.icons.harness.isShowing = true;
         } else {
           state.icons.harness.isShowing = false;
         }
         
-        if (data.armed == true) {
+        if (data.armed) {
           state.icons.armed.isShowing = true;
         } else {
           state.icons.armed.isShowing = false;
@@ -394,7 +394,7 @@ const store = () => {
           state.icons.parachute.isShowing = false;
         }
   
-        if (data.dev == true ) {
+        if (data.dev) {
           state.icons.dev.isShowing = true;
         } else {
           state.icons.dev.isShowing = false;
@@ -413,4 +413,4 @@ const store = () => {
   }
 }
 
-export default store()
+export default store();

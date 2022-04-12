@@ -43,46 +43,44 @@
   $: strokeDashoffset = pathLength - $progressTween / 100 * pathLength;
 </script>
 
-<div>
-  <svg
-    width={width}
-    height={height}
-    viewBox="0 0 24 24"
-    transform="
-      scale(-1,1)
-      { rotateDegree > 0 ? "rotate("+rotateDegree+" "+12+" "+14.5+")": ""}
-      { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
-  >
+<svg
+  width={width}
+  height={height}
+  viewBox="0 0 24 24"
+  transform="
+    scale(-1,1)
+    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+12+" "+14.5+")": ""}
+    { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+>
+  <path d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
+    class="stroke-cap-round stroke-join-round"
+    stroke="{outlineColor}"
+    opacity="{outlineColorOpacity}"
+    fill="{innerColor}"
+    stroke-width={ringSize}
+    stroke-dasharray={pathLength +' ' + pathLength}
+    stroke-dashoffset={0}
+  />
+  <!-- <svg viewBox="2 {0.4-ringSize} 20 {24 + ringSize*1.5}">
     <path d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
-      class="stroke-cap-round stroke-join-round"
-      stroke="{outlineColor}"
-      opacity="{outlineColorOpacity}"
       fill="{innerColor}"
+      stroke="transparent"
       stroke-width={ringSize}
       stroke-dasharray={pathLength +' ' + pathLength}
       stroke-dashoffset={0}
     />
-    <!-- <svg viewBox="2 {0.4-ringSize} 20 {24 + ringSize*1.5}">
-      <path d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
-        fill="{innerColor}"
-        stroke="transparent"
-        stroke-width={ringSize}
-        stroke-dasharray={pathLength +' ' + pathLength}
-        stroke-dashoffset={0}
-      />
-    </svg> -->
-    <path bind:this={triangle}
-      d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
-      class="stroke-cap-round"
-      stroke="{progressColor}"
-      fill="transparent"
-      stroke-width={ringSize}
-      stroke-dasharray={pathLength +' ' + pathLength}
-      stroke-dashoffset={strokeDashoffset}
-      transform="rotate(-120, {12}, {14.5})"
-    />
-    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-    translateY={iconTranslateY } flip={"horizontal"} style="color:{iconColor}"/>
-    <!-- || 0.10 -->
-  </svg>
-</div>
+  </svg> -->
+  <path bind:this={triangle}
+    d="M21.87,19.29l-9-15.58a1,1,0,0,0-1.74,0l-9,15.58a1,1,0,0,0,0,1,1,1,0,0,0,.87.5H21a1,1,0,0,0,.87-.9"
+    class="stroke-cap-round"
+    stroke="{progressColor}"
+    fill="transparent"
+    stroke-width={ringSize}
+    stroke-dasharray={pathLength +' ' + pathLength}
+    stroke-dashoffset={strokeDashoffset}
+    transform="rotate(-120, {12}, {14.5})"
+  />
+  <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+  translateY={iconTranslateY } flip={"horizontal"} style="color:{iconColor}"/>
+  <!-- || 0.10 -->
+</svg>

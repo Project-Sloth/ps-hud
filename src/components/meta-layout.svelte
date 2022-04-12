@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { layoutIconKind } from '../types/types';
-  import PlayerHudUIStore from '../stores/playerHudUIStore';
+  import PlayerHudUIStore from '../stores/playerStatusHudStore';
   import IconsList from './icons-list.svelte';
   export let spaceBetween: number = 2;
   export let spaceBottom: number = 1;
@@ -47,15 +47,15 @@
           <IconsList />
     </div>
   {:else if layout == "left-bottom-column"}
-    <div class="absolute bottom-[0.3vw]">
+    <div class="absolute bottom-[0.3vw] left-[1vh]">
       <div
-        class="static flex flex-col ml-1" 
+        class="static flex flex-col" 
         style="gap: {spaceBetween+'px'};">
           <IconsList />
       </div>
     </div>
   {:else if layout == "right-bottom-column"}
-    <div class="absolute bottom-[0.3vw] right-[0.25rem]">
+    <div class="absolute bottom-[0.3vw] right-[1vh]">
       <div
         class="static flex flex-col" 
         style="gap: {spaceBetween+'px'};">

@@ -37,50 +37,48 @@
   $: strokeDashoffset = perimeter - $progressTween / 100 * perimeter;
 </script>
 
-<div class="">
-  <svg
-    width={width}
-    height={height}
-    transform="
-      { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
-      { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
-  >
-    <g>
-      {#if displayOutline}
-        <rect
-          opacity={outlineColorOpacity}
-          stroke={outlineColor}
-          width={width}
-          height={height}
-          stroke-width={ringSize}
-          stroke-dasharray={perimeter +' ' + perimeter}
-          shape-rendering="geometricPrecision"
-          stroke-dashoffset={0}
-        />
-      {/if}
+<svg
+  width={width}
+  height={height}
+  transform="
+    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
+    { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+>
+  <g>
+    {#if displayOutline}
       <rect
-        fill={innerColor}
-        opacity={innerColorOpacity}
-        transform="translate({ringSize/2-0.1} {ringSize/2-0.3})"
-        stroke="transparent"
-        shape-rendering="geometricPrecision"
-        width={width-ringSize+0.2}
-        height={height-ringSize+0.2}
-        stroke-width={ringSize}
-        stroke-dasharray={perimeter +' ' + perimeter}
-        stroke-dashoffset={0}
-      />
-      <rect
-        stroke={progressColor}
-        fill="transparent"
+        opacity={outlineColorOpacity}
+        stroke={outlineColor}
         width={width}
         height={height}
-        stroke-width={ringSize-0.1}
+        stroke-width={ringSize}
         stroke-dasharray={perimeter +' ' + perimeter}
-        stroke-dashoffset={strokeDashoffset}
+        shape-rendering="geometricPrecision"
+        stroke-dashoffset={0}
       />
-    </g>
-    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-      translateY={iconTranslateY} style="color:{iconColor || progressColor}"/>
-  </svg>
-</div>
+    {/if}
+    <rect
+      fill={innerColor}
+      opacity={innerColorOpacity}
+      transform="translate({ringSize/2-0.1} {ringSize/2-0.3})"
+      stroke="transparent"
+      shape-rendering="geometricPrecision"
+      width={width-ringSize+0.2}
+      height={height-ringSize+0.2}
+      stroke-width={ringSize}
+      stroke-dasharray={perimeter +' ' + perimeter}
+      stroke-dashoffset={0}
+    />
+    <rect
+      stroke={progressColor}
+      fill="transparent"
+      width={width}
+      height={height}
+      stroke-width={ringSize-0.1}
+      stroke-dasharray={perimeter +' ' + perimeter}
+      stroke-dashoffset={strokeDashoffset}
+    />
+  </g>
+  <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+    translateY={iconTranslateY} style="color:{iconColor || progressColor}"/>
+</svg>

@@ -39,47 +39,45 @@
 
 </script>
 
-<div class="">
-  <svg
-    height={height}
-    width={width}
-    transform="
-    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
-    { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
-  >
-  <defs>
-    <clipPath id="cut-out-{name}">
-      <rect
-        stroke={progressColor}
-        width={width}
-        height={height}
-        rx={xAxisRound}
-        ry={yAxisRound}
-      />
-    </clipPath>
-  </defs>
+<svg
+  height={height}
+  width={width}
+  transform="
+  { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
+  { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+>
+<defs>
+  <clipPath id="cut-out-{name}">
     <rect
+      stroke={progressColor}
       width={width}
       height={height}
-      stroke-width={height}
       rx={xAxisRound}
       ry={yAxisRound}
-      opacity={outlineColorOpacity}
-      fill="black"
     />
-    <line
-      x1="50%"
-      y1="100%"
-      x2="50%"
-      y2="0%"
-      stroke={progressColor} 
-      stroke-dasharray={height}
-      stroke-dashoffset={strokeDashoffset}
-      stroke-width={maximumAxis}
-      clip-path="url(#cut-out-{name})"
-    />
-    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-      translateY={iconTranslateY} style="color:{iconColor}"
-    />
-  </svg>
-</div>
+  </clipPath>
+</defs>
+  <rect
+    width={width}
+    height={height}
+    stroke-width={height}
+    rx={xAxisRound}
+    ry={yAxisRound}
+    opacity={outlineColorOpacity}
+    fill="black"
+  />
+  <line
+    x1="50%"
+    y1="100%"
+    x2="50%"
+    y2="0%"
+    stroke={progressColor} 
+    stroke-dasharray={height}
+    stroke-dashoffset={strokeDashoffset}
+    stroke-width={maximumAxis}
+    clip-path="url(#cut-out-{name})"
+  />
+  <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+    translateY={iconTranslateY} style="color:{iconColor}"
+  />
+</svg>

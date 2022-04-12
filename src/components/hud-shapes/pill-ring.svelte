@@ -53,28 +53,26 @@
 
 </script>
 
-<div class="">
-  <svg
-    height={height}
-    width={width}
-    transform="
-    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
-    { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
-  >
-    <rect
-      stroke={progressColor}
-      width={width-10}
-      height={height-10}
-      stroke-dasharray={pathLength + " " + pathLength}
-      stroke-dashoffset={strokeDashoffset}
-      stroke-width={ringSize}
-      rx={xAxisRound}
-      ry={yAxisRound}
-      x="5" y="5"
-      bind:this={square}
-    />
-    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-      translateY={iconTranslateY} style="color:{iconColor}"
-    />
-  </svg>
-</div>
+<svg
+  height={height}
+  width={width}
+  transform="
+  { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
+  { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+>
+  <rect
+    stroke={progressColor}
+    width={width-10}
+    height={height-10}
+    stroke-dasharray={pathLength + " " + pathLength}
+    stroke-dashoffset={strokeDashoffset}
+    stroke-width={ringSize}
+    rx={xAxisRound}
+    ry={yAxisRound}
+    x="5" y="5"
+    bind:this={square}
+  />
+  <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+    translateY={iconTranslateY} style="color:{iconColor}"
+  />
+</svg>

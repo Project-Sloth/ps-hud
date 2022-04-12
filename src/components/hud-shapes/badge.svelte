@@ -47,7 +47,7 @@
 
 </script>
 
-<div class="flex flex-col justify-center ml-2 px-1 pb-2 pt-4 rounded-lg"
+<div class="flex flex-col justify-center px-1 pb-2 pt-4 rounded-lg"
   style="background-color: {innerColor}; background-opacity: {innerColorOpacity};">
   <Fa class="mb-3" icon={icon} scale={iconScaling} translateX={iconTranslateX}
     translateY={iconTranslateY} style="color:{iconColor ? iconColor : progressColor}"

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import PlayerHudUIStore from '../stores/playerHudUIStore';
+  import PlayerHudUIStore from '../stores/playerStatusHudStore';
   import type { playerHudIcons, optionalPlayerHudIconsType, optionalHudIconType } from '../types/types';
   import { onDestroy } from 'svelte';
   import { fade } from 'svelte/transition';

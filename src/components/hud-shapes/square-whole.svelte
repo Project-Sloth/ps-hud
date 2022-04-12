@@ -32,48 +32,46 @@
 
 </script>
 
-<div>
-  <svg
-    height={height}
-    width={width}
-    overflow="visible"
-    transform="
-      { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
-      { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
-    >
-    <g>
-      <line
-        opacity="{innerColorOpacity}"
-        stroke="{innerColor}"
-        x1="50%"
-        y1="100%"
-        x2="50%"
-        y2="0%"
-        stroke-width={width}
-      />
-      <line
-        x1="50%"
-        y1="100%"
-        x2="50%"
-        y2="0%"
-        stroke={progressColor} 
-        fill="transparent" 
-        stroke-dasharray={height}
-        stroke-dashoffset={strokeDashoffset}
-        stroke-width={width}
-      />
-      <line
-        stroke={innerColor}
-        x1="50%"
-        y1={height-ringSize}
-        x2="50%"
-        y2={ringSize}
-        stroke-width={width - (ringSize*2)}
-      />
-    </g>
-    <g transform="rotate( {-rotateDegree} {height/2} {width/2})">
-      <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-      translateY={iconTranslateY} style="color:{iconColor};"/>
-    </g>
-  </svg>
-</div>
+<svg
+  height={height}
+  width={width}
+  overflow="visible"
+  transform="
+    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
+    { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+  >
+  <g>
+    <line
+      opacity="{innerColorOpacity}"
+      stroke="{innerColor}"
+      x1="50%"
+      y1="100%"
+      x2="50%"
+      y2="0%"
+      stroke-width={width}
+    />
+    <line
+      x1="50%"
+      y1="100%"
+      x2="50%"
+      y2="0%"
+      stroke={progressColor} 
+      fill="transparent" 
+      stroke-dasharray={height}
+      stroke-dashoffset={strokeDashoffset}
+      stroke-width={width}
+    />
+    <line
+      stroke={innerColor}
+      x1="50%"
+      y1={height-ringSize}
+      x2="50%"
+      y2={ringSize}
+      stroke-width={width - (ringSize*2)}
+    />
+  </g>
+  <g transform="rotate( {-rotateDegree} {height/2} {width/2})">
+    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+    translateY={iconTranslateY} style="color:{iconColor};"/>
+  </g>
+</svg>

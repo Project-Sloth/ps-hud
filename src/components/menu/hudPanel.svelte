@@ -7,10 +7,11 @@
 </script>
 
 <div class="text-sm flex flex-col text-[#e8e8e8]">
-  <div class="mt-3 flex flex-row text-2xl text-white">
-    <p>Reset HUD </p> <img class="ml-auto w-[25%]" alt={"qbcore-logo"} src={QBCoreLogo}/>
-  </div>
-  <div class="mx-4 mb-4">
+  <div class="mx-4 mb-5 mt-3">
+    <img class="float-right w-[25%]" alt={"qbcore-logo"} src={QBCoreLogo}/>
+    <div class="-mx-4 mb-4 text-2xl text-white">
+      <p>Reset HUD </p>
+    </div>
     <Button name="Reset Settings"/>
     <p class="text-base">If you want to reset your settings back to default; click this shiny button!</p>
     <p class="text-base">(you will have to relog for your menu to reset changes successfully)</p>
@@ -74,9 +75,11 @@
     <p>Vehicle</p>
   </div>
   <div class="mx-4 mb-4 flex flex-col">
+    <Switch text="Speedometer FPS Synced"/>
     <p class="font-semibold text-base">
       Synced FPS option will result in less optimization, but keep your speedometer in real time, however, it will also be more demanding on your machine.
     </p>
+    <Switch text="Minimap Square"/>
     <p class="font-semibold text-base">
       Whether it's square or circle you desire, you have the ability to choose!
     </p>

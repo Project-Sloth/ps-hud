@@ -20,8 +20,8 @@
   } 
 </script>
 
-<section class="w-[60vw] h-[50vh] flex flex-col bg-[#171717] rounded-2xl shadow-lg text-white" use:draggable={{ handle: menuHandle, bounds: 'body', gpuAcceleration: false }}>
-  <div class="drag-bar bg-dark-900 rounded-2xl" bind:this={menuHandle}>
+<section class="w-[60vw] h-[50vh] flex flex-col bg-[#171717] rounded-t-2xl shadow-lg text-white" use:draggable={{ handle: menuHandle, bounds: 'body', gpuAcceleration: false }}>
+  <div class="drag-bar bg-dark-900 rounded-t-2xl" bind:this={menuHandle}>
     <svg role="img" aria-label="drag handle" viewBox="0 0 24 24" height=24 width=24 class="mx-auto">
       <path
         fill="white"
@@ -32,7 +32,7 @@
   <div class="flex font-semibold" style="height: calc(100% - 24px);">
     <div class="flex flex-col w-1/6 bg-[#1e1e1e]">
       {#each tabArray as tab, i}
-        <div class="bg-[#171717] px-4 py-4 flex flex-row gap-3 cursor-pointer" on:click={() => handleTabClick(i)}>
+        <div class="bg-[#171717] px-4 py-4 flex flex-row gap-3 cursor-pointer select-none" on:click={() => handleTabClick(i)}>
           <Fa icon={tab.icon} translateY={0.27}/>
           <span>{tab.name}</span>
         </div>

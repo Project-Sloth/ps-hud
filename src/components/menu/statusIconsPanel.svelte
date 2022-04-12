@@ -1,7 +1,7 @@
 <script lang="ts">
   import ColorPicker from '../atoms/color-picker.svelte';
   import { shapes, iconNames } from '../../types/types'
-  import PlayerHudUIStore from '../../stores/playerHudUIStore'
+  import PlayerHudUIStore from '../../stores/playerStatusHudStore'
   import Select from '../atoms/select.svelte'
   import Switch from '../atoms/switch.svelte'
   import NumberInput from '../atoms/number-input.svelte';

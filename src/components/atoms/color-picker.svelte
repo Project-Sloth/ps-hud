@@ -48,7 +48,7 @@
 
     collapse={true}
 
-    handleWidth={165}
+    handleWidth={135}
     handleHeight={40}
 
     tabbed={settings.tabbed}

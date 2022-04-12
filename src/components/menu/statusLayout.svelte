@@ -1,6 +1,6 @@
 <script lang="ts">
   import { iconLayouts } from '../../types/types'
-  import PlayerHudUIStore from '../../stores/playerHudUIStore'
+  import PlayerHudUIStore from '../../stores/playerStatusHudStore'
   import Select from '../atoms/select.svelte'
 </script>
 
