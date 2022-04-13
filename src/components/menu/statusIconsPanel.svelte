@@ -12,9 +12,13 @@
 
 </script>
 
-<div class="text-sm flex flex-col text-[#e8e8e8]">
-  <div class="my-3 text-2xl text-white">
+<div class="text-sm flex flex-col text-[#e8e8e8] select-none">
+  <div class="my-3 text-2xl text-white flex flex-row">
     <p>Global Icons Settings</p>
+    <div class="ml-auto text-lg">
+      <p>Design Mode</p>
+      <Switch center bind:checked={$PlayerHudUIStore.designMode}/>
+    </div>
   </div>
 
   <div class="flex justify-center mb-8">

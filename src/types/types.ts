@@ -91,7 +91,7 @@ export class baseIcon implements baseIconProps {
   width = 50;
 
   constructor(shape: shapekind,
-    { defaultColor="", icon=null, iconColor="", isShowing=false, innerColor="orange", progressColor="orange", name="" }={}) {
+    { defaultColor="", icon=null, iconColor="", isShowing=false, innerColor="orange", name="", progressColor="orange", progressValue=100 }={}) {
 
     switch (shape) {
       case "circle-circle-fill":
@@ -117,8 +117,9 @@ export class baseIcon implements baseIconProps {
     this.iconColor = iconColor;
     this.isShowing = isShowing;
     this.innerColor = innerColor;
-    this.progressColor = progressColor;
     this.name = name;
+    this.progressColor = progressColor;
+    this.progressValue = progressValue;
   }
 }
 

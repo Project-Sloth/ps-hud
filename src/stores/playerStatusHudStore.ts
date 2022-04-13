@@ -7,6 +7,8 @@ import type { playerHudIcons, shapekind, layoutIconKind, iconNamesKind, optional
 import { defaultHudIcon, createShapeIcon } from '../types/types';
 
 type playerStatusType = {
+  designMode: boolean,
+  designProgress: number,
   globalIconSettings: optionalHudIconType,
   icons: playerHudIcons,
   layout: layoutIconKind
@@ -46,29 +48,30 @@ type playerHudUpdateMessageType = {
   cinematic: boolean,
   dev: boolean,
 }
-   
+  
 const store = () => {
-  const debugShow: boolean = false;
   const playerHudUIState: playerStatusType = {
+    designMode: false,
+    designProgress: 0,
     globalIconSettings: (({ isShowing, name, icon, progressValue, ...o }) => o)(defaultHudIcon()),
     icons: {
-      voice: defaultHudIcon("voice", true || debugShow, "#FFFFFF", faMicrophone),
-      health: defaultHudIcon("health", true ||debugShow, "rgb(33, 171, 97)", faHeart), //"#3FA554"
-      armor: defaultHudIcon("armor", true || debugShow, "#326dbf", faShieldAlt),
-      hunger: defaultHudIcon("hunger", true || debugShow, "#dd6e14", faHamburger),
-      thirst: defaultHudIcon("thirst", true || debugShow, "#1a7cad", faTint),
-      stress: defaultHudIcon("stress", false || debugShow, "rgb(220, 6, 6)", faBrain),
-      oxygen: defaultHudIcon("oxygen", false || debugShow, "rgb(138, 168, 189)", faLungs),
-      armed: defaultHudIcon("armed", false || debugShow, "rgb(255, 72, 133)", faStream),
-      parachute: defaultHudIcon("parachute", false || debugShow, "rgb(185, 255, 40)", faParachuteBox),
-      engine: defaultHudIcon("engine", false || debugShow, "#3FA554", faOilCan),
-      harness: defaultHudIcon("harness", false || debugShow, "rgb(182, 72, 255)", faUserSlash),
-      cruise: defaultHudIcon("cruise", false || debugShow, "rgb(255, 72, 133)", faTachometerAltFast),
-      nos: defaultHudIcon("nos", false || debugShow, "#D64763", faMeteor),
-      dev: defaultHudIcon("dev", false || debugShow, "rgb(0, 0, 0)", faTerminal),
+      voice: defaultHudIcon("voice", true, "#FFFFFF", faMicrophone),
+      health: defaultHudIcon("health", true, "rgb(33, 171, 97)", faHeart), //"#3FA554"
+      armor: defaultHudIcon("armor", true, "#326dbf", faShieldAlt),
+      hunger: defaultHudIcon("hunger", true, "#dd6e14", faHamburger),
+      thirst: defaultHudIcon("thirst", true, "#1a7cad", faTint),
+      stress: defaultHudIcon("stress", false, "rgb(220, 6, 6)", faBrain),
+      oxygen: defaultHudIcon("oxygen", false, "rgb(138, 168, 189)", faLungs),
+      armed: defaultHudIcon("armed", false, "rgb(255, 72, 133)", faStream),
+      parachute: defaultHudIcon("parachute", false, "rgb(185, 255, 40)", faParachuteBox),
+      engine: defaultHudIcon("engine", false, "#3FA554", faOilCan),
+      harness: defaultHudIcon("harness", false, "rgb(182, 72, 255)", faUserSlash),
+      cruise: defaultHudIcon("cruise", false, "rgb(255, 72, 133)", faTachometerAltFast),
+      nos: defaultHudIcon("nos", false, "#D64763", faMeteor),
+      dev: defaultHudIcon("dev", false, "rgb(0, 0, 0)", faTerminal),
     },
     layout: "standard",
-    show: true,
+    show: false,
     showingOrder: ["voice", "health", "armor", "hunger", "thirst", "stress", "oxygen", "armed",
       "parachute", "engine", "harness", "cruise", "nos", "dev"],
   }
@@ -134,19 +137,19 @@ const store = () => {
           let defaultShape = createShapeIcon(shape, 
             {
               defaultColor: state.icons[icon].defaultColor, icon: state.icons[icon].icon, iconColor: state.icons[icon].iconColor,
-              isShowing: state.icons[icon].isShowing, innerColor: state.icons[icon].innerColor, progressColor: state.icons[icon].progressColor,
-              name: state.icons[icon].name
+              isShowing: state.icons[icon].isShowing, innerColor: state.icons[icon].innerColor, name: state.icons[icon].name,
+              progressColor: state.icons[icon].progressColor, progressValue: state.icons[icon].progressValue,
             });
           state.icons[icon] = defaultShape;
           state.icons[icon].shape = shape;
         }
         state.globalIconSettings.shape = shape;
-        state.globalIconSettings = createShapeIcon(shape,
+        state.globalIconSettings = (({ isShowing, name, icon, progressValue, ...o }) => o)(createShapeIcon(shape,
           {
           defaultColor: state.globalIconSettings.defaultColor, icon: state.globalIconSettings.icon, iconColor: state.globalIconSettings.iconColor,
-          isShowing: state.globalIconSettings.isShowing, innerColor: state.globalIconSettings.innerColor, progressColor: state.globalIconSettings.progressColor,
-          name: state.globalIconSettings.name
-        });
+          isShowing: state.globalIconSettings.isShowing, innerColor: state.globalIconSettings.innerColor, name: state.globalIconSettings.name,
+          progressColor: state.globalIconSettings.progressColor
+        }));
         return state;
       })
     },
@@ -194,13 +197,17 @@ const store = () => {
     },
     receiveMessage(data: playerHudUpdateMessageType) {
       update(state => {
+        console.log("status icon data", data);
         state.show = data.show;
+        if (!data.show) {
+          return state;
+        }
         state.icons.health.progressValue = data.health;
         state.icons.armor.progressValue = data.armor;
         state.icons.thirst.progressValue = data.thirst;
         state.icons.hunger.progressValue = data.hunger;
         state.icons.stress.progressValue = data.stress;
-        state.icons.voice.progressValue = data.voice;
+        state.icons.voice.progressValue = data.voice * 16.6; // Should be 1.5, 3, 6 so * 16.6 to show progress
         state.icons.oxygen.progressValue = data.oxygen;
         state.icons.parachute.progressValue = data.parachute;
         state.icons.engine.progressValue = data.engine;

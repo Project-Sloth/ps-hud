@@ -33,7 +33,7 @@ type moneyShowAccountsMessage = {
 
 const store = () => {
 
-  const mooneyStatusState: moneyStatus = {
+  const moneyStatusState: moneyStatus = {
     cash: 0,
     bank: 0,
     amount: 0,
@@ -44,7 +44,7 @@ const store = () => {
     showUpdate: false,
   }
 
-  const { subscribe, set, update } = writable(mooneyStatusState);
+  const { subscribe, set, update } = writable(moneyStatusState);
 
   const methods = {
     finishShowingUpdate() {

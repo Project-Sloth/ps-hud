@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { layoutIconKind } from '../types/types';
   import PlayerHudUIStore from '../stores/playerStatusHudStore';
+  import DebugStore from '../stores/debugStore';
   import IconsList from './icons-list.svelte';
   export let spaceBetween: number = 2;
   export let spaceBottom: number = 1;
@@ -31,7 +32,7 @@
 
 </script> 
 
-{#if $PlayerHudUIStore.show || true}
+{#if $PlayerHudUIStore.show || DebugStore}
   {#if layout == "center-bottom-row"}
     <div class="absolute bottom-[0.3vw] w-100vw">
       <div

@@ -12,7 +12,7 @@ type compassStatus = {
 }
 
 type compassHudUpdateMessage = Omit<compassStatus, "heading" >;
-type headingHudUpdateMessage = { heading: number }
+type headingHudUpdateMessage = { value: number } // TODO change to heading
 
 const store = () => {
   const compassStatusState: compassStatus = {
@@ -44,7 +44,7 @@ const store = () => {
     },
     receiveHeadingMessage(data: headingHudUpdateMessage) {
       update(state => {
-        state.heading = data.heading;
+        state.heading = data.value;
         return state;
       });
     },
