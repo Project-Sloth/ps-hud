@@ -28,8 +28,9 @@
   export let yAxisRound: number = 18;
 
   let strokeDashoffset: number = 10;
-  let square: any = null;
+  let pillRing: any = null;
   let pathLength: number = 0;
+  let mounted: boolean = false;
 
   const progressTween = tweened(progressValue, {
 		duration: 600,
@@ -37,7 +38,11 @@
 	});
 
   onMount(() => {
-    pathLength = square.getTotalLength();
+    try {
+      pathLength = pillRing.getTotalLength();
+    }catch(err) {
+      console.log("Error: QB-Hud: Pill-Ring-Icon should not be mounting when hiding icons")
+    }
   });
 
   $: progressTween.set(progressValue);
@@ -45,7 +50,7 @@
   $: {
     // Need this pointless if statment to refresh pathLength as these settings are getting changed
     if (height && width && xAxisRound >= 0 && yAxisRound >= 0) {
-      pathLength = square?.getTotalLength()+5;
+      pathLength = pillRing?.getTotalLength()+5;
     }
   }
 
@@ -70,7 +75,7 @@
     rx={xAxisRound}
     ry={yAxisRound}
     x="5" y="5"
-    bind:this={square}
+    bind:this={pillRing}
   />
   <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
     translateY={iconTranslateY} style="color:{iconColor}"

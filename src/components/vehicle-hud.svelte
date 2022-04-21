@@ -1,39 +1,47 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
-  import VehicleHudStore from '../stores/vehicleHudStore'
+  import VehicleHudStore from '../stores/vehicleHudStore';
+  import PartialCircleRing from './hud-shapes/partial-circle-ring.svelte';
+  import { faGasPump, faUserSlash } from '@fortawesome/free-solid-svg-icons';
+  import Fa from 'svelte-fa';
 
   // TODO see if most of these components can be under the same responsive class div, need to test once this is working
 </script>
 
 {#if $VehicleHudStore.show}
   <div class="responsive" id="speedometer">
-      <!-- <q-circular-progress class="q-ml-xl" style="transform: rotate(-150deg); opacity: 60%;" :value="speedometer" size="70px" :thickness="0.21" color="gauge" :min="0" :max="100"></q-circular-progress>
-      <q-circular-progress class="q-ml-xl" style="transform: rotate(-150deg); left: -50%;" show-value :value="speed" size="70px" :thickness="0.21" color="gauge" :min="0" :max="600"> -->
-      <span class="speed">{$VehicleHudStore.speed}</span>
+      <PartialCircleRing maxLengthDisplay={66} rotateDegree={212} ringSize={5.5} progressColor={"white"}
+        outlineColor={"white"} outlineColorOpacity={0.6} height={60} width={60} progressValue={$VehicleHudStore.speed}
+        text={"MPH"} displayNumber={$VehicleHudStore.speed} maxProgressValue={200}
+      />
   </div>
   <div class="responsive" id="fuelgauge">
-      <!-- <q-circular-progress class="q-ml-xl" style="transform: rotate(-125deg); opacity: 60%;" :value="fuelgauge" size="36px" :thickness="0.21" color="gauge" :min="0" :max="100"></q-circular-progress>
-      <q-circular-progress class="q-ml-xl" style="transform: rotate(-125deg); left: -50%;" show-value :value="fuel" size="36px" :thickness="0.21" :style="{color: fuelColor}"> -->
+    <PartialCircleRing maxLengthDisplay={69} rotateDegree={235} ringSize={4} progressColor={$VehicleHudStore.fuelColor}
+      outlineColor={$VehicleHudStore.fuelColor} outlineColorOpacity={0.6} height={36} width={36} progressValue={$VehicleHudStore.fuel}
+      icon={faGasPump} iconColor={"white"}
+    />
       <!-- <q-icon name="fas fa-gas-pump" style="transform: rotate(125deg);" size="14px" color="white"/> -->
   </div>
   
   {#if $VehicleHudStore.showAltitude}
-    <div class="responsive" id="altitudegauge" v-if="showAltitude">
-        <!-- <q-circular-progress class="q-ml-xl" style="transform: rotate(-135deg); opacity: 60%;" :value="altitudegauge" size="70px" :thickness="0.21" color="gauge" :min="0" :max="100"></q-circular-progress>
-        <q-circular-progress class="q-ml-xl" style="transform: rotate(-135deg); left: -50%;" show-value :value="altitude" size="70px" :thickness="0.21" color="gauge" :min="0" :max="750"> -->
-        <span class="altitude">{$VehicleHudStore.altitude}</span>
+    <div class="responsive" id="altitudegauge">
+      <PartialCircleRing maxLengthDisplay={75} rotateDegree={225} ringSize={5.5} progressColor={"white"}
+        outlineColor={"white"} outlineColorOpacity={0.6} height={60} width={60} progressValue={$VehicleHudStore.altitude}
+        text={"ALT"} displayNumber={$VehicleHudStore.altitude} maxProgressValue={750}
+      />
     </div>
   {/if}
 
-  <div transition:fade|local="{{duration: 1000}}">
-    {#if $VehicleHudStore.showSeatBelt}
+  {#if $VehicleHudStore.showSeatBelt}
       <div class="responsive" id="seatbelt">
-          <!-- <q-circular-progress class="q-ml-xl" style="transform: rotate(-125deg); opacity: 60%;" size="70px" :thickness="0.21" color="gauge" :min="0" :max="100"></q-circular-progress>
+        <div transition:fade|local="{{duration: 1000}}">
+        <Fa icon={faUserSlash} scale={1} style="color:{$VehicleHudStore.seatbeltColor}"/>
+          <!-- <q-circular-progress class="q-ml-xl" style="transform: rotate(-125deg); opacity: 60%;" size="70px" :thickness="0.21" color="gauge" :min="0" :max="100">
           <q-circular-progress class="q-ml-xl" style="transform: rotate(-125deg); left: -40%;" show-value size="70px" :thickness="0.21" color="gauge" :min="0" :max="750">
           <q-icon name="fas fa-user-slash" style="transform: rotate(125deg);" :value="seatbelt" size="21px" :style="{color: seatbeltColor}"/> -->
       </div>
-    {/if}
-  </div>
+    </div>
+  {/if}
 {/if}
 
 <style>
@@ -63,18 +71,6 @@
     position: relative;
     left: 8.5vh!important;
   }
-  .speed {
-    font-size: 2vh!important;
-  }
-  .speed:after {
-    font-size: 0.9vh!important;
-  }
-  .altitude {
-    font-size: 2vh!important;
-  }
-  .altitude:after {
-    font-size: 0.9vh!important;
-  }
 }
 
 @media (width: 3840px) and (height: 2160px) {
@@ -99,18 +95,6 @@
   #seatbelt {
     position: relative;
     left: 6.5vh!important;
-  }
-  .speed {
-    font-size: 1.2vh!important;
-  }
-  .speed:after {
-    font-size: 0.6vh!important;
-  }
-  .altitude {
-    font-size: 1.2vh!important;
-  }
-  .altitude:after {
-    font-size: 0.6vh!important;
   }
 }
 
@@ -137,18 +121,6 @@
     position: relative;
     left: 8.8vh!important;
   }
-  .speed {
-    font-size: 1.4vh!important;
-  }
-  .speed:after {
-    font-size: 0.7vh!important;
-  }
-  .altitude {
-    font-size: 1.4vh!important;
-  }
-  .altitude:after {
-    font-size: 0.7vh!important;
-  }
 }
 
 @media (width: 2560px) and (height: 1440px) {
@@ -159,40 +131,28 @@
   }
   #speedometer {
     position: relative;
-    left: 2.5vh!important;
+    left: 0vw!important;
   }
   #fuelgauge {
     position: relative;
-    left: 6.3vh!important;
-    bottom: 6.5vh!important;
+    left: 2.0vw!important;
+    bottom: 6.0vh!important;
   }
   #altitudegauge {
     position: relative;
-    left: 11vh!important;
+    left: 4vw!important;
   }
   #seatbelt {
     position: relative;
     left: 8.8vh!important;
   }
-  .speed {
-    font-size: 1.4vh!important;
-  }
-  .speed:after {
-    font-size: 0.7vh!important;
-  }
-  .altitude {
-    font-size: 1.4vh!important;
-  }
-  .altitude:after {
-    font-size: 0.7vh!important;
-  }
 }
 
 @media (width: 1920px) and (height: 1440px) {
   .responsive {
-    margin-left: 32vh!important;
+    margin-left: 22.4vw!important;
     transform: scale(1.2, 1.2);
-    bottom: 7.4vh!important;
+    bottom: 6.8vh!important;
   }
   #speedometer {
     position: relative;
@@ -200,34 +160,22 @@
   }
   #fuelgauge {
     position: relative;
-    left: 6.3vh!important;
-    bottom: 6.9vh!important;
+    left: 4.6vw!important;
+    bottom: 5.9vh!important;
   }
   #altitudegauge {
     position: relative;
-    left: 10vh!important;
+    left: 7.2vw!important;
   }
   #seatbelt {
     position: relative;
     left: 8vh!important;
   }
-  .speed {
-    font-size: 1.6vh!important;
-  }
-  .speed:after {
-    font-size: 0.7vh!important;
-  }
-  .altitude {
-    font-size: 1.6vh!important;
-  }
-  .altitude:after {
-    font-size: 0.7vh!important;
-  }
 }
 
 @media (width: 1920px) and (height: 1200px) {
   .responsive {
-    margin-left: 31.5vh!important;
+    margin-left: 18.5vw!important;
     transform: scale(1, 1);
     bottom: 6.4vh!important;
   }
@@ -237,36 +185,24 @@
   }
   #fuelgauge {
     position: relative;
-    left: 6.6vh!important;
-    bottom: 6.05vh!important;
+    left: 3.9vw!important;
+    bottom: 5.65vh!important;
   }
   #altitudegauge {
     position: relative;
-    left: 10vh!important;
+    left: 5.8vw!important;
   }
   #seatbelt {
     position: relative;
     left: 8vh!important;
   }
-  .speed {
-    font-size: 1.8vh!important;
-  }
-  .speed:after {
-    font-size: 0.8vh!important;
-  }
-  .altitude {
-    font-size: 1.8vh!important;
-  }
-  .altitude:after {
-    font-size: 0.8vh!important;
-  }
 }
 
 @media (width: 1920px) and (height: 1080px) {
   .responsive {
-    margin-left: 32vh!important;
+    margin-left: 17vw!important;
     transform: scale(1, 1);
-    bottom: 6.9vh!important;
+    bottom: 5.8vh!important;
   }
   #speedometer {
     position: relative;
@@ -274,28 +210,16 @@
   }
   #fuelgauge {
     position: relative;
-    left: 7.2vh!important;
-    bottom: 6.6vh!important;
+    left: 3.9vw!important;
+    bottom: 5.1vh!important;
   }
   #altitudegauge {
     position: relative;
-    left: 11vh!important;
+    left: 5.9vw!important;
   }
   #seatbelt {
     position: relative;
     left: 8.5vh!important;
-  }
-  .speed {
-    font-size: 2vh!important;
-  }
-  .speed:after {
-    font-size: 1.2vh!important;
-  }
-  .altitude {
-    font-size: 2vh!important;
-  }
-  .altitude:after {
-    font-size: 0.9vh!important;
   }
 }
 
@@ -303,7 +227,7 @@
   .responsive {
     margin-left: 30vh!important;
     transform: scale(0.65, 0.65);
-    bottom: 4.7vh!important;
+    bottom: 5.8vh!important;
   }
   #speedometer {
     position: relative;
@@ -311,28 +235,16 @@
   }
   #fuelgauge {
     position: relative;
-    left: 8.6vh!important;
-    bottom: 5.2vh!important;
+    left: 4.8vw!important;
+    bottom: 4.7vh!important;
   }
   #altitudegauge {
     position: relative;
-    left: 11vh!important;
+    left: 7.5vw!important;
   }
   #seatbelt {
     position: relative;
     left: 8.5vh!important;
-  }
-  .speed {
-    font-size: 3vh!important;
-  }
-  .speed:after {
-    font-size: 1.4vh!important;
-  }
-  .altitude {
-    font-size: 3vh!important;
-  }
-  .altitude:after {
-    font-size: 1.4vh!important;
   }
 }
 </style>

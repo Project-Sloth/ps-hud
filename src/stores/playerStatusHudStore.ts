@@ -5,6 +5,10 @@ import { faHeart, faShieldAlt, faHamburger, faTint, faBrain, faStream,
 } from '@fortawesome/free-solid-svg-icons'
 import type { playerHudIcons, shapekind, layoutIconKind, iconNamesKind, optionalHudIconType } from '../types/types';
 import { defaultHudIcon, createShapeIcon } from '../types/types';
+import ColorEffectStore from './colorEffectStore';
+import MenuStore from './menuStore';
+
+type saveUIType = "ready" | "updating";
 
 type playerStatusType = {
   designMode: boolean,
@@ -12,8 +16,13 @@ type playerStatusType = {
   globalIconSettings: optionalHudIconType,
   icons: playerHudIcons,
   layout: layoutIconKind
+  saveUIState: saveUIType,
   show: boolean,
   showingOrder: Array<keyof playerHudIcons>
+}
+
+type playerHudShowMessageType = {
+  show: boolean,
 }
 
 type playerHudUpdateMessageType = {
@@ -55,11 +64,11 @@ const store = () => {
     designProgress: 0,
     globalIconSettings: (({ isShowing, name, icon, progressValue, ...o }) => o)(defaultHudIcon()),
     icons: {
-      voice: defaultHudIcon("voice", true, "#FFFFFF", faMicrophone),
-      health: defaultHudIcon("health", true, "rgb(33, 171, 97)", faHeart), //"#3FA554"
-      armor: defaultHudIcon("armor", true, "#326dbf", faShieldAlt),
-      hunger: defaultHudIcon("hunger", true, "#dd6e14", faHamburger),
-      thirst: defaultHudIcon("thirst", true, "#1a7cad", faTint),
+      voice: defaultHudIcon("voice", false, "#FFFFFF", faMicrophone),
+      health: defaultHudIcon("health", false, "rgb(33, 171, 97)", faHeart), //"#3FA554"
+      armor: defaultHudIcon("armor", false, "#326dbf", faShieldAlt),
+      hunger: defaultHudIcon("hunger", false, "#dd6e14", faHamburger),
+      thirst: defaultHudIcon("thirst", false, "#1a7cad", faTint),
       stress: defaultHudIcon("stress", false, "rgb(220, 6, 6)", faBrain),
       oxygen: defaultHudIcon("oxygen", false, "rgb(138, 168, 189)", faLungs),
       armed: defaultHudIcon("armed", false, "rgb(255, 72, 133)", faStream),
@@ -67,16 +76,41 @@ const store = () => {
       engine: defaultHudIcon("engine", false, "#3FA554", faOilCan),
       harness: defaultHudIcon("harness", false, "rgb(182, 72, 255)", faUserSlash),
       cruise: defaultHudIcon("cruise", false, "rgb(255, 72, 133)", faTachometerAltFast),
-      nos: defaultHudIcon("nos", false, "#D64763", faMeteor),
+      nitro: defaultHudIcon("nitro", false, "#D64763", faMeteor),
       dev: defaultHudIcon("dev", false, "rgb(0, 0, 0)", faTerminal),
     },
     layout: "standard",
+    saveUIState: "ready",
     show: false,
     showingOrder: ["voice", "health", "armor", "hunger", "thirst", "stress", "oxygen", "armed",
-      "parachute", "engine", "harness", "cruise", "nos", "dev"],
+      "parachute", "engine", "harness", "cruise", "nitro", "dev"],
   }
+  // This is needed for this global color to not override all icons colors on startup (see color-picker for more info)
+  playerHudUIState.globalIconSettings.progressColor = "#ff783e";
+  playerHudUIState.icons.voice.progressValue = 50;
+  playerHudUIState.icons.health.progressValue = 50;
+  playerHudUIState.icons.hunger.progressValue = 50;
+  playerHudUIState.icons.thirst.progressValue = 50;
   
   const { subscribe, set, update } = writable(playerHudUIState);
+
+  let staticArmor: boolean, staticEngine: boolean, staticHealth: boolean, staticHunger: boolean,
+      staticNitro: boolean, staticOxygen: boolean, staticStress: boolean, staticThirst: boolean = false;
+
+  // Setting up menuStore subscribe method to update whether to show icons
+  // Need setTimeout to resolve import initialization
+  setTimeout(() => {
+    MenuStore.subscribe((val => {
+      staticArmor  = val.isStaticArmorChecked;
+      staticEngine = val.isStaticEngineChecked;
+      staticHealth = val.isStaticHealthChecked;
+      staticHunger = val.isStaticHungerChecked;
+      staticNitro  = val.isStaticNitroChecked;
+      staticOxygen = val.isStaticOxygenChecked;
+      staticStress = val.isStaticStressChecked;
+      staticThirst = val.isStaticThirstChecked;
+    }))
+  }, 0);
 
   const methods = {
     updateAllIconsSettings(settingName: keyof optionalHudIconType, value: any) {
@@ -84,7 +118,7 @@ const store = () => {
         for (let icon in state.icons) {
           if (state.icons[icon][settingName] != null) {
             state.icons[icon][settingName] = value;
-          } 
+          }
         }
         return state;
       })
@@ -113,7 +147,7 @@ const store = () => {
       });
     },
     updateAllProgressColor(color: string) {
-      methods.updateAllIconsSettings("progressColor", color)
+      ColorEffectStore.updateAllColorEffectDefaultColor(color);
       update(state => {
         state.globalIconSettings.progressColor = color;
         return state
@@ -136,20 +170,22 @@ const store = () => {
         for (let icon in state.icons) {
           let defaultShape = createShapeIcon(shape, 
             {
-              defaultColor: state.icons[icon].defaultColor, icon: state.icons[icon].icon, iconColor: state.icons[icon].iconColor,
+              icon: state.icons[icon].icon, iconColor: state.icons[icon].iconColor,
               isShowing: state.icons[icon].isShowing, innerColor: state.icons[icon].innerColor, name: state.icons[icon].name,
-              progressColor: state.icons[icon].progressColor, progressValue: state.icons[icon].progressValue,
+              progressValue: state.icons[icon].progressValue,
             });
           state.icons[icon] = defaultShape;
-          state.icons[icon].shape = shape;
         }
-        state.globalIconSettings.shape = shape;
+
+        // Needs to stay the same to prevent a color change from color-picker to be applied to all status icon colors
+        // when we just only want to just change the shape and its values but keep the color the same for all icons
+        const tempColor = state.globalIconSettings.progressColor;
         state.globalIconSettings = (({ isShowing, name, icon, progressValue, ...o }) => o)(createShapeIcon(shape,
           {
-          defaultColor: state.globalIconSettings.defaultColor, icon: state.globalIconSettings.icon, iconColor: state.globalIconSettings.iconColor,
+          icon: state.globalIconSettings.icon, iconColor: state.globalIconSettings.iconColor,
           isShowing: state.globalIconSettings.isShowing, innerColor: state.globalIconSettings.innerColor, name: state.globalIconSettings.name,
-          progressColor: state.globalIconSettings.progressColor
         }));
+        state.globalIconSettings.progressColor = tempColor;
         return state;
       })
     },
@@ -172,12 +208,11 @@ const store = () => {
       update(state => {
          let defaultShape = createShapeIcon(shape, 
           {
-            defaultColor: state.icons[iconName].defaultColor, icon: state.icons[iconName].icon, iconColor: state.icons[iconName].iconColor,
-            isShowing: state.icons[iconName].isShowing, innerColor: state.icons[iconName].innerColor, progressColor: state.icons[iconName].progressColor,
-            name: state.icons[iconName].name
+            icon: state.icons[iconName].icon, iconColor: state.icons[iconName].iconColor,
+            isShowing: state.icons[iconName].isShowing, innerColor: state.icons[iconName].innerColor,
+            name: state.icons[iconName].name, progressValue: state.icons[iconName].progressValue
           });
         state.icons[iconName] = defaultShape;
-        state.icons[iconName].shape = shape;
         return state;
       })
     },
@@ -195,13 +230,16 @@ const store = () => {
         return state;
       })
     },
-    receiveMessage(data: playerHudUpdateMessageType) {
+    receiveShowMessage(data: playerHudShowMessageType) {
+      update(state => {
+        state.show = data.show;
+        return state;
+      });
+    },
+    receiveStatusUpdateMessage(data: playerHudUpdateMessageType) {
       update(state => {
         console.log("status icon data", data);
         state.show = data.show;
-        if (!data.show) {
-          return state;
-        }
         state.icons.health.progressValue = data.health;
         state.icons.armor.progressValue = data.armor;
         state.icons.thirst.progressValue = data.thirst;
@@ -213,7 +251,7 @@ const store = () => {
         state.icons.engine.progressValue = data.engine;
         state.icons.harness.progressValue = data.hp*5; // I am guessing harness hp max is 20?
         state.icons.cruise.progressValue = data.speed;
-        state.icons.nos.progressValue = data.nos;
+        state.icons.nitro.progressValue = data.nos || 0; // This needs to be a number so default to 0
         // I dont think this gets used
         // state.cruise = data.cruise;
         // Only data uses this, we just change nitro color
@@ -223,95 +261,113 @@ const store = () => {
         // I dont think this gets used
         //state.cinematic = data.cinematic;
 
-        if (data.dynamicHealth) {
+        if (staticHealth) {
+          state.icons.health.isShowing = true;
+        } else {
           if (data.health >= 100) {
             state.icons.health.isShowing = false; 
           }
           else {
             state.icons.health.isShowing = true;
           }
-        } else {
-          state.icons.health.isShowing = true;
         }
 
         if (data.playerDead) {
-          state.icons.health.progressColor = "#ff0000";
+          //state.icons.health.progressColor = "#ff0000";
+          ColorEffectStore.updateIconColorEffectStage("health", 1);
           state.icons.health.progressValue = 100;
         } else {
-          state.icons.health.progressColor = state.icons.health.defaultColor;
+          //state.icons.health.progressColor = state.icons.health.defaultColor;
+          ColorEffectStore.updateIconColorEffectStage("health", 0);
         }
   
-        if (data.dynamicArmor) {
+        if (staticArmor) {
+          state.icons.armor.isShowing = true;
+        } else {
           if (data.armor == 0) {
             state.icons.armor.isShowing = false; 
           } else {
             state.icons.armor.isShowing = true;
           }
-        } else {
-          state.icons.armor.isShowing = true;
         } 
   
         if (data.armor <= 0) {
-          state.icons.armor.progressColor = "#ff0000";
+          //state.icons.armor.progressColor = "#ff0000";
+          ColorEffectStore.updateIconColorEffectStage("armor", 1);
         } else {
-          state.icons.armor.progressColor = state.icons.armor.defaultColor;
+          //state.icons.armor.progressColor = state.icons.armor.defaultColor;
+          ColorEffectStore.updateIconColorEffectStage("armor", 0);
         }
   
-        if (data.dynamicHunger) {
+        if (staticHunger) {
+          state.icons.hunger.isShowing = true;
+        } else {
           if (data.hunger >= 100) {
             state.icons.hunger.isShowing = false;
           } else {
             state.icons.hunger.isShowing = true;
           }
-        } else {
-          state.icons.hunger.isShowing = true;
         } 
 
         if (data.hunger <= 30){
-          state.icons.hunger.progressColor  = "#ff0000";
+          //state.icons.hunger.progressColor = "#ff0000";
+          ColorEffectStore.updateIconColorEffectStage("hunger", 1);
         } else {
-          state.icons.hunger.progressColor  = state.icons.hunger.defaultColor;
+          //state.icons.hunger.progressColor = state.icons.hunger.defaultColor;
+          ColorEffectStore.updateIconColorEffectStage("hunger", 0);
         }
   
-        if (data.dynamicThirst) {
+        if (staticThirst) {
+          state.icons.thirst.isShowing = true;
+        } else {
           if (data.thirst >= 100) {
             state.icons.thirst.isShowing = false;
           } else{
             state.icons.thirst.isShowing = true;
           }
-        } else {
-          state.icons.thirst.isShowing = true;
         }
 
         if (data.thirst <= 30) {
-          state.icons.thirst.progressColor = "#ff0000";
+          //state.icons.thirst.progressColor = "#ff0000";
+          ColorEffectStore.updateIconColorEffectStage("thirst", 1);
         } else {
-          state.icons.thirst.progressColor = state.icons.thirst.defaultColor;
+          //state.icons.thirst.progressColor = state.icons.thirst.defaultColor;
+          ColorEffectStore.updateIconColorEffectStage("thirst", 0);
         }
   
-        if (data.dynamicStress) {
+        if (staticStress) {
+          state.icons.stress.isShowing = true;
+        } else {
           if (data.stress == 0) {
             state.icons.stress.isShowing = false; 
           } else {
             state.icons.stress.isShowing = true;
           }
-        } else {
-          state.icons.stress.isShowing = true;
-        } 
+        }
+
+        console.log("showing stress?", state.icons.stress.isShowing)
   
-        if (data.dynamicOxygen) {
+        if (staticOxygen) {
+          state.icons.oxygen.isShowing = true;
+        } else {
           if (data.oxygen >= 100) {
             state.icons.oxygen.isShowing = false;
           } else {
             state.icons.oxygen.isShowing = true;
           }
-        } else {
-          state.icons.oxygen.isShowing = true;
-        } 
+        }
+
+        console.log("Showing oxygen?", state.icons.oxygen.isShowing)
   
         // When in a car only show when less that 95% condition
         // Engine will be below 0 when not in a car so hide icon
-        if (data.dynamicEngine == true) {
+        if (staticEngine) {
+          if (data.engine < 0) {
+            state.icons.engine.isShowing = false;
+          } else {
+            state.icons.engine.isShowing = true;
+          }
+        } else {
           if (data.engine >= 95) {
             state.icons.engine.isShowing = false; 
           } else if (data.engine < 0){
@@ -319,52 +375,56 @@ const store = () => {
           } else {
             state.icons.engine.isShowing = true;
           }
-        } else {
-          if (data.engine < 0) {
-            state.icons.engine.isShowing = false;
-          } else {
-            state.icons.engine.isShowing = true;
-          }
-        } 
+        }
+
+        console.log("Showing engine?", state.icons.engine.isShowing)
 
         if (data.engine <= 45) {
-          state.icons.engine.progressColor = "#ff0000";
+          //state.icons.engine.progressColor = "#ff0000";
+          ColorEffectStore.updateIconColorEffectStage("engine", 2);
         } else if (data.engine <= 75 && data.engine >= 46 ) {
-          state.icons.engine.progressColor = "#dd6e14";
+          //state.icons.engine.progressColor = "#dd6e14";
+          ColorEffectStore.updateIconColorEffectStage("engine", 1);
         } else if(data.engine <= 100) {
-          state.icons.engine.progressColor = state.icons.engine.defaultColor;
+          //state.icons.engine.progressColor = state.icons.engine.defaultColor;
+          ColorEffectStore.updateIconColorEffectStage("engine", 0);
         } 
   
-        if (data.dynamicNitro == true) {
+        if (staticNitro) {
+          if (data.nos <= 0) {
+            state.icons.nitro.isShowing = false;
+          } else {
+            state.icons.nitro.isShowing = true;
+          }
+        } else {
           // Dont know why this would be undefined?
           // I guess if we are not in a car?
           if (data.nos <= 0 || data.nos == undefined) {
-            state.icons.nos.isShowing = false;
+            state.icons.nitro.isShowing = false;
           } else {
-            state.icons.nos.isShowing = true;
-          }  
-        } else {
-          if (data.nos <= 0) {
-            state.icons.nos.isShowing = false;
-          } else {
-            state.icons.nos.isShowing = true;
+            state.icons.nitro.isShowing = true;
           }
         }
 
         if (data.nitroActive) {
-          state.icons.nos.progressColor = state.icons.nos.defaultColor;
+          //state.icons.nos.progressColor = state.icons.nos.defaultColor;
+          ColorEffectStore.updateIconColorEffectStage("nitro", 1);
         } else {
-          state.icons.nos.progressColor = "#ffffff";
+          //state.icons.nos.progressColor = "#ffffff";
+          ColorEffectStore.updateIconColorEffectStage("nitro", 0);
         }
   
         if (data.talking) {
           if (data.radio) {
-            state.icons.voice.progressColor = "#D64763";
+            //state.icons.voice.progressColor = "#D64763";
+            ColorEffectStore.updateIconColorEffectStage("voice", 2);
           } else {
-            state.icons.voice.progressColor = '#ffff3e';
+            //state.icons.voice.progressColor = '#ffff3e';
+            ColorEffectStore.updateIconColorEffectStage("voice", 1);
           }
         } else {
-          state.icons.voice.progressColor = state.icons.voice.defaultColor;
+          //state.icons.voice.progressColor = state.icons.voice.defaultColor;
+          ColorEffectStore.updateIconColorEffectStage("voice", 0);
         }
 
         // Dont know why this would be undefined?
@@ -410,6 +470,25 @@ const store = () => {
         return state;
       });
     },
+    receiveUIUpdateMessage(data) {
+      if (!data || !data.icons || !Object.keys(data.icons).length) {
+        return;
+      }
+      update(state => {
+        let key: any, value: any;
+        for ([key, value] of Object.entries(data.icons)) {
+          state.icons[key] = {...createShapeIcon(value.shape,
+            {
+            icon: state.icons[key].icon,
+            isShowing: state.icons[key].isShowing, name: state.icons[key].name,
+            progressValue: state.icons[key].progressValue,}
+            ), ...value};
+        }
+        state.layout = data.layout;
+        state.saveUIState = "ready";
+        return state;
+      });
+    }
   }
 
   return {

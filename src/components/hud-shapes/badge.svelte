@@ -32,7 +32,11 @@
 	});
 
   onMount(() => {
-    pathLength = square.getTotalLength();
+    try {
+      pathLength = square.getTotalLength();
+    }catch(err) {
+      console.log("Error: QB-Hud: Badge-Icon should not be mounting when hiding icons")
+    }
   });
 
   $: progressTween.set(progressValue);

@@ -39,18 +39,18 @@
 </script>
 
 
-<div  class="flex flex-row mx-auto border h-10 w-30 rounded-lg border-gray-400 relative text-black">
-  <button class="font-semibold border-r bg-[#292929] hover:bg-red-600 text-white border-gray-400 h-full w-20 flex rounded-l-md focus:outline-none cursor-pointer"
+<div  class="flex flex-row mx-auto border h-10 w-30 rounded-lg border-gray-600 relative text-black">
+  <button class="font-semibold border-r bg-[#292929] hover:bg-red-600 text-white border-gray-600 border-1 h-full w-20 flex rounded-l-md focus:outline-none cursor-pointer"
     on:click={() => handleClick("decrease")}>
-    <span class="m-auto text-lg font-bold">-</span>
+    <span class="mx-auto text-lg font-bold">-</span>
   </button>
 
-  <input type="text" class="w-15 p-2 p-1 text-xs appearance-none text-base border-gray-400 focus:outline-none text-center bg-[#292929] text-white"
+  <input type="text" class="w-15 p-2 p-1 text-xs appearance-none text-base border-gray-600 border-1 focus:outline-none focus:border-1 focus:border-gray-400 text-center bg-[#292929] text-white"
     bind:value={value} on:input={(e) => handleInputUpdate(e)}/>
   
-  <button class="font-semibold border-l bg-[#292929] hover:bg-green-600 text-white border-gray-400 h-full w-20 flex rounded-r-md focus:outline-none cursor-pointer"
+  <button class="font-semibold border-l bg-[#292929] hover:bg-green-600 text-white border-gray-600 border-1 h-full w-20 flex rounded-r-md focus:outline-none cursor-pointer"
     on:click={() => handleClick("increase")}>
-    <span class="m-auto text-lg font-bold">+</span>
+    <span class="mx-auto text-lg font-bold">+</span>
   </button>
 </div>
 

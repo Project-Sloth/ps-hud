@@ -23,7 +23,6 @@
   let stroke: number = 25;
   let minimumAxis: number = height;
   let normalizedRadius: number = radius - (stroke/2);
-  let circumference = normalizedRadius * 2 * Math.PI;
   let strokeDashoffset: number = 0;
   
   const progressTween = tweened(progressValue, {
@@ -31,16 +30,13 @@
     easing: cubicOut
   });
 
-  $: {
-    progressTween.set(progressValue)
-  }
+  $:  progressTween.set(progressValue);
 
   $: {
     minimumAxis = height > width ? height : width;
     radius = minimumAxis/2;
     stroke = radius;
     normalizedRadius = radius - (stroke/2);
-    circumference = normalizedRadius * 2 * Math.PI;
   }
 
   $: {

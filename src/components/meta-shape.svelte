@@ -25,7 +25,7 @@
 
   let shapeProps: shapePropsType;
   $: {
-    shapeProps = (({ shape, isShowing, defaultColor, ...o }) => o)(hudIconInfo);
+    shapeProps = (({ shape, isShowing, ...o }) => o)(hudIconInfo);
     if (shapeProps.outlineColor == "") {
       shapeProps.outlineColor = shapeProps.progressColor;
     }

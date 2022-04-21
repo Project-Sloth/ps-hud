@@ -10,17 +10,21 @@
   export let innerColor: string = "black";
   export let icon = null;
 
-  let hexagon;
+  let octagon;
   let pathLength;
 
   onMount(() => {
-    pathLength = hexagon.getTotalLength();
+    try {
+      pathLength = octagon.getTotalLength();
+    }catch(err) {
+      console.log("Error: QB-Hud: Octagon-Icon should not be mounting when hiding icons")
+    }
   });
 </script>
 
 <div class="flex ml-1">
   <svg width={width} height={height} viewBox="0 0 16 16" version="1.1">
-    <polygon bind:this={hexagon} points="5.25 1.75,10.75 1.75,14.25 5.25,14.25 10.75,10.75 14.25,5.25 14.25,1.75 10.75,1.75 5.25"
+    <polygon bind:this={octagon} points="5.25 1.75,10.75 1.75,14.25 5.25,14.25 10.75,10.75 14.25,5.25 14.25,1.75 10.75,1.75 5.25"
       class="{progressColor} stroke-cap-round stroke-join-round"
       fill="transparent"
       stroke-width={stroke}

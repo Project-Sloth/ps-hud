@@ -1,7 +1,7 @@
 import type { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 
 export const iconNames = ["voice", "health", "armor", "hunger", "thirst", "stress",
-  "oxygen", "armed", "parachute", "engine", "harness", "cruise", "nos", "dev"] as const;
+  "oxygen", "armed", "parachute", "engine", "harness", "cruise", "nitro", "dev"] as const;
 export type iconNamesKind = typeof iconNames[number];
 
 export type playerHudIcons = {
@@ -25,7 +25,6 @@ export const shapes = [
 export type shapekind = typeof shapes[number];
 
 export interface baseIconInfo {
-  defaultColor: string,
   isShowing: boolean,
   name: string,
   shape: shapekind,
@@ -40,7 +39,6 @@ export interface baseIconProps extends baseIconInfo {
   iconTranslateY: number,
   innerColor: string,
   innerColorOpacity: number,
-  progressColor: string,
   progressValue: number,
   rotateDegree: number,
   translateX: number,
@@ -71,7 +69,6 @@ export interface textIcon extends baseIconProps {
 }
 
 export class baseIcon implements baseIconProps {
-  defaultColor = "orange";
   height = 50;
   icon = null;
   iconColor = "orange";
@@ -82,7 +79,8 @@ export class baseIcon implements baseIconProps {
   innerColorOpacity = 1;
   isShowing = true;
   name = "";
-  progressColor = "#ff783e";
+  // This is a placeholder to be used by colorEffectStore, changing this has no effect on the color that shows
+  progressColor = "";
   progressValue = 100;
   shape: shapekind = "circle-whole";
   rotateDegree = 0;
@@ -91,12 +89,12 @@ export class baseIcon implements baseIconProps {
   width = 50;
 
   constructor(shape: shapekind,
-    { defaultColor="", icon=null, iconColor="", isShowing=false, innerColor="orange", name="", progressColor="orange", progressValue=100 }={}) {
+    { icon=null, iconColor="", isShowing=false, innerColor="orange", name="", progressValue=100 }={}) {
 
     switch (shape) {
       case "circle-circle-fill":
       case "circle-square-fill":
-      case "circle-whole":        
+      case "circle-whole":
         this.iconScaling = 0.55;
         break;
       case "diamond-whole":
@@ -112,13 +110,11 @@ export class baseIcon implements baseIconProps {
         break;
     }
     this.shape = shape;
-    this.defaultColor = defaultColor;
     this.icon = icon;
     this.iconColor = iconColor;
     this.isShowing = isShowing;
     this.innerColor = innerColor;
     this.name = name;
-    this.progressColor = progressColor;
     this.progressValue = progressValue;
   }
 }
@@ -130,7 +126,7 @@ export class ringIcon extends baseIcon implements ringIconProps {
   outlineColorOpacity = 0.4;
   ringSize = 4;
 
-  constructor(shape: shapekind, optionalProps=null) {
+  constructor(shape: shapekind, optionalProps={}) {
     super(shape, optionalProps);
     switch (shape) {
       case "circle-ring":
@@ -179,8 +175,8 @@ export class roundEndIcon extends baseIcon implements roundEndIconProps {
         this.height = 4;
         this.width = 35;
         this.iconScaling = 1.4;
-        this.xAxisRound = 5;
-        this.yAxisRound = 20;
+        this.xAxisRound = 2;
+        this.yAxisRound = 2;
         break;
       case "pill-whole":
         this.height = 75;
@@ -249,9 +245,23 @@ export type optionalPlayerHudIconsType = Partial<{ [Property in keyof playerHudI
 
 export function defaultHudIcon(name = "", showing=false, color="#ff783e", icon=null): any {
   return createShapeIcon("circle-ring",
-    { defaultColor: color, iconColor: color, isShowing: showing, icon: icon,
-      innerColor: "#212121", progressColor: color, name: name
+    { iconColor: color, isShowing: showing, icon: icon,
+      innerColor: "#212121", name: name
     });
 }
 
-export type shapePropsType =  Omit<optionalHudIconType, "shape" | "isShowing" | "name" | "defaultColor" >;
+export type shapePropsType =  Omit<optionalHudIconType, "shape" | "isShowing" | "name" >;
+
+export type colorEffect = {
+  name: string,
+  color: string,
+}
+
+export type iconColorEffect = {
+  currentEffect: number,
+  colorEffects: Array<colorEffect>,
+}
+
+export type playerHudColorEffects = {
+  [key in iconNamesKind]: iconColorEffect;
+}

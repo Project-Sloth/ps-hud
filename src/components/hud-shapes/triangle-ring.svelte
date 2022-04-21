@@ -37,7 +37,11 @@
   let pathLength;
 
   onMount(() => {
-    pathLength = triangle.getTotalLength();
+    try {
+      pathLength = triangle.getTotalLength();
+    }catch(err) {
+      console.log("Error: QB-Hud: Triangle-Ring-Icon should not be mounting when hiding icons")
+    }
   });
 
   $: strokeDashoffset = pathLength - $progressTween / 100 * pathLength;

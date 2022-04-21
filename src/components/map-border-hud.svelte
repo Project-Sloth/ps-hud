@@ -1,11 +1,15 @@
 <script lang="ts">
-  import VehicleHudStore from '../stores/vehicleHudStore'
+  import VehicleHudStore from '../stores/vehicleHudStore';
 </script>
 
 {#if $VehicleHudStore.show}
   <div class="mapborder">
-    <div class="square" />
-    <div class="circle" />
+    {#if $VehicleHudStore.showSquareBorder}
+      <div class="square" />
+    {/if}
+    {#if $VehicleHudStore.showCircleBorder}
+      <div class="circle" />
+    {/if}
   </div>
 {/if}
 
@@ -79,61 +83,61 @@
 
   @media (width: 2560px) and (height: 1440px) {
     .square {
-      left: 2.3vh!important;
-      bottom: 6%!important;
+      left: 0.2vw!important;
+      bottom: -1.8vh!important;
     }
     .circle {
-      left: 3.5vh!important;
+      left: 0.75vw!important;
       width: 27.6vh!important;
-      bottom: 6.7%!important;
+      bottom: -1vh!important;
     }
   }
 
   @media (width: 1920px) and (height: 1440px) {
     .square {
-      left: 2vh!important;
-      bottom: 6%!important;
+      left: 0vw!important;
+      bottom: -1.9vh!important;
     }
     .circle {
-      left: 2.7vh!important;
+      left: 0.9vw!important;
       width: 27.6vh!important;
-      bottom: 7%!important;
+      bottom: -1vh!important;
     }
   }
 
   @media (width: 1920px) and (height: 1200px) {
     .square {
-      left: 2.2vh!important;
-      bottom: 6%!important;
+      left: 0.1vw!important;
+      bottom: -2vh!important;
     }
     .circle {
-      left: 3.2vh!important;
+      left: 0.8vw!important;
       width: 27.6vh!important;
-      bottom: 7%!important;
+      bottom: -1vh!important;
     }
   }
 
   @media (width: 1920px) and (height: 1080px) {
     .square {
-      left: 2.5vh!important;
-      bottom: 6%!important;
+      left: 0.1vw!important;
+      bottom: -2vh!important;
     }
     .circle {
-      left: 3.7vh!important;
+      left: 0.9vw!important;
       width: 27.3vh!important;
-      bottom: 7%!important;
+      bottom: -1vh!important;
     }
   }
 
   @media (width: 1280px) and (height: 720px) {
     .square {
-      left: 2.5vh!important;
-      bottom: 6%!important;
+      left: 0.1vw!important;
+      bottom: -2vh!important;
     }
     .circle {
-      left: 4vh!important;
+      left: 0.9vw!important;
       width: 27.6vh!important;
-      bottom: 6.9%!important;
+      bottom: -0.9vh!important;
     }
   }
 </style>

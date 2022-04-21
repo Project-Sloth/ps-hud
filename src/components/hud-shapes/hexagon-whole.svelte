@@ -28,7 +28,11 @@
   $: minimumAxis = height > width ? height : width;
 
   onMount(() => {
-    pathLength = line.getTotalLength();
+    try {
+      pathLength = line.getTotalLength();
+    }catch(err) {
+      console.log("Error: QB-Hud: Hexagon-Whole-Icon should not be mounting when hiding icons")
+    }
   });
 
 

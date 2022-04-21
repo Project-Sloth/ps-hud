@@ -65,6 +65,7 @@
         r={radius}
         cx={radius}
         cy={radius}
+        shape-rendering="geometricPrecision"
       />
     </clipPath>
   </defs>
@@ -80,6 +81,7 @@
     r={normalizedRadius}
     cx={radius}
     cy={radius}
+    shape-rendering="geometricPrecision"
   />
   <line
     x1="50%"
@@ -91,9 +93,10 @@
     stroke-dashoffset={strokeDashoffset}
     stroke-width={minimumAxis}
     clip-path="url(#cut-out-circle)"
+    shape-rendering="geometricPrecision"
   />
   </g>
-  <g style="filter: drop-shadow(0px 0px 6px #000000) contrast(200%);">
+  <g style="">
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
     translateY={iconTranslateY} style="color:{iconColor || progressColor}"/>
   </g>

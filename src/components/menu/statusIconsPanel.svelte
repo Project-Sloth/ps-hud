@@ -1,10 +1,15 @@
 <script lang="ts">
+  import Button from '../atoms/button.svelte';
   import ColorPicker from '../atoms/color-picker.svelte';
-  import { shapes, iconNames } from '../../types/types'
-  import PlayerHudUIStore from '../../stores/playerStatusHudStore'
-  import Select from '../atoms/select.svelte'
-  import Switch from '../atoms/switch.svelte'
+  import { shapes, iconNames } from '../../types/types';
+  import { saveUIData } from '../../utils/eventHandler';
+  import PlayerHudUIStore from '../../stores/playerStatusHudStore';
+  import ColorEffectStore from '../../stores/colorEffectStore';
+  import Select from '../atoms/select.svelte';
+  import Switch from '../atoms/switch.svelte';
   import NumberInput from '../atoms/number-input.svelte';
+  import { faGlobe } from '@fortawesome/free-solid-svg-icons';
+  import Fa from 'svelte-fa';
 
   function capFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -14,16 +19,28 @@
 
 <div class="text-sm flex flex-col text-[#e8e8e8] select-none">
   <div class="my-3 text-2xl text-white flex flex-row">
-    <p>Global Icons Settings</p>
-    <div class="ml-auto text-lg">
+    <div class="flex-1 flex min-w-min">
+      <div>
+        <div class="flex flex-row items-center">
+            <Fa icon={faGlobe} scale={1}/>
+          <p class="ml-3 p-0">Global Icons Settings</p>
+        </div>
+      </div>
+    </div>
+    <div class="text-base">
       <p>Design Mode</p>
       <Switch center bind:checked={$PlayerHudUIStore.designMode}/>
+    </div>
+    <div class="flex flex-1 min-w-min justify-end">
+      <Button name="Save Changes" buttonClass={"h-10"} disable={$PlayerHudUIStore.saveUIState == "ready" ? false : true}
+        on:click={() => {saveUIData(); $PlayerHudUIStore.saveUIState = "updating"}}
+      />
     </div>
   </div>
 
   <div class="flex justify-center mb-8">
     <div class="w-50">
-      <p class="text-lg text-center">Change Icon Shape</p>
+      <p class="text-lg text-center mb-2">Change Icon Shape</p>
       <Select valuesArray={shapes} value={$PlayerHudUIStore.globalIconSettings.shape}
         handleSelectFunction={PlayerHudUIStore.updateAllShapes}
       />
@@ -134,13 +151,14 @@
   <hr>
 
   {#each iconNames as name}
-    <div class="mt-6 text-2xl text-white">
-      <p>{capFirstLetter(name)} Icon Settings</p>
+    <div class="mt-6 text-2xl flex flex-row items-center text-white">
+        <Fa icon={$PlayerHudUIStore.icons[name].icon} scale={1}/>
+        <p class="ml-3"> {capFirstLetter(name)} Icon Settings</p>
     </div>
     
     <div class="flex justify-center mb-8">
       <div class="w-50">
-        <p class="text-lg text-center">Change Icon Shape</p>
+        <p class="text-lg text-center mb-2">Change Icon Shape</p>
         <Select valuesArray={shapes} value={$PlayerHudUIStore.icons[name].shape}
           handleSelectFunction={(shapeName) => PlayerHudUIStore.updateIconShape(name, shapeName)}
         />
@@ -174,8 +192,10 @@
 
       <div class="h-1/2 w-2/3 flex flex-col mx-auto">
         <p class="text-base text-center mb-2">Change Progress Color</p>
-        <ColorPicker color={$PlayerHudUIStore.icons[name].progressColor}
-          updateFunction={(hexColor) => PlayerHudUIStore.updateIconSetting(name, "progressColor", hexColor)}
+        <ColorPicker color={$ColorEffectStore[name].colorEffects[0].color}
+          updateFunction={(hexColor) => {
+            ColorEffectStore.updateIconColor(name, 0, hexColor);
+          }}
         />
       </div>
       <div>

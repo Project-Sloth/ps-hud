@@ -17,16 +17,21 @@
   let items = valuesArray.map(humanReadableString);
   let itemvalue = items[0];
 
-$: {
-  if (value) {
-    let index = items.findIndex((element) => element.value == value);
-    if (index) {
-      itemvalue = items[index]
-    }
-  } 
-}
+  $: {
+    if (value) {
+      let index = items.findIndex((element) => element.value == value);
+      if (index) {
+        itemvalue = items[index]
+      }
+    } 
+  }
 
   function handleSelect(event) {
+    // Since value can be changed by are parent component we check to ensure what triggered this event was not that event
+    // We do this by just returning if the value update is going to result in the same value
+    if (event.detail.value === value) {
+      return;
+    }
     value = event.detail.value;
     handleSelectFunction(event.detail.value);
   }

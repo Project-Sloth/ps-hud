@@ -42,7 +42,11 @@
   let pathLength;
 
   onMount(() => {
-    pathLength = hexagon.getTotalLength();
+    try {
+      pathLength = hexagon.getTotalLength();
+    }catch(err) {
+      console.log("Error: QB-Hud: Hexagon-Ring-Icon should not be mounting when hiding icons")
+    }
   });
 
 

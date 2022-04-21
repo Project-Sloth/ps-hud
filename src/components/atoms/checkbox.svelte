@@ -1,11 +1,12 @@
 <script lang="ts">
   export let primaryText: string = "";
   export let secondaryText: string = "";
+  export let value: boolean;
 </script>
 
 
 <label class="flex flex-row gap-4 py-3 cursor-pointer select-none {secondaryText ? "items-center" : ""}">
-  <input class="cursor-pointer" type="checkbox" name="checkbox" />
+  <input class="cursor-pointer" type="checkbox" name="checkbox" bind:checked={value} on:click/>
   {#if secondaryText}
     <div class="flex flex-col">
       <span class="primary-text mb-1">{primaryText}</span>

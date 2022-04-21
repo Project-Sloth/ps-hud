@@ -29,19 +29,19 @@ type vehicleHudUpdateMessageType = {
   altitude: number,
   showAltitude: boolean,
   showSeatbelt: boolean,
-  showSquareBorder: boolean,
-  showCircleBorder: boolean,
+  showSquareB: boolean,
+  showCircleB: boolean,
   
 }
 
 const store = () => {
 
   const vehicleStatusState: vehicleStatusType = {
-    speedometer: 66,
+    speedometer: 66, // Used for htmll value, dont need to be sent this
     fuelColor: "#FFFFFF",
-    fuelguage: 69,
+    fuelguage: 69, // Used for html value, dont need to be sent this
     altitude: 0,
-    altitudegauge: 75,
+    altitudegauge: 75, // Used for html value, dont need to be sent this
     fuel: 0,
     speed: 0,
     seatbeat: 0,
@@ -60,14 +60,15 @@ const store = () => {
   const methods = {
     receiveMessage(data: vehicleHudUpdateMessageType) {
       update(state => {
+        // console.log("vehicle message:", data);
         state.show = data.show;
         state.speed = data.speed;
         state.altitude = data.altitude;
         state.fuel = data.fuel * 0.71;
         state.showSeatBelt = data.showSeatbelt;
         state.showAltitude = data.showAltitude;
-        state.showSquareBorder = data.showSquareBorder;
-        state.showCircleBorder = data.showCircleBorder;
+        state.showSquareBorder = data.showSquareB;
+        state.showCircleBorder = data.showCircleB;
 
         if (data.seatbelt) {
           state.seatbeat = 100;

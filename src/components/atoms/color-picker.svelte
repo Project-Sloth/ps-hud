@@ -41,7 +41,7 @@
 			scrollbarHeight: 20,
 	}
 </script>
-<div class="text-black flex flex-row mx-auto">
+<div class="text-black flex flex-row mx-auto border-2 rounded-[8px] border-gray-600">
   <ColorPicker
     bind:color={color}
     background={background}

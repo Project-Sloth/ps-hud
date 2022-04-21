@@ -65,18 +65,28 @@
     </div>
   {:else if layout == "top-left-row"}
     <div 
-      class="absolute top-[0.3vw] left-[0.3vh] flex flex-row"
+      class="absolute top-[0.3vw] left-[1vw] flex flex-row"
       style="gap: {spaceBetween+'px'};">
       <IconsList />
     </div>
   {:else if layout == "standard"}
     <div 
-      class="absolute bottom-[0.3vw] left-[3vh] flex flex-row"
+      class="absolute bottom-[0.3vw] left-[0.5vw] flex flex-row standard-layout"
       style="gap: {spaceBetween+'px'}; margin-bottom: {spaceBottom+'px'};">
       <IconsList />
     </div>
   {/if}
 {/if}
+
+<style>
+  @media (width: 1280px) and (height: 720px) {
+    .standard-layout {
+      transform: scale(0.7) !important;
+      left: -3vw !important;
+      bottom: -1vh !important;
+    }
+  }
+</style>
 
 
 <!-- {:else if layout == "esx-hud-hard-to-let-go"}

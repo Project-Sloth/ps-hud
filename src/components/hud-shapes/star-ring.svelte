@@ -38,7 +38,11 @@
   let pathLength;
 
   onMount(() => {
-    pathLength = star.getTotalLength();
+    try {
+      pathLength = star.getTotalLength();
+    }catch(err) {
+      console.log("Error: QB-Hud: Star-Ring-Icon should not be mounting when hiding icons")
+    }
   });
 
   $: strokeDashoffset = pathLength - $progressTween / 100 * pathLength;
