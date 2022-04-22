@@ -6,10 +6,10 @@ specifiers:
   '@neodrag/svelte': ^1.1.4
   '@sveltejs/vite-plugin-svelte': ^1.0.0-next.39
   '@tsconfig/svelte': ^2.0.1
+  d3-color: ^3.1.0
   html-minifier: ^4.0.0
   svelte: ^3.46.4
   svelte-check: ^2.4.5
-  svelte-colorpick: ^0.1.7
   svelte-fa: ^2.4.0
   svelte-preprocess: ^4.10.4
   svelte-select: ^4.4.7
@@ -24,7 +24,7 @@ dependencies:
   '@fortawesome/free-regular-svg-icons': 6.1.0
   '@fortawesome/free-solid-svg-icons': 6.0.0
   '@neodrag/svelte': 1.1.4
-  svelte-colorpick: 0.1.7
+  d3-color: 3.1.0
   svelte-fa: 2.4.0
   svelte-select: 4.4.7
 
@@ -276,8 +276,9 @@ packages:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: true
 
-  /d3-color/2.0.0:
-    resolution: {integrity: sha512-SPXi0TSKPD4g9tw0NMZFnR95XVgUZiBH+uUTqQuDu1OsE2zomHU7ho0FISciaPvosimixwHFl3WHLGabv6dDgQ==}
+  /d3-color/3.1.0:
+    resolution: {integrity: sha512-zg/chbXyeBtMQ1LbD/WSoW2DpC3I0mpmPdW+ynRTj/x2DAWYrIY7qeZIHidozwV24m4iavr15lNwIwLxRmOxhA==}
+    engines: {node: '>=12'}
     dev: false
 
   /debug/4.3.3:
@@ -951,12 +952,6 @@ packages:
       - stylus
       - sugarss
     dev: true
-
-  /svelte-colorpick/0.1.7:
-    resolution: {integrity: sha512-2E7nbweSdl81LtFm8z/hpWEv52cU1jSIiYgTpSpanaBWNiFxr+QT4QMlxFASE/LWACFbm1Xe37ACnIwHxWfr9Q==}
-    dependencies:
-      d3-color: 2.0.0
-    dev: false
 
   /svelte-fa/2.4.0:
     resolution: {integrity: sha512-0bnbMGbsE1LUnlioDcf27tl2O8kjuXlTXMXzIxC7LoIOWmqn0D+zd539HfLiQbdLuOHGTaynwN9V+4ehhEu1Jw==}

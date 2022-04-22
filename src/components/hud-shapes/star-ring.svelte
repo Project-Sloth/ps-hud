@@ -41,7 +41,7 @@
     try {
       pathLength = star.getTotalLength();
     }catch(err) {
-      console.log("Error: QB-Hud: Star-Ring-Icon should not be mounting when hiding icons")
+      //console.error("Error: QB-Hud: Star-Ring-Icon should not be mounting when hiding icons")
     }
   });
 

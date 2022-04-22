@@ -38,7 +38,7 @@
 	});
 
   $: {
-    Math.min(progressValue, maxProgressValue);
+    progressValue = Math.min(progressValue, maxProgressValue);
     transposeValue = progressValue / maxProgressValue * 100;
     progressTween.set(transposeValue)
   }

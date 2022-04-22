@@ -15,7 +15,6 @@ type playerStatusType = {
   designProgress: number,
   globalIconSettings: optionalHudIconType,
   icons: playerHudIcons,
-  layout: layoutIconKind
   saveUIState: saveUIType,
   show: boolean,
   showingOrder: Array<keyof playerHudIcons>
@@ -64,11 +63,11 @@ const store = () => {
     designProgress: 0,
     globalIconSettings: (({ isShowing, name, icon, progressValue, ...o }) => o)(defaultHudIcon()),
     icons: {
-      voice: defaultHudIcon("voice", false, "#FFFFFF", faMicrophone),
-      health: defaultHudIcon("health", false, "rgb(33, 171, 97)", faHeart), //"#3FA554"
-      armor: defaultHudIcon("armor", false, "#326dbf", faShieldAlt),
-      hunger: defaultHudIcon("hunger", false, "#dd6e14", faHamburger),
-      thirst: defaultHudIcon("thirst", false, "#1a7cad", faTint),
+      voice: defaultHudIcon("voice", true, "#FFFFFF", faMicrophone),
+      health: defaultHudIcon("health", true, "rgb(33, 171, 97)", faHeart), //"#3FA554"
+      armor: defaultHudIcon("armor", true, "#326dbf", faShieldAlt),
+      hunger: defaultHudIcon("hunger", true, "#dd6e14", faHamburger),
+      thirst: defaultHudIcon("thirst", true, "#1a7cad", faTint),
       stress: defaultHudIcon("stress", false, "rgb(220, 6, 6)", faBrain),
       oxygen: defaultHudIcon("oxygen", false, "rgb(138, 168, 189)", faLungs),
       armed: defaultHudIcon("armed", false, "rgb(255, 72, 133)", faStream),
@@ -79,7 +78,6 @@ const store = () => {
       nitro: defaultHudIcon("nitro", false, "#D64763", faMeteor),
       dev: defaultHudIcon("dev", false, "rgb(0, 0, 0)", faTerminal),
     },
-    layout: "standard",
     saveUIState: "ready",
     show: false,
     showingOrder: ["voice", "health", "armor", "hunger", "thirst", "stress", "oxygen", "armed",
@@ -87,10 +85,6 @@ const store = () => {
   }
   // This is needed for this global color to not override all icons colors on startup (see color-picker for more info)
   playerHudUIState.globalIconSettings.progressColor = "#ff783e";
-  playerHudUIState.icons.voice.progressValue = 50;
-  playerHudUIState.icons.health.progressValue = 50;
-  playerHudUIState.icons.hunger.progressValue = 50;
-  playerHudUIState.icons.thirst.progressValue = 50;
   
   const { subscribe, set, update } = writable(playerHudUIState);
 
@@ -224,12 +218,6 @@ const store = () => {
         return state;
      })
     },
-    updateLayout(layout: layoutIconKind) {
-      update(state => {
-        state.layout = layout;
-        return state;
-      })
-    },
     receiveShowMessage(data: playerHudShowMessageType) {
       update(state => {
         state.show = data.show;
@@ -238,7 +226,7 @@ const store = () => {
     },
     receiveStatusUpdateMessage(data: playerHudUpdateMessageType) {
       update(state => {
-        console.log("status icon data", data);
+        //console.log("status icon data", data);
         state.show = data.show;
         state.icons.health.progressValue = data.health;
         state.icons.armor.progressValue = data.armor;
@@ -273,11 +261,9 @@ const store = () => {
         }
 
         if (data.playerDead) {
-          //state.icons.health.progressColor = "#ff0000";
           ColorEffectStore.updateIconColorEffectStage("health", 1);
           state.icons.health.progressValue = 100;
         } else {
-          //state.icons.health.progressColor = state.icons.health.defaultColor;
           ColorEffectStore.updateIconColorEffectStage("health", 0);
         }
   
@@ -292,10 +278,8 @@ const store = () => {
         } 
   
         if (data.armor <= 0) {
-          //state.icons.armor.progressColor = "#ff0000";
           ColorEffectStore.updateIconColorEffectStage("armor", 1);
         } else {
-          //state.icons.armor.progressColor = state.icons.armor.defaultColor;
           ColorEffectStore.updateIconColorEffectStage("armor", 0);
         }
   
@@ -310,10 +294,8 @@ const store = () => {
         } 
 
         if (data.hunger <= 30){
-          //state.icons.hunger.progressColor = "#ff0000";
           ColorEffectStore.updateIconColorEffectStage("hunger", 1);
         } else {
-          //state.icons.hunger.progressColor = state.icons.hunger.defaultColor;
           ColorEffectStore.updateIconColorEffectStage("hunger", 0);
         }
   
@@ -328,10 +310,8 @@ const store = () => {
         }
 
         if (data.thirst <= 30) {
-          //state.icons.thirst.progressColor = "#ff0000";
           ColorEffectStore.updateIconColorEffectStage("thirst", 1);
         } else {
-          //state.icons.thirst.progressColor = state.icons.thirst.defaultColor;
           ColorEffectStore.updateIconColorEffectStage("thirst", 0);
         }
   
@@ -344,8 +324,6 @@ const store = () => {
             state.icons.stress.isShowing = true;
           }
         }
-
-        console.log("showing stress?", state.icons.stress.isShowing)
   
         if (staticOxygen) {
           state.icons.oxygen.isShowing = true;
@@ -356,8 +334,6 @@ const store = () => {
             state.icons.oxygen.isShowing = true;
           }
         }
-
-        console.log("Showing oxygen?", state.icons.oxygen.isShowing)
   
         // When in a car only show when less that 95% condition
         // Engine will be below 0 when not in a car so hide icon
@@ -377,16 +353,11 @@ const store = () => {
           }
         }
 
-        console.log("Showing engine?", state.icons.engine.isShowing)
-
         if (data.engine <= 45) {
-          //state.icons.engine.progressColor = "#ff0000";
           ColorEffectStore.updateIconColorEffectStage("engine", 2);
         } else if (data.engine <= 75 && data.engine >= 46 ) {
-          //state.icons.engine.progressColor = "#dd6e14";
           ColorEffectStore.updateIconColorEffectStage("engine", 1);
         } else if(data.engine <= 100) {
-          //state.icons.engine.progressColor = state.icons.engine.defaultColor;
           ColorEffectStore.updateIconColorEffectStage("engine", 0);
         } 
   
@@ -407,23 +378,18 @@ const store = () => {
         }
 
         if (data.nitroActive) {
-          //state.icons.nos.progressColor = state.icons.nos.defaultColor;
           ColorEffectStore.updateIconColorEffectStage("nitro", 1);
         } else {
-          //state.icons.nos.progressColor = "#ffffff";
           ColorEffectStore.updateIconColorEffectStage("nitro", 0);
         }
   
         if (data.talking) {
           if (data.radio) {
-            //state.icons.voice.progressColor = "#D64763";
             ColorEffectStore.updateIconColorEffectStage("voice", 2);
           } else {
-            //state.icons.voice.progressColor = '#ffff3e';
             ColorEffectStore.updateIconColorEffectStage("voice", 1);
           }
         } else {
-          //state.icons.voice.progressColor = state.icons.voice.defaultColor;
           ColorEffectStore.updateIconColorEffectStage("voice", 0);
         }
 
@@ -484,7 +450,6 @@ const store = () => {
             progressValue: state.icons[key].progressValue,}
             ), ...value};
         }
-        state.layout = data.layout;
         state.saveUIState = "ready";
         return state;
       });

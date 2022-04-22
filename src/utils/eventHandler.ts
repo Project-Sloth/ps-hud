@@ -4,8 +4,10 @@ import CompassHudStore from '../stores/compassHudStore';
 import MenuStore from '../stores/menuStore';
 import MoneyHudStore from '../stores/moneyHudStore';
 import PlayerHudStore from '../stores/playerStatusHudStore';
+import LayoutStore from '../stores/layoutStore';
 import VehicleHudStore from '../stores/vehicleHudStore';
 import ColorEffectStore from '../stores/colorEffectStore';
+import layoutStore from "../stores/layoutStore";
 
 interface nuiMessage {
   data: {
@@ -63,8 +65,12 @@ export function EventHandler() {
         MoneyHudStore.receiveUpdateMessage(event.data as any);
         break;
       case "updateUISettings":
-        //console.log("Update message recieved!", event.data);
+        // console.log("Update message recieved!", event.data);
+        if (!event.data.icons || !event.data.layout) {
+          return;
+        }
         PlayerHudStore.receiveUIUpdateMessage(event.data);
+        LayoutStore.receiveUIUpdateMessage(event.data);
       // default:
         // console.log("Uncaught received message!!!", event);
         // break;
@@ -83,10 +89,6 @@ export async function fetchNui(eventName: string, data: unknown = {}) {
     },
     body: JSON.stringify(data),
   };
-
-  // const resourceName = (window as any).GetParentResourceName
-  //   ? (window as any).GetParentResourceName()
-  //   : "nui-frame-app";
 
   const resourceName = "qb-hud";
 
@@ -108,10 +110,10 @@ function combineIconColorData(iconData, colorData) {
 }
 
 export function saveUIData() {
-  const data = get(PlayerHudStore);
+  const playerStatusIcondata = get(PlayerHudStore);
+  const layoutdata = get(layoutStore);
   const colorData = get(ColorEffectStore);
-  const serializedIconData = combineIconColorData(data.icons, colorData);
-  const sendData = {icons: serializedIconData, layout: data.layout};
-  //console.log("Sending data:", sendData);
+  const serializedIconData = combineIconColorData(playerStatusIcondata.icons, colorData);
+  const sendData = {icons: serializedIconData, layout: layoutdata.layout};
   fetchNui('saveUISettings', sendData);
 }

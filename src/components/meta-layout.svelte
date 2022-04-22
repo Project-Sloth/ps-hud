@@ -1,10 +1,9 @@
 <script lang="ts">
   import type { layoutIconKind } from '../types/types';
   import PlayerHudUIStore from '../stores/playerStatusHudStore';
+  import LayoutStore from '../stores/layoutStore';
   import DebugStore from '../stores/debugStore';
   import IconsList from './icons-list.svelte';
-  export let spaceBetween: number = 2;
-  export let spaceBottom: number = 1;
 
   let layout: layoutIconKind = "standard";
 
@@ -19,7 +18,7 @@
   }
 
   $: {
-    layout = $PlayerHudUIStore.layout;
+    layout = $LayoutStore.layout;
   }
 
 
@@ -37,21 +36,21 @@
     <div class="absolute bottom-[0.3vw] w-100vw">
       <div
         class="static flex flex-row mx-auto" 
-        style="width: max-content; gap: {spaceBetween+'px'}; margin-bottom: {spaceBottom+'px'};">
+        style="width: max-content; gap: {$LayoutStore.iconBetweenSpacing+'px'}; margin-bottom: {$LayoutStore.yAxisSpacing+'px'};">
           <IconsList />
       </div>
     </div>
   {:else if layout == "bottom-right-row"}
     <div
       class="absolute bottom-[0.3vw] right-[3vh] flex flex-row"
-      style="gap: {spaceBetween+'px'};">
+      style="gap: {$LayoutStore.iconBetweenSpacing+'px'};">
           <IconsList />
     </div>
   {:else if layout == "left-bottom-column"}
     <div class="absolute bottom-[0.3vw] left-[1vh]">
       <div
         class="static flex flex-col" 
-        style="gap: {spaceBetween+'px'};">
+        style="gap: {$LayoutStore.iconBetweenSpacing+'px'};">
           <IconsList />
       </div>
     </div>
@@ -59,20 +58,20 @@
     <div class="absolute bottom-[0.3vw] right-[1vh]">
       <div
         class="static flex flex-col" 
-        style="gap: {spaceBetween+'px'};">
+        style="gap: {$LayoutStore.iconBetweenSpacing+'px'};">
           <IconsList />
       </div>
     </div>
   {:else if layout == "top-left-row"}
     <div 
       class="absolute top-[0.3vw] left-[1vw] flex flex-row"
-      style="gap: {spaceBetween+'px'};">
+      style="gap: {$LayoutStore.iconBetweenSpacing+'px'};">
       <IconsList />
     </div>
   {:else if layout == "standard"}
     <div 
       class="absolute bottom-[0.3vw] left-[0.5vw] flex flex-row standard-layout"
-      style="gap: {spaceBetween+'px'}; margin-bottom: {spaceBottom+'px'};">
+      style="gap: {$LayoutStore.iconBetweenSpacing+'px'}; margin-bottom: {$LayoutStore.yAxisSpacing+'px'};">
       <IconsList />
     </div>
   {/if}

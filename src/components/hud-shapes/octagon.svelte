@@ -17,7 +17,7 @@
     try {
       pathLength = octagon.getTotalLength();
     }catch(err) {
-      console.log("Error: QB-Hud: Octagon-Icon should not be mounting when hiding icons")
+      //console.error("Error: QB-Hud: Octagon-Icon should not be mounting when hiding icons")
     }
   });
 </script>

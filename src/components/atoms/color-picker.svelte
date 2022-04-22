@@ -1,11 +1,15 @@
 <script lang="ts">
-	import { ColorPicker, Color } from 'svelte-colorpick'
-	export let color = Color.hex('#ff783e');
+	import { ColorPicker, Color } from './color-picker/index.js'
+	export let colorString: string = '#ff783e';
   export let updateFunction: (colorHex) => void = null;
+	let color: Color = Color.hex(colorString);
+
+	$: color = Color.hex(colorString);
 
   $: {
     if (updateFunction) {
-      if (color.toHex && color.toHex() != "#ff783e") {
+			// Ensure to not update if the colorString is already that color
+      if (color.toHex && color.toHex() != colorString) {
 				updateFunction(color.toHex());
       }
     }
@@ -42,29 +46,30 @@
 	}
 </script>
 <div class="text-black flex flex-row mx-auto border-2 rounded-[8px] border-gray-600">
-  <ColorPicker
-    bind:color={color}
-    background={background}
+		<ColorPicker
+			colorString={colorString}
+			bind:color={color}
+			background={background}
 
-    collapse={true}
+			collapse={true}
 
-    handleWidth={135}
-    handleHeight={40}
+			handleWidth={135}
+			handleHeight={40}
 
-    tabbed={settings.tabbed}
-    selectedTab={settings.selectedTab}
+			tabbed={settings.tabbed}
+			selectedTab={settings.selectedTab}
 
-    selectedDimension={settings.selectedDimension}
+			selectedDimension={settings.selectedDimension}
 
-    showMatrix={settings.showMatrix}
-    showSliders={settings.showSlidersGlobal && settings.showSliders}
-    showHex={settings.showHex}
-    showLabels={settings.showLabels}
-    showNumeric={settings.showNumeric}
-    selectDimensions={settings.selectDimensions}
+			showMatrix={settings.showMatrix}
+			showSliders={settings.showSlidersGlobal && settings.showSliders}
+			showHex={settings.showHex}
+			showLabels={settings.showLabels}
+			showNumeric={settings.showNumeric}
+			selectDimensions={settings.selectDimensions}
 
-    matrixWidth={settings.matrixWidth}
-    matrixHeight={settings.matrixHeight}
-    scrollbarHeight={settings.scrollbarHeight}
-  />
+			matrixWidth={settings.matrixWidth}
+			matrixHeight={settings.matrixHeight}
+			scrollbarHeight={settings.scrollbarHeight}
+		/>
 </div>

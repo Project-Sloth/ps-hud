@@ -80,7 +80,7 @@
 
     <div class="h-1/2 w-2/3 flex flex-col mx-auto">
       <p class="text-base text-center mb-2">Change Progress Color</p>
-      <ColorPicker color={$PlayerHudUIStore.globalIconSettings.progressColor}
+      <ColorPicker colorString={$PlayerHudUIStore.globalIconSettings.progressColor}
         updateFunction={(hexColor) => PlayerHudUIStore.updateAllProgressColor(hexColor)}
       />
     </div>
@@ -104,7 +104,7 @@
     </div>
     <div class="h-1/2 w-2/3 flex flex-col mx-auto">
       <p class="text-base text-center mb-2">Change Inner Color</p>
-      <ColorPicker color={$PlayerHudUIStore.globalIconSettings.innerColor} updateFunction={(hexColor) => PlayerHudUIStore.updateAllInnerColor(hexColor)}/>
+      <ColorPicker colorString={$PlayerHudUIStore.globalIconSettings.innerColor} updateFunction={(hexColor) => PlayerHudUIStore.updateAllInnerColor(hexColor)}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Icon X-axis Position</p>
@@ -126,7 +126,7 @@
     </div>
     <div class="h-1/2 w-2/3 flex flex-col mx-auto">
       <p class="text-base text-center mb-2">Change Icon Color</p>
-        <ColorPicker color={$PlayerHudUIStore.globalIconSettings.iconColor} updateFunction={(hexColor) => PlayerHudUIStore.updateAllIconColor(hexColor)}/>
+        <ColorPicker colorString={$PlayerHudUIStore.globalIconSettings.iconColor} updateFunction={(hexColor) => PlayerHudUIStore.updateAllIconColor(hexColor)}/>
     </div>
 
     {#if $PlayerHudUIStore.globalIconSettings.xAxisRound != null}
@@ -192,7 +192,7 @@
 
       <div class="h-1/2 w-2/3 flex flex-col mx-auto">
         <p class="text-base text-center mb-2">Change Progress Color</p>
-        <ColorPicker color={$ColorEffectStore[name].colorEffects[0].color}
+        <ColorPicker colorString={$ColorEffectStore[name].colorEffects[0].color}
           updateFunction={(hexColor) => {
             ColorEffectStore.updateIconColor(name, 0, hexColor);
           }}
@@ -212,7 +212,7 @@
       </div>
       <div class="h-1/2 w-2/3 flex flex-col mx-auto">
         <p class="text-base text-center mb-2">Change Inner Color</p>
-        <ColorPicker color={$PlayerHudUIStore.icons[name].innerColor}
+        <ColorPicker colorString={$PlayerHudUIStore.icons[name].innerColor}
           updateFunction={(hexColor) => PlayerHudUIStore.updateIconSetting(name, "innerColor", hexColor)}
         />
       </div>
@@ -230,7 +230,7 @@
       </div>
       <div class="h-1/2 w-2/3 flex flex-col mx-auto">
         <p class="text-base text-center mb-2">Change Icon Color</p>
-          <ColorPicker color={$PlayerHudUIStore.icons[name].iconColor}
+          <ColorPicker colorString={$PlayerHudUIStore.icons[name].iconColor}
             updateFunction={(hexColor) => PlayerHudUIStore.updateIconSetting(name, "iconColor", hexColor)}
           />
       </div>

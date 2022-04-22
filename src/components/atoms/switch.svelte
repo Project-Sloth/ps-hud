@@ -26,7 +26,7 @@
 .switch input[type="checkbox"]:checked::before {
   /* background-color: var(--silent-hud-primary); */
   background-color: var(--silent-hud-secondary);
-  filter: brightness(0.45);
+  filter: brightness(0.55);
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }

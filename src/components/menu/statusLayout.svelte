@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { iconLayouts } from '../../types/types'
-  import PlayerHudUIStore from '../../stores/playerStatusHudStore'
-  import Select from '../atoms/select.svelte'
+  import { iconLayouts } from '../../types/types';
+  import LayoutStore from '../../stores/layoutStore';
+  import Select from '../atoms/select.svelte';
+  import NumberInput from '../atoms/number-input.svelte';
   import { faGlobe } from '@fortawesome/free-solid-svg-icons';
   import Fa from 'svelte-fa';
 </script>
@@ -22,7 +23,18 @@
   <div class="flex justify-center mb-4">
     <div class="w-50">
       <p class="text-lg text-center mb-2">Change Icon Layout</p>
-      <Select valuesArray={iconLayouts} value={$PlayerHudUIStore.layout} handleSelectFunction={PlayerHudUIStore.updateLayout}/>
+      <Select valuesArray={iconLayouts} value={$LayoutStore.layout} handleSelectFunction={LayoutStore.updateLayout}/>
+    </div>
+  </div>
+
+  <div class="mx-4 mb-8 grid grid-cols-4 gap-6">
+    <div>
+      <p class="text-base text-center mb-2">Change Between Icon Spacing</p>
+      <NumberInput min={1} max={1000} bind:value={$LayoutStore.iconBetweenSpacing}/>
+    </div>
+    <div>
+      <p class="text-base text-center mb-2">Change Y-Axis Spacing</p>
+      <NumberInput min={1} max={1000} bind:value={$LayoutStore.yAxisSpacing}/>
     </div>
   </div>
 </div>
