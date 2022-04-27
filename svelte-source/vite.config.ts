@@ -27,6 +27,8 @@ export default defineConfig(({ mode }) => {
     base: './', // fivem nui needs to have local dir reference, why god why
     build: {
       minify: isProduction,
+      emptyOutDir: true,
+      outDir: '../html',
       assetsDir: './',
       rollupOptions: {
         output: {

@@ -1,5 +1,5 @@
 import { get, writable } from 'svelte/store';
-import PlayerHudStore from '../stores/playerStatusHudStore';
+import PlayerHudStore from './playerStatusHudStore';
 import type { optionalHudIconType } from '../types/types';
 import { createShapeIcon } from '../types/types';
 import { faDatabase, faWind, faExclamation, faLightbulb, faDollarSign, faPersonSwimming,

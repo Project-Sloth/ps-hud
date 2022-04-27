@@ -8,13 +8,14 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+./svelte-source/node_modules
 dist
 dist-ssr
 *.local
 
 # Editor directories and files
 .vscode/*
-!.vscode/extensions.json
+./svelte-source/vscode
 .idea
 .DS_Store
 *.suo
