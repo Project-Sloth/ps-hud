@@ -77,7 +77,7 @@ const store = () => {
         } else if (data.display != null && data.display != undefined && !data.display) {
           state.icons = delete state.icons[name] && state.icons;
         } else {
-          console.error("QB-Buffs front-end: Buff State Message malformed!");
+          console.error("QB-Buffs error: Buff State Message malformed!");
         }
 
         return state;
@@ -86,20 +86,36 @@ const store = () => {
 
     receiveEnhancementStatusMessage(data: enhancementStatusMessage) {
       const name = data.enhancementName;
+      if (!name) {
+        console.error("QB-Buffs error: Enchancement Message name malformed:", data.enhancementName);
+        return;
+      }
+      const playerIconName = name.replace('super-','');
 
       update(state => {
-        if (!state.icons[name]) {
+        if (!state.icons[name] && data.display) {
           const playerStatusdata = get(PlayerHudStore);
-          const playerIconName = name.replace('super-','');
-          if (!playerStatusdata.icons[playerIconName]) {
-            
+          const playerIcon = playerStatusdata.icons[playerIconName];
+          if (!playerIcon) {
+            console.error("QB-Buffs error: Enhancement Message name not valid:", data.enhancementName);
+            return state;
+          }
+
+          // Saving this as the old reference to put back when enchancement is over
+          state.icons[name] = { iconColor: playerIcon.iconColor };
+
+        } else if (data.display === false) {
+          if (!state.icons[name]) {
+            console.error("QB-Buffs error: Enchancement name not found:", data.enhancementName);
             return state;
           }
           
-          return state;
-        }
+          PlayerHudStore.updateIconSetting(playerIconName as any, "iconColor", state.icons[name].iconColor);
+          state.icons = delete state.icons[name] && state.icons;
 
-        state.icons[name] = { iconColor: true };
+        } else {
+          console.error("QB-Buffs error: Enhancement Message malformed:", data);
+        }
 
         return state;
       });

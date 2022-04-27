@@ -15,7 +15,6 @@ dist-ssr
 
 # Editor directories and files
 .vscode/*
-./svelte-source/vscode
 .idea
 .DS_Store
 *.suo
