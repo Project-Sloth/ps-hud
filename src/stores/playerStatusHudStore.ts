@@ -3,7 +3,7 @@ import { faHeart, faShieldAlt, faHamburger, faTint, faBrain, faStream,
   faParachuteBox, faMeteor, faLungs, faOilCan, faUserSlash,
   faTachometerAltFast, faTerminal, faHeadset, faMicrophone,
 } from '@fortawesome/free-solid-svg-icons'
-import type { playerHudIcons, shapekind, layoutIconKind, iconNamesKind, optionalHudIconType } from '../types/types';
+import type { playerHudIcons, shapekind, iconNamesKind, optionalHudIconType } from '../types/types';
 import { defaultHudIcon, createShapeIcon } from '../types/types';
 import ColorEffectStore from './colorEffectStore';
 import MenuStore from './menuStore';
@@ -83,8 +83,6 @@ const store = () => {
     showingOrder: ["voice", "health", "armor", "hunger", "thirst", "stress", "oxygen", "armed",
       "parachute", "engine", "harness", "cruise", "nitro", "dev"],
   }
-  // This is needed for this global color to not override all icons colors on startup (see color-picker for more info)
-  playerHudUIState.globalIconSettings.progressColor = "#ff783e";
   
   const { subscribe, set, update } = writable(playerHudUIState);
 

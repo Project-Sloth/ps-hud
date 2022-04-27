@@ -1,15 +1,21 @@
 <script lang="ts">
-	import { ColorPicker, Color } from './color-picker/index.js'
-	export let colorString: string = '#ff783e';
+	import { ColorPicker, Color } from './color-picker/index'
+	const defaultColorString: string = '#ff783e';
+	export let colorString: string = defaultColorString;
   export let updateFunction: (colorHex) => void = null;
 	let color: Color = Color.hex(colorString);
 
-	$: color = Color.hex(colorString);
+	$:  {
+		// If we are provided an empty string then change it to defaultColorString
+		// That way we dont have a false update on loading of the component
+		color = Color.hex(colorString != "" ? colorString : defaultColorString);
+	}
 
   $: {
-    if (updateFunction) {
-			// Ensure to not update if the colorString is already that color
-      if (color.toHex && color.toHex() != colorString) {
+    if (updateFunction && color.toHex) {
+			let newColorString: string = color.toHex();
+			// Ensure to not update if the colorString is already that color and not the defaultColorString
+      if (newColorString != colorString && newColorString != defaultColorString) {
 				updateFunction(color.toHex());
       }
     }

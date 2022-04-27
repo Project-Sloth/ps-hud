@@ -59,97 +59,102 @@
 {/if}
 
 <style>
-.baseplate {
-  position: relative;
-  margin: 0 auto;
-  top: -0.8vh;
-	width: 150px;
-  height: auto;
-}
+  .baseplate {
+    position: relative;
+    margin: 0 auto;
+    top: -0.8vh;
+    width: 150px;
+    height: auto;
+  }
 
-.street-container {
-  position: relative;
-  top: 0.5vh;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.4vh;
-  letter-spacing: 0.7px;
-  text-decoration: none;
-  font-style: normal;
-  font-variant: small-caps;
-  text-transform: none;
-  font-weight: 800;
-  text-shadow: 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6);
-}
+  .bearingText {
+    font-size: 1.4vh!important;
+    font-weight: 800!important;
+  }
 
-.street1 {
-  position: absolute;
-  margin: 0 auto;
-  right: 55%;
-  text-align: right!important;
-  color: rgb(255, 255, 255);
-}
+  .street-container {
+    position: relative;
+    top: 0.5vh;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.4vh;
+    letter-spacing: 0.7px;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: none;
+    font-weight: 800;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6);
+  }
 
-.street2 {
-  position: absolute;
-  margin: 0 auto;
-  left: 55%;
-  text-align: left!important;
-  color: rgb(255, 255, 255);
-}
+  .street1 {
+    position: absolute;
+    margin: 0 auto;
+    right: 55%;
+    text-align: right!important;
+    color: rgb(255, 255, 255);
+  }
 
-.pointer {
-  position: absolute;
-  margin: 0 auto;
-  top: -2%;
-  left: 0;
-  right: 0;
-  font-family: 'Yantramanav', sans-serif;
-  color: rgb(255, 255, 255);
-  font-size: 2.2vh;
-  text-align: center;
-  text-shadow: 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6);
-  z-index: 9999;
-}
+  .street2 {
+    position: absolute;
+    margin: 0 auto;
+    left: 55%;
+    text-align: left!important;
+    color: rgb(255, 255, 255);
+  }
 
-.degrees {
-  position: absolute;
-  margin: 0 auto;
-  top: 80%;
-  left: 0;
-  right: 0;
-  opacity: 0.8;
-  font-family: 'Yantramanav', sans-serif;
-  color: rgb(255, 255, 255);
-  font-size: 1.5vh;
-  font-weight: 600;
-  text-align: center;
-  text-shadow: 0 0 1px rgb(0 0 0 / 60%), 0 0 1px rgb(0 0 0 / 60%), 0 0 1px rgb(0 0 0 / 60%), 0 0 1px rgb(0 0 0 / 60%);
-}
+  .pointer {
+    position: absolute;
+    margin: 0 auto;
+    top: -2%;
+    left: 0;
+    right: 0;
+    font-family: 'Yantramanav', sans-serif;
+    color: rgb(255, 255, 255);
+    font-size: 2.2vh;
+    text-align: center;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+  }
 
-.bezel {
-  position: relative;
-  width:100%;
-  height: 2vh;
-  font-family: 'Yantramanav', sans-serif;
-  font-size: 0.35vh;
-  font-weight: 700;
-  text-shadow: 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6);
-}
+  .degrees {
+    position: absolute;
+    margin: 0 auto;
+    top: 80%;
+    left: 0;
+    right: 0;
+    opacity: 0.8;
+    font-family: 'Yantramanav', sans-serif;
+    color: rgb(255, 255, 255);
+    font-size: 1.5vh;
+    font-weight: 600;
+    text-align: center;
+    text-shadow: 0 0 1px rgb(0 0 0 / 60%), 0 0 1px rgb(0 0 0 / 60%), 0 0 1px rgb(0 0 0 / 60%), 0 0 1px rgb(0 0 0 / 60%);
+  }
 
-.bearing {
-  position: relative;
-  width:100%;
-  top: -0.5vh;
-  height: 3.5vh;
-  padding-left: 0.12vw;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 2vh;
-  letter-spacing: 0.7px;
-  text-decoration: none;
-  font-style: normal;
-  font-variant: small-caps;
-  text-transform: none;
-  font-weight: 600;
-  text-shadow: 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6);
-}
+  .bezel {
+    position: relative;
+    width:100%;
+    height: 2vh;
+    font-family: 'Yantramanav', sans-serif;
+    font-size: 0.35vh;
+    font-weight: 700;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6);
+  }
+
+  .bearing {
+    position: relative;
+    width:100%;
+    top: -0.5vh;
+    height: 3.5vh;
+    padding-left: 0.12vw;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2vh;
+    letter-spacing: 0.7px;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: none;
+    font-weight: 600;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6);
+  }
 </style>

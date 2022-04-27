@@ -5,6 +5,10 @@
   import NumberInput from '../atoms/number-input.svelte';
   import { faGlobe } from '@fortawesome/free-solid-svg-icons';
   import Fa from 'svelte-fa';
+  import Button from '../atoms/button.svelte'
+  import ExternalStatusStore from '../../stores/externalStatusStore';
+
+  let testVal: number = 0;
 </script>
 
 
@@ -30,11 +34,11 @@
   <div class="mx-4 mb-8 grid grid-cols-4 gap-6">
     <div>
       <p class="text-base text-center mb-2">Change Between Icon Spacing</p>
-      <NumberInput min={1} max={1000} bind:value={$LayoutStore.iconBetweenSpacing}/>
+      <NumberInput min={-100} max={1000} bind:value={$LayoutStore.iconBetweenSpacing}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Change Y-Axis Spacing</p>
-      <NumberInput min={1} max={1000} bind:value={$LayoutStore.yAxisSpacing}/>
+      <NumberInput min={-100} max={1000} bind:value={$LayoutStore.yAxisSpacing}/>
     </div>
   </div>
 </div>

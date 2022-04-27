@@ -20,7 +20,6 @@
       outlineColor={$VehicleHudStore.fuelColor} outlineColorOpacity={0.6} height={36} width={36} progressValue={$VehicleHudStore.fuel}
       icon={faGasPump} iconColor={"white"}
     />
-      <!-- <q-icon name="fas fa-gas-pump" style="transform: rotate(125deg);" size="14px" color="white"/> -->
   </div>
   
   {#if $VehicleHudStore.showAltitude}
@@ -33,14 +32,11 @@
   {/if}
 
   {#if $VehicleHudStore.showSeatBelt}
-      <div class="responsive" id="seatbelt">
-        <div transition:fade|local="{{duration: 1000}}">
-        <Fa icon={faUserSlash} scale={1} style="color:{$VehicleHudStore.seatbeltColor}"/>
-          <!-- <q-circular-progress class="q-ml-xl" style="transform: rotate(-125deg); opacity: 60%;" size="70px" :thickness="0.21" color="gauge" :min="0" :max="100">
-          <q-circular-progress class="q-ml-xl" style="transform: rotate(-125deg); left: -40%;" show-value size="70px" :thickness="0.21" color="gauge" :min="0" :max="750">
-          <q-icon name="fas fa-user-slash" style="transform: rotate(125deg);" :value="seatbelt" size="21px" :style="{color: seatbeltColor}"/> -->
-      </div>
+    <div class="responsive" id="seatbelt">
+      <div transition:fade|local="{{duration: 1000}}">
+      <Fa icon={faUserSlash} scale={1} style="color:{$VehicleHudStore.seatbeltColor}"/>
     </div>
+  </div>
   {/if}
 {/if}
 
@@ -144,7 +140,7 @@
   }
   #seatbelt {
     position: relative;
-    left: 8.8vh!important;
+    left: 4.2vw!important;
   }
 }
 
@@ -169,7 +165,7 @@
   }
   #seatbelt {
     position: relative;
-    left: 8vh!important;
+    left: 7.5vw!important;
   }
 }
 
@@ -194,7 +190,7 @@
   }
   #seatbelt {
     position: relative;
-    left: 8vh!important;
+    left: 6.5vw!important;
   }
 }
 
@@ -219,7 +215,7 @@
   }
   #seatbelt {
     position: relative;
-    left: 8.5vh!important;
+    left: 6.5vw!important;
   }
 }
 
@@ -244,7 +240,7 @@
   }
   #seatbelt {
     position: relative;
-    left: 8.5vh!important;
+    left: 7.5vw!important;
   }
 }
 </style>

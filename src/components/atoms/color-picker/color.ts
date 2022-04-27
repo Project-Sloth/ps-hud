@@ -1,6 +1,9 @@
 import * as d3 from 'd3-color'
 
 export default class Color {
+	mode
+	data
+	
 	constructor (mode, data) {
 		this.mode = mode
 		this.data = data

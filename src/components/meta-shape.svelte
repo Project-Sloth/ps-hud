@@ -3,6 +3,7 @@
   import Badge from './hud-shapes/badge.svelte';
   import CircleCircleFill from './hud-shapes/circle-circle-fill.svelte';
   import CircleRing from './hud-shapes/circle-ring.svelte';
+  import CircleRingWhole from './hud-shapes/circle-ring-whole.svelte';
   import CircleWhole from './hud-shapes/circle-whole.svelte';
   import CircleSquareFill from './hud-shapes/circle-square-fill.svelte';
   import DiamondRing from './hud-shapes/diamond-ring.svelte';
@@ -37,6 +38,8 @@
   <Badge {...shapeProps} />
 {:else if hudIconInfo.shape == 'circle-ring'}
   <CircleRing {...shapeProps} />
+{:else if hudIconInfo.shape == 'circle-ring-whole'}
+  <CircleRingWhole {...shapeProps} />
 {:else if hudIconInfo.shape == 'circle-circle-fill'}
   <CircleCircleFill {...shapeProps} />
 {:else if hudIconInfo.shape == 'circle-square-fill'}

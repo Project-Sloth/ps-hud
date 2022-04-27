@@ -62,7 +62,7 @@ const store = () => {
       colorEffects: [
         { name: "default", color: "#3FA554" },
         { name: "minorDamage", color: "#dd6e14" },
-        { name: "MajorDamage", color: "#ff0000" },
+        { name: "majorDamage", color: "#ff0000" },
       ],
     },
     harness: {
@@ -106,7 +106,7 @@ const store = () => {
         return state;
       })
     },
-    updateIconColor(iconName: iconNamesKind, stageNumber: number, newColor: string) {
+    updateProgressColor(iconName: iconNamesKind, stageNumber: number, newColor: string) {
       update(state => {
         if (stageNumber < 0 || stageNumber > state[iconName].colorEffects.length-1) {
           return state;

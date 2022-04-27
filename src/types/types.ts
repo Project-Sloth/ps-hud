@@ -16,11 +16,11 @@ export const layoutPresets = ["esx-hud-hard-to-let-go"]
 export type layoutPresetKind = typeof layoutPresets[number];
 
 export const shapes = [
-  "badge", "circle-ring", "circle-circle-fill", "circle-square-fill", "circle-whole", //"cylinder",
+  "badge", "circle-ring", "circle-ring-whole", "circle-circle-fill", "circle-square-fill", "circle-whole", //"cylinder",
   "diamond-ring", "diamond-whole", "hexagon-ring", "hexagon-whole", "horizontal-bar",
   "icon-percentage", "pill-ring", "pill-whole",
   "square-circular-fill", "square-ring", "square-whole", "star-ring", "triangle-ring", 
-  "vertical-bar",
+  // "vertical-bar",
 ] as const;
 export type shapekind = typeof shapes[number];
 
@@ -89,7 +89,7 @@ export class baseIcon implements baseIconProps {
   width = 50;
 
   constructor(shape: shapekind,
-    { icon=null, iconColor="", isShowing=false, innerColor="orange", name="", progressValue=100 }={}) {
+    { icon=null, iconColor="", isShowing=false, innerColor="#212121", name="", progressValue=100 }={}) {
 
     switch (shape) {
       case "circle-circle-fill":
@@ -130,6 +130,7 @@ export class ringIcon extends baseIcon implements ringIconProps {
     super(shape, optionalProps);
     switch (shape) {
       case "circle-ring":
+      case "circle-ring-whole":
         this.iconScaling = 0.4;
         this.ringSize = 5;
         break;
@@ -220,6 +221,7 @@ export function createShapeIcon(shape: shapekind, optionalProps={}): optionalHud
     case "square-circular-fill":
       return new baseIcon(shape, optionalProps);
     case "circle-ring":
+    case "circle-ring-whole":
     case "diamond-ring":
     case "hexagon-ring":
     case "square-ring":

@@ -1,5 +1,6 @@
 <script lang="ts">
   import PlayerHudStore from '../stores/playerStatusHudStore';
+  import ExternalStatusStore from '../stores/externalStatusStore';
   import ColorEffectStore from '../stores/colorEffectStore';
   import type { playerHudIcons, optionalPlayerHudIconsType, optionalHudIconType } from '../types/types';
   import { fade } from 'svelte/transition';
@@ -27,10 +28,16 @@
   {#if ($PlayerHudStore.icons[iconName].isShowing && !iconsToNotShow.includes(iconName)) || $PlayerHudStore.designMode}
     <div transition:fade|local="{{duration: 1000}}" class="my-auto">
       <MetaShape hudIconInfo={{...$PlayerHudStore.icons[iconName],
-        progressColor: $ColorEffectStore[iconName]?.colorEffects[
-          $PlayerHudStore.designMode ? 0 : $ColorEffectStore[iconName]?.currentEffect
-          ]?.color,
+        progressColor: $ColorEffectStore[iconName]?.colorEffects[ $PlayerHudStore.designMode ? 0 : $ColorEffectStore[iconName]?.currentEffect]?.color,
         progressValue: $PlayerHudStore.designMode ? $PlayerHudStore.designProgress : $PlayerHudStore.icons[iconName].progressValue}}/>
+    </div>
+  {/if}
+{/each}
+
+{#each Object.entries($ExternalStatusStore.icons) as [iconName, statusIcon] }
+  {#if statusIcon.isShowing}
+    <div transition:fade|local="{{duration: 1000}}" class="my-auto">
+      <MetaShape hudIconInfo={statusIcon}/>
     </div>
   {/if}
 {/each}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte'
 	import Color from './color'
-	import { dimensions, getDimension } from './dimensions.js'
+	import { dimensions, getDimension } from './dimensions'
 	import ScrollBar from './Scrollbar.svelte'
 	import Matrix from './Matrix.svelte'
 	import DimInput from './DimInput.svelte'

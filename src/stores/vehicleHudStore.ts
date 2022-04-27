@@ -9,7 +9,6 @@ type vehicleStatusType = {
   altitudegauge: number,
   fuel: number,
   speed: number,
-  seatbeat: number,
   show: boolean,
   showAltitude: boolean,
   showSeatBelt: boolean,
@@ -19,7 +18,7 @@ type vehicleStatusType = {
   showCircleBorder: boolean,
   seatbeltColor: string,
 }
-//   action: string,
+
 type vehicleHudUpdateMessageType = {
   show: boolean,
   isPaused: boolean,
@@ -30,9 +29,14 @@ type vehicleHudUpdateMessageType = {
   showAltitude: boolean,
   showSeatbelt: boolean,
   showSquareB: boolean,
-  showCircleB: boolean,
-  
+  showCircleB: boolean, 
 }
+
+type vehicleHudShowMessage = {
+  show: boolean,
+  seatbelt: boolean,
+}
+
 
 const store = () => {
 
@@ -44,7 +48,6 @@ const store = () => {
     altitudegauge: 75, // Used for html value, dont need to be sent this
     fuel: 0,
     speed: 0,
-    seatbeat: 0,
     show: false,
     showAltitude: false,
     showSeatBelt: false,
@@ -58,7 +61,19 @@ const store = () => {
   const { subscribe, set, update } = writable(vehicleStatusState);
 
   const methods = {
-    receiveMessage(data: vehicleHudUpdateMessageType) {
+    recieveShowMessage(data: vehicleHudShowMessage) {
+      update(state => {
+        state.show = data.show;
+        state.showSeatBelt = data.seatbelt;
+        if (data.seatbelt) {
+          state.seatbeltColor = "transparent";
+        } else {
+          state.seatbeltColor = "#FF5100";
+        }
+        return state;
+      })
+    },
+    receiveUpdateMessage(data: vehicleHudUpdateMessageType) {
       update(state => {
         // console.log("vehicle message:", data);
         state.show = data.show;
@@ -71,10 +86,8 @@ const store = () => {
         state.showCircleBorder = data.showCircleB;
 
         if (data.seatbelt) {
-          state.seatbeat = 100;
           state.seatbeltColor = "transparent";
         } else {
-          state.seatbeat = 0;
           state.seatbeltColor = "#FF5100";
         }
 

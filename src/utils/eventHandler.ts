@@ -4,6 +4,7 @@ import CompassHudStore from '../stores/compassHudStore';
 import MenuStore from '../stores/menuStore';
 import MoneyHudStore from '../stores/moneyHudStore';
 import PlayerHudStore from '../stores/playerStatusHudStore';
+import ExternalStatusStore from "../stores/externalStatusStore";
 import LayoutStore from '../stores/layoutStore';
 import VehicleHudStore from '../stores/vehicleHudStore';
 import ColorEffectStore from '../stores/colorEffectStore';
@@ -19,7 +20,7 @@ interface nuiMessage {
 
 export function EventHandler() {
   function mainEvent(event: nuiMessage) {
-    switch(event.data.action) {
+    switch (event.data.action) {
       case "adminstatus":
         MenuStore.receiveAdminMessage(event.data as any);
       case "baseplate":
@@ -27,12 +28,29 @@ export function EventHandler() {
         CompassHudStore.receiveCompassMessage(event.data as any);
         break;
       case "car":
-        // console.log("Car/Vehicle TICK!!", event);
-        VehicleHudStore.receiveMessage(event.data as any);
+        //console.log("Car/Vehicle TICK!!", event);
+        switch (event.data.topic) {
+          case "display":
+            VehicleHudStore.recieveShowMessage(event.data as any);
+            break;
+          case "status":
+            VehicleHudStore.receiveUpdateMessage(event.data as any);
+          break;
+        }
+        break;
+      case "externalstatus":
+        switch (event.data.topic) {
+          case "buff":
+            ExternalStatusStore.receiveBuffStatusMessage(event.data as any);
+            break;
+          case "enhancement":
+            ExternalStatusStore.receiveEnhancementStatusMessage(event.data as any);
+            break;
+        }
         break;
       case "hudtick":
         // console.log("HUDTICK!!:", event);
-        switch(event.data.topic) {
+        switch (event.data.topic) {
           case "display":
             PlayerHudStore.receiveShowMessage(event.data as any);
             break;

@@ -30,7 +30,6 @@
   let strokeDashoffset: number = 10;
   let pillRing: any = null;
   let pathLength: number = 0;
-  let mounted: boolean = false;
 
   const progressTween = tweened(progressValue, {
 		duration: 600,
@@ -66,6 +65,33 @@
   { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
 >
   <rect
+    fill={innerColor}
+    width={width-10-(ringSize/2)}
+    height={height-10-(ringSize/2)}
+    stroke-dasharray={pathLength + " " + pathLength}
+    stroke-dashoffset={0}
+    stroke-width={ringSize}
+    rx={xAxisRound}
+    ry={yAxisRound}
+    x={5+(ringSize/4)} y={5+(ringSize/4)}
+  />
+  {#if displayOutline}
+    <rect
+      fill="transparent"
+      stroke={outlineColor}
+      stroke-opacity={outlineColorOpacity}
+      width={width-10}
+      height={height-10}
+      stroke-dasharray={pathLength + " " + pathLength}
+      stroke-dashoffset={0}
+      stroke-width={ringSize}
+      rx={xAxisRound}
+      ry={yAxisRound}
+      x="5" y="5"
+    />
+  {/if}
+  <rect
+    fill="transparent"
     stroke={progressColor}
     width={width-10}
     height={height-10}
