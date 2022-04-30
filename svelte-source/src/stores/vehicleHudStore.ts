@@ -55,7 +55,7 @@ const store = () => {
     showSquareBorder: false,
     ShowCircle: false,
     showCircleBorder: false,
-    seatbeltColor: "",
+    seatbeltColor: "#e85b14",//"#d9441e",//"#D54414",
   }
 
   const { subscribe, set, update } = writable(vehicleStatusState);
@@ -65,11 +65,12 @@ const store = () => {
       update(state => {
         state.show = data.show;
         state.showSeatBelt = data.seatbelt;
-        if (data.seatbelt) {
-          state.seatbeltColor = "transparent";
-        } else {
-          state.seatbeltColor = "#FF5100";
-        }
+        // TODO: don't think this is needed as we dynamically show it
+        // if (data.seatbelt) {
+        //   state.seatbeltColor = "transparent";
+        // } else {
+        //   state.seatbeltColor = "#FF5100";
+        // }
         return state;
       })
     },
@@ -86,9 +87,9 @@ const store = () => {
         state.showCircleBorder = data.showCircleB;
 
         if (data.seatbelt) {
-          state.seatbeltColor = "transparent";
+          state.showSeatBelt = false;
         } else {
-          state.seatbeltColor = "#FF5100";
+          state.showSeatBelt = true;
         }
 
         if (data.fuel <= 20) {

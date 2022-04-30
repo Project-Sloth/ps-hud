@@ -34,10 +34,16 @@
   {/if}
 {/each}
 
-{#each Object.entries($ExternalStatusStore.icons) as [iconName, statusIcon] }
-  {#if statusIcon.isShowing}
+{#each Object.entries($ExternalStatusStore) as [iconName, statusIcon] (iconName) }
+  <!-- Only show buffs since only buffs will have names in them -->
+  {#if statusIcon.name}
     <div transition:fade|local="{{duration: 1000}}" class="my-auto">
-      <MetaShape hudIconInfo={statusIcon}/>
+      {#if statusIcon.isShowing || $PlayerHudStore.designMode}
+        <!-- Future reference when we want to dynamically show buff during duration of buff -->
+        <!-- <div transition:fade|local="{{duration: 1000}}" class="my-auto"> -->
+          <MetaShape hudIconInfo={statusIcon}/>
+        <!-- </div> -->
+      {/if}
     </div>
   {/if}
 {/each}

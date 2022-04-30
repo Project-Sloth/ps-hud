@@ -14,6 +14,12 @@
 
   let group = '';
 
+  let iconPanelColors: Array<string> = [
+    "#FFFFFF", "rgb(33, 171, 97)", "#326dbf", "#dd6e14", "#1a7cad", "rgb(220, 6, 6)", 
+    "rgb(138, 168, 189)", "rgb(255, 72, 133)", "rgb(185, 255, 40)", "#3FA554", 
+    "rgb(182, 72, 255)", "rgb(255, 72, 133)", "#D64763", "rgb(0, 0, 0)"
+  ]; 
+
 </script>
 
 <div class="text-sm flex flex-col text-[#e8e8e8] select-none">
@@ -150,7 +156,7 @@
   <hr>
 
   {#each iconNames as name, i}
-    <Panel name={`${name}`} icon={$PlayerHudUIStore.icons[name].icon} color={"white"} bind:group>
+    <Panel name={`${name}`} icon={$PlayerHudUIStore.icons[name].icon} color={iconPanelColors[i]} bind:group>
       <div class="flex justify-center mb-8">
         <div class="w-50">
           <p class="text-lg text-center mb-2">Change Icon Shape</p>

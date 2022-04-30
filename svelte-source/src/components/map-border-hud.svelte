@@ -1,10 +1,11 @@
 <script lang="ts">
   import VehicleHudStore from '../stores/vehicleHudStore';
+  import DebugStore from '../stores/debugStore';
 </script>
 
-{#if $VehicleHudStore.show}
+{#if $VehicleHudStore.show || DebugStore}
   <div class="mapborder">
-    {#if $VehicleHudStore.showSquareBorder}
+    {#if $VehicleHudStore.showSquareBorder || DebugStore}
       <div class="square" />
     {/if}
     {#if $VehicleHudStore.showCircleBorder}

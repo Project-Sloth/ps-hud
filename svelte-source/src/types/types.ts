@@ -132,7 +132,7 @@ export class ringIcon extends baseIcon implements ringIconProps {
       case "circle-ring":
       case "circle-ring-whole":
         this.iconScaling = 0.4;
-        this.ringSize = 5;
+        this.ringSize = 6;
         break;
       case "diamond-ring":
         this.height = 60;
@@ -247,7 +247,7 @@ export type optionalPlayerHudIconsType = Partial<{ [Property in keyof playerHudI
 
 export function defaultHudIcon(name = "", showing=false, color="#ff783e", icon=null): any {
   return createShapeIcon("circle-ring",
-    { iconColor: color, isShowing: showing, icon: icon,
+    { iconColor: "white", isShowing: showing, icon: icon,
       innerColor: "#212121", name: name
     });
 }

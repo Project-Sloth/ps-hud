@@ -1,6 +1,7 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
   import VehicleHudStore from '../stores/vehicleHudStore';
+  import DebugStore from '../stores/debugStore';
   import PartialCircleRing from './hud-shapes/partial-circle-ring.svelte';
   import { faGasPump, faUserSlash } from '@fortawesome/free-solid-svg-icons';
   import Fa from 'svelte-fa';
@@ -8,7 +9,7 @@
   // TODO see if most of these components can be under the same responsive class div, need to test once this is working
 </script>
 
-{#if $VehicleHudStore.show}
+{#if $VehicleHudStore.show || DebugStore}
   <div class="responsive" id="speedometer">
       <PartialCircleRing maxLengthDisplay={66} rotateDegree={212} ringSize={5.5} progressColor={"white"}
         outlineColor={"white"} outlineColorOpacity={0.6} height={60} width={60} progressValue={$VehicleHudStore.speed}
@@ -16,9 +17,9 @@
       />
   </div>
   <div class="responsive" id="fuelgauge">
-    <PartialCircleRing maxLengthDisplay={69} rotateDegree={235} ringSize={4} progressColor={$VehicleHudStore.fuelColor}
+    <PartialCircleRing maxLengthDisplay={69} rotateDegree={235} ringSize={3.5} progressColor={$VehicleHudStore.fuelColor}
       outlineColor={$VehicleHudStore.fuelColor} outlineColorOpacity={0.6} height={36} width={36} progressValue={$VehicleHudStore.fuel}
-      icon={faGasPump} iconColor={"white"}
+      icon={faGasPump} iconColor={"white"} iconScaling={0.38}
     />
   </div>
   
@@ -32,11 +33,11 @@
   {/if}
 
   {#if $VehicleHudStore.showSeatBelt}
-    <div class="responsive" id="seatbelt">
-      <div transition:fade|local="{{duration: 1000}}">
-      <Fa icon={faUserSlash} scale={1} style="color:{$VehicleHudStore.seatbeltColor}"/>
+    <div transition:fade|local="{{duration: 500}}">
+      <div class="responsive" id="seatbelt">
+        <Fa icon={faUserSlash} scale={1.1} style="color:{$VehicleHudStore.seatbeltColor}"/>
+      </div>
     </div>
-  </div>
   {/if}
 {/if}
 
@@ -140,7 +141,8 @@
   }
   #seatbelt {
     position: relative;
-    left: 4.2vw!important;
+    left: 4.1vw!important;
+    bottom: 8.5vh!important;
   }
 }
 

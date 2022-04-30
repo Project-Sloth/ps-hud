@@ -5,10 +5,8 @@
   import NumberInput from '../atoms/number-input.svelte';
   import { faGlobe } from '@fortawesome/free-solid-svg-icons';
   import Fa from 'svelte-fa';
-  import Button from '../atoms/button.svelte'
-  import ExternalStatusStore from '../../stores/externalStatusStore';
-
-  let testVal: number = 0;
+  import Button from '../atoms/button.svelte';
+  import vehicleHudStore from '../../stores/vehicleHudStore';
 </script>
 
 
@@ -41,4 +39,11 @@
       <NumberInput min={-100} max={1000} bind:value={$LayoutStore.yAxisSpacing}/>
     </div>
   </div>
+
+  <Button name="Show seatbelt" buttonClass={"h-10"}
+    on:click={() => {$vehicleHudStore.showSeatBelt = true}}
+  />
+  <Button name="Hide seatbelt" buttonClass={"h-10"}
+    on:click={() => {$vehicleHudStore.showSeatBelt = false}}
+  />
 </div>

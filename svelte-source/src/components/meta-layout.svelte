@@ -70,7 +70,7 @@
     </div>
   {:else if layout == "standard"}
     <div 
-      class="absolute bottom-[0.3vw] left-[0.5vw] flex flex-row standard-layout"
+      class="absolute bottom-[0.3vw] left-[0.3vw] flex flex-row standard-layout"
       style="gap: {$LayoutStore.iconBetweenSpacing+'px'}; margin-bottom: {$LayoutStore.yAxisSpacing+'px'};">
       <IconsList />
     </div>

@@ -39,6 +39,7 @@ export function EventHandler() {
         }
         break;
       case "externalstatus":
+        //console.log("Buff/Enchancement message!", event.data);
         switch (event.data.topic) {
           case "buff":
             ExternalStatusStore.receiveBuffStatusMessage(event.data as any);

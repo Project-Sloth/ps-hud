@@ -622,54 +622,52 @@ end)
 --      progressValue: number(0 - 100) - current progress of buff shown on icon
 --      progressColor: string (hex #ffffff) - progress color on icon
 --  }
-RegisterNetEvent('hud:client:BuffEffect', function(data)    
-    -- print("Updated External Status Names!!!!!!!!!!!!!!!")
-    if data.progressColor then
+RegisterNetEvent('hud:client:BuffEffect', function(data)
+    if data.progressColor ~= nil then
         SendNUIMessage({
             action = "externalstatus",
             topic = "buff",
             display = data.display,
             iconColor = data.iconColor,
             iconName = data.iconName,
-            buffName = data.name,
+            buffName = data.buffName,
             progressValue = data.progressValue,
             progressColor = data.progressColor,
         })
-    elseif data.progressValue then
+    elseif data.progressValue ~= nil then
         SendNUIMessage({
             action = "externalstatus",
             topic = "buff",
-            buffName = data.name,
+            buffName = data.buffName,
             progressValue = data.progressValue,
         })
-    elseif data.display then
+    elseif data.display ~= nil then
         SendNUIMessage({
             action = "externalstatus",
             topic = "buff",
-            buffName = data.name,
+            buffName = data.buffName,
             display = data.display,
         })
     else
-        print("QB-hud error: data invalid from client event call: hud:client:BuffEffect")
+        print("QB-Hud error: data invalid from client event call: hud:client:BuffEffect")
     end
 end)
 
-RegisterNetEvent('hud:client:EnhancementEffect', function(data)    
-    -- print("Updated External Status Names!!!!!!!!!!!!!!!")
-    if data.iconColor then
+RegisterNetEvent('hud:client:EnhancementEffect', function(data)
+    if data.iconColor ~= nil then
         SendNUIMessage({
             action = "externalstatus",
             topic = "enhancement",
             display = data.display,
-            iconColor = data.iconName,
-            enhancementName = data.name,
+            iconColor = data.iconColor,
+            enhancementName = data.enhancementName,
         })
-    elseif data.display then
+    elseif data.display ~= nil then
         SendNUIMessage({
             action = "externalstatus",
             topic = "enhancement",
             display = data.display,
-            enhancementName = data.name,
+            enhancementName = data.enhancementName,
         })
     else
         print("QB-hud error: data invalid from client event call: hud:client:EnhancementEffect")

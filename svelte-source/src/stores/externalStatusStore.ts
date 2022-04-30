@@ -45,9 +45,7 @@ function getIconData(iconName: string): IconDefinition {
 
 const store = () => {
 
-  const externalStatusState: externalStatusStateType = {
-    icons: {}
-  }
+  const externalStatusState: externalStatusStateType = {}
 
   const { subscribe, set, update } = writable(externalStatusState);
 
@@ -56,7 +54,7 @@ const store = () => {
       const name = data.buffName;
 
       update(state => {
-        if (!state.icons[name]) {
+        if (!state[name]) {
           const playerStatusdata = get(PlayerHudStore);
 
           let defaultShape = createShapeIcon(playerStatusdata.globalIconSettings.shape, 
@@ -67,15 +65,15 @@ const store = () => {
             });
           defaultShape.progressColor = data.progressColor || "#FFD700"; // gold color
           
-          state.icons[name] = defaultShape;
+          state[name] = defaultShape;
   
           return state;
         }
 
         if (!isNaN(data.progressValue) && data.progressValue >= 0) {
-          state.icons[name].progressValue = data.progressValue;
+          state[name].progressValue = data.progressValue;
         } else if (data.display != null && data.display != undefined && !data.display) {
-          state.icons = delete state.icons[name] && state.icons;
+          state = delete state[name] && state;
         } else {
           console.error("QB-Buffs error: Buff State Message malformed!");
         }
@@ -93,7 +91,7 @@ const store = () => {
       const playerIconName = name.replace('super-','');
 
       update(state => {
-        if (!state.icons[name] && data.display) {
+        if (!state[name] && data.display && data.iconColor) {
           const playerStatusdata = get(PlayerHudStore);
           const playerIcon = playerStatusdata.icons[playerIconName];
           if (!playerIcon) {
@@ -102,16 +100,18 @@ const store = () => {
           }
 
           // Saving this as the old reference to put back when enchancement is over
-          state.icons[name] = { iconColor: playerIcon.iconColor };
+          state[name] = { iconColor: playerIcon.iconColor };
+
+          PlayerHudStore.updateIconSetting(playerIconName as any, "iconColor", data.iconColor);
 
         } else if (data.display === false) {
-          if (!state.icons[name]) {
+          if (!state[name]) {
             console.error("QB-Buffs error: Enchancement name not found:", data.enhancementName);
             return state;
           }
           
-          PlayerHudStore.updateIconSetting(playerIconName as any, "iconColor", state.icons[name].iconColor);
-          state.icons = delete state.icons[name] && state.icons;
+          PlayerHudStore.updateIconSetting(playerIconName as any, "iconColor", state[name].iconColor);
+          state = delete state[name] && state;
 
         } else {
           console.error("QB-Buffs error: Enhancement Message malformed:", data);
