@@ -41,7 +41,8 @@ type playerHudUpdateMessageType = {
   hunger: number,
   stress: number,
   voice: number,
-  radio: number,
+  radioChannel: number,
+  radioTalking: boolean,
   talking: boolean,
   armed: boolean,
   oxygen: number,
@@ -382,7 +383,7 @@ const store = () => {
         }
   
         if (data.talking) {
-          if (data.radio) {
+          if (data.radioTalking) {
             ColorEffectStore.updateIconColorEffectStage("voice", 2);
           } else {
             ColorEffectStore.updateIconColorEffectStage("voice", 1);
@@ -391,13 +392,9 @@ const store = () => {
           ColorEffectStore.updateIconColorEffectStage("voice", 0);
         }
 
-        // Dont know why this would be undefined?
-        // I guess when we dont have a radio?
-        if (data.radio != 0 && data.radio != undefined) {
+        if (data.radioChannel && data.radioChannel > 0) {
           state.icons.voice.icon = faHeadset;
-        // Dont know why this would be undefined?
-        // I guess when we dont have a radio?
-        } else if (data.radio == 0 || data.radio == undefined) {
+        } else {
           state.icons.voice.icon = faMicrophone;
         }
 

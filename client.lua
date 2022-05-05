@@ -29,7 +29,7 @@ local showSquareB = false
 local Menu = config.Menu
 local CinematicHeight = 0.2
 local w = 0
-local externalStatusNames = {}
+local radioTalking = false
 
 DisplayRadar(false)
 
@@ -122,11 +122,16 @@ RegisterNetEvent("QBCore:Player:SetPlayerData", function(val)
     PlayerData = val
 end)
 
+-- Event Handlers
 AddEventHandler('onResourceStart', function(resourceName)
     if GetCurrentResourceName() ~= resourceName then return end
     Wait(2000)
     local hudSettings = GetResourceKvpString('hudSettings')
     if hudSettings then loadSettings(json.decode(hudSettings)) end
+end)
+
+AddEventHandler("pma-voice:radioActive", function(isRadioTalking)
+    radioTalking = isRadioTalking
 end)
 
 -- Callbacks & Events
@@ -623,7 +628,9 @@ end)
 --      progressColor: string (hex #ffffff) - progress color on icon
 --  }
 RegisterNetEvent('hud:client:BuffEffect', function(data)
+    print("Going to send buff efffect")
     if data.progressColor ~= nil then
+        print("Sending start of buff")
         SendNUIMessage({
             action = "externalstatus",
             topic = "buff",
@@ -635,6 +642,7 @@ RegisterNetEvent('hud:client:BuffEffect', function(data)
             progressColor = data.progressColor,
         })
     elseif data.progressValue ~= nil then
+        print("Sending progress of buff", data.progressValue)
         SendNUIMessage({
             action = "externalstatus",
             topic = "buff",
@@ -642,6 +650,7 @@ RegisterNetEvent('hud:client:BuffEffect', function(data)
             progressValue = data.progressValue,
         })
     elseif data.display ~= nil then
+        print("Sending ending of buff", data.display)
         SendNUIMessage({
             action = "externalstatus",
             topic = "buff",
@@ -741,20 +750,21 @@ local function updatePlayerHud(data)
             hunger = data[14],
             stress = data[15],
             voice = data[16],
-            radio = data[17],
-            talking = data[18],
-            armed = data[19],
-            oxygen = data[20],
-            parachute = data[21],
-            nos = data[22],
-            cruise = data[23],
-            nitroActive = data[24],
-            harness = data[25],
-            hp = data[26],
-            speed = data[27],
-            engine = data[28],
-            cinematic = data[29],
-            dev = data[30],
+            radioChannel = data[17],
+            radioTalking = data[18],
+            talking = data[19],
+            armed = data[20],
+            oxygen = data[21],
+            parachute = data[22],
+            nos = data[23],
+            cruise = data[24],
+            nitroActive = data[25],
+            harness = data[26],
+            hp = data[27],
+            speed = data[28],
+            engine = data[29],
+            cinematic = data[30],
+            dev = data[31],
         })
     end
 end
@@ -895,6 +905,7 @@ CreateThread(function()
                     stress,
                     voice,
                     LocalPlayer.state['radioChannel'],
+                    radioTalking,
                     talking,
                     armed,
                     oxygen,
@@ -944,6 +955,7 @@ CreateThread(function()
                     stress,
                     voice,
                     LocalPlayer.state['radioChannel'],
+                    radioTalking,
                     talking,
                     armed,
                     oxygen,
