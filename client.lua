@@ -1144,43 +1144,64 @@ end
 
 CreateThread(function()
     while true do
+        local waitTime = 120000
         if LocalPlayer.state.isLoggedIn then
-            local ped = PlayerPedId()
-            local effectInterval = GetEffectInterval(stress)
-            if stress >= 100 then
-                local BlurIntensity = GetBlurIntensity(stress)
-                local FallRepeat = math.random(2, 4)
-                local RagdollTimeout = FallRepeat * 1750
-                TriggerScreenblurFadeIn(1000.0)
-                Wait(BlurIntensity)
-                TriggerScreenblurFadeOut(1000.0)
-
-                if not IsPedRagdoll(ped) and IsPedOnFoot(ped) and not IsPedSwimming(ped) then
-                    SetPedToRagdollWithFall(ped, RagdollTimeout, RagdollTimeout, 1, GetEntityForwardVector(ped), 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
-                end
-
-                Wait(1000)
-                for i = 1, FallRepeat, 1 do
-                    Wait(750)
-                    DoScreenFadeOut(200)
-                    Wait(1000)
-                    DoScreenFadeIn(200)
-                    TriggerScreenblurFadeIn(1000.0)
-                    Wait(BlurIntensity)
-                    TriggerScreenblurFadeOut(1000.0)
-                end
-            elseif stress >= config.MinimumStress then
-                local BlurIntensity = GetBlurIntensity(stress)
-                TriggerScreenblurFadeIn(1000.0)
-                Wait(BlurIntensity)
-                TriggerScreenblurFadeOut(1000.0)
+            if stress > 75 then
+                waitTime = 10000
+            elseif stress > 45 then
+                waitTime = 30000
+            elseif stress > 20 then
+                waitTime = 60000
             end
-            Wait(effectInterval)
-        else
-            Wait(1000)
-        end
+            if stress > 10 then
+              	TriggerScreenblurFadeIn(1000.0)
+              	Wait(1100)
+              	TriggerScreenblurFadeOut(1000.0)
+            end
+        end 
+        Wait(waitTime)
     end
 end)
+
+-- CreateThread(function()
+--     while true do
+--         if LocalPlayer.state.isLoggedIn then
+--             local ped = PlayerPedId()
+--             local effectInterval = GetEffectInterval(stress)
+--             if stress >= 100 then
+--                 local BlurIntensity = GetBlurIntensity(stress)
+--                 local FallRepeat = math.random(2, 4)
+--                 local RagdollTimeout = FallRepeat * 1750
+--                 TriggerScreenblurFadeIn(1000.0)
+--                 Wait(BlurIntensity)
+--                 TriggerScreenblurFadeOut(1000.0)
+
+--                 if not IsPedRagdoll(ped) and IsPedOnFoot(ped) and not IsPedSwimming(ped) then
+--                     SetPedToRagdollWithFall(ped, RagdollTimeout, RagdollTimeout, 1, GetEntityForwardVector(ped), 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+--                 end
+
+--                 Wait(1000)
+--                 for i = 1, FallRepeat, 1 do
+--                     Wait(750)
+--                     DoScreenFadeOut(200)
+--                     Wait(1000)
+--                     DoScreenFadeIn(200)
+--                     TriggerScreenblurFadeIn(1000.0)
+--                     Wait(BlurIntensity)
+--                     TriggerScreenblurFadeOut(1000.0)
+--                 end
+--             elseif stress >= config.MinimumStress then
+--                 local BlurIntensity = GetBlurIntensity(stress)
+--                 TriggerScreenblurFadeIn(1000.0)
+--                 Wait(BlurIntensity)
+--                 TriggerScreenblurFadeOut(1000.0)
+--             end
+--             Wait(effectInterval)
+--         else
+--             Wait(1000)
+--         end
+--     end
+-- end)
 
 -- Minimap update
 CreateThread(function()
