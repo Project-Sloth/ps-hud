@@ -132,10 +132,10 @@ const store = () => {
         return state
       });
     },
-    updateAllInnerColor(color: string) {
-      methods.updateAllIconsSettings("innerColor", color)
+    updateAllOutlineColor(color: string) {
+      methods.updateAllIconsSettings("outlineColor", color)
       update(state => {
-        state.globalIconSettings.innerColor = color;
+        state.globalIconSettings.outlineColor = color;
         return state
       });
     },
@@ -164,21 +164,17 @@ const store = () => {
           let defaultShape = createShapeIcon(shape, 
             {
               icon: state.icons[icon].icon, iconColor: state.icons[icon].iconColor,
-              isShowing: state.icons[icon].isShowing, innerColor: state.icons[icon].innerColor, name: state.icons[icon].name,
+              isShowing: state.icons[icon].isShowing, outlineColor: state.icons[icon].outlineColor, name: state.icons[icon].name,
               progressValue: state.icons[icon].progressValue,
             });
           state.icons[icon] = defaultShape;
         }
 
-        // Needs to stay the same to prevent a color change from color-picker to be applied to all status icon colors
-        // when we just only want to just change the shape and its values but keep the color the same for all icons
-        const tempColor = state.globalIconSettings.progressColor;
         state.globalIconSettings = (({ isShowing, name, icon, progressValue, ...o }) => o)(createShapeIcon(shape,
           {
           icon: state.globalIconSettings.icon, iconColor: state.globalIconSettings.iconColor,
-          isShowing: state.globalIconSettings.isShowing, innerColor: state.globalIconSettings.innerColor, name: state.globalIconSettings.name,
+          isShowing: state.globalIconSettings.isShowing, outlineColor: state.globalIconSettings.outlineColor, name: state.globalIconSettings.name,
         }));
-        state.globalIconSettings.progressColor = tempColor;
         return state;
       })
     },
@@ -202,7 +198,7 @@ const store = () => {
          let defaultShape = createShapeIcon(shape, 
           {
             icon: state.icons[iconName].icon, iconColor: state.icons[iconName].iconColor,
-            isShowing: state.icons[iconName].isShowing, innerColor: state.icons[iconName].innerColor,
+            isShowing: state.icons[iconName].isShowing, outlineColor: state.icons[iconName].outlineColor,
             name: state.icons[iconName].name, progressValue: state.icons[iconName].progressValue
           });
         state.icons[iconName] = defaultShape;
@@ -225,7 +221,6 @@ const store = () => {
     },
     receiveStatusUpdateMessage(data: playerHudUpdateMessageType) {
       update(state => {
-        //console.log("status icon data", data);
         state.show = data.show;
         state.icons.health.progressValue = data.health;
         state.icons.armor.progressValue = data.armor;

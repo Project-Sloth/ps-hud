@@ -64,19 +64,6 @@
     { rotateDegree > 0 ? "rotate("+rotateDegree+" "+radius+" "+radius+")": ""}
     { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
   >
-    {#if displayOutline}
-      <circle
-        opacity={outlineColorOpacity}
-        stroke={outlineColor}
-        stroke-dashoffset={0}
-        stroke-dasharray={circumference + ' ' + circumference}
-        stroke-width={ringSize}
-        r={normalizedRadius}
-        cx={radius}
-        cy={radius}
-        transform="rotate(-90, {radius}, {radius})"
-      />
-    {/if}
     <circle
       fill={innerColor}
       fill-opacity={innerColorOpacity}
@@ -89,6 +76,19 @@
       cy={radius}
       transform="rotate(-90, {radius}, {radius})"
     />
+    {#if displayOutline}
+    <circle
+      fill="transparent"
+      stroke={outlineColor}
+      stroke-dashoffset={0}
+      stroke-dasharray={circumference + ' ' + circumference}
+      stroke-width={ringSize}
+      r={normalizedRadius}
+      cx={radius}
+      cy={radius}
+      transform="rotate(-90, {radius}, {radius})"
+    />
+  {/if}
     <circle
       stroke="{progressColor}"
       fill="transparent"

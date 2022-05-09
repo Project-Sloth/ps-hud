@@ -10,7 +10,7 @@
   import DiamondWhole from './hud-shapes/diamond-whole.svelte';
   import PillRing from './hud-shapes/pill-ring.svelte';
   import PillWhole from './hud-shapes/pill-whole.svelte';
-  import Cylinder from './hud-shapes/cylinder.svelte';
+  //import Cylinder from './hud-shapes/cylinder.svelte';
   import HorizontalBar from './hud-shapes/horizontal-bar.svelte';
   import SquareRing from './hud-shapes/square-ring.svelte';
   import StarRing from './hud-shapes/star-ring.svelte'

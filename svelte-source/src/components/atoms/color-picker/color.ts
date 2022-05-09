@@ -9,7 +9,7 @@ export default class Color {
 		this.data = data
 	}
 	
-	static rgb (rgb) {
+	static rgba (rgb) {
 		return new Color('rgb', rgb)
 	}
 
@@ -31,13 +31,23 @@ export default class Color {
 
 		// alter the dimension
 		let data = JSON.parse(JSON.stringify(colMode.data))
-		data[key] = value
+
+		if (mode === "rgb" && key === "a") {
+			data['opacity'] = value;
+		} else {
+			data[key] = value
+		}
 
 		return new Color(mode, data)
 	}
 
 	get (mode, dim) {
-		return this.to(mode).data[dim]
+		// Since a (alpha) is really just opacity under the hood, we need to retrieve the correct data
+		if (mode === "rgb" && dim === "a") {
+			return this.to(mode).data["opacity"];
+		} else {
+			return this.to(mode).data[dim]
+		}
 	}
 
 	tuple () {
@@ -70,7 +80,7 @@ export default class Color {
 	toHex () {
 		const vals = Object.values(this.data)
 		const color = d3[this.mode](...vals)
-		const hex = color.formatHex()
+		const hex = color.formatHex8()
 		return hex
 	}
 

@@ -12,4 +12,13 @@ export default defineConfig({
     ],
   },
   safelist: [],
+  theme: {
+    screens: {
+      'sm': '1280px',
+      'md': '1920px',
+      'lg': '2560px',
+      'xl': '3440px',
+      '2xl': '3840px',
+    }
+  },
 })

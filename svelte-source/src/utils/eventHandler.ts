@@ -24,11 +24,9 @@ export function EventHandler() {
       case "adminstatus":
         MenuStore.receiveAdminMessage(event.data as any);
       case "baseplate":
-        // console.log("Updaing compass stuff (street, degrees, pointer) TICK!!!", event);
         CompassHudStore.receiveCompassMessage(event.data as any);
         break;
       case "car":
-        //console.log("Car/Vehicle TICK!!", event);
         switch (event.data.topic) {
           case "display":
             VehicleHudStore.recieveShowMessage(event.data as any);
@@ -39,7 +37,6 @@ export function EventHandler() {
         }
         break;
       case "externalstatus":
-        //console.log("Buff/Enchancement message!", event.data);
         switch (event.data.topic) {
           case "buff":
             ExternalStatusStore.receiveBuffStatusMessage(event.data as any);
@@ -50,7 +47,6 @@ export function EventHandler() {
         }
         break;
       case "hudtick":
-        // console.log("HUDTICK!!:", event);
         switch (event.data.topic) {
           case "display":
             PlayerHudStore.receiveShowMessage(event.data as any);
@@ -64,35 +60,26 @@ export function EventHandler() {
         }
         break;
       case "open":
-        // console.log("OPEN TICK!!", event);
         MenuStore.receiveMessage();
         break;
       case "show":
-        // console.log("SHOW TICK!!!", event);
         MoneyHudStore.receiveShowAccountsMessage(event.data as any);
         break;
       case "showconstant":
-        // console.log("ShowConstant TICK!!!", event);
         MoneyHudStore.receiveShowConstantMessage(event.data as any);
         break;
       case "update":
-        // console.log("Updating Heading!", event);
         CompassHudStore.receiveHeadingMessage(event.data as any);
         break;
       case "updatemoney":
-        // console.log("Updating Money!!!", event);
         MoneyHudStore.receiveUpdateMessage(event.data as any);
         break;
       case "updateUISettings":
-        // console.log("Update message recieved!", event.data);
         if (!event.data.icons || !event.data.layout) {
           return;
         }
         PlayerHudStore.receiveUIUpdateMessage(event.data);
         LayoutStore.receiveUIUpdateMessage(event.data);
-      // default:
-        // console.log("Uncaught received message!!!", event);
-        // break;
     }
   }
 

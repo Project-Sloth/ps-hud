@@ -55,7 +55,7 @@ const store = () => {
     showSquareBorder: false,
     ShowCircle: false,
     showCircleBorder: false,
-    seatbeltColor: "#e85b14",//"#d9441e",//"#D54414",
+    seatbeltColor: "#e85b14",
   }
 
   const { subscribe, set, update } = writable(vehicleStatusState);
@@ -65,18 +65,11 @@ const store = () => {
       update(state => {
         state.show = data.show;
         state.showSeatBelt = data.seatbelt;
-        // TODO: don't think this is needed as we dynamically show it
-        // if (data.seatbelt) {
-        //   state.seatbeltColor = "transparent";
-        // } else {
-        //   state.seatbeltColor = "#FF5100";
-        // }
         return state;
       })
     },
     receiveUpdateMessage(data: vehicleHudUpdateMessageType) {
       update(state => {
-        // console.log("vehicle message:", data);
         state.show = data.show;
         state.speed = data.speed;
         state.altitude = data.altitude;

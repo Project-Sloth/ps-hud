@@ -37,8 +37,8 @@ export interface baseIconProps extends baseIconInfo {
   iconScaling: number,
   iconTranslateX: number,
   iconTranslateY: number,
-  innerColor: string,
-  innerColorOpacity: number,
+  outlineColor: string,
+  outlineColorOpacity: number,
   progressValue: number,
   rotateDegree: number,
   translateX: number,
@@ -54,6 +54,8 @@ export interface borderIconProps extends baseIconProps {
 export interface ringIconProps extends baseIconProps {
   displayOutline: boolean,
   iconRotateDegree: number,
+  innerColor: string,
+  innerColorOpacity: number,
   outlineColor: string,
   outlineColorOpacity: number,
   ringSize: number,
@@ -75,8 +77,8 @@ export class baseIcon implements baseIconProps {
   iconScaling = 0.40;
   iconTranslateX = 0;
   iconTranslateY = 0;
-  innerColor = "#212121";
-  innerColorOpacity = 1;
+  outlineColor = "";
+  outlineColorOpacity = 0.4;
   isShowing = true;
   name = "";
   // This is a placeholder to be used by colorEffectStore, changing this has no effect on the color that shows
@@ -89,7 +91,7 @@ export class baseIcon implements baseIconProps {
   width = 50;
 
   constructor(shape: shapekind,
-    { icon=null, iconColor="", isShowing=false, innerColor="#212121", name="", progressValue=100 }={}) {
+    { icon=null, iconColor="", isShowing=false, outlineColor="", name="", progressValue=100 }={}) {
 
     switch (shape) {
       case "circle-circle-fill":
@@ -113,7 +115,7 @@ export class baseIcon implements baseIconProps {
     this.icon = icon;
     this.iconColor = iconColor;
     this.isShowing = isShowing;
-    this.innerColor = innerColor;
+    this.outlineColor = outlineColor;
     this.name = name;
     this.progressValue = progressValue;
   }
@@ -122,8 +124,8 @@ export class baseIcon implements baseIconProps {
 export class ringIcon extends baseIcon implements ringIconProps {
   displayOutline = true;
   iconRotateDegree = 0;
-  outlineColor = "";
-  outlineColorOpacity = 0.4;
+  innerColor = "#212121";
+  innerColorOpacity = 1;
   ringSize = 4;
 
   constructor(shape: shapekind, optionalProps={}) {

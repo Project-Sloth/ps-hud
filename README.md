@@ -1,24 +1,7 @@
 # TNJ-Hud
 - An improved qb-hud system that allows you to change player status shapes, color, and other design things.
 - Supports the new buff system from tnj-buffs
-
-
-
-
-`````````````````````MAKE SURE YOU RENAME THIS TO qb-hud       AND REPLACE IT WITH YOUR CURRENT HUD`````````````````````
-
-
-
-
-
-
-
-
-
-
-
-
-
+- MAKE SURE YOU RENAME THIS TO qb-hud AND REPLACE IT WITH YOUR CURRENT HUD
 
 ## Credits
 - The majority of the lua code comes from [qb-hud](https://github.com/qbcore-framework/qb-hud) by [loljoshie](https://github.com/loljoshie)

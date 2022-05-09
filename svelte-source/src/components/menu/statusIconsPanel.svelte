@@ -45,22 +45,23 @@
 
   <div class="flex justify-center mb-8">
     <div class="w-50">
-      <p class="text-lg text-center mb-2">Change Icon Shape</p>
+      <p class="text-lg text-center mb-2">Icon Shape</p>
       <Select valuesArray={shapes} value={$PlayerHudUIStore.globalIconSettings.shape}
         handleSelectFunction={PlayerHudUIStore.updateAllShapes}
       />
     </div>
   </div>
 
-  <div class="mx-4 mb-8 grid grid-cols-4 gap-6">
+
+  <div class="mx-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 items-end">
     <div>
-      <p class="text-base text-center mb-2">Change Width Size</p>
+      <p class="text-base text-center mb-2">Width Size</p>
       <NumberInput min={1} max={200} bind:value={$PlayerHudUIStore.globalIconSettings.width}
         handleUpdateFunction={PlayerHudUIStore.updateAllWidth}
       />
     </div>
     <div>
-      <p class="text-base text-center mb-2">Change Height Size</p>
+      <p class="text-base text-center mb-2">Height Size</p>
       <NumberInput min={1} max={200} bind:value={$PlayerHudUIStore.globalIconSettings.height}
         handleUpdateFunction={PlayerHudUIStore.updateAllHeight}
       />
@@ -68,7 +69,7 @@
 
     {#if $PlayerHudUIStore.globalIconSettings.ringSize != null}
       <div>
-        <p class="text-base text-center mb-2">Change Ring Size</p>
+        <p class="text-base text-center mb-2">Ring Size</p>
         <NumberInput min={1} max={25} bind:value={$PlayerHudUIStore.globalIconSettings.ringSize} step={0.5}
           handleUpdateFunction={PlayerHudUIStore.updateAllRingSize}
         />
@@ -83,60 +84,46 @@
       </div>
     {/if}
 
-    <div class="h-1/2 w-2/3 flex flex-col mx-auto">
-      <p class="text-base text-center mb-2">Change Progress Color</p>
-      <ColorPicker colorString={$PlayerHudUIStore.globalIconSettings.progressColor}
-        updateFunction={(hexColor) => PlayerHudUIStore.updateAllProgressColor(hexColor)}
-      />
-    </div>
     <div>
-      <p class="text-base text-center mb-2">Change X-axis Position</p>
+      <p class="text-base text-center mb-2">X-axis Position</p>
       <NumberInput min={-20} max={20} bind:value={$PlayerHudUIStore.globalIconSettings.translateX} step={0.25}
         handleUpdateFunction={PlayerHudUIStore.updateAllTranslateX}
       />
     </div>
     <div>
-      <p class="text-base text-center mb-2">Change Y-axis Position</p>
+      <p class="text-base text-center mb-2">Y-axis Position</p>
       <NumberInput min={-20} max={20} bind:value={$PlayerHudUIStore.globalIconSettings.translateY} step={0.25}
         handleUpdateFunction={PlayerHudUIStore.updateAllTranslateY}
       />
     </div>
     <div>
-      <p class="text-base text-center mb-2">Change Rotation</p>
+      <p class="text-base text-center mb-2">Rotation</p>
       <NumberInput min={0} max={360} bind:value={$PlayerHudUIStore.globalIconSettings.rotateDegree}
         handleUpdateFunction={PlayerHudUIStore.updateAllRotateDegree}
       />
     </div>
-    <div class="h-1/2 w-2/3 flex flex-col mx-auto">
-      <p class="text-base text-center mb-2">Change Inner Color</p>
-      <ColorPicker colorString={$PlayerHudUIStore.globalIconSettings.innerColor} updateFunction={(hexColor) => PlayerHudUIStore.updateAllInnerColor(hexColor)}/>
-    </div>
     <div>
-      <p class="text-base text-center mb-2">Change Icon X-axis Position</p>
+      <p class="text-base text-center mb-2">Icon X-axis Position</p>
       <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.iconTranslateX} step={0.01}
         handleUpdateFunction={PlayerHudUIStore.updateAllTranslateIconX}
       />
     </div>
     <div>
-      <p class="text-base text-center mb-2">Change Icon Y-axis Position</p>
+      <p class="text-base text-center mb-2">Icon Y-axis Position</p>
       <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.globalIconSettings.iconTranslateY} step={0.01}
         handleUpdateFunction={PlayerHudUIStore.updateAllTranslateIconY}
       />
     </div>
     <div>
-      <p class="text-base text-center mb-2">Change Icon Size</p>
+      <p class="text-base text-center mb-2">Icon Size</p>
       <NumberInput min={0} max={3} bind:value={$PlayerHudUIStore.globalIconSettings.iconScaling} step={0.01}
         handleUpdateFunction={PlayerHudUIStore.updateAllIconScale}
       />
     </div>
-    <div class="h-1/2 w-2/3 flex flex-col mx-auto">
-      <p class="text-base text-center mb-2">Change Icon Color</p>
-        <ColorPicker colorString={$PlayerHudUIStore.globalIconSettings.iconColor} updateFunction={(hexColor) => PlayerHudUIStore.updateAllIconColor(hexColor)}/>
-    </div>
 
     {#if $PlayerHudUIStore.globalIconSettings.xAxisRound != null}
     <div>
-      <p class="text-base text-center mb-2">Change X-axis Curve</p>
+      <p class="text-base text-center mb-2">X-axis Curve</p>
       <NumberInput min={0} max={100} bind:value={$PlayerHudUIStore.globalIconSettings.xAxisRound}
         handleUpdateFunction={PlayerHudUIStore.updateAllRoundXAxis}
       />
@@ -145,13 +132,37 @@
 
     {#if $PlayerHudUIStore.globalIconSettings.yAxisRound != null}
     <div>
-      <p class="text-base text-center mb-2">Change Y-axis Curve</p>
+      <p class="text-base text-center mb-2">Y-axis Curve</p>
       <NumberInput min={0} max={100} bind:value={$PlayerHudUIStore.globalIconSettings.yAxisRound}
         handleUpdateFunction={PlayerHudUIStore.updateAllRoundYAxis}
       />
     </div>
     {/if}
   </div>
+
+  <!-- Colors Section -->
+
+  <div class="mx-4 my-6 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+    <div class="flex flex-col mx-auto">
+      <p class="text-base text-center mb-2">Progress Color</p>
+      <ColorPicker colorString={$PlayerHudUIStore.globalIconSettings.progressColor}
+        updateFunction={(hexColor) => PlayerHudUIStore.updateAllProgressColor(hexColor)}
+      />
+    </div>
+    <div class="flex flex-col mx-auto">
+      <p class="text-base text-center mb-2">Icon Color</p>
+        <ColorPicker colorString={$PlayerHudUIStore.globalIconSettings.iconColor} updateFunction={(hexColor) => PlayerHudUIStore.updateAllIconColor(hexColor)}/>
+    </div>
+
+    <div class="flex flex-col mx-auto">
+      <p class="text-base text-center mb-2">Outline Color</p>
+      <ColorPicker colorString={$PlayerHudUIStore.globalIconSettings.outlineColor} updateFunction={(hexColor) => PlayerHudUIStore.updateAllOutlineColor(hexColor)}/>
+    </div>
+
+  </div>
+
+
+
 
   <hr>
 
@@ -166,7 +177,7 @@
         </div>
       </div>
 
-      <div class="mx-4 mb-8 grid grid-cols-4 gap-6">
+      <div class="mx-4 mb-8 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 items-end justify-center">
         <div>
           <p class="text-base text-center mb-2">Change Width Size</p>
           <NumberInput min={1} max={200} bind:value={$PlayerHudUIStore.icons[name].width}/>
@@ -199,6 +210,7 @@
             }}
           />
         </div>
+
         <div>
           <p class="text-base text-center mb-2">Change X-axis Position</p>
           <NumberInput min={-20} max={20} bind:value={$PlayerHudUIStore.icons[name].translateX} step={0.25}/>
@@ -213,10 +225,11 @@
         </div>
         <div class="h-1/2 w-2/3 flex flex-col mx-auto">
           <p class="text-base text-center mb-2">Change Inner Color</p>
-          <ColorPicker colorString={$PlayerHudUIStore.icons[name].innerColor}
-            updateFunction={(hexColor) => PlayerHudUIStore.updateIconSetting(name, "innerColor", hexColor)}
+          <ColorPicker colorString={$PlayerHudUIStore.icons[name].outlineColor}
+            updateFunction={(hexColor) => PlayerHudUIStore.updateIconSetting(name, "outlineColor", hexColor)}
           />
         </div>
+
         <div>
           <p class="text-base text-center mb-2">Change Icon X-axis Position</p>
           <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.icons[name].iconTranslateX} step={0.01}/>

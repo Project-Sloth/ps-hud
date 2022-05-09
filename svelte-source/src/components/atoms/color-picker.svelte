@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ColorPicker, Color } from './color-picker/index'
-	const defaultColorString: string = '#ff783e';
+	const defaultColorString: string = '#ff783eff';
 	export let colorString: string = defaultColorString;
   export let updateFunction: (colorHex) => void = null;
 	let color: Color = Color.hex(colorString);
@@ -44,6 +44,7 @@
 				"rgb.r": true,
 				"rgb.g": true,
 				"rgb.b": true,
+				"rgb.a": true,
 			},
 			selectDimensions: true,
 			matrixWidth: 300,

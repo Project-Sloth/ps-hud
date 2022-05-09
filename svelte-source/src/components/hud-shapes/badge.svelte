@@ -12,6 +12,8 @@
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
   export let innerColorOpacity: number = 1;
+  export let outlineColor: string = "";
+  export let outlineColorOpacity: number = 0.4;
   export let progressColor: string = "red";
   export let progressValue: number = 100;
   export let rotateDegree: number = 0;
@@ -66,8 +68,8 @@
     <linearGradient id="half{name}">
         <stop offset="0%" stop-color={progressColor} />
         <stop offset="{$progressTween}%" stop-color={progressColor} />
-        <stop offset="{$progressTween}%" stop-color="darkgrey" />
-        <stop offset="100%" stop-color="darkgrey" />
+        <stop offset="{$progressTween}%" stop-color={outlineColor} stop-opacity={outlineColorOpacity} />
+        <stop offset="100%" stop-color={outlineColor} stop-opacity={outlineColorOpacity} />
     </linearGradient>            
   </defs>
     <rect

@@ -21,6 +21,7 @@ export const dimensions = {
 		r: {extent: [0, 255], scale: 1, title: 'red'},
 		g: {extent: [0, 255], scale: 1, title: 'green'},
 		b: {extent: [0, 255], scale: 1, title: 'blue'},
+		a: {extent: [0, 100], scale: 100, title: 'opacity'},
 	},
 }
 
