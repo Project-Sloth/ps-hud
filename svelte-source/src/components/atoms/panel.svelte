@@ -7,11 +7,6 @@
 	export let icon: any = null;
 	export let color: string = "white"
 	$: active = group === name;
-
-  function capFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
 </script>
 
 <div>
@@ -19,7 +14,7 @@
 		<div class="min-w-8 grid justify-items-center">
 			<Fa icon={icon} scale={1} color={color}/>
 		</div>
-		<p class="ml-3"> {capFirstLetter(name)} Icon Settings</p>
+		<p class="ml-3"> {name}</p>
 		<i class="icon ml-auto" class:active>
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" stroke="white" fill="white">
 				<path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
@@ -50,10 +45,6 @@
 	}
 	.header:active {
 		background: none;
-	}
-	span {
-		flex: 1;
-		line-height: 24px;
 	}
 	.icon {
 		line-height: 0.5;

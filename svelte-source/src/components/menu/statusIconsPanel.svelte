@@ -9,7 +9,7 @@
   import Switch from '../atoms/switch.svelte';
   import Panel from '../atoms/panel.svelte';
   import NumberInput from '../atoms/number-input.svelte';
-  import { faGlobe } from '@fortawesome/free-solid-svg-icons';
+  import { faGlobe, faScrewdriverWrench } from '@fortawesome/free-solid-svg-icons';
   import Fa from 'svelte-fa';
 
   let group = '';
@@ -18,7 +18,11 @@
     "#FFFFFF", "rgb(33, 171, 97)", "#326dbf", "#dd6e14", "#1a7cad", "rgb(220, 6, 6)", 
     "rgb(138, 168, 189)", "rgb(255, 72, 133)", "rgb(185, 255, 40)", "#3FA554", 
     "rgb(182, 72, 255)", "rgb(255, 72, 133)", "#D64763", "rgb(0, 0, 0)"
-  ]; 
+  ];
+
+  function capFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
 </script>
 
@@ -143,22 +147,70 @@
   <!-- Colors Section -->
 
   <div class="mx-4 my-6 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+
     <div class="flex flex-col mx-auto">
       <p class="text-base text-center mb-2">Progress Color</p>
-      <ColorPicker colorString={$PlayerHudUIStore.globalIconSettings.progressColor}
-        updateFunction={(hexColor) => PlayerHudUIStore.updateAllProgressColor(hexColor)}
+      <ColorPicker colorString={$ColorEffectStore.globalColorSettings.progressColor}
+        updateFunction={(hexColor) => ColorEffectStore.updateAllDefaultEffectColorSetting("progressColor", hexColor)}
       />
     </div>
+    <div>
+      <p class="text-base text-center mb-2">Progress Contrast</p>
+      <NumberInput min={0} max={300} bind:value={$ColorEffectStore.globalColorSettings.progressContrast}
+        handleUpdateFunction={(contrastAmount) => ColorEffectStore.updateAllDefaultEffectColorSetting("progressContrast", contrastAmount)}
+      />
+    </div>
+    <div>
+      <p class="text-base text-center mb-2">Progress Shadow</p>
+      <NumberInput min={0} max={20} bind:value={$ColorEffectStore.globalColorSettings.progressDropShadowAmount}
+        handleUpdateFunction={(dropAmount) => ColorEffectStore.updateAllDefaultEffectColorSetting("progressDropShadowAmount", dropAmount)}
+      />
+    </div>
+    
     <div class="flex flex-col mx-auto">
       <p class="text-base text-center mb-2">Icon Color</p>
-        <ColorPicker colorString={$PlayerHudUIStore.globalIconSettings.iconColor} updateFunction={(hexColor) => PlayerHudUIStore.updateAllIconColor(hexColor)}/>
+        <ColorPicker colorString={$ColorEffectStore.globalColorSettings.iconColor}
+          updateFunction={(hexColor) => ColorEffectStore.updateAllDefaultEffectColorSetting("iconColor", hexColor)}
+        />
+    </div>
+    <div>
+      <p class="text-base text-center mb-2">Icon Contrast</p>
+      <NumberInput min={0} max={300} bind:value={$ColorEffectStore.globalColorSettings.iconContrast}
+        handleUpdateFunction={(contrastAmount) => ColorEffectStore.updateAllDefaultEffectColorSetting("iconContrast", contrastAmount)}
+      />
+    </div>
+    <div>
+      <p class="text-base text-center mb-2">Icon Shadow</p>
+      <NumberInput min={0} max={20} bind:value={$ColorEffectStore.globalColorSettings.iconDropShadowAmount}
+        handleUpdateFunction={(dropAmount) => ColorEffectStore.updateAllDefaultEffectColorSetting("iconDropShadowAmount", dropAmount)}
+      />
     </div>
 
     <div class="flex flex-col mx-auto">
       <p class="text-base text-center mb-2">Outline Color</p>
-      <ColorPicker colorString={$PlayerHudUIStore.globalIconSettings.outlineColor} updateFunction={(hexColor) => PlayerHudUIStore.updateAllOutlineColor(hexColor)}/>
+      <ColorPicker colorString={$ColorEffectStore.globalColorSettings.outlineColor}
+        updateFunction={(hexColor) => ColorEffectStore.updateAllDefaultEffectColorSetting("outlineColor", hexColor)}
+      />
+    </div>
+    <div>
+      <p class="text-base text-center mb-2">Outline Contrast</p>
+      <NumberInput min={0} max={300} bind:value={$ColorEffectStore.globalColorSettings.outlineContrast}
+        handleUpdateFunction={(contrastAmount) => ColorEffectStore.updateAllDefaultEffectColorSetting("outlineContrast", contrastAmount)}
+      />
+    </div>
+    <div>
+      <p class="text-base text-center mb-2">Outline Shadow</p>
+      <NumberInput min={0} max={20} bind:value={$ColorEffectStore.globalColorSettings.outlineDropShadowAmount}
+        handleUpdateFunction={(dropAmount) => ColorEffectStore.updateAllDefaultEffectColorSetting("outlineDropShadowAmount", dropAmount)}
+      />
     </div>
 
+    <div class="flex flex-col mx-auto">
+      <p class="text-base text-center mb-2">Inner Color</p>
+        <ColorPicker colorString={$ColorEffectStore.globalColorSettings.innerColor}
+          updateFunction={(hexColor) => ColorEffectStore.updateAllDefaultEffectColorSetting("innerColor", hexColor)}
+        />
+    </div>
   </div>
 
 
@@ -167,10 +219,10 @@
   <hr>
 
   {#each iconNames as name, i}
-    <Panel name={`${name}`} icon={$PlayerHudUIStore.icons[name].icon} color={iconPanelColors[i]} bind:group>
+    <Panel name='{capFirstLetter(name)} Icon Settings' icon={$PlayerHudUIStore.icons[name].icon} color={iconPanelColors[i]} bind:group>
       <div class="flex justify-center mb-8">
         <div class="w-50">
-          <p class="text-lg text-center mb-2">Change Icon Shape</p>
+          <p class="text-lg text-center mb-2">Icon Shape</p>
           <Select valuesArray={shapes} value={$PlayerHudUIStore.icons[name].shape}
             handleSelectFunction={(shapeName) => PlayerHudUIStore.updateIconShape(name, shapeName)}
           />
@@ -179,17 +231,17 @@
 
       <div class="mx-4 mb-8 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 items-end justify-center">
         <div>
-          <p class="text-base text-center mb-2">Change Width Size</p>
+          <p class="text-base text-center mb-2">Width Size</p>
           <NumberInput min={1} max={200} bind:value={$PlayerHudUIStore.icons[name].width}/>
         </div>
         <div>
-          <p class="text-base text-center mb-2">Change Height Size</p>
+          <p class="text-base text-center mb-2">Height Size</p>
           <NumberInput min={1} max={200} bind:value={$PlayerHudUIStore.icons[name].height}/>
         </div>
 
         {#if $PlayerHudUIStore.icons[name].ringSize != null}
           <div>
-            <p class="text-base text-center mb-2">Change Ring Size</p>
+            <p class="text-base text-center mb-2">Ring Size</p>
             <NumberInput min={1} max={25} bind:value={$PlayerHudUIStore.icons[name].ringSize} step={0.5}/>
           </div>
         {/if}
@@ -203,8 +255,8 @@
         {/if}
 
         <div class="h-1/2 w-2/3 flex flex-col mx-auto">
-          <p class="text-base text-center mb-2">Change Progress Color</p>
-          <ColorPicker colorString={$ColorEffectStore[name].colorEffects[0].color}
+          <p class="text-base text-center mb-2">Progress Color</p>
+          <ColorPicker colorString={$ColorEffectStore.icons[name].colorEffects[0].progressColor}
             updateFunction={(hexColor) => {
               ColorEffectStore.updateProgressColor(name, 0, hexColor);
             }}
@@ -212,53 +264,53 @@
         </div>
 
         <div>
-          <p class="text-base text-center mb-2">Change X-axis Position</p>
+          <p class="text-base text-center mb-2">X-axis Position</p>
           <NumberInput min={-20} max={20} bind:value={$PlayerHudUIStore.icons[name].translateX} step={0.25}/>
         </div>
         <div>
-          <p class="text-base text-center mb-2">Change Y-axis Position</p>
+          <p class="text-base text-center mb-2">Y-axis Position</p>
           <NumberInput min={-20} max={20} bind:value={$PlayerHudUIStore.icons[name].translateY} step={0.25}/>
         </div>
         <div>
-          <p class="text-base text-center mb-2">Change Rotation</p>
+          <p class="text-base text-center mb-2">Rotation</p>
           <NumberInput min={0} max={360} bind:value={$PlayerHudUIStore.icons[name].rotateDegree}/>
         </div>
-        <div class="h-1/2 w-2/3 flex flex-col mx-auto">
+        <!-- <div class="h-1/2 w-2/3 flex flex-col mx-auto">
           <p class="text-base text-center mb-2">Change Inner Color</p>
           <ColorPicker colorString={$PlayerHudUIStore.icons[name].outlineColor}
             updateFunction={(hexColor) => PlayerHudUIStore.updateIconSetting(name, "outlineColor", hexColor)}
           />
-        </div>
+        </div> -->
 
         <div>
-          <p class="text-base text-center mb-2">Change Icon X-axis Position</p>
+          <p class="text-base text-center mb-2">Icon X-axis Position</p>
           <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.icons[name].iconTranslateX} step={0.01}/>
         </div>
         <div>
-          <p class="text-base text-center mb-2">Change Icon Y-axis Position</p>
+          <p class="text-base text-center mb-2">Icon Y-axis Position</p>
           <NumberInput min={-10} max={10} bind:value={$PlayerHudUIStore.icons[name].iconTranslateY} step={0.01}/>
         </div>
         <div>
-          <p class="text-base text-center mb-2">Change Icon Size</p>
+          <p class="text-base text-center mb-2">Icon Size</p>
           <NumberInput min={0} max={3} bind:value={$PlayerHudUIStore.icons[name].iconScaling} step={0.01}/>
         </div>
-        <div class="h-1/2 w-2/3 flex flex-col mx-auto">
+        <!-- <div class="h-1/2 w-2/3 flex flex-col mx-auto">
           <p class="text-base text-center mb-2">Change Icon Color</p>
             <ColorPicker colorString={$PlayerHudUIStore.icons[name].iconColor}
               updateFunction={(hexColor) => PlayerHudUIStore.updateIconSetting(name, "iconColor", hexColor)}
             />
-        </div>
+        </div> -->
 
         {#if $PlayerHudUIStore.icons[name].xAxisRound != null}
         <div>
-          <p class="text-base text-center mb-2">Change X-axis Curve</p>
+          <p class="text-base text-center mb-2">X-axis Curve</p>
           <NumberInput min={0} max={100} bind:value={$PlayerHudUIStore.icons[name].xAxisRound}/>
         </div>
         {/if}
 
         {#if $PlayerHudUIStore.icons[name].yAxisRound != null}
         <div>
-          <p class="text-base text-center mb-2">Change Y-axis Curve</p>
+          <p class="text-base text-center mb-2">Y-axis Curve</p>
           <NumberInput min={0} max={100} bind:value={$PlayerHudUIStore.icons[name].yAxisRound}/>
         </div>
         {/if}
@@ -269,4 +321,16 @@
     {/if}
   {/each}
 </div>
+
+
+<!-- Utilies Functions -->
+<hr>
+
+<Panel name={`Utilities Functions`} icon={faScrewdriverWrench} color={'#ff4e03'} bind:group>
+  <div class="flex justify-center mb-8">
+    <Button name="copy progress colors to icon colors" buttonClass={"h-15 w-55"}
+      on:click={() => {ColorEffectStore.updateIconColorToProgressColor()}}
+    />
+  </div>
+</Panel>
 

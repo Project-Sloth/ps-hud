@@ -49,4 +49,10 @@
     --itemHoverBG: var(--silent-hud-primary-hover);
     --border: #171717;
   }
+  :global(.selectContainer > *) {
+    cursor: pointer !important;
+  }
+  :global(.listItem > *) {
+    cursor: pointer !important;
+  }
 </style>

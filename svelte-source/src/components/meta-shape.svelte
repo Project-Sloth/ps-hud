@@ -22,14 +22,11 @@
   import IconPercentage from './hud-shapes/icon-percentage.svelte';
   //import Octagon from './components/octagon.svelte';
 
-  export let hudIconInfo: optionalHudIconType = null;
+  export let hudIconInfo: optionalHudIconType = {};
 
   let shapeProps: shapePropsType;
   $: {
     shapeProps = (({ shape, isShowing, ...o }) => o)(hudIconInfo);
-    if (shapeProps.outlineColor == "") {
-      shapeProps.outlineColor = shapeProps.progressColor;
-    }
   }
   
 </script>

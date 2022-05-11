@@ -16,7 +16,6 @@
   // }
 
   // $: strokeDashoffset = pathLength - $progressTween / 100 * pathLength;
-  // $: console.log("Stokeoffset?", strokeDashoffset)
     
   // let diamond;
   // let pathLength;

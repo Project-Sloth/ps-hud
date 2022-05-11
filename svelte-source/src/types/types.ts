@@ -33,12 +33,9 @@ export interface baseIconInfo {
 export interface baseIconProps extends baseIconInfo {
   height: number,
   icon: IconDefinition,
-  iconColor: string,
   iconScaling: number,
   iconTranslateX: number,
   iconTranslateY: number,
-  outlineColor: string,
-  outlineColorOpacity: number,
   progressValue: number,
   rotateDegree: number,
   translateX: number,
@@ -46,43 +43,34 @@ export interface baseIconProps extends baseIconInfo {
   width: number
 }
 
-export interface borderIconProps extends baseIconProps {
+export interface borderIconProps {
   borderColor: string,
   borderSize: number,
 }
 
-export interface ringIconProps extends baseIconProps {
+export interface ringIconProps {
   displayOutline: boolean,
   iconRotateDegree: number,
-  innerColor: string,
-  innerColorOpacity: number,
-  outlineColor: string,
-  outlineColorOpacity: number,
   ringSize: number,
 }
 
-export interface roundEndIconProps extends baseIconProps {
+export interface roundEndIconProps {
   xAxisRound: number,
   yAxisRound: number 
 }
 
-export interface textIcon extends baseIconProps {
+export interface textIcon {
   conditionalText: (val: number) => string,
 }
 
 export class baseIcon implements baseIconProps {
   height = 50;
   icon = null;
-  iconColor = "orange";
   iconScaling = 0.40;
   iconTranslateX = 0;
   iconTranslateY = 0;
-  outlineColor = "";
-  outlineColorOpacity = 0.4;
   isShowing = true;
   name = "";
-  // This is a placeholder to be used by colorEffectStore, changing this has no effect on the color that shows
-  progressColor = "";
   progressValue = 100;
   shape: shapekind = "circle-whole";
   rotateDegree = 0;
@@ -91,7 +79,7 @@ export class baseIcon implements baseIconProps {
   width = 50;
 
   constructor(shape: shapekind,
-    { icon=null, iconColor="", isShowing=false, outlineColor="", name="", progressValue=100 }={}) {
+    { icon=null, isShowing=false, name="", progressValue=100 }={}) {
 
     switch (shape) {
       case "circle-circle-fill":
@@ -113,9 +101,7 @@ export class baseIcon implements baseIconProps {
     }
     this.shape = shape;
     this.icon = icon;
-    this.iconColor = iconColor;
     this.isShowing = isShowing;
-    this.outlineColor = outlineColor;
     this.name = name;
     this.progressValue = progressValue;
   }
@@ -124,8 +110,6 @@ export class baseIcon implements baseIconProps {
 export class ringIcon extends baseIcon implements ringIconProps {
   displayOutline = true;
   iconRotateDegree = 0;
-  innerColor = "#212121";
-  innerColorOpacity = 1;
   ringSize = 4;
 
   constructor(shape: shapekind, optionalProps={}) {
@@ -243,22 +227,35 @@ export interface shapeIcons {
   "icon-percentage": baseIconProps,
 }
 
-export type optionalHudIconType = Partial<baseIconProps & borderIconProps & ringIconProps & roundEndIcon & pillRingIcon>;
+export type optionalHudIconType = Partial<baseIconProps & borderIconProps & ringIconProps & roundEndIcon & pillRingIcon & colorNameObj>;
 
 export type optionalPlayerHudIconsType = Partial<{ [Property in keyof playerHudIcons]: optionalHudIconType }>;
 
-export function defaultHudIcon(name = "", showing=false, color="#ff783e", icon=null): any {
-  return createShapeIcon("circle-ring",
-    { iconColor: "white", isShowing: showing, icon: icon,
-      innerColor: "#212121", name: name
-    });
+export function defaultHudIcon(name: string = "", showing: boolean = false, icon: object = null): any {
+  return createShapeIcon("circle-ring", { isShowing: showing, icon: icon, name: name });
 }
 
-export type shapePropsType =  Omit<optionalHudIconType, "shape" | "isShowing" | "name" >;
+export type shapePropsType = Omit<optionalHudIconType, "shape" | "isShowing" | "name" >;
 
-export type colorEffect = {
-  name: string,
-  color: string,
+export const colorNames = ["iconColor", "iconDropShadowAmount", "iconContrast", "innerColor", "outlineColor", "outlineContrast", "outlineDropShadowAmount",
+  "progressColor", "progressDropShadowAmount", "progressContrast"] as const;
+export type colorNamesKind = typeof colorNames[number];
+
+interface colorNameObj {
+  iconColor: string,
+  iconDropShadowAmount: number,
+  iconContrast: number,
+  innerColor: string,
+  outlineColor: string,
+  outlineContrast: number,
+  outlineDropShadowAmount: number,
+  progressColor: string,
+  progressContrast: number,
+  progressDropShadowAmount: number,
+}
+
+export interface colorEffect extends colorNameObj {
+  name: string
 }
 
 export type iconColorEffect = {
@@ -268,4 +265,29 @@ export type iconColorEffect = {
 
 export type playerHudColorEffects = {
   [key in iconNamesKind]: iconColorEffect;
+}
+
+const percentToHex = (percentage: number): string => {
+  const normalizedPercent: number = Math.max(0, Math.min(100, percentage));
+  const intValue: number = Math.round(normalizedPercent / 100 * 255);
+  const hexValue: string = intValue.toString(16);
+  return hexValue.padStart(2, '0').toUpperCase();
+}
+
+export function defaultColorEffect(name: string, progressColor: string, outlineColor: string = "",
+  iconColor: string = "#FFFFFFFF", innerColor: string = "#212121FF"): colorEffect {
+
+  return {
+    iconColor: iconColor,
+    iconContrast: 100,
+    iconDropShadowAmount: 0,
+    innerColor: innerColor,
+    name: name,
+    outlineColor: outlineColor || progressColor+percentToHex(40),
+    outlineContrast: 100,
+    outlineDropShadowAmount: 0,
+    progressColor: progressColor,
+    progressContrast: 100,
+    progressDropShadowAmount: 0,
+  }
 }

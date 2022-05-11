@@ -7,16 +7,20 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let iconContrast: number = 100;
+  export let iconDropShadowAmount: number = 0;
   export let iconRotateDegree: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
-  export let innerColorOpacity: number = 1;
   export let name: string = "";
   export let outlineColor: string = "red";
-  export let outlineColorOpacity: number = 0.4;
+  export let outlineContrast: number = 100;
+  export let outlineDropShadowAmount: number = 0;
   export let progressColor: string = "red";
+  export let progressContrast: number = 100;
+  export let progressDropShadowAmount: number = 0;
   export let progressValue: number = 100;
   export let ringSize: number = 4;
   export let rotateDegree: number = 0;
@@ -66,7 +70,6 @@
   >
     <circle
       fill={innerColor}
-      fill-opacity={innerColorOpacity}
       stroke="transparent"
       stroke-dashoffset={0}
       stroke-dasharray={circumference +' ' + circumference}
@@ -87,6 +90,8 @@
       cx={radius}
       cy={radius}
       transform="rotate(-90, {radius}, {radius})"
+      style="filter: {outlineDropShadowAmount ? "drop-shadow(0px 0px "+outlineDropShadowAmount+"px "+outlineColor+")": ""}
+      {outlineContrast > 100 ? "contrast("+outlineContrast+"%)" : ""};"
     />
   {/if}
     <circle
@@ -99,9 +104,13 @@
       cx={radius}
       cy={radius}
       transform="rotate(-90, {radius}, {radius})"
+      style="filter: {progressDropShadowAmount ? "drop-shadow(0px 0px "+progressDropShadowAmount+"px "+progressColor+")": ""}
+                     {progressContrast > 100 ? "contrast("+progressContrast+"%)" : ""};"
     />
   </g>
-  <g >
+  <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
+                    {iconContrast > 100 ? "contrast("+iconContrast+"%)" : ""};">
+
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
     translateY={iconTranslateY} style="color:{iconColor || progressColor}"/>
   </g>

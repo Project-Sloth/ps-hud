@@ -25,11 +25,28 @@
 </script>
 
 {#each iconsToShow.length ? iconsToShow : globalIconList as iconName }
+  {@const currentEffect = $PlayerHudStore.designMode ? 0 : $ColorEffectStore.icons[iconName].currentEffect}
+  
   {#if ($PlayerHudStore.icons[iconName].isShowing && !iconsToNotShow.includes(iconName)) || $PlayerHudStore.designMode}
+    
     <div transition:fade|local="{{duration: 1000}}" class="my-auto">
-      <MetaShape hudIconInfo={{...$PlayerHudStore.icons[iconName],
-        progressColor: $ColorEffectStore[iconName]?.colorEffects[ $PlayerHudStore.designMode ? 0 : $ColorEffectStore[iconName]?.currentEffect]?.color,
-        progressValue: $PlayerHudStore.designMode ? $PlayerHudStore.designProgress : $PlayerHudStore.icons[iconName].progressValue}}/>
+      <MetaShape hudIconInfo={
+        {
+          ...$PlayerHudStore.icons[iconName],
+          progressColor: $ColorEffectStore.icons[iconName].colorEffects[currentEffect].progressColor,
+          progressContrast: $ColorEffectStore.icons[iconName].colorEffects[currentEffect].progressContrast,
+          progressDropShadowAmount: $ColorEffectStore.icons[iconName].colorEffects[currentEffect].progressDropShadowAmount,
+          progressValue: $PlayerHudStore.designMode ?
+            $PlayerHudStore.designProgress : $PlayerHudStore.icons[iconName].progressValue,
+          iconColor: $ColorEffectStore.icons[iconName].colorEffects[currentEffect].iconColor,
+          iconContrast: $ColorEffectStore.icons[iconName].colorEffects[currentEffect].iconContrast,
+          iconDropShadowAmount: $ColorEffectStore.icons[iconName].colorEffects[currentEffect].iconDropShadowAmount,
+          outlineColor: $ColorEffectStore.icons[iconName].colorEffects[currentEffect].outlineColor,
+          outlineContrast: $ColorEffectStore.icons[iconName].colorEffects[currentEffect].outlineContrast,
+          outlineDropShadowAmount: $ColorEffectStore.icons[iconName].colorEffects[currentEffect].outlineDropShadowAmount,
+          innerColor: $ColorEffectStore.icons[iconName].colorEffects[currentEffect].innerColor,
+        }}
+      />
     </div>
   {/if}
 {/each}

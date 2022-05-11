@@ -72,7 +72,7 @@
     cy={radius}
   />
   </g>
-  <g style="filter: drop-shadow(0px 0px 11px #000000) contrast(200%); opacity: 0.60;">
+  <g style="filter: drop-shadow(0px 0px 11px #000000) contrast(200%);">
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
     translateY={iconTranslateY} style="color:{iconColor || progressColor}"/>
   </g>

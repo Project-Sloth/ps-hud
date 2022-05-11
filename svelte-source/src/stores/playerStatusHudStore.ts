@@ -64,20 +64,20 @@ const store = () => {
     designProgress: 0,
     globalIconSettings: (({ isShowing, name, icon, progressValue, ...o }) => o)(defaultHudIcon()),
     icons: {
-      voice: defaultHudIcon("voice", true, "#FFFFFF", faMicrophone),
-      health: defaultHudIcon("health", true, "rgb(33, 171, 97)", faHeart), //"#3FA554"
-      armor: defaultHudIcon("armor", true, "#326dbf", faShieldAlt),
-      hunger: defaultHudIcon("hunger", true, "#dd6e14", faHamburger),
-      thirst: defaultHudIcon("thirst", true, "#1a7cad", faTint),
-      stress: defaultHudIcon("stress", false, "rgb(220, 6, 6)", faBrain),
-      oxygen: defaultHudIcon("oxygen", false, "rgb(138, 168, 189)", faLungs),
-      armed: defaultHudIcon("armed", false, "rgb(255, 72, 133)", faStream),
-      parachute: defaultHudIcon("parachute", false, "rgb(185, 255, 40)", faParachuteBox),
-      engine: defaultHudIcon("engine", false, "#3FA554", faOilCan),
-      harness: defaultHudIcon("harness", false, "rgb(182, 72, 255)", faUserSlash),
-      cruise: defaultHudIcon("cruise", false, "rgb(255, 72, 133)", faTachometerAltFast),
-      nitro: defaultHudIcon("nitro", false, "#D64763", faMeteor),
-      dev: defaultHudIcon("dev", false, "rgb(0, 0, 0)", faTerminal),
+      voice: defaultHudIcon("voice", true, faMicrophone),
+      health: defaultHudIcon("health", true, faHeart),
+      armor: defaultHudIcon("armor", true, faShieldAlt),
+      hunger: defaultHudIcon("hunger", true, faHamburger),
+      thirst: defaultHudIcon("thirst", true, faTint),
+      stress: defaultHudIcon("stress", false, faBrain),
+      oxygen: defaultHudIcon("oxygen", false, faLungs),
+      armed: defaultHudIcon("armed", false, faStream),
+      parachute: defaultHudIcon("parachute", false, faParachuteBox),
+      engine: defaultHudIcon("engine", false, faOilCan),
+      harness: defaultHudIcon("harness", false, faUserSlash),
+      cruise: defaultHudIcon("cruise", false, faTachometerAltFast),
+      nitro: defaultHudIcon("nitro", false, faMeteor),
+      dev: defaultHudIcon("dev", false, faTerminal),
     },
     saveUIState: "ready",
     show: false,
@@ -109,7 +109,7 @@ const store = () => {
     updateAllIconsSettings(settingName: keyof optionalHudIconType, value: any) {
       update(state => {
         for (let icon in state.icons) {
-          if (state.icons[icon][settingName] != null) {
+          if (settingName in state.icons[icon]) {
             state.icons[icon][settingName] = value;
           }
         }
@@ -124,27 +124,6 @@ const store = () => {
     },
     updateAllIconScale(scale: number) {
       methods.updateAllIconsSettings("iconScaling", scale)
-    },
-    updateAllIconColor(color: string) {
-      methods.updateAllIconsSettings("iconColor", color);
-      update(state => {
-        state.globalIconSettings.iconColor = color;
-        return state
-      });
-    },
-    updateAllOutlineColor(color: string) {
-      methods.updateAllIconsSettings("outlineColor", color)
-      update(state => {
-        state.globalIconSettings.outlineColor = color;
-        return state
-      });
-    },
-    updateAllProgressColor(color: string) {
-      ColorEffectStore.updateAllColorEffectDefaultColor(color);
-      update(state => {
-        state.globalIconSettings.progressColor = color;
-        return state
-      });
     },
     updateAllRingSize(ringSize: number) {
       methods.updateAllIconsSettings("ringSize", ringSize)
@@ -163,8 +142,9 @@ const store = () => {
         for (let icon in state.icons) {
           let defaultShape = createShapeIcon(shape, 
             {
-              icon: state.icons[icon].icon, iconColor: state.icons[icon].iconColor,
-              isShowing: state.icons[icon].isShowing, outlineColor: state.icons[icon].outlineColor, name: state.icons[icon].name,
+              icon: state.icons[icon].icon,
+              isShowing: state.icons[icon].isShowing,
+              name: state.icons[icon].name,
               progressValue: state.icons[icon].progressValue,
             });
           state.icons[icon] = defaultShape;
@@ -172,8 +152,9 @@ const store = () => {
 
         state.globalIconSettings = (({ isShowing, name, icon, progressValue, ...o }) => o)(createShapeIcon(shape,
           {
-          icon: state.globalIconSettings.icon, iconColor: state.globalIconSettings.iconColor,
-          isShowing: state.globalIconSettings.isShowing, outlineColor: state.globalIconSettings.outlineColor, name: state.globalIconSettings.name,
+            icon: state.globalIconSettings.icon,
+            isShowing: state.globalIconSettings.isShowing,
+            name: state.globalIconSettings.name,
         }));
         return state;
       })
@@ -197,9 +178,10 @@ const store = () => {
       update(state => {
          let defaultShape = createShapeIcon(shape, 
           {
-            icon: state.icons[iconName].icon, iconColor: state.icons[iconName].iconColor,
-            isShowing: state.icons[iconName].isShowing, outlineColor: state.icons[iconName].outlineColor,
-            name: state.icons[iconName].name, progressValue: state.icons[iconName].progressValue
+            icon: state.icons[iconName].icon,
+            isShowing: state.icons[iconName].isShowing, 
+            name: state.icons[iconName].name,
+            progressValue: state.icons[iconName].progressValue
           });
         state.icons[iconName] = defaultShape;
         return state;
@@ -255,10 +237,10 @@ const store = () => {
         }
 
         if (data.playerDead) {
-          ColorEffectStore.updateIconColorEffectStage("health", 1);
+          ColorEffectStore.updateIconEffectStage("health", 1);
           state.icons.health.progressValue = 100;
         } else {
-          ColorEffectStore.updateIconColorEffectStage("health", 0);
+          ColorEffectStore.updateIconEffectStage("health", 0);
         }
   
         if (staticArmor) {
@@ -272,9 +254,9 @@ const store = () => {
         } 
   
         if (data.armor <= 0) {
-          ColorEffectStore.updateIconColorEffectStage("armor", 1);
+          ColorEffectStore.updateIconEffectStage("armor", 1);
         } else {
-          ColorEffectStore.updateIconColorEffectStage("armor", 0);
+          ColorEffectStore.updateIconEffectStage("armor", 0);
         }
   
         if (staticHunger) {
@@ -288,9 +270,9 @@ const store = () => {
         } 
 
         if (data.hunger <= 30){
-          ColorEffectStore.updateIconColorEffectStage("hunger", 1);
+          ColorEffectStore.updateIconEffectStage("hunger", 1);
         } else {
-          ColorEffectStore.updateIconColorEffectStage("hunger", 0);
+          ColorEffectStore.updateIconEffectStage("hunger", 0);
         }
   
         if (staticThirst) {
@@ -304,9 +286,9 @@ const store = () => {
         }
 
         if (data.thirst <= 30) {
-          ColorEffectStore.updateIconColorEffectStage("thirst", 1);
+          ColorEffectStore.updateIconEffectStage("thirst", 1);
         } else {
-          ColorEffectStore.updateIconColorEffectStage("thirst", 0);
+          ColorEffectStore.updateIconEffectStage("thirst", 0);
         }
   
         if (staticStress) {
@@ -348,11 +330,11 @@ const store = () => {
         }
 
         if (data.engine <= 45) {
-          ColorEffectStore.updateIconColorEffectStage("engine", 2);
+          ColorEffectStore.updateIconEffectStage("engine", 2);
         } else if (data.engine <= 75 && data.engine >= 46 ) {
-          ColorEffectStore.updateIconColorEffectStage("engine", 1);
+          ColorEffectStore.updateIconEffectStage("engine", 1);
         } else if(data.engine <= 100) {
-          ColorEffectStore.updateIconColorEffectStage("engine", 0);
+          ColorEffectStore.updateIconEffectStage("engine", 0);
         } 
   
         if (staticNitro) {
@@ -372,19 +354,19 @@ const store = () => {
         }
 
         if (data.nitroActive) {
-          ColorEffectStore.updateIconColorEffectStage("nitro", 1);
+          ColorEffectStore.updateIconEffectStage("nitro", 1);
         } else {
-          ColorEffectStore.updateIconColorEffectStage("nitro", 0);
+          ColorEffectStore.updateIconEffectStage("nitro", 0);
         }
   
         if (data.talking) {
           if (data.radioTalking) {
-            ColorEffectStore.updateIconColorEffectStage("voice", 2);
+            ColorEffectStore.updateIconEffectStage("voice", 2);
           } else {
-            ColorEffectStore.updateIconColorEffectStage("voice", 1);
+            ColorEffectStore.updateIconEffectStage("voice", 1);
           }
         } else {
-          ColorEffectStore.updateIconColorEffectStage("voice", 0);
+          ColorEffectStore.updateIconEffectStage("voice", 0);
         }
 
         if (data.radioChannel && data.radioChannel > 0) {

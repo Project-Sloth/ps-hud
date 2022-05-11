@@ -42,7 +42,7 @@
     </div>
   {:else if layout == "bottom-right-row"}
     <div
-      class="absolute bottom-[0.3vw] right-[3vh] flex flex-row"
+      class="absolute bottom-[0.3vw] right-[0.3vw] flex flex-row"
       style="gap: {$LayoutStore.iconBetweenSpacing+'px'};">
           <IconsList />
     </div>
@@ -64,7 +64,7 @@
     </div>
   {:else if layout == "top-left-row"}
     <div 
-      class="absolute top-[0.3vw] left-[1vw] flex flex-row"
+      class="absolute top-[0.3vw] left-[0.3vw] flex flex-row"
       style="gap: {$LayoutStore.iconBetweenSpacing+'px'};">
       <IconsList />
     </div>
