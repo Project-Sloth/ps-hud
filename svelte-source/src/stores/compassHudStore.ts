@@ -32,15 +32,28 @@ const store = () => {
     receiveCompassMessage(data: compassHudUpdateMessage) {
       update(state => {
         state.show = data.show;
+        state.showCompass = data.showCompass;
         state.street1 = data.street1;
         state.street2 = data.street2;
-        state.showCompass = data.showCompass;
         state.showStreets = data.showStreets;
         state.showPointer = data.showPointer;
         state.showDegress = data.showDegress;
 
         return state;
       });
+    },
+    receiveCompassCloseMessage(data: Partial<compassHudUpdateMessage>) {
+      update(state => {
+        state.show = data.show;
+        return state;
+      })
+    },
+    receiveCompassOpenMessage(data: Partial<compassHudUpdateMessage>) {
+      update(state => {
+        state.show = data.show;
+        state.showCompass = data.showCompass;
+        return state;
+      })
     },
     receiveHeadingMessage(data: headingHudUpdateMessage) {
       update(state => {

@@ -7,16 +7,20 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let iconContrast: number = 100;
+  export let iconDropShadowAmount: number = 0;
   export let iconRotateDegree: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
-  export let innerColorOpacity: number = 0.4;
   export let name: string = "";
   export let outlineColor: string = "red";
-  export let outlineColorOpacity: number = 0.4;
+  export let outlineContrast: number = 100;
+  export let outlineDropShadowAmount: number = 0;
   export let progressColor: string = "red";
+  export let progressContrast: number = 100;
+  export let progressDropShadowAmount: number = 0;
   export let progressValue: number = 100;
   export let ringSize: number = 4;
   export let rotateDegree: number = 0;
@@ -42,12 +46,11 @@
   height={height}
   transform="
     { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
-    { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+    { "translate("+translateX+" "+translateY+")" }"
 >
   <g>
     {#if displayOutline}
       <rect
-        opacity={outlineColorOpacity}
         stroke={outlineColor}
         width={width}
         height={height}
@@ -55,11 +58,11 @@
         stroke-dasharray={perimeter +' ' + perimeter}
         shape-rendering="geometricPrecision"
         stroke-dashoffset={0}
+        fill="transparent"
       />
     {/if}
     <rect
       fill={innerColor}
-      opacity={innerColorOpacity}
       transform="translate({ringSize/2-0.1} {ringSize/2-0.3})"
       stroke="transparent"
       shape-rendering="geometricPrecision"
@@ -68,6 +71,8 @@
       stroke-width={ringSize}
       stroke-dasharray={perimeter +' ' + perimeter}
       stroke-dashoffset={0}
+      style="filter: {outlineDropShadowAmount ? "drop-shadow(0px 0px "+outlineDropShadowAmount+"px "+outlineColor+")": ""}
+                     {"contrast("+outlineContrast+"%)"};"
     />
     <rect
       stroke={progressColor}
@@ -77,8 +82,13 @@
       stroke-width={ringSize-0.1}
       stroke-dasharray={perimeter +' ' + perimeter}
       stroke-dashoffset={strokeDashoffset}
+      style="filter: {progressDropShadowAmount ? "drop-shadow(0px 0px "+progressDropShadowAmount+"px "+progressColor+")": ""}
+                     {"contrast("+progressContrast+"%)"};"
     />
   </g>
-  <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-    translateY={iconTranslateY} style="color:{iconColor || progressColor}"/>
+  <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
+                    {"contrast("+iconContrast+"%)"};">
+    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+      translateY={iconTranslateY} style="color:{iconColor}"/>
+  </g>
 </svg>

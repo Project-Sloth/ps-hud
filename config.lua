@@ -7,6 +7,7 @@ Config.MinimumStress = 50 -- Minimum Stress Level For Screen Shaking
 Config.MinimumSpeedUnbuckled = 50 -- Going Over This Speed Will Cause Stress
 Config.MinimumSpeed = 100 -- Going Over This Speed Will Cause Stress
 Config.DisablePoliceStress = true -- If true will disable stress for people with the police job
+Config.FuelScript = 'LegacyFuel' -- change to lj-fuel if you use lj-fuel or something else if you use any other LegcyFuel compatible script
 
 -- Stress
 Config.WhitelistedWeaponArmed = { -- weapons specifically whitelisted to not show armed mode
@@ -124,12 +125,6 @@ Config.Menu = {
     isMapNotifChecked = true, -- isMapNotifChecked
     isLowFuelChecked = true, -- isLowFuelChecked
     isCinematicNotifChecked = true, -- isCinematicNotifChecked
-    isDynamicHealthChecked = true, -- isDynamicHealthChecked
-    isDynamicArmorChecked= true, -- isDynamicArmorChecked
-    isDynamicHungerChecked = true, -- isDynamicHungerChecked
-    isDynamicThirstChecked = true, -- isDynamicThirstChecked
-    isDynamicStressChecked = true, -- isDynamicStressChecked
-    isDynamicOxygenChecked = true, -- isDynamicOxygenChecked
     isChangeFPSChecked = true, -- isChangeFPSChecked
     isHideMapChecked = false, -- isHideMapChecked
     isToggleMapBordersChecked = true, -- isToggleMapBordersChecked

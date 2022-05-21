@@ -1,8 +1,9 @@
 /* Theme colors. */
 :root {
-  --silent-hud-primary: rgb(255, 120, 62);
-  --silent-hud-primary-hover: rgba(255, 120, 62, 0.6);
-  --silent-hud-secondary: #444444;
+  /* --ps-hud-primary: #2bbca6; */
+  --ps-hud-primary: #03f0b5;
+  --ps-hud-primary-hover: #13554b;
+  --ps-hud-secondary: #444444;
 }
 
 ::-webkit-scrollbar {

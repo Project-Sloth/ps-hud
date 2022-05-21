@@ -8,16 +8,20 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let iconContrast: number = 100;
+  export let iconDropShadowAmount: number = 0;
   export let iconRotateDegree: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
-  export let innerColorOpacity: number = 1;
   export let name: string = "";
   export let outlineColor: string = "red";
-  export let outlineColorOpacity: number = 0.4;
+  export let outlineContrast: number = 100;
+  export let outlineDropShadowAmount: number = 0;
   export let progressColor: string = "red";
+  export let progressContrast: number = 100;
+  export let progressDropShadowAmount: number = 0;
   export let progressValue: number = 100;
   export let ringSize: number = 4;
   export let rotateDegree: number = 0;
@@ -45,7 +49,7 @@
     try {
       pathLength = diamond.getTotalLength();
     }catch(err) {
-      console.log("Error: QB-Hud: Diamond-Ring-Icon should not be mounting when hiding icons")
+      console.log("Error: PS-Hud: Diamond-Ring-Icon should not be mounting when hiding icons")
     }
   });
 
@@ -56,24 +60,23 @@
     <g 
       transform="
         { rotateDegree > 0 ? "rotate("+rotateDegree+" "+8+" "+8+")": ""}
-        { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+        { "translate("+translateX+" "+translateY+")" }"
     >
       {#if displayOutline}
         <path d="M8.384 1.226a.463.463 0 0 0-.768 0l-4.56 6.468a.537.537 0 0 0 0 .612l4.56 6.469a.463.463 0 0 0 .768 0l4.56-6.469a.537.537 0 0 0 0-.612l-4.56-6.468z"
-          fill={innerColor}
-          fill-opacity={innerColorOpacity}
+          fill="transparent"
           stroke={outlineColor}
           stroke-width={ringSize}
           stroke-dasharray={pathLength +' ' + pathLength}
           stroke-dashoffset={0}
-          opacity={outlineColorOpacity}
+          style="filter: {outlineDropShadowAmount ? "drop-shadow(0px 0px "+outlineDropShadowAmount+"px "+outlineColor+")": ""}
+                         {"contrast("+outlineContrast+"%)"};"
         />
       {/if}
       <svg viewBox="-1.5 4.5 19 7">
         <path d="M8.384 1.226a.463.463 0 0 0-.768 0l-4.56 6.468a.537.537 0 0 0 0 .612l4.56 6.469a.463.463 0 0 0 .768 0l4.56-6.469a.537.537 0 0 0 0-.612l-4.56-6.468z"
           stroke-width={ringSize-0.3}
           fill={innerColor}
-          fill-opacity={innerColorOpacity}
           stroke="transparent"
           stroke-dasharray={pathLength +' ' + pathLength}
           stroke-dashoffset={0}
@@ -86,10 +89,15 @@
         fill="transparent"
         stroke-dasharray={pathLength +' ' + pathLength}
         stroke-dashoffset={strokeDashoffset}
+        style="filter: {progressDropShadowAmount ? "drop-shadow(0px 0px "+progressDropShadowAmount+"px "+progressColor+")": ""}
+                       {"contrast("+progressContrast+"%)"};"
       />
     </g>
-    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-      translateY={iconTranslateY} flip={"horizontal"} style="color:{iconColor}"
-    />
+    <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
+                      {"contrast("+iconContrast+"%)"};">
+      <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+        translateY={iconTranslateY} flip={"horizontal"} style="color:{iconColor}"
+      />
+    </g>
   </svg>
 </div>

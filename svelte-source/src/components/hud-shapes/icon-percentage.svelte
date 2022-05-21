@@ -6,11 +6,11 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let iconContrast: number = 100;
+  export let iconDropShadowAmount: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
-  export let innerColor: string = "#212121";
-  export let innerColorOpacity: number = 0.4;
   export let name: string = "";
   export let progressColor: string = "red";
   export let progressValue: number = 100;
@@ -56,9 +56,10 @@
       <feMergeNode in="shadowMatrixOuter5"/>
     </feMerge>
   </filter>
-  <g class="glow" style="filter: drop-shadow(0px 0px 6px {progressColor}) contrast(300%);">
+  <g class="glow" style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
+      {"contrast("+iconContrast+"%)"};">
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-    translateY={iconTranslateY || 0.20} style="color:{iconColor || progressColor}"/>
+    translateY={iconTranslateY || 0.20} style="color:{iconColor}"/>
   </g>
   <text class="font-semibold text-lg" fill="white" x="55%" y="20%" dominant-baseline="middle" text-anchor="middle">
     {Math.round($progressTween)+"%"}

@@ -21,20 +21,20 @@
   </div>
 
   <div class="flex justify-center mb-4">
-    <div class="w-50">
+    <div class="w-55">
       <p class="text-lg text-center mb-2">Icon Layout</p>
       <Select valuesArray={iconLayouts} value={$LayoutStore.layout} handleSelectFunction={LayoutStore.updateLayout}/>
     </div>
   </div>
 
-  <div class="mx-4 mb-8 grid grid-cols-4 gap-6">
+  <div class="mx-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 items-end">
     <div>
       <p class="text-base text-center mb-2">Between Icon Spacing</p>
-      <NumberInput min={-100} max={1000} bind:value={$LayoutStore.iconBetweenSpacing}/>
+      <NumberInput min={-100} max={200} bind:value={$LayoutStore.iconBetweenSpacing}/>
     </div>
     <div>
       <p class="text-base text-center mb-2">Y-Axis Spacing</p>
-      <NumberInput min={-100} max={1000} bind:value={$LayoutStore.yAxisSpacing}/>
+      <NumberInput min={-100} max={200} bind:value={$LayoutStore.yAxisSpacing}/>
     </div>
   </div>
 </div>

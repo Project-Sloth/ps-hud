@@ -1,12 +1,11 @@
 <script lang="ts">
   import CompassHudStore from '../stores/compassHudStore'
-  // TODO Need to get Yantramanav font either from google fonts or somewhere else
-  // @import url('https://fonts.googleapis.com/css2?family=Yantramanav:wght@100;300;400;500;700;900&display=swap');
+  import DebugStore from '../stores/debugStore';
 </script>
 
 
-{#if $CompassHudStore.show}
-  <div>
+{#if $CompassHudStore.show || DebugStore}
+  <div class="baseplateConainer">
     {#if $CompassHudStore.showStreets}
       <div class="street-container">
           <div class="street2">{$CompassHudStore.street2}</div>
@@ -59,12 +58,18 @@
 {/if}
 
 <style>
-  .baseplate {
-    position: relative;
+  .baseplateConainer {
+    position: absolute;
     margin: 0 auto;
+    left: 0;
+    right: 0;
     top: -0.8vh;
     width: 150px;
     height: auto;
+  }
+
+  .baseplate {
+    position: relative;
   }
 
   .bearingText {

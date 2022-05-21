@@ -56,6 +56,6 @@
 
 	.content {
 		margin: 0;
-		padding: 0 24px 16px;
+		padding: 0 0 16px;
 	}
 </style>

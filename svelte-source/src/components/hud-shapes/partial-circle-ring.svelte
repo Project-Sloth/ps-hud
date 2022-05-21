@@ -73,7 +73,7 @@
   <g 
     transform="
     { rotateDegree > 0 ? "rotate("+rotateDegree+" "+radius+" "+radius+")": ""}
-    { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+    { "translate("+translateX+" "+translateY+")" }"
   >
     {#if displayOutline}
       <circle
@@ -126,7 +126,7 @@
   <g >
     {#if icon}
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-    translateY={iconTranslateY} style="color:{iconColor || progressColor}"/>
+    translateY={iconTranslateY} style="color:{iconColor}"/>
     {/if}
   </g>
 </svg>

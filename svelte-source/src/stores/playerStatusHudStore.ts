@@ -184,6 +184,7 @@ const store = () => {
             progressValue: state.icons[iconName].progressValue
           });
         state.icons[iconName] = defaultShape;
+        state.icons[iconName].shape = shape;
         return state;
       })
     },
@@ -209,21 +210,16 @@ const store = () => {
         state.icons.thirst.progressValue = data.thirst;
         state.icons.hunger.progressValue = data.hunger;
         state.icons.stress.progressValue = data.stress;
-        state.icons.voice.progressValue = data.voice * 16.6; // Should be 1.5, 3, 6 so * 16.6 to show progress
+        // Should be 1.5, 3, 6 so * 16.6 to show progress
+        state.icons.voice.progressValue = data.voice * 16.6;
         state.icons.oxygen.progressValue = data.oxygen;
         state.icons.parachute.progressValue = data.parachute;
         state.icons.engine.progressValue = data.engine;
-        state.icons.harness.progressValue = data.hp*5; // I am guessing harness hp max is 20?
+        // I am guessing harness hp max is 20?
+        state.icons.harness.progressValue = data.hp*5;
         state.icons.cruise.progressValue = data.speed;
-        state.icons.nitro.progressValue = data.nos || 0; // This needs to be a number so default to 0
-        // I dont think this gets used
-        // state.cruise = data.cruise;
-        // Only data uses this, we just change nitro color
-        // state.nitroActive = data.nitroActive;
-        // Only data uses this,
-        // state.harness = data.harness;
-        // I dont think this gets used
-        //state.cinematic = data.cinematic;
+        // This needs to be a number so default to 0
+        state.icons.nitro.progressValue = data.nos || 0;
 
         if (staticHealth) {
           state.icons.health.isShowing = true;
@@ -338,15 +334,13 @@ const store = () => {
         } 
   
         if (staticNitro) {
-          if (data.nos <= 0) {
+          if (state.icons.nitro.progressValue <= 0) {
             state.icons.nitro.isShowing = false;
           } else {
             state.icons.nitro.isShowing = true;
           }
         } else {
-          // Dont know why this would be undefined?
-          // I guess if we are not in a car?
-          if (data.nos <= 0 || data.nos == undefined) {
+          if (state.icons.nitro.progressValue <= 0) {
             state.icons.nitro.isShowing = false;
           } else {
             state.icons.nitro.isShowing = true;

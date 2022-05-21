@@ -24,7 +24,17 @@ export function EventHandler() {
       case "adminstatus":
         MenuStore.receiveAdminMessage(event.data as any);
       case "baseplate":
-        CompassHudStore.receiveCompassMessage(event.data as any);
+        switch (event.data.topic) {
+          case "compassupdate":
+            CompassHudStore.receiveCompassMessage(event.data as any);
+            break;
+          case "opencompass":
+            CompassHudStore.receiveCompassOpenMessage(event.data as any);
+            break;
+          case "closecompass":
+            CompassHudStore.receiveCompassCloseMessage(event.data as any);
+            break;
+        }
         break;
       case "car":
         switch (event.data.topic) {
@@ -96,7 +106,7 @@ export async function fetchNui(eventName: string, data: unknown = {}) {
     body: JSON.stringify(data),
   };
 
-  const resourceName = "qb-hud";
+  const resourceName = "ps-hud";
 
   try {
     const resp = await fetch(`https://${resourceName}/${eventName}`, options);
@@ -119,7 +129,12 @@ export function saveUIData() {
   const playerStatusIcondata = get(PlayerHudStore);
   const layoutdata = get(layoutStore);
   const colorData = get(ColorEffectStore);
-  const serializedIconData = combineIconColorData(playerStatusIcondata.icons, colorData);
-  const sendData = {icons: serializedIconData, layout: layoutdata.layout};
+  // const serializedIconData = combineIconColorData(playerStatusIcondata.icons, colorData);
+  const sendData = {
+    icons: playerStatusIcondata.icons,
+    layout: layoutdata.layout,
+    colors: colorData.icons
+  };
+  console.log("Sending this Data:", sendData);
   fetchNui('saveUISettings', sendData);
 }

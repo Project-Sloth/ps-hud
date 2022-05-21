@@ -37,7 +37,6 @@
     try {
       pathLength = square.getTotalLength();
     }catch(err) {
-      //console.error("Error: QB-Hud: Badge-Icon should not be mounting when hiding icons")
     }
   });
 

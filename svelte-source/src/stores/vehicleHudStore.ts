@@ -1,12 +1,8 @@
 import { writable } from 'svelte/store'
 
 type vehicleStatusType = {
-  speedometer: number,
   fuelColor: string,
-  fuelguage: number,
   altitude: number,
-  // this is only used for showing the circle gauge 75% of a circle
-  altitudegauge: number,
   fuel: number,
   speed: number,
   show: boolean,
@@ -41,11 +37,8 @@ type vehicleHudShowMessage = {
 const store = () => {
 
   const vehicleStatusState: vehicleStatusType = {
-    speedometer: 66, // Used for htmll value, dont need to be sent this
     fuelColor: "#FFFFFF",
-    fuelguage: 69, // Used for html value, dont need to be sent this
     altitude: 0,
-    altitudegauge: 75, // Used for html value, dont need to be sent this
     fuel: 0,
     speed: 0,
     show: false,

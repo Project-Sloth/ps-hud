@@ -6,13 +6,18 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let iconContrast: number = 100;
+  export let iconDropShadowAmount: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
-  export let innerColor: string = "#212121";
-  export let innerColorOpacity: number = 0.4;
   export let name: string = "";
+  export let outlineColor: string = "red";
+  export let outlineContrast: number = 100;
+  export let outlineDropShadowAmount: number = 0;
   export let progressColor: string = "red";
+  export let progressContrast: number = 100;
+  export let progressDropShadowAmount: number = 0;
   export let progressValue: number = 100;
   export let rotateDegree: number = 0;
   export let translateX: number = 0;
@@ -46,9 +51,6 @@
   $: {
     strokeDashoffset = minimumAxis - $progressTween / 100 * minimumAxis;
   }
-
-
-  // filter= "drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4))"
 </script>
 
 <svg
@@ -58,30 +60,30 @@
   overflow="visible"
 >
   <defs>
-    <clipPath id="cut-out-circle">
+    <clipPath id={name+"-cut-out-circle"}>
       <circle
-        stroke={progressColor}
         stroke-width={stroke}
         r={radius}
         cx={radius}
         cy={radius}
-        shape-rendering="geometricPrecision"
       />
     </clipPath>
   </defs>
   <g 
     transform="
     { rotateDegree > 0 ? "rotate("+rotateDegree+" "+radius+" "+radius+")": ""}
-    { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+    { "translate("+translateX+" "+translateY+")" }"
   >
   <circle
-    opacity={innerColorOpacity}
-    stroke={innerColor}
+    stroke={outlineColor}
+    fill="transparent"
     stroke-width={stroke}
     r={normalizedRadius}
     cx={radius}
     cy={radius}
     shape-rendering="geometricPrecision"
+    style="filter: {outlineDropShadowAmount ? "drop-shadow(0px 0px "+outlineDropShadowAmount+"px "+outlineColor+")": ""}
+                   {"contrast("+outlineContrast+"%)"};"
   />
   <line
     x1="50%"
@@ -92,12 +94,15 @@
     stroke-dasharray={minimumAxis}
     stroke-dashoffset={strokeDashoffset}
     stroke-width={minimumAxis}
-    clip-path="url(#cut-out-circle)"
+    clip-path="url(#{name+"-cut-out-circle"})"
     shape-rendering="geometricPrecision"
+    style="filter: {progressDropShadowAmount ? "drop-shadow(0px 0px "+progressDropShadowAmount+"px "+progressColor+")": ""}
+                   {"contrast("+progressContrast+"%)"};"
   />
   </g>
-  <g style="">
+  <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
+                    {"contrast("+iconContrast+"%)"};">
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-    translateY={iconTranslateY} style="color:{iconColor || progressColor}"/>
+    translateY={iconTranslateY} style="color:{iconColor}"/>
   </g>
 </svg>

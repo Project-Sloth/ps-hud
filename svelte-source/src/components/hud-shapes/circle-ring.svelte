@@ -48,13 +48,6 @@
     circumference = normalizedRadius * 2 * Math.PI;
   }
   $: strokeDashoffset = circumference - $progressTween / 100 * circumference;
-  
-  // track circle
-  //       style="filter: drop-shadow(0px 0px 6px {progressColor}) contrast(200%);"
-  // progress circle
-  //       style="filter: drop-shadow(0px 0px 10px {progressColor}) contrast(300%) contrast(175%);"
-  // icon
-  //       style="filter: drop-shadow(0px 0px 10px {progressColor}) contrast(300%);"
 </script>
 
 <svg
@@ -66,7 +59,7 @@
   <g 
     transform="
     { rotateDegree > 0 ? "rotate("+rotateDegree+" "+radius+" "+radius+")": ""}
-    { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+    { "translate("+translateX+" "+translateY+")" }"
   >
     <circle
       fill={innerColor}
@@ -91,7 +84,7 @@
       cy={radius}
       transform="rotate(-90, {radius}, {radius})"
       style="filter: {outlineDropShadowAmount ? "drop-shadow(0px 0px "+outlineDropShadowAmount+"px "+outlineColor+")": ""}
-      {outlineContrast > 100 ? "contrast("+outlineContrast+"%)" : ""};"
+                     {"contrast("+outlineContrast+"%)"};"
     />
   {/if}
     <circle
@@ -105,13 +98,12 @@
       cy={radius}
       transform="rotate(-90, {radius}, {radius})"
       style="filter: {progressDropShadowAmount ? "drop-shadow(0px 0px "+progressDropShadowAmount+"px "+progressColor+")": ""}
-                     {progressContrast > 100 ? "contrast("+progressContrast+"%)" : ""};"
+                     {"contrast("+progressContrast+"%)"};"
     />
   </g>
   <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
-                    {iconContrast > 100 ? "contrast("+iconContrast+"%)" : ""};">
-
+                    {"contrast("+iconContrast+"%)"};">
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-    translateY={iconTranslateY} style="color:{iconColor || progressColor}"/>
+    translateY={iconTranslateY} style="color:{iconColor}"/>
   </g>
 </svg>

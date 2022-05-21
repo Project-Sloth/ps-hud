@@ -5,8 +5,8 @@ import DebugStore from './debugStore';
 type menuStatus = {
   show: boolean,
   isAdmin: boolean,
-  isChangeCompassFPSChecked: "Optimized" | "Synced",
-  isChangeFPSChecked: "Optimized" | "Synced", // (default) Optimized or Synced
+  isChangeCompassFPSChecked: "optimized" | "synced",
+  isChangeFPSChecked: "optimized" | "synced",
   isCineamticModeChecked: boolean,
   isCinematicNotifyChecked: boolean,
   isCompassFollowChecked: boolean,
@@ -31,7 +31,7 @@ type menuStatus = {
   isStaticStressChecked: boolean,
   isStaticThirstChecked: boolean,
   isToggleMapBordersChecked: boolean, 
-  isToggleMapShapeChecked: "circle" | "square" // (default) circle or square
+  isToggleMapShapeChecked: "circle" | "square"
 }
 
 const MenuLocalStorageStore = () => {

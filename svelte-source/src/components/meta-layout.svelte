@@ -68,6 +68,12 @@
       style="gap: {$LayoutStore.iconBetweenSpacing+'px'};">
       <IconsList />
     </div>
+  {:else if layout == "top-right-row"}
+    <div
+      class="absolute top-[0.3vw] right-[0.3vw] flex flex-row"
+      style="gap: {$LayoutStore.iconBetweenSpacing+'px'};">
+      <IconsList />
+    </div>
   {:else if layout == "standard"}
     <div 
       class="absolute bottom-[0.3vw] left-[0.3vw] flex flex-row standard-layout"

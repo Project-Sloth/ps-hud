@@ -1,16 +1,34 @@
 <script lang="ts">
   import Button from '../atoms/button.svelte'
   import Checkbox from '../atoms/checkbox.svelte'
-  import QBCoreLogo from '../atoms/qbcore-logo.svelte'
+  import PSLogo from '../atoms/ps-logo.svelte'
   import Switch from '../atoms/switch.svelte'
   import MenuStore from '../../stores/menuStore';
   import { fetchNui } from '../../utils/eventHandler';
+
+  function handleIsToggleMapShapeChecked(checked: boolean) {
+    let shape: "circle" | "square" = checked ? "circle": "square";
+    $MenuStore.isToggleMapShapeChecked = shape;
+    fetchNui("ToggleMapShape", {shape: shape})
+  }
+
+  function handleIsChangeFPSChecked(checked: boolean) {
+    let fpsSetting: "optimized" | "synced" = checked ? "optimized" : "synced";
+    $MenuStore.isChangeFPSChecked = fpsSetting;
+    fetchNui("changeFPS", {fps: fpsSetting})
+  }
+
+  function handleIsChangeCompassFPSChecked(checked: boolean) {
+    let fpsSetting: "optimized" | "synced" = checked ? "optimized" : "synced";
+    $MenuStore.isChangeCompassFPSChecked = fpsSetting;
+    fetchNui("changeCompassFPS", {fps: fpsSetting});
+  }
 </script>
 
 <div class="text-sm flex flex-col text-[#e8e8e8]">
   <div class="mx-4 mb-5 mt-3">
     <div class="float-right w-[25%]">
-      <QBCoreLogo />
+      <PSLogo />
     </div>
     <div class="-mx-4 mb-4 text-2xl text-white">
       <p>Reset HUD </p>
@@ -29,20 +47,20 @@
     <p>Options</p>
   </div>
   <div class="mx-4 mb-4 flex flex-col">
-    <Checkbox bind:value={$MenuStore.isOutMapChecked}
+    <Checkbox bind:checked={$MenuStore.isOutMapChecked}
       primaryText={"Show Minimap Only in Vehicle"}
       secondaryText={"Disabling this will always keep your minimap on your screen"}
-      on:click={() => { fetchNui("showOutMap") }}
+      handleUpdateFunction={(checked) => fetchNui("showOutMap", {checked})}
     />
-    <Checkbox bind:value={$MenuStore.isOutCompassChecked}
+    <Checkbox bind:checked={$MenuStore.isOutCompassChecked}
       primaryText={"Show Compass Only in Vehicle"}
       secondaryText={"Disabling this will always keep your compass on your screen"}
-      on:click={() => { fetchNui("showOutCompass") }}
+      handleUpdateFunction={(checked) => fetchNui("showOutCompass", {checked})}
     />
-    <Checkbox bind:value={$MenuStore.isCompassFollowChecked}
+    <Checkbox bind:checked={$MenuStore.isCompassFollowChecked}
       primaryText={"Show Compass Follow Cam"}
       secondaryText={"Disabling this will make it so you can no longer use your mouse to rotate the compass around"}
-      on:click={() => { fetchNui("showFollowCompass") }}
+      handleUpdateFunction={(checked) => fetchNui("showFollowCompass", {checked})}
     />
   </div>
 
@@ -53,23 +71,23 @@
   </div>
 
   <div class="mx-4 mb-4 flex flex-col">
-    <Checkbox bind:value={$MenuStore.isOpenMenuSoundsChecked}
-      primaryText={"Menu Sound Effect Enabled"} on:click={() => {fetchNui("openMenuSounds")}}
+    <Checkbox bind:checked={$MenuStore.isOpenMenuSoundsChecked}
+      primaryText={"Menu Sound Effect Enabled"} handleUpdateFunction={(checked) => fetchNui("openMenuSounds", {checked})}
     />
-    <Checkbox bind:value={$MenuStore.isResetSoundsChecked}
-      primaryText={"Reset Hud Sound Effects Enabled"} on:click={() => { fetchNui("resetHudSounds") }}
+    <Checkbox bind:checked={$MenuStore.isResetSoundsChecked}
+      primaryText={"Reset Hud Sound Effects Enabled"} handleUpdateFunction={(checked) => fetchNui("resetHudSounds", {checked})}
     />
-    <Checkbox bind:value={$MenuStore.isListSoundsChecked}
-      primaryText={"GUI Sound Effects Enabled"} on:click={() => { fetchNui("checklistSounds") }}
+    <Checkbox bind:checked={$MenuStore.isListSoundsChecked}
+      primaryText={"GUI Sound Effects Enabled"} handleUpdateFunction={(checked) => fetchNui("checklistSounds", {checked})}
     />
-    <Checkbox bind:value={$MenuStore.isMapNotifyChecked}
-      primaryText={"Map Notifications Enabled"} on:click={() => { fetchNui("showMapNotif") }}
+    <Checkbox bind:checked={$MenuStore.isMapNotifyChecked}
+      primaryText={"Map Notifications Enabled"} handleUpdateFunction={(checked) => fetchNui("showMapNotif", {checked})}
     />
-    <Checkbox bind:value={$MenuStore.isLowFuelAlertChecked}
-      primaryText={"Low Fuel Alert Enabled"} on:click={() => { fetchNui("showFuelAlert") }}
+    <Checkbox bind:checked={$MenuStore.isLowFuelAlertChecked}
+      primaryText={"Low Fuel Alert Enabled"} handleUpdateFunction={(checked) => fetchNui("showFuelAlert", {checked})}
     />
-    <Checkbox bind:value={$MenuStore.isCinematicNotifyChecked}
-      primaryText={"Cinematic Mode Notifications"} on:click={() => { fetchNui("showCinematicNotif") }}
+    <Checkbox bind:checked={$MenuStore.isCinematicNotifyChecked}
+      primaryText={"Cinematic Mode Notifications"} handleUpdateFunction={(checked) => fetchNui("showCinematicNotif", {checked})}
     />
   </div>
 
@@ -79,23 +97,23 @@
     <p>Status</p>
   </div>
   <div class="mx-4 mb-4 flex flex-col">
-    <Checkbox bind:value={$MenuStore.isStaticHealthChecked}
-      primaryText={"Show Health Always"} on:click={() => { fetchNui("dynamicHealth") }}
+    <Checkbox bind:checked={$MenuStore.isStaticHealthChecked}
+      primaryText={"Show Health Always"} on:click={() => { fetchNui("dynamicChange") }}
     />
-    <Checkbox bind:value={$MenuStore.isStaticArmorChecked}
-      primaryText={"Show Armor Always"} on:click={() => { fetchNui("dynamicArmor") }}
+    <Checkbox bind:checked={$MenuStore.isStaticArmorChecked}
+      primaryText={"Show Armor Always"} on:click={() => { fetchNui("dynamicChange") }}
     />
-    <Checkbox bind:value={$MenuStore.isStaticHungerChecked}
-      primaryText={"Show Hunger Always"} on:click={() => { fetchNui("dynamicHunger") }}
+    <Checkbox bind:checked={$MenuStore.isStaticHungerChecked}
+      primaryText={"Show Hunger Always"} on:click={() => { fetchNui("dynamicChange") }}
     />
-    <Checkbox bind:value={$MenuStore.isStaticThirstChecked}
-      primaryText={"Show Thirst Always"} on:click={() => { fetchNui("dynamicThirst") }}
+    <Checkbox bind:checked={$MenuStore.isStaticThirstChecked}
+      primaryText={"Show Thirst Always"} on:click={() => { fetchNui("dynamicChange") }}
     />
-    <Checkbox bind:value={$MenuStore.isStaticStressChecked}
-      primaryText={"Show Stress Always"} on:click={() => { fetchNui("dynamicStress") }}
+    <Checkbox bind:checked={$MenuStore.isStaticStressChecked}
+      primaryText={"Show Stress Always"} on:click={() => { fetchNui("dynamicChange") }}
     />
-    <Checkbox bind:value={$MenuStore.isStaticOxygenChecked}
-      primaryText={"Show Oxygen Always"} on:click={() => { fetchNui("dynamicOxygen") }}
+    <Checkbox bind:checked={$MenuStore.isStaticOxygenChecked}
+      primaryText={"Show Oxygen Always"} on:click={() => { fetchNui("dynamicChange") }}
     />
   </div>
 
@@ -105,25 +123,30 @@
     <p>Vehicle</p>
   </div>
   <div class="mx-4 mb-4 flex flex-col">
-    <Switch text="Speedometer FPS Synced" on:click={() => { fetchNui("changeFPS") }}/>
-    <p class="font-semibold text-base">
+    <Switch checked={$MenuStore.isChangeFPSChecked == "optimized"} checkedText="Speedometer FPS is Optimized (30 FPS)" unCheckedText="Speedometer FPS is Synced (60 FPS)"
+      handleUpdateFunction={(checked) => handleIsChangeFPSChecked(checked)}/>
+    <p class="font-semibold text-base pb-2">
       Synced FPS option will result in less optimization, but keep your speedometer in real time, however, it will also be more demanding on your machine.
     </p>
-    <Switch text="Minimap Square" on:click={() => { fetchNui("ToggleMapShape") }}/>
-    <p class="font-semibold text-base">
+
+    <Switch checked={$MenuStore.isToggleMapShapeChecked == "circle"} checkedText="Minimap Circle" unCheckedText="Minimap Square"
+      handleUpdateFunction={(checked) => handleIsToggleMapShapeChecked(checked)}
+    />
+    <p class="font-semibold text-base pb-2">
       Whether it's square or circle you desire, you have the ability to choose!
     </p>
-    <Checkbox bind:value={$MenuStore.isHideMapChecked}
-      primaryText={"Minimap Enabled"} on:click={() => { fetchNui("HideMap") }}
+
+    <Checkbox bind:checked={$MenuStore.isHideMapChecked}
+      primaryText={"Minimap Enabled"} handleUpdateFunction={(checked) => fetchNui("HideMap", {checked})}
     />
-    <Checkbox bind:value={$MenuStore.isToggleMapBordersChecked}
-      primaryText={"Minimap Borders Enabled"} on:click={() => { fetchNui("ToggleMapBorders") }}
+    <Checkbox bind:checked={$MenuStore.isToggleMapBordersChecked}
+      primaryText={"Minimap Borders Enabled"} handleUpdateFunction={(checked) => fetchNui("ToggleMapBorders", {checked})}
     />
-    <Checkbox bind:value={$MenuStore.isStaticEngineChecked}
-      primaryText={"Show Engine Always"} on:click={() => { fetchNui("dynamicEngine") }}
+    <Checkbox bind:checked={$MenuStore.isStaticEngineChecked}
+      primaryText={"Show Engine Always"} on:click={() => { fetchNui("dynamicChange") }}
     />
-    <Checkbox bind:value={$MenuStore.isStaticNitroChecked}
-      primaryText={"Show Nitro Always"} on:click={() => { fetchNui("dynamicNitro") }}
+    <Checkbox bind:checked={$MenuStore.isStaticNitroChecked}
+      primaryText={"Show Nitro Always"} on:click={() => { fetchNui("dynamicChange") }}
     />
   </div>
 
@@ -133,24 +156,26 @@
     <p>Compass</p>
   </div>
   <div class="mx-4 mb-4 flex flex-col">
-    <Switch text="Compass FPS Optimized" on:click={() => { fetchNui("changeCompassFPS") }}/>
+    <Switch  checked={$MenuStore.isChangeCompassFPSChecked == "optimized"} checkedText="Compass FPS Optimized (30 FPS)" unCheckedText="Compass FPS Synced (60 FPS)"
+      handleUpdateFunction={(checked) => handleIsChangeCompassFPSChecked(checked)}/>
     <p class="font-semibold text-base mb-1">
       Synced FPS option will result in less optimization, but keep your compass in real time, however, it will also be more demanding on your machine.
     </p>
-    <Checkbox bind:value={$MenuStore.isShowCompassChecked}
-      primaryText={"Compass Enabled"} on:click={() => { fetchNui("showCompassBase") }}
+
+    <Checkbox bind:checked={$MenuStore.isShowCompassChecked}
+      primaryText={"Compass Enabled"} handleUpdateFunction={(checked) => fetchNui("showCompassBase", {checked})}
       secondaryText={"Disabling this will make it so you can't see the compass navigation"}
     />
-    <Checkbox bind:value={$MenuStore.isShowStreetsChecked}
-      primaryText={"Show Street Names Enabled"} on:click={() => { fetchNui("showStreetsNames") }}
+    <Checkbox bind:checked={$MenuStore.isShowStreetsChecked}
+      primaryText={"Show Street Names Enabled"} handleUpdateFunction={(checked) => fetchNui("showStreetsNames", {checked})}
       secondaryText={"Disabling this will make it so you can't see the street names / locations"}
     />
-    <Checkbox bind:value={$MenuStore.isPointerShowChecked}
-      primaryText={"Show Compass Pointer Enabled"} on:click={() => { fetchNui("showPointerIndex") }}
+    <Checkbox bind:checked={$MenuStore.isPointerShowChecked}
+      primaryText={"Show Compass Pointer Enabled"} handleUpdateFunction={(checked) => fetchNui("showPointerIndex", {checked})}
       secondaryText={"Disabling this will make it so you can't see your pointer index to pinpoint your exact cardinal directions"}
     />
-    <Checkbox bind:value={$MenuStore.isDegreesShowChecked}
-      primaryText={"Show Compass Degrrees Enabled"} on:click={() => { fetchNui("showDegreesNum") }}
+    <Checkbox bind:checked={$MenuStore.isDegreesShowChecked}
+      primaryText={"Show Compass Degrrees Enabled"} handleUpdateFunction={(checked) => fetchNui("showDegreesNum", {checked})}
       secondaryText={"Disabling this will make it so you can't see your exact degrees"}
     />
   </div>
@@ -161,7 +186,7 @@
     <p>Cinematic Mode</p>
   </div>
   <div class="mx-4 mb-4 flex flex-col gap-5">
-    <Checkbox bind:value={$MenuStore.isCineamticModeChecked}
+    <Checkbox bind:checked={$MenuStore.isCineamticModeChecked}
       primaryText={"Enabled"} on:click={() => { fetchNui("cinematicMode") }}
     />
   </div>

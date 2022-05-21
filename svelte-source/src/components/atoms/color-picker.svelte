@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ColorPicker, Color } from './color-picker/index'
-	const defaultColorString: string = '#ff783eff';
+	const defaultColorString: string = "#03f0b5ff";
 	export let colorString: string = defaultColorString;
   export let updateFunction: (colorHex) => void = null;
 	let color: Color = Color.hex(colorString);

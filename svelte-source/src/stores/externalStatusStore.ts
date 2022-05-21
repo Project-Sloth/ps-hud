@@ -59,7 +59,7 @@ const store = () => {
 
           let defaultShape = createShapeIcon(playerStatusdata.globalIconSettings.shape, 
             {
-              icon: getIconData(data.iconName), iconColor: data.iconColor || "white",
+              icon: getIconData(data.iconName), iconColor: data.iconColor || "#FFFFFF",
               isShowing: data.display || true, name: name,
               progressValue: data.progressValue || 0,
             });

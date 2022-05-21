@@ -9,7 +9,7 @@ export type playerHudIcons = {
 }
 
 export const iconLayouts = ["standard", "bottom-right-row", "center-bottom-row",
-"left-bottom-column", "right-bottom-column", "top-left-row" ] as const;
+"left-bottom-column", "right-bottom-column", "top-left-row", "top-right-row" ] as const;
 export type layoutIconKind = typeof iconLayouts[number];
 
 export const layoutPresets = ["esx-hud-hard-to-let-go"]
@@ -231,8 +231,10 @@ export type optionalHudIconType = Partial<baseIconProps & borderIconProps & ring
 
 export type optionalPlayerHudIconsType = Partial<{ [Property in keyof playerHudIcons]: optionalHudIconType }>;
 
+const DEFAULTICONSHAPE: shapekind = "circle-ring";
+
 export function defaultHudIcon(name: string = "", showing: boolean = false, icon: object = null): any {
-  return createShapeIcon("circle-ring", { isShowing: showing, icon: icon, name: name });
+  return createShapeIcon(DEFAULTICONSHAPE, { isShowing: showing, icon: icon, name: name });
 }
 
 export type shapePropsType = Omit<optionalHudIconType, "shape" | "isShowing" | "name" >;
@@ -242,6 +244,7 @@ export const colorNames = ["iconColor", "iconDropShadowAmount", "iconContrast", 
 export type colorNamesKind = typeof colorNames[number];
 
 interface colorNameObj {
+  editableColors: {[key: string]: boolean}
   iconColor: string,
   iconDropShadowAmount: number,
   iconContrast: number,
@@ -254,6 +257,10 @@ interface colorNameObj {
   progressDropShadowAmount: number,
 }
 
+export type editableColorsType = {
+  [key in colorNamesKind]: boolean
+}
+
 export interface colorEffect extends colorNameObj {
   name: string
 }
@@ -261,6 +268,7 @@ export interface colorEffect extends colorNameObj {
 export type iconColorEffect = {
   currentEffect: number,
   colorEffects: Array<colorEffect>,
+  editableColors: {[key: string]: boolean}
 }
 
 export type playerHudColorEffects = {
@@ -278,6 +286,7 @@ export function defaultColorEffect(name: string, progressColor: string, outlineC
   iconColor: string = "#FFFFFFFF", innerColor: string = "#212121FF"): colorEffect {
 
   return {
+    editableColors: {},
     iconColor: iconColor,
     iconContrast: 100,
     iconDropShadowAmount: 0,
@@ -290,4 +299,26 @@ export function defaultColorEffect(name: string, progressColor: string, outlineC
     progressContrast: 100,
     progressDropShadowAmount: 0,
   }
+}
+
+export function defaultEditableColor() {
+  return createEditableColor(DEFAULTICONSHAPE);
+}
+
+export function createEditableColor(shape: shapekind): Partial<editableColorsType> {
+  let editOptions: Partial<editableColorsType> = {};
+  switch (shape) {
+    case "badge":
+    case "circle-ring":
+    case "diamond-ring":
+    case "hexagon-ring":
+    case "pill-ring":
+    case "square-ring":
+    case "square-whole":
+    case "star-ring":
+    case "triangle-ring":
+      editOptions.innerColor = true;
+      break;
+  }
+  return editOptions;
 }

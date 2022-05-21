@@ -20,7 +20,7 @@
   $: {
     if (value) {
       let index = items.findIndex((element) => element.value == value);
-      if (index) {
+      if (index >= 0) {
         itemvalue = items[index]
       }
     } 
@@ -37,7 +37,7 @@
   }
 </script>
 
-<div class="themed text-white text-sm">
+<div class="themed text-white text-base">
   <Select {items} value={itemvalue} on:select={handleSelect} isClearable={false} containerClasses="selectHud"/>
 </div>
 
@@ -45,8 +45,8 @@
   .themed {
     --background: #292929;
     --listBackground: #292929;
-    --itemIsActiveBG: var(--silent-hud-primary);
-    --itemHoverBG: var(--silent-hud-primary-hover);
+    --itemIsActiveBG: var(--ps-hud-primary);
+    --itemHoverBG: var(--ps-hud-primary-hover);
     --border: #171717;
   }
   :global(.selectContainer > *) {
@@ -54,5 +54,8 @@
   }
   :global(.listItem > *) {
     cursor: pointer !important;
+  }
+  :global(.listContainer) {
+    z-index: 3 !important;
   }
 </style>

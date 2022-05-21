@@ -1,12 +1,19 @@
 <script lang="ts">
   export let primaryText: string = "";
   export let secondaryText: string = "";
-  export let value: boolean;
+  export let checked: boolean;
+  export let handleUpdateFunction: (val: boolean) => void = null;
+
+  $: {
+    if (handleUpdateFunction) {
+      handleUpdateFunction(checked);
+    }
+  }
 </script>
 
 
 <label class="flex flex-row gap-4 py-3 cursor-pointer select-none {secondaryText ? "items-center" : ""}">
-  <input class="cursor-pointer" type="checkbox" name="checkbox" bind:checked={value} on:click/>
+  <input class="cursor-pointer" type="checkbox" name="checkbox" bind:checked={checked} on:click/>
   {#if secondaryText}
     <div class="flex flex-col">
       <span class="primary-text mb-1">{primaryText}</span>
@@ -36,15 +43,15 @@ input[type="checkbox"] {
   /* Remove most all native input styles */
   appearance: none;
   /* For iOS < 15 */
-  background-color: var(--silent-hud-primary);
+  background-color: var(--ps-hud-primary);
   /* Not removed via appearance */
   margin: 0;
 
   font: inherit;
-  color: var(--silent-hud-primary);
+  color: var(--ps-hud-primary);
   width: 1.6em;
   height: 1.6em;
-  border: 0.15em solid var(--silent-hud-primary);
+  border: 0.15em solid var(--ps-hud-primary);
   border-radius: 0.15em;
   transform: translateY(-0.075em);
 

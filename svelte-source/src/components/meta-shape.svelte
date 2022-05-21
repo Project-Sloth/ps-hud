@@ -10,7 +10,6 @@
   import DiamondWhole from './hud-shapes/diamond-whole.svelte';
   import PillRing from './hud-shapes/pill-ring.svelte';
   import PillWhole from './hud-shapes/pill-whole.svelte';
-  //import Cylinder from './hud-shapes/cylinder.svelte';
   import HorizontalBar from './hud-shapes/horizontal-bar.svelte';
   import SquareRing from './hud-shapes/square-ring.svelte';
   import StarRing from './hud-shapes/star-ring.svelte'
@@ -20,8 +19,6 @@
   import SquareCircularFill from './hud-shapes/square-circular-fill.svelte';
   import SquareWhole from './hud-shapes/square-whole.svelte';
   import IconPercentage from './hud-shapes/icon-percentage.svelte';
-  //import Octagon from './components/octagon.svelte';
-
   export let hudIconInfo: optionalHudIconType = {};
 
   let shapeProps: shapePropsType;
@@ -43,8 +40,6 @@
   <CircleSquareFill {...shapeProps} />
 {:else if hudIconInfo.shape == 'circle-whole'}
   <CircleWhole {...shapeProps} />
-<!-- {:else if hudIconInfo.shape == 'cylinder'}
-  <Cylinder props={shapeProps} /> -->
 {:else if hudIconInfo.shape == 'diamond-ring'}
   <DiamondRing {...shapeProps} />
 {:else if hudIconInfo.shape == 'diamond-whole'}

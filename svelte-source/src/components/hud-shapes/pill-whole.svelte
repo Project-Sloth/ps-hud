@@ -6,15 +6,18 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let iconContrast: number = 100;
+  export let iconDropShadowAmount: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
-  export let innerColor: string = "#212121";
-  export let innerColorOpacity: number = 0.4;
   export let name: string = "";
   export let outlineColor: string = "red";
-  export let outlineColorOpacity: number = 0.4;
+  export let outlineContrast: number = 100;
+  export let outlineDropShadowAmount: number = 0;
   export let progressColor: string = "red";
+  export let progressContrast: number = 100;
+  export let progressDropShadowAmount: number = 0;
   export let progressValue: number = 100;
   export let ringSize: number = 4;
   export let rotateDegree: number = 0;
@@ -44,10 +47,10 @@
   width={width}
   transform="
   { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
-  { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+  { "translate("+translateX+" "+translateY+")" }"
 >
 <defs>
-  <clipPath id="cut-out-{name}">
+  <clipPath id="{name}-cut-out-pillwhole">
     <rect
       stroke={progressColor}
       width={width}
@@ -58,13 +61,15 @@
   </clipPath>
 </defs>
   <rect
+    fill={outlineColor}
     width={width}
     height={height}
+    stroke="transparent"
     stroke-width={height}
     rx={xAxisRound}
     ry={yAxisRound}
-    opacity={outlineColorOpacity}
-    fill="black"
+    style="filter: {outlineDropShadowAmount ? "drop-shadow(0px 0px "+outlineDropShadowAmount+"px "+outlineColor+")": ""}
+                   {"contrast("+outlineContrast+"%)"};"
   />
   <line
     x1="50%"
@@ -75,9 +80,14 @@
     stroke-dasharray={height}
     stroke-dashoffset={strokeDashoffset}
     stroke-width={maximumAxis}
-    clip-path="url(#cut-out-{name})"
+    clip-path="url(#{name}-cut-out-pillwhole)"
+    style="filter: {progressDropShadowAmount ? "drop-shadow(0px 0px "+progressDropShadowAmount+"px "+progressColor+")": ""}
+                   {"contrast("+progressContrast+"%)"};"
   />
-  <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-    translateY={iconTranslateY} style="color:{iconColor}"
-  />
+  <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
+                    {"contrast("+iconContrast+"%)"};">
+    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+      translateY={iconTranslateY} style="color:{iconColor}"
+    />
+  </g>
 </svg>

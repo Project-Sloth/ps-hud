@@ -1,5 +1,7 @@
 <script lang="ts">
   export let checked: boolean = true;
+  export let checkedText: string = "";
+  export let unCheckedText: string = "";
   export let text: string = "";
   export let center: boolean = false;
   export let handleUpdateFunction: (val: boolean) => void = null;
@@ -11,11 +13,19 @@
   }
 </script>
 
+<label class="switch cursor-pointer flex flex-row pt-2 pb-4 -ml-2 gap-1 select-none">
+  <input class="cursor-pointer" style={center ? "margin-left:auto; margin-right:auto;": ''} type="checkbox" role="switch" bind:checked={checked} on:click>
 
-  <label class="switch cursor-pointer flex flex-row pt-2 pb-4 -ml-2 gap-1 select-none">
-    <input class="cursor-pointer" style={center ? "margin-left:auto; margin-right:auto;": ''} type="checkbox" role="switch" bind:checked={checked} on:click>
+  {#if checkedText && unCheckedText}
+    {#if checked}
+      <span class="primary-text">{checkedText}</span>
+    {:else}
+      <span class="primary-text">{unCheckedText}</span>
+    {/if}
+  {:else}
     <span class="primary-text">{text}</span>
-  </label>
+  {/if}
+</label>
 
 <style>
 .primary-text {
@@ -23,21 +33,21 @@
   line-height: 1.1;
   font-size: 1.2em;
 }
+
 .switch input[type="checkbox"]:checked::before {
-  /* background-color: var(--silent-hud-primary); */
-  background-color: var(--silent-hud-secondary);
+  background-color: var(--ps-hud-secondary);
   filter: brightness(0.55);
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 
 .switch input[type="checkbox"]:checked::after {
-  background-color: var(--silent-hud-primary);
+  background-color: var(--ps-hud-primary);
 }
 
 .switch input[type="checkbox"]:not(:checked)::before {
   right: 20px;
-  background-color: var(--silent-hud-secondary);
+  background-color: var(--ps-hud-secondary);
   filter: brightness(1.2);
   -webkit-transition: 0.4s;
   transition: 0.4s;
@@ -66,7 +76,6 @@
   height: 1.1rem;
   filter: brightness(1.1);
   background-color: rgb(87, 87, 87);
-  /* background-color: var(--silent-hud-primary); */
 }
 
 .switch input[type="checkbox"] {

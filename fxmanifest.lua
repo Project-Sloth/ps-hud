@@ -1,7 +1,7 @@
 fx_version 'cerulean'
 game 'gta5'
 
-description 'qb-hud'
+description 'ps-hud'
 version '2.1.0'
 
 shared_scripts {
@@ -18,9 +18,5 @@ lua54 'yes'
 ui_page 'html/index.html'
 
 files {
-	'html/index.html',
-	'html/index.css',
-	'html/index.js',
-	'html/vendor.css',
-	'html/vendor.js',
+	'html/*',
 }

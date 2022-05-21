@@ -7,13 +7,18 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let iconContrast: number = 100;
+  export let iconDropShadowAmount: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
-  export let innerColor: string = "#212121";
-  export let innerColorOpacity: number = 0.4;
   export let name: string = "";
+  export let outlineColor: string = "red";
+  export let outlineContrast: number = 100;
+  export let outlineDropShadowAmount: number = 0;
   export let progressColor: string = "red";
+  export let progressContrast: number = 100;
+  export let progressDropShadowAmount: number = 0;
   export let progressValue: number = 100;
   export let rotateDegree: number = 0;
   export let translateX: number = 0;
@@ -40,27 +45,23 @@
       text = conditionalText(progressValue);
     }
   }
-
-  // <Fa icon={icon} scale={iconScaling*2} translateX={iconTranslateX}
-  //         translateY={iconTranslateY+0.2} style="color:{iconColor}"
-  //       />
-
 </script>
 
 <div class="border-4 border-black relative">
   <svg height={height-8} width={width}>
     <g transform="
       rotate( {rotateDegree} {height/2} {width/4})
-      { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
+      { "translate("+translateX+" "+translateY+")" }"
     >
       <line
-        opacity={innerColorOpacity}
-        stroke={innerColor}
+        stroke={outlineColor}
         x1="0%"
         y1="50%"
         x2="100%"
         y2="50%"
         stroke-width={width}
+        style="filter: {outlineDropShadowAmount ? "drop-shadow(0px 0px "+outlineDropShadowAmount+"px "+outlineColor+")": ""}
+                       {"contrast("+outlineContrast+"%)"};"
       />
       <line
         x1="0%"
@@ -72,13 +73,18 @@
         stroke-dasharray={width}
         stroke-dashoffset={strokeDashoffset}
         stroke-width={width}
+        style="filter: {progressDropShadowAmount ? "drop-shadow(0px 0px "+progressDropShadowAmount+"px "+progressColor+")": ""}
+                       {"contrast("+progressContrast+"%)"};"
       />
     </g>
     <g dominant-baseline="middle">
       {#if !text}
-        <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-          translateY={iconTranslateY} style="color:{iconColor}"
-        />
+        <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
+                          {"contrast("+iconContrast+"%)"};">
+          <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
+            translateY={iconTranslateY} style="color:{iconColor}"
+          />
+        </g>
       {/if}
       <span>{text}</span>
     </g>
