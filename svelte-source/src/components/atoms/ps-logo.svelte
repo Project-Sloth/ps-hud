@@ -1,6 +1,6 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 1652.4 656" style="enable-background:new 0 0 1652.4 656;" xml:space="preserve">
-<style type="text/css">
+<style>
 	.st0{fill:#03F0B5;}
 	.st1{fill:#FFFFFF;}
 	.st2{fill:#FDFEFE;}

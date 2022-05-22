@@ -26,10 +26,32 @@ local playerDead = false
 local showMenu = false
 local showCircleB = false
 local showSquareB = false
-local Menu = config.Menu
 local CinematicHeight = 0.2
 local w = 0
 local radioTalking = false
+local Menu = {
+    isOutMapChecked = false, -- isOutMapChecked
+    isOutCompassChecked = false, -- isOutMapChecked
+    isCompassFollowChecked = true, -- isCompassFollowChecked
+    isOpenMenuSoundsChecked = true, -- isOpenMenuSoundsChecked
+    isResetSoundsChecked = true, -- isResetSoundsChecked
+    isListSoundsChecked = true, -- isListSoundsChecked
+    isMapNotifChecked = true, -- isMapNotifChecked
+    isLowFuelChecked = true, -- isLowFuelChecked
+    isCinematicNotifChecked = true, -- isCinematicNotifChecked
+    isChangeFPSChecked = true, -- isChangeFPSChecked
+    isHideMapChecked = false, -- isHideMapChecked
+    isToggleMapBordersChecked = true, -- isToggleMapBordersChecked
+    isDynamicEngineChecked = true, -- isDynamicEngineChecked
+    isDynamicNitroChecked = true, -- isDynamicNitroChecked
+    isChangeCompassFPSChecked = true, -- isChangeCompassFPSChecked
+    isCompassShowChecked = true, -- isShowCompassChecked
+    isShowStreetsChecked = true, -- isShowStreetsChecked
+    isPointerShowChecked = true, -- isPointerShowChecked
+    isDegreesShowChecked = true, -- isDegreesShowChecked
+    isCineamticModeChecked = false, -- isCineamticModeChecked
+    isToggleMapShapeChecked = 'square', -- isToggleMapShapeChecked
+}
 
 DisplayRadar(false)
 
@@ -51,23 +73,23 @@ local function CinematicShow(bool)
 end
 
 local function loadSettings(settings)
-    for k,v in pairs(settings) do
-        if k == 'isToggleMapShapeChecked' then
-            Menu.isToggleMapShapeChecked = v
-            SendNUIMessage({ test = true, event = k, toggle = v})
-        elseif k == 'isCineamticModeChecked' then
-            Menu.isCineamticModeChecked = v
-            CinematicShow(v)
-            SendNUIMessage({ test = true, event = k, toggle = v})
-        elseif k == 'isChangeFPSChecked' then
-            Menu[k] = v
-            local val = v and 'Optimized' or 'Synced'
-            SendNUIMessage({ test = true, event = k, toggle = val})
-        else
-            Menu[k] = v
-            SendNUIMessage({ test = true, event = k, toggle = v})
-        end
-    end
+    -- for k,v in pairs(settings) do
+    --     if k == 'isToggleMapShapeChecked' then
+    --         Menu.isToggleMapShapeChecked = v
+    --         SendNUIMessage({ test = true, event = k, toggle = v})
+    --     elseif k == 'isCineamticModeChecked' then
+    --         Menu.isCineamticModeChecked = v
+    --         CinematicShow(v)
+    --         SendNUIMessage({ test = true, event = k, toggle = v})
+    --     elseif k == 'isChangeFPSChecked' then
+    --         Menu[k] = v
+    --         local val = v and 'Optimized' or 'Synced'
+    --         SendNUIMessage({ test = true, event = k, toggle = val})
+    --     else
+    --         Menu[k] = v
+    --         SendNUIMessage({ test = true, event = k, toggle = v})
+    --     end
+    -- end
     QBCore.Functions.Notify(Lang:t("notify.hud_settings_loaded"), "success")
     Wait(1000)
     TriggerEvent("hud:client:LoadMap")
@@ -79,8 +101,9 @@ end
 
 local function SendAdminStatus()
     SendNUIMessage({
-        action = 'adminstatus',
-        isAdmin = admin
+        action = 'menu',
+        topic = 'adminstatus',
+        isAdmin = admin,
     })
 end
 
@@ -88,7 +111,7 @@ local function sendUIUpdateMessage(data)
     SendNUIMessage({
         action = 'updateUISettings',
         icons = data.icons,
-        layout = data.layout
+        layout = data.layout,
     })
 end
 
@@ -158,16 +181,39 @@ RegisterKeyMapping('menu', 'Open Menu', 'keyboard', Config.OpenMenu)
 local function restartHud()
     TriggerEvent("hud:client:playResetHudSounds")
     QBCore.Functions.Notify(Lang:t("notify.hud_restart"), "error")
+    Wait(1500)
     if IsPedInAnyVehicle(PlayerPedId()) then
-        Wait(2600)
-        SendNUIMessage({ action = 'car', show = false })
-        SendNUIMessage({ action = 'car', show = true })
+        SendNUIMessage({
+            action = 'car',
+            topic = 'display',
+            show = false,
+            seatbelt = false,
+        })
+        Wait(500)
+        SendNUIMessage({
+            action = 'car',
+            topic = 'display',
+            show = true,
+            seatbelt = false,
+        })
     end
-    Wait(2600)
-    SendNUIMessage({ action = 'hudtick', show = false })
-    SendNUIMessage({ action = 'hudtick', show = true })
-    Wait(2600)
+    SendNUIMessage({
+        action = 'hudtick',
+        topic = 'display',
+        show = false,
+    })
+    Wait(500)
+    SendNUIMessage({
+        action = 'hudtick',
+        topic = 'display',
+        show = true,
+    })
+    Wait(500)
     QBCore.Functions.Notify(Lang:t("notify.hud_start"), "success")
+    SendNUIMessage({
+        action = 'menu',
+        topic = 'restart',
+    })
 end
 
 RegisterNUICallback('restartHud', function(_, cb)
@@ -551,21 +597,23 @@ RegisterNUICallback('changeCompassFPS', function(data, cb)
     saveSettings()
 end)
 
-RegisterNUICallback('cinematicMode', function(_, cb)
+RegisterNUICallback('cinematicMode', function(data, cb)
     cb({})
     Wait(50)
-    if Menu.isCineamticModeChecked then
+    if data.checked then
+        CinematicShow(true)
+        if Menu.isCinematicNotifChecked then
+            QBCore.Functions.Notify(Lang:t("notify.cinematic_on"))
+        end
+    else
         CinematicShow(false)
-        Menu.isCineamticModeChecked = false
         if Menu.isCinematicNotifChecked then
             QBCore.Functions.Notify(Lang:t("notify.cinematic_off"), 'error')
         end
-        DisplayRadar(1)
-    else
-        CinematicShow(true)
-        Menu.isCineamticModeChecked = true
-        if Menu.isCinematicNotifChecked then
-            QBCore.Functions.Notify(Lang:t("notify.cinematic_on"))
+        local player = PlayerPedId()
+        local vehicle = GetVehiclePedIsIn(player)
+        if (IsPedInAnyVehicle(player) and not IsThisModelABicycle(vehicle)) or not Menu.isOutMapChecked then
+            DisplayRadar(1)
         end
     end
     TriggerEvent("hud:client:playHudChecklistSound")
@@ -815,7 +863,7 @@ local function getFuelLevel(vehicle)
     local updateTick = GetGameTimer()
     if (updateTick - lastFuelUpdate) > 2000 then
         lastFuelUpdate = updateTick
-        lastFuelCheck = math.floor(exports['LegacyFuel']:GetFuel(vehicle))
+        lastFuelCheck = math.floor(exports[Config.FuelScript]:GetFuel(vehicle))
     end
     return lastFuelCheck
 end
@@ -875,6 +923,8 @@ CreateThread(function()
                 show = false
             end
 
+            local vehicle = GetVehiclePedIsIn(player)
+
             if not (IsPedInAnyVehicle(player) and not IsThisModelABicycle(vehicle)) then
                 updatePlayerHud({
                     show,
@@ -904,7 +954,6 @@ CreateThread(function()
             end
 
             -- Vehicle hud
-            local vehicle = GetVehiclePedIsIn(player)
 
             if IsPedInAnyHeli(player) or IsPedInAnyPlane(player) then
                 showAltitude = true
@@ -986,7 +1035,7 @@ CreateThread(function()
         if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
             if IsPedInAnyVehicle(ped, false) and not IsThisModelABicycle(GetEntityModel(GetVehiclePedIsIn(ped, false))) then
-                if exports['LegacyFuel']:GetFuel(GetVehiclePedIsIn(ped, false)) <= 20 then -- At 20% Fuel Left
+                if exports[Config.FuelScript]:GetFuel(GetVehiclePedIsIn(ped, false)) <= 20 then -- At 20% Fuel Left
                     if Menu.isLowFuelChecked then
                         TriggerServerEvent("InteractSound_SV:PlayOnSource", "pager", 0.10)
                         QBCore.Functions.Notify(Lang:t("notify.low_fuel"), "error")
@@ -1122,27 +1171,6 @@ end
 
 CreateThread(function()
     while true do
-        local waitTime = 120000
-        if LocalPlayer.state.isLoggedIn then
-            if stress > 75 then
-                waitTime = 10000
-            elseif stress > 45 then
-                waitTime = 30000
-            elseif stress > 20 then
-                waitTime = 60000
-            end
-            if stress > 10 then
-              	TriggerScreenblurFadeIn(1000.0)
-              	Wait(1100)
-              	TriggerScreenblurFadeOut(1000.0)
-            end
-        end 
-        Wait(waitTime)
-    end
-end)
-
-CreateThread(function()
-    while true do
         if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
             local effectInterval = GetEffectInterval(stress)
@@ -1207,17 +1235,18 @@ CreateThread(function()
         if w > 0 then
             BlackBars()
             DisplayRadar(0)
-            SendNUIMessage({
-                action = 'hudtick',
-                topic = 'display',
-                show = false,
-            })
-            prevPlayerStats[1] = false
-            SendNUIMessage({
-                action = 'car',
-                show = false,
-            })
-            prevVehicleStats[1] = false
+            -- SendNUIMessage({
+            --     action = 'hudtick',
+            --     topic = 'display',
+            --     show = false,
+            -- })
+            -- prevPlayerStats[1] = false
+            -- SendNUIMessage({
+            --     action = 'car',
+            --     topic = 'display',
+            --     show = false,
+            -- })
+            -- prevVehicleStats[1] = false
         end
         Wait(0)
     end
@@ -1271,6 +1300,7 @@ end
 CreateThread(function()
 	local heading, lastHeading = 0, 1
     local lastIsOutCompassCheck = Menu.isOutCompassChecked
+    local lastInVehicle = false
 	while true do
         if LocalPlayer.state.isLoggedIn then
             if Menu.isChangeCompassFPSChecked then
@@ -1293,8 +1323,10 @@ CreateThread(function()
                 heading = '0' 
             end
 
-            if heading ~= lastHeading then
-                if IsPedInAnyVehicle(player) then
+            local playerInVehcile = IsPedInAnyVehicle(player)
+
+            if heading ~= lastHeading or lastInVehicle ~= playerInVehcile then
+                if playerInVehcile then
                     local crossroads = getCrossroads(player)
                     SendNUIMessage ({ 
                         action = 'update', 
@@ -1309,14 +1341,33 @@ CreateThread(function()
                         Menu.isPointerShowChecked,
                         Menu.isDegreesShowChecked,
                     })
-                end
-                if not Menu.isOutCompassChecked then
-                    SendNUIMessage ({ 
-                        action = 'update', 
-                        value = heading 
-                    })
+                    lastInVehicle = true
+                else
+                    if not Menu.isOutCompassChecked then
+                        SendNUIMessage ({ 
+                            action = 'update', 
+                            value = heading 
+                        })
+                        SendNUIMessage ({
+                            action = 'baseplate',
+                            topic = 'opencompass',
+                            show = true,
+                            showCompass = true,
+                        })
+                        prevBaseplateStats[1] = true
+                        prevBaseplateStats[4] = true
+                    else
+                        SendNUIMessage ({
+                            action = 'baseplate',
+                            topic = 'closecompass',
+                            show = false,
+                        })
+                        prevBaseplateStats[1] = false
+                    end
+                    lastInVehicle = false
                 end
             end
+            lastHeading = heading
             if lastIsOutCompassCheck ~= Menu.isOutCompassChecked and not IsPedInAnyVehicle(player) then
                 if not Menu.isOutCompassChecked then
                     SendNUIMessage ({
@@ -1332,9 +1383,8 @@ CreateThread(function()
                         show = false,
                     })
                 end
+                lastIsOutCompassCheck = Menu.isOutCompassChecked
             end
-            lastHeading = heading
-            lastIsOutCompassCheck = Menu.isOutCompassChecked
         else
             Wait(1000)
         end

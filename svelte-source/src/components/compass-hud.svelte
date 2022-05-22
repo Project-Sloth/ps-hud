@@ -1,18 +1,17 @@
 <script lang="ts">
-  import CompassHudStore from '../stores/compassHudStore'
+  import CompassHudStore from '../stores/compassHudStore';
   import DebugStore from '../stores/debugStore';
 </script>
 
 
 {#if $CompassHudStore.show || DebugStore}
   <div class="baseplateConainer">
-    {#if $CompassHudStore.showStreets}
+    {#if $CompassHudStore.showStreets || DebugStore}
       <div class="street-container">
-          <div class="street2">{$CompassHudStore.street2}</div>
-          <div class="street1">{$CompassHudStore.street1}</div>
+          <div class="street1">{DebugStore ? "Testing street1" : $CompassHudStore.street1}</div>
+          <div class="street2">{DebugStore ? "Testing street2" : $CompassHudStore.street2}</div>
       </div>
     {/if}
-
     <div class="baseplate">
       {#if $CompassHudStore.showPointer}
         <div class="pointer">˅</div>
@@ -79,7 +78,7 @@
 
   .street-container {
     position: relative;
-    top: 0.5vh;
+    top: 1.3vh;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.4vh;
     letter-spacing: 0.7px;
@@ -93,17 +92,15 @@
 
   .street1 {
     position: absolute;
-    margin: 0 auto;
-    right: 55%;
-    text-align: right!important;
+    right: 135%;
+    white-space: nowrap;
     color: rgb(255, 255, 255);
   }
 
   .street2 {
     position: absolute;
-    margin: 0 auto;
-    left: 55%;
-    text-align: left!important;
+    left: 135%;
+    white-space: nowrap;
     color: rgb(255, 255, 255);
   }
 

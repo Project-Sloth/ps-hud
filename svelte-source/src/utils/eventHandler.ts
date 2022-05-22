@@ -21,8 +21,6 @@ interface nuiMessage {
 export function EventHandler() {
   function mainEvent(event: nuiMessage) {
     switch (event.data.action) {
-      case "adminstatus":
-        MenuStore.receiveAdminMessage(event.data as any);
       case "baseplate":
         switch (event.data.topic) {
           case "compassupdate":
@@ -39,7 +37,7 @@ export function EventHandler() {
       case "car":
         switch (event.data.topic) {
           case "display":
-            VehicleHudStore.recieveShowMessage(event.data as any);
+            VehicleHudStore.receiveShowMessage(event.data as any);
             break;
           case "status":
             VehicleHudStore.receiveUpdateMessage(event.data as any);
@@ -66,6 +64,16 @@ export function EventHandler() {
             break;
           default:
             PlayerHudStore.receiveStatusUpdateMessage(event.data as any);
+            break;
+        }
+        break;
+      case "menu":
+        switch (event.data.topic) {
+          case "adminstatus":
+            MenuStore.receiveAdminMessage(event.data as any);
+            break;
+          case "restart":
+            MenuStore.receiveRestartMessage();
             break;
         }
         break;

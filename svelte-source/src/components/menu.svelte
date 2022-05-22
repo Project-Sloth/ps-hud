@@ -22,7 +22,7 @@
 
   function handleTabClick(index: number) {
     activeTab = tabArray[index];
-  } 
+  }
 </script>
 
 <section style="display: {$MenuStore.show ? 'flex' : 'none'};" class="w-[60vw] h-[60vh] flex-col bg-[#171717] rounded-t-2xl shadow-lg text-white"

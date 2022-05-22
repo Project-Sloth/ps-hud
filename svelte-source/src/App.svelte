@@ -49,10 +49,12 @@
 </svelte:head>
 
 <main class="{DebugStore ? 'bg-dark-300' :'bg-transparent'} min-h-screen">
-  <CompassHud />
-  <MoneyHud />
-  <MetaLayout />
-  <VehicleHud />
-  <MapBorder />
+  {#if !$MenuStore.isCineamticModeChecked }
+    <CompassHud />
+    <MoneyHud />
+    <MetaLayout />
+    <VehicleHud />
+    <MapBorder />
+  {/if}
   <Menu />
 </main>

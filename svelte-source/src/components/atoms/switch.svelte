@@ -6,15 +6,17 @@
   export let center: boolean = false;
   export let handleUpdateFunction: (val: boolean) => void = null;
 
-  $: {
+  function handleClick(event) {
     if (handleUpdateFunction) {
-      handleUpdateFunction(checked);
+      handleUpdateFunction(event.target.checked);
     }
   }
 </script>
 
 <label class="switch cursor-pointer flex flex-row pt-2 pb-4 -ml-2 gap-1 select-none">
-  <input class="cursor-pointer" style={center ? "margin-left:auto; margin-right:auto;": ''} type="checkbox" role="switch" bind:checked={checked} on:click>
+  <input class="cursor-pointer" style={center ? "margin-left:auto; margin-right:auto;": ''} type="checkbox"
+    role="switch" bind:checked={checked} on:click={handleClick}
+  >
 
   {#if checkedText && unCheckedText}
     {#if checked}

@@ -196,6 +196,34 @@ const store = () => {
         return state;
      })
     },
+    updateShowingDynamicIcon(iconName: iconNamesKind, staticShow: boolean) {
+      update(state => {
+        switch (iconName) {
+          case "armor":
+            state.icons.armor.isShowing = methods.staticGenericZeroHandleShow(staticShow, state.icons.armor.progressValue);
+            break;
+          case "engine":
+            state.icons.engine.isShowing = methods.staticEngineHandleShow(staticShow, state.icons.engine.progressValue);
+            break;
+          case "health":
+            state.icons.health.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.icons.health.progressValue);
+            break;
+          case "hunger":
+            state.icons.hunger.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.icons.hunger.progressValue);
+            break;
+          case "oxygen":
+            state.icons.oxygen.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.icons.oxygen.progressValue);
+            break;
+          case "stress":
+            state.icons.stress.isShowing = methods.staticGenericZeroHandleShow(staticShow, state.icons.stress.progressValue);
+            break;
+          case "thirst":
+            state.icons.thirst.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.icons.thirst.progressValue);
+            break;
+        }
+        return state;
+      })
+    },
     receiveShowMessage(data: playerHudShowMessageType) {
       update(state => {
         state.show = data.show;
@@ -221,16 +249,7 @@ const store = () => {
         // This needs to be a number so default to 0
         state.icons.nitro.progressValue = data.nos || 0;
 
-        if (staticHealth) {
-          state.icons.health.isShowing = true;
-        } else {
-          if (data.health >= 100) {
-            state.icons.health.isShowing = false; 
-          }
-          else {
-            state.icons.health.isShowing = true;
-          }
-        }
+        state.icons.health.isShowing = methods.staticGenericHundredHandleShow(staticHealth, state.icons.health.progressValue);
 
         if (data.playerDead) {
           ColorEffectStore.updateIconEffectStage("health", 1);
@@ -238,16 +257,8 @@ const store = () => {
         } else {
           ColorEffectStore.updateIconEffectStage("health", 0);
         }
-  
-        if (staticArmor) {
-          state.icons.armor.isShowing = true;
-        } else {
-          if (data.armor == 0) {
-            state.icons.armor.isShowing = false; 
-          } else {
-            state.icons.armor.isShowing = true;
-          }
-        } 
+
+        state.icons.armor.isShowing = methods.staticGenericZeroHandleShow(staticArmor, state.icons.armor.progressValue);
   
         if (data.armor <= 0) {
           ColorEffectStore.updateIconEffectStage("armor", 1);
@@ -255,75 +266,27 @@ const store = () => {
           ColorEffectStore.updateIconEffectStage("armor", 0);
         }
   
-        if (staticHunger) {
-          state.icons.hunger.isShowing = true;
-        } else {
-          if (data.hunger >= 100) {
-            state.icons.hunger.isShowing = false;
-          } else {
-            state.icons.hunger.isShowing = true;
-          }
-        } 
+        state.icons.hunger.isShowing = methods.staticGenericHundredHandleShow(staticHunger, state.icons.hunger.progressValue);
 
         if (data.hunger <= 30){
           ColorEffectStore.updateIconEffectStage("hunger", 1);
         } else {
           ColorEffectStore.updateIconEffectStage("hunger", 0);
         }
-  
-        if (staticThirst) {
-          state.icons.thirst.isShowing = true;
-        } else {
-          if (data.thirst >= 100) {
-            state.icons.thirst.isShowing = false;
-          } else{
-            state.icons.thirst.isShowing = true;
-          }
-        }
+
+        state.icons.thirst.isShowing = methods.staticGenericHundredHandleShow(staticThirst, state.icons.thirst.progressValue);
 
         if (data.thirst <= 30) {
           ColorEffectStore.updateIconEffectStage("thirst", 1);
         } else {
           ColorEffectStore.updateIconEffectStage("thirst", 0);
         }
-  
-        if (staticStress) {
-          state.icons.stress.isShowing = true;
-        } else {
-          if (data.stress == 0) {
-            state.icons.stress.isShowing = false; 
-          } else {
-            state.icons.stress.isShowing = true;
-          }
-        }
-  
-        if (staticOxygen) {
-          state.icons.oxygen.isShowing = true;
-        } else {
-          if (data.oxygen >= 100) {
-            state.icons.oxygen.isShowing = false;
-          } else {
-            state.icons.oxygen.isShowing = true;
-          }
-        }
-  
-        // When in a car only show when less that 95% condition
-        // Engine will be below 0 when not in a car so hide icon
-        if (staticEngine) {
-          if (data.engine < 0) {
-            state.icons.engine.isShowing = false;
-          } else {
-            state.icons.engine.isShowing = true;
-          }
-        } else {
-          if (data.engine >= 95) {
-            state.icons.engine.isShowing = false; 
-          } else if (data.engine < 0){
-            state.icons.engine.isShowing = false;
-          } else {
-            state.icons.engine.isShowing = true;
-          }
-        }
+
+        state.icons.stress.isShowing = methods.staticGenericZeroHandleShow(staticStress, state.icons.stress.progressValue);
+
+        state.icons.oxygen.isShowing = methods.staticGenericHundredHandleShow(staticOxygen, state.icons.oxygen.progressValue);
+
+        state.icons.engine.isShowing = methods.staticEngineHandleShow(staticEngine, state.icons.engine.progressValue);
 
         if (data.engine <= 45) {
           ColorEffectStore.updateIconEffectStage("engine", 2);
@@ -419,7 +382,44 @@ const store = () => {
         state.saveUIState = "ready";
         return state;
       });
-    }
+    },
+    staticGenericZeroHandleShow(staticSetting: boolean, currentValue: number): boolean {
+      if (staticSetting) {
+        return true;
+      }
+      if (currentValue == 0) {
+        return false; 
+      }
+      return true;
+    },
+    staticEngineHandleShow(staticSetting: boolean, currentValue: number): boolean {
+      // When in a car only show when less that 95% condition
+      // Engine will be below 0 when not in a car so hide icon
+      if (staticSetting) {
+        if (currentValue < 0) {
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        if (currentValue >= 95) {
+          return false; 
+        } else if (currentValue < 0){
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+    staticGenericHundredHandleShow(staticSetting: boolean, currentValue: number): boolean {
+      if (staticSetting) {
+        return true;
+      }
+      if (currentValue >= 100) {
+        return false; 
+      }
+      return true;
+    },
   }
 
   return {

@@ -4,6 +4,7 @@ import DebugStore from './debugStore';
 
 type menuStatus = {
   show: boolean,
+  isRestarting: boolean,
   isAdmin: boolean,
   isChangeCompassFPSChecked: "optimized" | "synced",
   isChangeFPSChecked: "optimized" | "synced",
@@ -48,6 +49,7 @@ const MenuLocalStorageStore = () => {
 
   const menuStatusState: menuStatus = {
     show: false || DebugStore,
+    isRestarting: false,
     isAdmin: false || DebugStore,
     isChangeCompassFPSChecked: getLocalStorage("isChangeCompassFPSChecked", "Optimized"),
     isChangeFPSChecked: getLocalStorage("isChangeFPSChecked", "Optimized"),
@@ -81,7 +83,13 @@ const MenuLocalStorageStore = () => {
   const { subscribe, set, update } = writable(menuStatusState);
 
   subscribe((val) => {
-    localStorage.setItem(storageName, JSON.stringify(val));
+    let menuSettings = {...val};
+    // We dont need to add these to the local storage
+    delete menuSettings.show;
+    delete menuSettings.isAdmin;
+    delete menuSettings.isRestarting;
+
+    localStorage.setItem(storageName, JSON.stringify(menuSettings));
   })
 
   const methods = {
@@ -105,6 +113,12 @@ const MenuLocalStorageStore = () => {
         state.isAdmin = data.isAdmin;
         return state;
       });
+    },
+    receiveRestartMessage() {
+      update(state => {
+        state.isRestarting = false;
+        return state;
+      })
     },
     openMenu() {
       update(state => {

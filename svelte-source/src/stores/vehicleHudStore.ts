@@ -54,7 +54,7 @@ const store = () => {
   const { subscribe, set, update } = writable(vehicleStatusState);
 
   const methods = {
-    recieveShowMessage(data: vehicleHudShowMessage) {
+    receiveShowMessage(data: vehicleHudShowMessage) {
       update(state => {
         state.show = data.show;
         state.showSeatBelt = data.seatbelt;

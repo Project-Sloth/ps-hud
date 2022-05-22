@@ -4,16 +4,16 @@
   export let checked: boolean;
   export let handleUpdateFunction: (val: boolean) => void = null;
 
-  $: {
+  function handleClick(event) {
     if (handleUpdateFunction) {
-      handleUpdateFunction(checked);
+      handleUpdateFunction(event.target.checked);
     }
   }
 </script>
 
 
 <label class="flex flex-row gap-4 py-3 cursor-pointer select-none {secondaryText ? "items-center" : ""}">
-  <input class="cursor-pointer" type="checkbox" name="checkbox" bind:checked={checked} on:click/>
+  <input class="cursor-pointer" type="checkbox" name="checkbox" bind:checked={checked} on:click={handleClick}/>
   {#if secondaryText}
     <div class="flex flex-col">
       <span class="primary-text mb-1">{primaryText}</span>

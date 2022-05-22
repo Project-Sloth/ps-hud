@@ -5,6 +5,7 @@
   import Switch from '../atoms/switch.svelte'
   import MenuStore from '../../stores/menuStore';
   import { fetchNui } from '../../utils/eventHandler';
+  import PlayerHudStore from '../../stores/playerStatusHudStore';
 
   function handleIsToggleMapShapeChecked(checked: boolean) {
     let shape: "circle" | "square" = checked ? "circle": "square";
@@ -33,12 +34,15 @@
     <div class="-mx-4 mb-4 text-2xl text-white">
       <p>Reset HUD </p>
     </div>
+  
+    <Button name="Reset Hud" buttonClass="whitespace-nowrap" disable={$MenuStore.isRestarting} disableText={"Resetting Hud..."}
+      on:click={() => {fetchNui("restartHud"); $MenuStore.isRestarting = true;}}
+    />
+    <p class="text-base">If your hud is acting up, give it a good ol' reset! Or you can do /resethud</p>
+
     <Button name="Reset Settings"/>
     <p class="text-base">If you want to reset your settings back to default; click this shiny button!</p>
     <p class="text-base">(you will have to relog for your menu to reset changes successfully)</p>
-  
-    <Button name="Reset Hud"/>
-    <p class="text-base">If your hud is acting up, give it a good ol' reset! Or you can do /resethud</p>
   </div>
 
   <hr>
@@ -98,22 +102,46 @@
   </div>
   <div class="mx-4 mb-4 flex flex-col">
     <Checkbox bind:checked={$MenuStore.isStaticHealthChecked}
-      primaryText={"Show Health Always"} on:click={() => { fetchNui("dynamicChange") }}
+      primaryText={"Show Health Always"}
+      handleUpdateFunction={(checked) => {
+        PlayerHudStore.updateShowingDynamicIcon("health", checked);
+        fetchNui("dynamicChange");
+      }}
     />
     <Checkbox bind:checked={$MenuStore.isStaticArmorChecked}
-      primaryText={"Show Armor Always"} on:click={() => { fetchNui("dynamicChange") }}
+      primaryText={"Show Armor Always"}
+      handleUpdateFunction={(checked) => {
+        PlayerHudStore.updateShowingDynamicIcon("armor", checked);
+        fetchNui("dynamicChange");
+      }}
     />
     <Checkbox bind:checked={$MenuStore.isStaticHungerChecked}
-      primaryText={"Show Hunger Always"} on:click={() => { fetchNui("dynamicChange") }}
+      primaryText={"Show Hunger Always"}
+      handleUpdateFunction={(checked) => {
+        PlayerHudStore.updateShowingDynamicIcon("hunger", checked);
+        fetchNui("dynamicChange");
+      }}
     />
     <Checkbox bind:checked={$MenuStore.isStaticThirstChecked}
-      primaryText={"Show Thirst Always"} on:click={() => { fetchNui("dynamicChange") }}
+      primaryText={"Show Thirst Always"}
+      handleUpdateFunction={(checked) => {
+        PlayerHudStore.updateShowingDynamicIcon("thirst", checked);
+        fetchNui("dynamicChange");
+      }}
     />
     <Checkbox bind:checked={$MenuStore.isStaticStressChecked}
-      primaryText={"Show Stress Always"} on:click={() => { fetchNui("dynamicChange") }}
+      primaryText={"Show Stress Always"}
+      handleUpdateFunction={(checked) => {
+        PlayerHudStore.updateShowingDynamicIcon("stress", checked);
+        fetchNui("dynamicChange");
+      }}
     />
     <Checkbox bind:checked={$MenuStore.isStaticOxygenChecked}
-      primaryText={"Show Oxygen Always"} on:click={() => { fetchNui("dynamicChange") }}
+      primaryText={"Show Oxygen Always"}
+      handleUpdateFunction={(checked) => {
+        PlayerHudStore.updateShowingDynamicIcon("oxygen", checked);
+        fetchNui("dynamicChange");
+      }}
     />
   </div>
 
@@ -187,7 +215,7 @@
   </div>
   <div class="mx-4 mb-4 flex flex-col gap-5">
     <Checkbox bind:checked={$MenuStore.isCineamticModeChecked}
-      primaryText={"Enabled"} on:click={() => { fetchNui("cinematicMode") }}
+      primaryText={"Show Cinematic Bars Enabled"} handleUpdateFunction={(checked) => fetchNui("cinematicMode", {checked})}
     />
   </div>
 </div>
