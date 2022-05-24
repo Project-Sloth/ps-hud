@@ -1,130 +1,162 @@
 import { writable } from 'svelte/store';
-import type { playerHudColorEffects, iconNamesKind, colorNamesKind, colorEffect, shapekind } from '../types/types';
-import { defaultColorEffect, defaultEditableColor, createEditableColor } from '../types/types';
+import { get } from 'svelte/store';
+import PlayerHudStore from '../stores/playerStatusHudStore';
+import type { playerHudColorEffects, iconNamesKind, colorNamesKind, shapekind, globalEditableColorsType } from '../types/types';
+import { defaultColorEffect, defaultEditableColor, createEditableColor, colorStoreLocalStorageName } from '../types/types';
 
 interface colorEffectStoreType {
   icons: playerHudColorEffects,
-  globalColorSettings: colorEffect,
+  globalColorSettings: globalEditableColorsType,
 }
 
 
 const store = () => {
+  let stored = localStorage.getItem(colorStoreLocalStorageName);
+  if (stored) {
+    stored = JSON.parse(stored);
+  }
+
+  function getLocalStorage(key: iconNamesKind | "globalColorSettings", fallback: any) {
+    if (stored && stored[key] != null) {
+      return stored[key];
+    }
+    return fallback;
+  }
 
   const colorEffectState: colorEffectStoreType = {
-    globalColorSettings: {
-      editableColors: defaultEditableColor(),
-      iconColor: "",
-      iconContrast: 100,
-      iconDropShadowAmount: 0,
-      innerColor: "",
-      name: "default",
-      outlineColor: "",
-      outlineContrast: 100,
-      outlineDropShadowAmount: 0,
-      progressColor: "",
-      progressContrast: 100,
-      progressDropShadowAmount: 0,
-    },
+    globalColorSettings: getLocalStorage("globalColorSettings",
+      {
+        editableColors: defaultEditableColor(),
+        editSingleIconName: "voice",
+        editSingleIconStage: 0,
+        iconColor: "",
+        iconContrast: 100,
+        iconDropShadowAmount: 0,
+        innerColor: "",
+        outlineColor: "",
+        outlineContrast: 100,
+        outlineDropShadowAmount: 0,
+        progressColor: "",
+        progressContrast: 100,
+        progressDropShadowAmount: 0,
+      }),
     icons: {
-      voice: {
+      voice: getLocalStorage("voice", {
         currentEffect: 0,
         colorEffects: [
-          defaultColorEffect("default", "#FFFFFF"),
+          defaultColorEffect("not-talking", "#FFFFFF"),
           defaultColorEffect("talking", "#FFFF3E"),
-          defaultColorEffect("radioTalking", "#D64763"),
+          defaultColorEffect("radio-talking", "#D64763"),
         ],
         editableColors: defaultEditableColor(),
-      },
-      health: {
+      }),
+      health: getLocalStorage("health", {
         currentEffect: 0,
         colorEffects: [
-          defaultColorEffect("default", "#21ab61"),
+          defaultColorEffect("alive", "#21ab61"),
           defaultColorEffect("dead", "#ff0000"),
         ],
         editableColors: defaultEditableColor(),
-      },
-      armor: {
+      }),
+      armor: getLocalStorage("armor", {
         currentEffect: 0,
         colorEffects: [
-          defaultColorEffect("default", "#326dbf"),
-          defaultColorEffect("noArmor", "#ff0000")
+          defaultColorEffect("armor", "#326dbf"),
+          defaultColorEffect("no-armor", "#ff0000")
         ],
         editableColors: defaultEditableColor(),
-      },
-      hunger: {
+      }),
+      hunger: getLocalStorage("hunger", {
         currentEffect: 0,
         colorEffects: [
-          defaultColorEffect("default", "#dd6e14"),
+          defaultColorEffect("normal", "#dd6e14"),
           defaultColorEffect("starving", "#ff0000"),
         ],
         editableColors: defaultEditableColor(),
-      },
-      thirst: {
+      }),
+      thirst: getLocalStorage("thirst", {
         currentEffect: 0,
         colorEffects: [
-          defaultColorEffect("default", "#1a7cad"),
+          defaultColorEffect("normal", "#1a7cad"),
           defaultColorEffect("thirsty", "#ff0000"),
         ],
         editableColors: defaultEditableColor(),
-      },
-      stress: {
+      }),
+      stress: getLocalStorage("stress", {
         currentEffect: 0,
-        colorEffects: [defaultColorEffect("default", "#dc0606")],
+        colorEffects: [defaultColorEffect("normal", "#dc0606")],
         editableColors: defaultEditableColor(),
-      },
-      oxygen: {
+      }),
+      oxygen: getLocalStorage("oxygen", {
         currentEffect: 0,
-        colorEffects: [defaultColorEffect("default", "#8aa8bd")],
+        colorEffects: [defaultColorEffect("normal", "#8aa8bd")],
         editableColors: defaultEditableColor(),
-      },
-      armed: {
+      }),
+      armed: getLocalStorage("armed", {
         currentEffect: 0,
-        colorEffects: [defaultColorEffect("default", "#ff4885")],
+        colorEffects: [defaultColorEffect("normal", "#ff4885")],
         editableColors: defaultEditableColor(),
-      },
-      parachute: {
+      }),
+      parachute: getLocalStorage("parachute", {
         currentEffect: 0,
-        colorEffects: [defaultColorEffect("default", "#b9ff28")],
+        colorEffects: [defaultColorEffect("normal", "#b9ff28")],
         editableColors: defaultEditableColor(),
-      },
-      engine: {
-        currentEffect: 0,
-        colorEffects: [
-          defaultColorEffect("default", "#3FA554"),
-          defaultColorEffect("minorDamage", "#dd6e14"),
-          defaultColorEffect("majorDamage", "#ff0000"),
-        ],
-        editableColors: defaultEditableColor(),
-      },
-      harness: {
-        currentEffect: 0,
-        colorEffects: [defaultColorEffect("default", "#b648ff")],
-        editableColors: defaultEditableColor(),
-      },
-      cruise: {
-        currentEffect: 0,
-        colorEffects: [defaultColorEffect("default", "#ff4885")],
-        editableColors: defaultEditableColor(),
-      },
-      nitro: {
+      }),
+      engine: getLocalStorage("engine", {
         currentEffect: 0,
         colorEffects: [
-          defaultColorEffect("default", "#ffffff"),
-          defaultColorEffect("active", "#D64763"),
+          defaultColorEffect("no-damage", "#3FA554"),
+          defaultColorEffect("minor-damage", "#dd6e14"),
+          defaultColorEffect("major-damage", "#ff0000"),
         ],
         editableColors: defaultEditableColor(),
-      },
-      dev: {
+      }),
+      harness: getLocalStorage("harness", {
         currentEffect: 0,
-        colorEffects: [defaultColorEffect("default", "#000000")],
+        colorEffects: [defaultColorEffect("normal", "#b648ff")],
         editableColors: defaultEditableColor(),
-      },
+      }),
+      cruise: getLocalStorage("cruise", {
+        currentEffect: 0,
+        colorEffects: [defaultColorEffect("normal", "#ff4885")],
+        editableColors: defaultEditableColor(),
+      }),
+      nitro: getLocalStorage("nitro", {
+        currentEffect: 0,
+        colorEffects: [
+          defaultColorEffect("no-nitro", "#ffffff"),
+          defaultColorEffect("active-nitro", "#D64763"),
+        ],
+        editableColors: defaultEditableColor(),
+      }),
+      dev: getLocalStorage("dev", {
+        currentEffect: 0,
+        colorEffects: [defaultColorEffect("normal", "#000000")],
+        editableColors: defaultEditableColor(),
+      }),
     }
   }
 
   const { subscribe, set, update } = writable(colorEffectState);
 
   const methods = {
+    receiveUIUpdateMessage(data) {
+      if (!data || !Object.keys(data).length) {
+        return;
+      }
+      let statusIconData = get(PlayerHudStore);
+      update(state => {
+        let key: any, value: any;
+        for ([key, value] of Object.entries(data)) {
+          state.icons[key] = {
+            currentEffect: 0,
+            editableColors: createEditableColor(statusIconData.icons[key].shape),
+            colorEffects: value.colorEffects,
+          }
+        }
+        return state;
+      })
+    },
     updateAllDefaultEffectColorSetting(colorSetting: colorNamesKind, newValue: any) {
       update(state => {
         for (let iconColorEffect of Object.keys(state.icons)) {
@@ -170,6 +202,15 @@ const store = () => {
     updateIconShapeEditableColor(iconName: iconNamesKind, shape: shapekind) {
       update(state => {
         state.icons[iconName].editableColors = createEditableColor(shape);
+        return state;
+      })
+    },
+    updateColorSetting(iconName: iconNamesKind, stageNumber: number, settingName: colorNamesKind, newValue: any) {
+      update(state => {
+        if (stageNumber < 0 || stageNumber > state.icons[iconName].colorEffects.length-1) {
+          return state;
+        }
+        state.icons[iconName].colorEffects[stageNumber][settingName as any] = newValue;
         return state;
       })
     },

@@ -38,8 +38,9 @@
   </div>
   <div class="flex font-semibold" style="height: calc(100% - 24px);">
     <div class="flex flex-col w-1/6 bg-[#1e1e1e]">
+      <!-- Tab item List -->
       {#each tabArray as tab, i}
-        {#if !tab.adminOnly || $MenuStore.isAdmin }
+        {#if !tab.adminOnly || !$MenuStore.adminOnly || ($MenuStore.adminOnly && $MenuStore.isAdmin) }
           <div class="bg-[#171717] px-4 py-4 flex flex-row gap-3 cursor-pointer select-none" on:click={() => handleTabClick(i)}>
             <Fa icon={tab.icon} translateY={0.27}/>
             <span>{tab.name}</span>
@@ -47,8 +48,9 @@
         {/if}
       {/each}
     </div>
+    <!-- Tab Window List -->
     {#each tabArray as tab}
-      {#if !tab.adminOnly || $MenuStore.isAdmin}
+      {#if !tab.adminOnly || !$MenuStore.adminOnly || ($MenuStore.adminOnly && $MenuStore.isAdmin) }
         <div style="display: {activeTab.name == tab.name ? 'flex' : 'none'};" class="flex-col w-5/6 px-5 overflow-y-scroll bg-[#171717]">
           <svelte:component this={tab.content}/>
         </div>

@@ -4,7 +4,7 @@ import { faHeart, faShieldAlt, faHamburger, faTint, faBrain, faStream,
   faTachometerAltFast, faTerminal, faHeadset, faMicrophone,
 } from '@fortawesome/free-solid-svg-icons'
 import type { playerHudIcons, shapekind, iconNamesKind, optionalHudIconType } from '../types/types';
-import { defaultHudIcon, createShapeIcon } from '../types/types';
+import { defaultHudIcon, createShapeIcon, playerStoreLocalStorageName } from '../types/types';
 import ColorEffectStore from './colorEffectStore';
 import MenuStore from './menuStore';
 
@@ -59,25 +59,38 @@ type playerHudUpdateMessageType = {
 }
   
 const store = () => {
+  let stored = localStorage.getItem(playerStoreLocalStorageName);
+  if (stored) {
+    stored = JSON.parse(stored);
+  }
+
+  function getLocalStorage(key: iconNamesKind | "globalIconSettings", fallback: any) {
+    if (stored && stored[key] != null) {
+      return stored[key];
+    }
+    return fallback;
+  }
+
   const playerHudUIState: playerStatusType = {
     designMode: false,
     designProgress: 0,
-    globalIconSettings: (({ isShowing, name, icon, progressValue, ...o }) => o)(defaultHudIcon()),
+    globalIconSettings: getLocalStorage("globalIconSettings",
+      (({ isShowing, name, icon, progressValue, ...o }) => o)(defaultHudIcon())),
     icons: {
-      voice: defaultHudIcon("voice", true, faMicrophone),
-      health: defaultHudIcon("health", true, faHeart),
-      armor: defaultHudIcon("armor", true, faShieldAlt),
-      hunger: defaultHudIcon("hunger", true, faHamburger),
-      thirst: defaultHudIcon("thirst", true, faTint),
-      stress: defaultHudIcon("stress", false, faBrain),
-      oxygen: defaultHudIcon("oxygen", false, faLungs),
-      armed: defaultHudIcon("armed", false, faStream),
-      parachute: defaultHudIcon("parachute", false, faParachuteBox),
-      engine: defaultHudIcon("engine", false, faOilCan),
-      harness: defaultHudIcon("harness", false, faUserSlash),
-      cruise: defaultHudIcon("cruise", false, faTachometerAltFast),
-      nitro: defaultHudIcon("nitro", false, faMeteor),
-      dev: defaultHudIcon("dev", false, faTerminal),
+      voice: getLocalStorage("voice", defaultHudIcon("voice", true, faMicrophone)),
+      health: getLocalStorage("health", defaultHudIcon("health", true, faHeart)),
+      armor: getLocalStorage("armor", defaultHudIcon("armor", true, faShieldAlt)),
+      hunger: getLocalStorage("hunger", defaultHudIcon("hunger", true, faHamburger)),
+      thirst: getLocalStorage("thirst", defaultHudIcon("thirst", true, faTint)),
+      stress: getLocalStorage("stress", defaultHudIcon("stress", false, faBrain)),
+      oxygen: getLocalStorage("oxygen", defaultHudIcon("oxygen", false, faLungs)),
+      armed: getLocalStorage("armed", defaultHudIcon("armed", false, faStream)),
+      parachute: getLocalStorage("parachute", defaultHudIcon("parachute", false, faParachuteBox)),
+      engine: getLocalStorage("engine", defaultHudIcon("engine", false, faOilCan)),
+      harness: getLocalStorage("harness", defaultHudIcon("harness", false, faUserSlash)),
+      cruise: getLocalStorage("cruise", defaultHudIcon("cruise", false, faTachometerAltFast)),
+      nitro: getLocalStorage("nitro", defaultHudIcon("nitro", false, faMeteor)),
+      dev: getLocalStorage("dev", defaultHudIcon("dev", false, faTerminal)),
     },
     saveUIState: "ready",
     show: false,
@@ -366,18 +379,18 @@ const store = () => {
       });
     },
     receiveUIUpdateMessage(data) {
-      if (!data || !data.icons || !Object.keys(data.icons).length) {
+      if (!data || !Object.keys(data).length) {
         return;
       }
       update(state => {
         let key: any, value: any;
-        for ([key, value] of Object.entries(data.icons)) {
+        for ([key, value] of Object.entries(data)) {
           state.icons[key] = {...createShapeIcon(value.shape,
             {
-            icon: state.icons[key].icon,
-            isShowing: state.icons[key].isShowing, name: state.icons[key].name,
-            progressValue: state.icons[key].progressValue,}
-            ), ...value};
+              icon: state.icons[key].icon,
+              isShowing: state.icons[key].isShowing, name: state.icons[key].name,
+              progressValue: state.icons[key].progressValue,
+            }), ...value};
         }
         state.saveUIState = "ready";
         return state;

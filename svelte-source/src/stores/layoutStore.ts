@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store'
 import type { layoutIconKind } from '../types/types';
+import { layoutStoreLocalStorageName } from '../types/types';
 
 type playerStatusLayoutType = {
   layout: layoutIconKind
@@ -9,20 +10,34 @@ type playerStatusLayoutType = {
 }
 
 const store = () => {
+  let stored = localStorage.getItem(layoutStoreLocalStorageName);
+  if (stored) {
+    stored = JSON.parse(stored);
+  }
+
+  function getLocalStorage(key: string, fallback: any) {
+    if (stored && stored[key] != null) {
+      return stored[key];
+    }
+    return fallback;
+  }
 
   const playerStatusLayoutState: playerStatusLayoutType = {
-    layout: "standard",
-    iconBetweenSpacing: 2,
-    xAxisSpacing: 0,
-    yAxisSpacing: 0,
+    layout: getLocalStorage("layout", "standard"),
+    iconBetweenSpacing: getLocalStorage("iconBetweenSpacing", 2),
+    xAxisSpacing: getLocalStorage("xAxisSpacing", 0),
+    yAxisSpacing: getLocalStorage("yAxisSpacing", 0),
   };
 
   const { subscribe, set, update } = writable(playerStatusLayoutState);
 
   const methods = {
-    receiveUIUpdateMessage(data) {
+    receiveUIUpdateMessage(data: playerStatusLayoutType) {
       update(state => {
         state.layout = data.layout;
+        state.iconBetweenSpacing = data.iconBetweenSpacing;
+        state.xAxisSpacing = data.xAxisSpacing;
+        state.yAxisSpacing = data.yAxisSpacing;
         return state;
       });
     },

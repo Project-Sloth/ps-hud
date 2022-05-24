@@ -228,6 +228,7 @@ export interface shapeIcons {
 }
 
 export type optionalHudIconType = Partial<baseIconProps & borderIconProps & ringIconProps & roundEndIcon & pillRingIcon>;
+export type optionalHudIconMetaShapeType = optionalHudIconType & Partial<colorNameObj>;
 
 export type optionalPlayerHudIconsType = Partial<{ [Property in keyof playerHudIcons]: optionalHudIconType }>;
 
@@ -244,7 +245,6 @@ export const colorNames = ["iconColor", "iconDropShadowAmount", "iconContrast", 
 export type colorNamesKind = typeof colorNames[number];
 
 interface colorNameObj {
-  editableColors: {[key: string]: boolean}
   iconColor: string,
   iconDropShadowAmount: number,
   iconContrast: number,
@@ -256,6 +256,10 @@ interface colorNameObj {
   progressContrast: number,
   progressDropShadowAmount: number,
 }
+
+export type globalEditableColorsType = colorNameObj
+  & { editableColors: {[key: string]: boolean}}
+  & { editSingleIconName: iconNamesKind, editSingleIconStage: number};
 
 export type editableColorsType = {
   [key in colorNamesKind]: boolean
@@ -286,7 +290,6 @@ export function defaultColorEffect(name: string, progressColor: string, outlineC
   iconColor: string = "#FFFFFFFF", innerColor: string = "#212121FF"): colorEffect {
 
   return {
-    editableColors: {},
     iconColor: iconColor,
     iconContrast: 100,
     iconDropShadowAmount: 0,
@@ -322,3 +325,8 @@ export function createEditableColor(shape: shapekind): Partial<editableColorsTyp
   }
   return editOptions;
 }
+
+export const menuStoreLocalStorageName: string = "PSHudMenu";
+export const playerStoreLocalStorageName: string = "PSHudPlayerStatus";
+export const layoutStoreLocalStorageName: string = "PSHudLayout";
+export const colorStoreLocalStorageName: string = "PSHudColor";

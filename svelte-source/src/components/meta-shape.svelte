@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { optionalHudIconType, shapePropsType } from '../types/types'
+  import type { optionalHudIconMetaShapeType, shapePropsType } from '../types/types'
   import Badge from './hud-shapes/badge.svelte';
   import CircleCircleFill from './hud-shapes/circle-circle-fill.svelte';
   import CircleRing from './hud-shapes/circle-ring.svelte';
@@ -19,7 +19,7 @@
   import SquareCircularFill from './hud-shapes/square-circular-fill.svelte';
   import SquareWhole from './hud-shapes/square-whole.svelte';
   import IconPercentage from './hud-shapes/icon-percentage.svelte';
-  export let hudIconInfo: optionalHudIconType = {};
+  export let hudIconInfo: optionalHudIconMetaShapeType = {};
 
   let shapeProps: shapePropsType;
   $: {

@@ -34,7 +34,11 @@
     </div>
     <div>
       <p class="text-base text-center mb-2">Y-Axis Spacing</p>
-      <NumberInput min={-100} max={200} bind:value={$LayoutStore.yAxisSpacing}/>
+      <NumberInput min={-100} max={500} bind:value={$LayoutStore.yAxisSpacing}/>
+    </div>
+    <div>
+      <p class="text-base text-center mb-2">X-Axis Spacing</p>
+      <NumberInput min={-100} max={500} bind:value={$LayoutStore.xAxisSpacing}/>
     </div>
   </div>
 </div>

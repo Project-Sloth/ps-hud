@@ -25,7 +25,11 @@
 </script>
 
 {#each iconsToShow.length ? iconsToShow : globalIconList as iconName }
-  {@const currentEffect = $PlayerHudStore.designMode ? 0 : $ColorEffectStore.icons[iconName].currentEffect}
+  {@const currentEffect = $PlayerHudStore.designMode ? 
+    $ColorEffectStore.globalColorSettings.editSingleIconName == iconName ? 
+      $ColorEffectStore.globalColorSettings.editSingleIconStage 
+      : 0
+    : $ColorEffectStore.icons[iconName].currentEffect}
   
   {#if ($PlayerHudStore.icons[iconName].isShowing && !iconsToNotShow.includes(iconName)) || $PlayerHudStore.designMode}
     

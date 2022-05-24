@@ -2,9 +2,9 @@
   import Select from 'svelte-select';
 
   export let valuesArray: ReadonlyArray<any> = [""]
-  export let handleSelectFunction: (val) => void;
+  export let handleSelectFunction: (val) => void = () => null;
   export let value: any = null;
-
+  export let selectedIndex: number = 0;
 
   function humanReadableString(str) {
     var i: number, frags = str.split('-');
@@ -14,20 +14,26 @@
     return {value: str, label: frags.join(' ')};
   }
 
-  let items = valuesArray.map(humanReadableString);
-  let itemvalue = items[0];
+  let items: Array<any>;
+  let itemvalue;
+
+  $: {
+    items = valuesArray.map(humanReadableString);
+    itemvalue = items[0];
+  } 
 
   $: {
     if (value) {
       let index = items.findIndex((element) => element.value == value);
       if (index >= 0) {
+        selectedIndex = index;
         itemvalue = items[index]
       }
     } 
   }
 
   function handleSelect(event) {
-    // Since value can be changed by are parent component we check to ensure what triggered this event was not that event
+    // Since value can be changed by the parent component we check to ensure what triggered this event was not that event
     // We do this by just returning if the value update is going to result in the same value
     if (event.detail.value === value) {
       return;

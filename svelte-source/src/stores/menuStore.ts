@@ -1,10 +1,13 @@
 import { writable } from 'svelte/store'
 import { fetchNui } from '../utils/eventHandler';
 import DebugStore from './debugStore';
+import { menuStoreLocalStorageName } from '../types/types';
+import { saveUIDataToLocalStorage } from '../utils/eventHandler';
 
 type menuStatus = {
   show: boolean,
   isRestarting: boolean,
+  adminOnly: boolean,
   isAdmin: boolean,
   isChangeCompassFPSChecked: "optimized" | "synced",
   isChangeFPSChecked: "optimized" | "synced",
@@ -35,10 +38,11 @@ type menuStatus = {
   isToggleMapShapeChecked: "circle" | "square"
 }
 
-const MenuLocalStorageStore = () => {
-  const storageName: string = "hudMenuLocalStorage";
-  let stored = localStorage.getItem(storageName);
-  if (stored) stored = JSON.parse(stored);
+const store = () => {
+  let stored = localStorage.getItem(menuStoreLocalStorageName);
+  if (stored) {
+    stored = JSON.parse(stored);
+  }
 
   function getLocalStorage(key: string, fallback: any) {
     if (stored && stored[key] != null) {
@@ -50,6 +54,7 @@ const MenuLocalStorageStore = () => {
   const menuStatusState: menuStatus = {
     show: false || DebugStore,
     isRestarting: false,
+    adminOnly: false || DebugStore,
     isAdmin: false || DebugStore,
     isChangeCompassFPSChecked: getLocalStorage("isChangeCompassFPSChecked", "Optimized"),
     isChangeFPSChecked: getLocalStorage("isChangeFPSChecked", "Optimized"),
@@ -89,7 +94,7 @@ const MenuLocalStorageStore = () => {
     delete menuSettings.isAdmin;
     delete menuSettings.isRestarting;
 
-    localStorage.setItem(storageName, JSON.stringify(menuSettings));
+    localStorage.setItem(menuStoreLocalStorageName, JSON.stringify(menuSettings));
   })
 
   const methods = {
@@ -102,14 +107,16 @@ const MenuLocalStorageStore = () => {
     },
     handleKeyUp(data) {
       if (data.key == "Escape") {
-        methods.closeMenu()
+        saveUIDataToLocalStorage();
+        methods.closeMenu();
       }
     },
     receiveMessage() {
       methods.openMenu();
     },
-    receiveAdminMessage(data: { isAdmin: boolean }) {
+    receiveAdminMessage(data: { adminOnly: boolean, isAdmin: boolean }) {
       update(state => {
+        state.adminOnly = data.adminOnly;
         state.isAdmin = data.isAdmin;
         return state;
       });
@@ -136,5 +143,5 @@ const MenuLocalStorageStore = () => {
   };
 }
 
-export default MenuLocalStorageStore();
+export default store();
 

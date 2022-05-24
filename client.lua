@@ -7,6 +7,7 @@ local seatbeltOn = false
 local cruiseOn = false
 local showAltitude = false
 local showSeatbelt = false
+local next = next
 local nos = 0
 local stress = 0
 local hunger = 100
@@ -30,8 +31,8 @@ local CinematicHeight = 0.2
 local w = 0
 local radioTalking = false
 local Menu = {
-    isOutMapChecked = false, -- isOutMapChecked
-    isOutCompassChecked = false, -- isOutMapChecked
+    isOutMapChecked = true, -- isOutMapChecked
+    isOutCompassChecked = true, -- isOutMapChecked
     isCompassFollowChecked = true, -- isCompassFollowChecked
     isOpenMenuSoundsChecked = true, -- isOpenMenuSoundsChecked
     isResetSoundsChecked = true, -- isResetSoundsChecked
@@ -72,7 +73,7 @@ local function CinematicShow(bool)
     end
 end
 
-local function loadSettings(settings)
+local function loadSettings()
     -- for k,v in pairs(settings) do
     --     if k == 'isToggleMapShapeChecked' then
     --         Menu.isToggleMapShapeChecked = v
@@ -102,7 +103,8 @@ end
 local function SendAdminStatus()
     SendNUIMessage({
         action = 'menu',
-        topic = 'adminstatus',
+        topic = 'adminonly',
+        adminOnly = Config.AdminOnly,
         isAdmin = admin,
     })
 end
@@ -112,15 +114,11 @@ local function sendUIUpdateMessage(data)
         action = 'updateUISettings',
         icons = data.icons,
         layout = data.layout,
+        colors = data.colors,
     })
 end
 
-RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
-    -- Send the client what the saved ui config is (enforced by the server)
-    if UIConfig then
-        sendUIUpdateMessage(UIConfig)
-    end
-
+local function HandleSetupResource()
     QBCore.Functions.TriggerCallback('hud:server:getRank', function(isAdminOrGreater)
         if isAdminOrGreater then
             admin = true
@@ -129,9 +127,20 @@ RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
         end
         SendAdminStatus()
     end)
+    if Config.AdminOnly then
+        -- Send the client what the saved ui config is (enforced by the server)
+        if next(UIConfig) then
+            sendUIUpdateMessage(UIConfig)
+        end
+    end
+end
+
+RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
     Wait(2000)
-    local hudSettings = GetResourceKvpString('hudSettings')
-    if hudSettings then loadSettings(json.decode(hudSettings)) end
+    HandleSetupResource()
+    -- local hudSettings = GetResourceKvpString('hudSettings')
+    -- if hudSettings then loadSettings(json.decode(hudSettings)) end
+    loadSettings()
     PlayerData = QBCore.Functions.GetPlayerData()
 end)
 
@@ -148,9 +157,12 @@ end)
 -- Event Handlers
 AddEventHandler('onResourceStart', function(resourceName)
     if GetCurrentResourceName() ~= resourceName then return end
-    Wait(2000)
-    local hudSettings = GetResourceKvpString('hudSettings')
-    if hudSettings then loadSettings(json.decode(hudSettings)) end
+    Wait(1000)
+
+    HandleSetupResource()
+    -- local hudSettings = GetResourceKvpString('hudSettings')
+    -- if hudSettings then loadSettings(json.decode(hudSettings)) end
+    loadSettings()
 end)
 
 AddEventHandler("pma-voice:radioActive", function(isRadioTalking)
@@ -1235,18 +1247,6 @@ CreateThread(function()
         if w > 0 then
             BlackBars()
             DisplayRadar(0)
-            -- SendNUIMessage({
-            --     action = 'hudtick',
-            --     topic = 'display',
-            --     show = false,
-            -- })
-            -- prevPlayerStats[1] = false
-            -- SendNUIMessage({
-            --     action = 'car',
-            --     topic = 'display',
-            --     show = false,
-            -- })
-            -- prevVehicleStats[1] = false
         end
         Wait(0)
     end

@@ -1,1 +1,1 @@
-UIConfig = {}                                                                                                                                                                                      
+UIConfig = {}

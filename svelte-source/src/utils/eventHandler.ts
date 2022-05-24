@@ -8,7 +8,11 @@ import ExternalStatusStore from "../stores/externalStatusStore";
 import LayoutStore from '../stores/layoutStore';
 import VehicleHudStore from '../stores/vehicleHudStore';
 import ColorEffectStore from '../stores/colorEffectStore';
-import layoutStore from "../stores/layoutStore";
+import layoutStore from '../stores/layoutStore';
+import { colorStoreLocalStorageName,
+         playerStoreLocalStorageName,
+         layoutStoreLocalStorageName
+} from '../types/types';
 
 interface nuiMessage {
   data: {
@@ -69,7 +73,7 @@ export function EventHandler() {
         break;
       case "menu":
         switch (event.data.topic) {
-          case "adminstatus":
+          case "adminonly":
             MenuStore.receiveAdminMessage(event.data as any);
             break;
           case "restart":
@@ -93,11 +97,13 @@ export function EventHandler() {
         MoneyHudStore.receiveUpdateMessage(event.data as any);
         break;
       case "updateUISettings":
-        if (!event.data.icons || !event.data.layout) {
+        if (!event.data.icons || !event.data.layout || !event.data.colors) {
           return;
         }
-        PlayerHudStore.receiveUIUpdateMessage(event.data);
-        LayoutStore.receiveUIUpdateMessage(event.data);
+        PlayerHudStore.receiveUIUpdateMessage(event.data.icons);
+        LayoutStore.receiveUIUpdateMessage(event.data.layout);
+        ColorEffectStore.receiveUIUpdateMessage(event.data.colors);
+        break;
     }
   }
 
@@ -123,26 +129,55 @@ export async function fetchNui(eventName: string, data: unknown = {}) {
   }
 }
 
-function combineIconColorData(iconData, colorData) {
+function serializeIconData(iconData) {
   let result = {};
   for(const [key, value] of Object.entries(iconData)) {
-    let newObject = (({ displayOutline, icon, isShowing, name, progressValue, ...o }) => o)(value as any)
+    let newObject = (({ icon, isShowing, name, progressValue, ...o }) => o)(value as any)
     result[key] = newObject;
-    result[key].progressColor = colorData[key].colorEffects[0].color;
   }
   return result;
 }
 
-export function saveUIData() {
+function serializeColorData(colorData) {
+  let result = {};
+  for(const [key, value] of Object.entries(colorData)) {
+    let newObject = (({ currentEffect, editableColors, ...o }) => o)(value as any)
+    result[key] = newObject;
+  }
+  return result;
+}
+
+export function saveUIDataToServer() {
   const playerStatusIcondata = get(PlayerHudStore);
-  const layoutdata = get(layoutStore);
   const colorData = get(ColorEffectStore);
-  // const serializedIconData = combineIconColorData(playerStatusIcondata.icons, colorData);
+  const layoutdata = get(layoutStore);
+  const serializedIconData = serializeIconData(playerStatusIcondata.icons);
+  const serializedColorData = serializeColorData(colorData.icons);
   const sendData = {
-    icons: playerStatusIcondata.icons,
-    layout: layoutdata.layout,
-    colors: colorData.icons
+    icons: serializedIconData,
+    layout: layoutdata,
+    colors: serializedColorData,
   };
-  console.log("Sending this Data:", sendData);
+
   fetchNui('saveUISettings', sendData);
+}
+
+export async function saveUIDataToLocalStorage() {
+  const playerStatusIcondata = get(PlayerHudStore);
+  const colorData = get(ColorEffectStore);
+  const layoutdata = get(layoutStore);
+
+  localStorage.setItem(colorStoreLocalStorageName, JSON.stringify(
+    {
+      ...colorData.icons,
+      globalColorSettings: colorData.globalColorSettings
+    }));
+
+  localStorage.setItem(playerStoreLocalStorageName, JSON.stringify(
+    {
+      ...playerStatusIcondata.icons,
+      globalIconSettings: playerStatusIcondata.globalIconSettings,
+    }));
+
+  localStorage.setItem(layoutStoreLocalStorageName, JSON.stringify(layoutdata));
 }
