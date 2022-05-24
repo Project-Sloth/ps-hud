@@ -1,4 +1,4 @@
-# TNJ-Hud
+# PS-Hud
 - An improved qb-hud system that allows you to change player status shapes, color, and other design things.
 - Supports the new buff system from tnj-buffs
 
