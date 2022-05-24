@@ -35,7 +35,10 @@
   {#if layout == "center-bottom-row"}
     <div class="absolute bottom-[0.3vw] w-100vw">
       <div class="static flex flex-row mx-auto" style="width: max-content;">
-          <div class="flex flex-row" style="gap: {$LayoutStore.iconBetweenSpacing+'px'}; margin-bottom: {$LayoutStore.yAxisSpacing+'px'}; margin-left: {$LayoutStore.xAxisSpacing+'px'};">
+          <div class="flex flex-row"
+               style="gap: {$LayoutStore.iconBetweenSpacing+'px'};
+                      margin-bottom: {$LayoutStore.yAxisSpacing+'px'};
+                      margin-left: {$LayoutStore.xAxisSpacing+'px'};">
             <IconsList />
           </div>
       </div>

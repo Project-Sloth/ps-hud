@@ -1,20 +1,23 @@
 <script lang="ts">
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
-  import { onMount } from 'svelte';
   import Fa from 'svelte-fa'
 
   export let height: number = 50;
   export let icon: any = null;
-  export let iconColor: string = "";
+  export let iconColor: string = "red";
+  export let iconContrast: number = 100;
+  export let iconDropShadowAmount: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
-  export let innerColorOpacity: number = 1;
-  export let outlineColor: string = "";
-  export let outlineColorOpacity: number = 0.4;
+  export let outlineColor: string = "red";
+  export let outlineContrast: number = 100;
+  export let outlineDropShadowAmount: number = 0;
   export let progressColor: string = "red";
+  export let progressContrast: number = 100;
+  export let progressDropShadowAmount: number = 0;
   export let progressValue: number = 100;
   export let rotateDegree: number = 0;
   export let translateX: number = 0;
@@ -24,60 +27,56 @@
   export let yAxisRound: number = 20;
   export let name: string = "";
 
-  let strokeDashoffset: number = 10;
-  let square: any = null;
-  let pathLength: number = 0;
+  let strokeDashoffset: number = 0;
 
   const progressTween = tweened(progressValue, {
 		duration: 600,
 		easing: cubicOut
 	});
 
-  onMount(() => {
-    try {
-      pathLength = square.getTotalLength();
-    }catch(err) {
-    }
-  });
-
   $: progressTween.set(progressValue);
 
   $: {
-    if (height && width) {
-      pathLength = square?.getTotalLength() + 5;
-    }
+    progressTween.set(progressValue)
   }
 
-  $: strokeDashoffset = pathLength - $progressTween / 100 * pathLength;
+  $: strokeDashoffset = $progressTween / 100 * width;
 
 </script>
 
 <div class="flex flex-col justify-center px-1 pb-2 pt-4 rounded-lg"
-  style="background-color: {innerColor}; background-opacity: {innerColorOpacity};">
-  <Fa class="mb-3" icon={icon} scale={iconScaling} translateX={iconTranslateX}
+  style="background-color: {innerColor};">
+  <div class="flex flex-col justify-center"
+    style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
+                   {"contrast("+iconContrast+"%)"};">
+    <Fa class="mb-3" icon={icon} scale={iconScaling} translateX={iconTranslateX}
     translateY={iconTranslateY} style="color:{iconColor ? iconColor : progressColor}"
   />
+  </div>
   <svg
     height={height}
     width={width}
     transform="
     { translateX | translateY ? "translate("+translateX+" "+translateY+")" : ""}"
   >
-  <defs>
-    <linearGradient id="half{name}">
-        <stop offset="0%" stop-color={progressColor} />
-        <stop offset="{$progressTween}%" stop-color={progressColor} />
-        <stop offset="{$progressTween}%" stop-color={outlineColor} stop-opacity={outlineColorOpacity} />
-        <stop offset="100%" stop-color={outlineColor} stop-opacity={outlineColorOpacity} />
-    </linearGradient>            
-  </defs>
     <rect
-      width={width}
-      height={height}
-      fill="url(#half{name})"
+      width={width-0.2}
+      height={height-0.2}
+      fill={outlineColor}
       rx={xAxisRound}
       ry={yAxisRound}
-      bind:this={square}
+      style="filter: {outlineDropShadowAmount ? "drop-shadow(0px 0px "+outlineDropShadowAmount+"px "+outlineColor+")": ""}
+                     {"contrast("+outlineContrast+"%)"}; overflow: visible;"
+    />
+
+    <rect
+      width={strokeDashoffset}
+      height={height}
+      fill={progressColor}
+      rx={xAxisRound}
+      ry={yAxisRound}
+      style="filter: {progressDropShadowAmount ? "drop-shadow(0px 0px "+progressDropShadowAmount+"px "+progressColor+")": ""}
+                     {"contrast("+progressContrast+"%)"};"
     />
   </svg>
 </div>
