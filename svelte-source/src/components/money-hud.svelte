@@ -4,16 +4,16 @@
 </script>
 
 <div id="money-container">
-    {#if $MoneyHudStore.showCash}
-      <div transition:fade|local="{{duration: 1000}}">
-        <p><span id="sign">$&nbsp;</span><span id="money">{$MoneyHudStore.cash}</span></p>
-      </div>
-    {/if}
-    {#if $MoneyHudStore.showBank}
+  {#if $MoneyHudStore.showCash}
+    <div transition:fade|local="{{duration: 1000}}">
+      <p><span id="sign">$&nbsp;</span><span id="money">{$MoneyHudStore.cash}</span></p>
+    </div>
+  {/if}
+  {#if $MoneyHudStore.showBank}
     <div transition:fade|local="{{duration: 1000}}">
       <p><span id="sign">$&nbsp;</span><span id="bank">{$MoneyHudStore.bank}</span></p>
     </div>
-    {/if}
+  {/if}
   {#if $MoneyHudStore.showUpdate}
     <div id="money-change">
       {#if $MoneyHudStore.plus}

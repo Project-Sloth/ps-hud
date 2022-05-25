@@ -224,6 +224,9 @@ const store = () => {
           case "hunger":
             state.icons.hunger.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.icons.hunger.progressValue);
             break;
+          case "nitro":
+            state.icons.nitro.isShowing = methods.staticNitroHandleShow(staticShow, state.icons.nitro.progressValue, state.icons.engine.progressValue);
+            break;
           case "oxygen":
             state.icons.oxygen.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.icons.oxygen.progressValue);
             break;
@@ -309,19 +312,7 @@ const store = () => {
           ColorEffectStore.updateIconEffectStage("engine", 0);
         } 
   
-        if (staticNitro) {
-          if (state.icons.nitro.progressValue <= 0) {
-            state.icons.nitro.isShowing = false;
-          } else {
-            state.icons.nitro.isShowing = true;
-          }
-        } else {
-          if (state.icons.nitro.progressValue <= 0) {
-            state.icons.nitro.isShowing = false;
-          } else {
-            state.icons.nitro.isShowing = true;
-          }
-        }
+        state.icons.nitro.isShowing = methods.staticNitroHandleShow(staticNitro, state.icons.nitro.progressValue, state.icons.engine.progressValue);
 
         if (data.nitroActive) {
           ColorEffectStore.updateIconEffectStage("nitro", 1);
@@ -433,6 +424,21 @@ const store = () => {
       }
       return true;
     },
+    staticNitroHandleShow(staticSetting: boolean, currentValue: number, engineValue: number): boolean {
+      if (staticSetting) {
+        if (engineValue > 0) {
+          return true
+        } else {
+          return false;
+        }
+      } else {
+        if (currentValue <= 0) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+    }
   }
 
   return {

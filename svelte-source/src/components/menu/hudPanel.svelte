@@ -171,10 +171,18 @@
       primaryText={"Minimap Borders Enabled"} handleUpdateFunction={(checked) => fetchNui("ToggleMapBorders", {checked})}
     />
     <Checkbox bind:checked={$MenuStore.isStaticEngineChecked}
-      primaryText={"Show Engine Always"} on:click={() => { fetchNui("dynamicChange") }}
+      primaryText={"Show Engine Always"}
+      handleUpdateFunction={(checked) => {
+        PlayerHudStore.updateShowingDynamicIcon("engine", checked);
+        fetchNui("dynamicChange");
+      }}
     />
     <Checkbox bind:checked={$MenuStore.isStaticNitroChecked}
-      primaryText={"Show Nitro Always"} on:click={() => { fetchNui("dynamicChange") }}
+      primaryText={"Show Nitro Always"}
+      handleUpdateFunction={(checked) => {
+        PlayerHudStore.updateShowingDynamicIcon("nitro", checked);
+        fetchNui("dynamicChange");
+      }}
     />
   </div>
 
