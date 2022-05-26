@@ -1,14 +1,14 @@
 import { get, writable } from 'svelte/store';
 import PlayerHudStore from './playerStatusHudStore';
-import type { optionalHudIconType } from '../types/types';
-import { createShapeIcon } from '../types/types';
+import type { optionalHudIconMetaShapeType, iconNamesKind } from '../types/types';
+import { createShapeIcon, iconNames } from '../types/types';
 import { faDatabase, faWind, faExclamation, faLightbulb, faDollarSign, faPersonSwimming,
   faDumbbell, faBiohazard, faLocationArrow, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import * as d3 from 'd3-color'
 
 interface externalStatusStateType {
-  [key: string]: optionalHudIconType;
+  [key: string]: optionalHudIconMetaShapeType;
 }
-
 
 interface buffStatusMessage {
   display: boolean // Should we show this icon
@@ -16,6 +16,7 @@ interface buffStatusMessage {
   iconName?: string
   buffName: string
   // We need to allow 0 to be showing
+  outlineColor?: string
   progressColor?: string // Not needed, but if they want to update it they can
   progressValue?: number // This needs to be from 1 - 100 (do we need to verify this?)
 }
@@ -56,16 +57,27 @@ const store = () => {
       update(state => {
         if (!state[name]) {
           const playerStatusdata = get(PlayerHudStore);
-
-          let defaultShape = createShapeIcon(playerStatusdata.globalIconSettings.shape, 
-            {
-              icon: getIconData(data.iconName), iconColor: data.iconColor || "#FFFFFF",
+          const playerHealthShape = playerStatusdata.icons.health;
+          let defaultShape = {
+              ...playerHealthShape,
+              icon: getIconData(data.iconName),
               isShowing: data.display || true, name: name,
               progressValue: data.progressValue || 0,
-            });
-          defaultShape.progressColor = data.progressColor || "#FFD700"; // gold color
+          };
           
-          state[name] = defaultShape;
+          let progressColor = data.progressColor || "#FFD700";
+          let outlineColor = data.outlineColor;
+          let iconColor = data.iconColor || "#FFFFFF";
+
+          if (!outlineColor) {
+            let newOutlineColor = d3.color(progressColor);
+            newOutlineColor.opacity = 0.4;
+            outlineColor = newOutlineColor.formatHex8();
+          }
+
+          let externalStatusIcon: optionalHudIconMetaShapeType = { ...defaultShape, iconColor, outlineColor, progressColor };
+          
+          state[name] = externalStatusIcon;
   
           return state;
         }
@@ -75,7 +87,7 @@ const store = () => {
         } else if (data.display != null && data.display != undefined && !data.display) {
           state = delete state[name] && state;
         } else {
-          console.error("QB-Buffs error: Buff State Message malformed!");
+          console.error("PS-Buffs error: Buff State Message malformed!");
         }
 
         return state;
@@ -85,36 +97,29 @@ const store = () => {
     receiveEnhancementStatusMessage(data: enhancementStatusMessage) {
       const name = data.enhancementName;
       if (!name) {
-        console.error("QB-Buffs error: Enchancement Message name malformed:", data.enhancementName);
+        console.error("PS-Buffs error: Enchancement Message name malformed:", data.enhancementName);
         return;
       }
-      const playerIconName = name.replace('super-','');
+      const playerIconName: iconNamesKind = name.replace('super-','') as iconNamesKind;
+
+      if (!iconNames.includes(playerIconName)) {
+        console.error("PS-Buffs error: Enhancement Message name not valid:", data.enhancementName);
+        return;
+      }
 
       update(state => {
-        if (!state[name] && data.display && data.iconColor) {
-          const playerStatusdata = get(PlayerHudStore);
-          const playerIcon = playerStatusdata.icons[playerIconName];
-          if (!playerIcon) {
-            console.error("QB-Buffs error: Enhancement Message name not valid:", data.enhancementName);
-            return state;
-          }
-
-          // Saving this as the old reference to put back when enchancement is over
-          state[name] = { iconColor: playerIcon.iconColor };
-
-          PlayerHudStore.updateIconSetting(playerIconName as any, "iconColor", data.iconColor);
-
+        if (!state[playerIconName] && data.display && data.iconColor) {
+          state[playerIconName] = { iconColor: data.iconColor };
         } else if (data.display === false) {
-          if (!state[name]) {
-            console.error("QB-Buffs error: Enchancement name not found:", data.enhancementName);
+          if (!state[playerIconName]) {
+            console.error("PS-Buffs error: Enchancement name not found:", data.enhancementName);
             return state;
           }
-          
-          PlayerHudStore.updateIconSetting(playerIconName as any, "iconColor", state[name].iconColor);
-          state = delete state[name] && state;
+
+          state = delete state[playerIconName] && state;
 
         } else {
-          console.error("QB-Buffs error: Enhancement Message malformed:", data);
+          console.error("PS-Buffs error: Enhancement Message malformed:", data);
         }
 
         return state;

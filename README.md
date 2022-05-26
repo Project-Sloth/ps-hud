@@ -1,6 +1,6 @@
 # PS-Hud
 - An improved qb-hud system that allows you to change player status shapes, color, and other design things.
-- Supports the new buff system from tnj-buffs
+- Supports the new buff system from ps-buffs
 
 ## Credits
 - The majority of the lua code comes from [qb-hud](https://github.com/qbcore-framework/qb-hud) by [loljoshie](https://github.com/loljoshie)
