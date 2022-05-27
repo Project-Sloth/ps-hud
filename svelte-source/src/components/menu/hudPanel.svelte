@@ -199,11 +199,11 @@
     <p>Compass</p>
   </div>
   <div class="mx-4 mb-4 flex flex-col">
-    <Switch  checked={$MenuStore.isChangeCompassFPSChecked == "optimized"} checkedText="Compass FPS Optimized (30 FPS)" unCheckedText="Compass FPS Synced (60 FPS)"
+    <!-- <Switch  checked={$MenuStore.isChangeCompassFPSChecked == "optimized"} checkedText="Compass FPS Optimized (30 FPS)" unCheckedText="Compass FPS Synced (60 FPS)"
       handleUpdateFunction={(checked) => handleIsChangeCompassFPSChecked(checked)}/>
     <p class="font-semibold text-base mb-1">
       Synced FPS option will result in less optimization, but keep your compass in real time, however, it will also be more demanding on your machine.
-    </p>
+    </p> -->
 
     <Checkbox bind:checked={$MenuStore.isShowCompassChecked}
       primaryText={"Compass Enabled"} handleUpdateFunction={(checked) => fetchNui("showCompassBase", {checked})}

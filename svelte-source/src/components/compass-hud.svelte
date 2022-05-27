@@ -1,6 +1,15 @@
 <script lang="ts">
   import CompassHudStore from '../stores/compassHudStore';
   import DebugStore from '../stores/debugStore';
+  import { tweened } from 'svelte/motion';
+  import { linear } from 'svelte/easing';
+
+  const progressTween = tweened(0, {
+    duration: 600,
+    easing: linear
+  });
+
+  $:  progressTween.set($CompassHudStore.heading - 90);
 </script>
 
 
@@ -22,7 +31,7 @@
       {/if}
 
       {#if $CompassHudStore.showCompass}
-        <svg class="bezel" viewBox="{$CompassHudStore.heading - 90} 0 180 5">
+        <svg class="bezel" viewBox="{$progressTween} 0 180 5">
             <rect width="3"   stroke="black" fill="white" stroke-width="0.5" stroke-opacity="0.6" height="20" x="-90"/>
             <rect width="3"   stroke="black" fill="white" stroke-width="0.5" stroke-opacity="0.6" height="9"  x="-45"/>
             <rect width="4.5" stroke="black" fill="white" stroke-width="0.5" stroke-opacity="0.6" height="20" x="0"/>
@@ -38,7 +47,7 @@
             <rect width="3"   stroke="black" fill="white" stroke-width="0.5" stroke-opacity="0.6" height="20" x="450"/>
         </svg>
 
-        <svg class="bearing" viewBox="{$CompassHudStore.heading - 90} 0 180 1.5">
+        <svg class="bearing" viewBox="{$progressTween} 0 180 1.5">
             <text x="0"   y="1.5" dominant-baseline="middle" text-anchor="middle" fill="yellow">N</text>
             <text x="360" y="1.5" dominant-baseline="middle" text-anchor="middle" fill="yellow">N</text>
             <text x="315" y="-11" dominant-baseline="middle" text-anchor="middle" fill="white" class="bearingText">NW</text>

@@ -1286,7 +1286,7 @@ local lastCrossroadCheck = {}
 
 local function getCrossroads(player)
     local updateTick = GetGameTimer()
-    if updateTick - lastCrossroadUpdate > 1500 then
+    if updateTick - lastCrossroadUpdate > 5000 then
         local pos = GetEntityCoords(player)
         local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
         lastCrossroadUpdate = updateTick
@@ -1303,12 +1303,7 @@ CreateThread(function()
     local lastInVehicle = false
 	while true do
         if LocalPlayer.state.isLoggedIn then
-            if Menu.isChangeCompassFPSChecked then
-                Wait(50)
-            else
-                Wait(0)
-            end
-
+            Wait(400)
             local show = true
             local player = PlayerPedId()
             local camRot = GetGameplayCamRot(0)
