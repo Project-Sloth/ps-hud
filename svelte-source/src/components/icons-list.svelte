@@ -28,7 +28,7 @@
 
 {#each iconsToShow.length ? iconsToShow : globalIconList as iconName }
   {@const currentEffectIndex = $PlayerHudStore.designMode ? 
-    editSingleIconName == iconName ? editSingleIconName : 0 : $ColorEffectStore.icons[iconName].currentEffect}
+    editSingleIconName == iconName ? $ColorEffectStore.globalColorSettings.editSingleIconStage : 0 : $ColorEffectStore.icons[iconName].currentEffect}
   {@const currentEffect = $ColorEffectStore.icons[iconName].colorEffects[currentEffectIndex]}
   {@const buffColorEffect = $ExternalStatusStore[iconName]}
   
