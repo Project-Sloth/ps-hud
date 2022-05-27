@@ -6,6 +6,8 @@
   import MenuStore from '../../stores/menuStore';
   import { fetchNui } from '../../utils/eventHandler';
   import PlayerHudStore from '../../stores/playerStatusHudStore';
+  import ColorEffectStore from '../../stores/colorEffectStore';
+  import LayoutStore from '../../stores/layoutStore';
 
   function handleIsToggleMapShapeChecked(checked: boolean) {
     let shape: "circle" | "square" = checked ? "circle": "square";
@@ -40,7 +42,12 @@
     />
     <p class="text-base">If your hud is acting up, give it a good ol' reset! Or you can do /resethud</p>
 
-    <Button name="Reset Settings"/>
+    <Button name="Reset Settings" on:click={() => {
+      PlayerHudStore.resetPlayerStatusIcons();
+      MenuStore.resetHudMenuSetting();
+      ColorEffectStore.resetColorEffects();
+      LayoutStore.resetLayout();
+    }}/>
     <p class="text-base">If you want to reset your settings back to default; click this shiny button!</p>
     <p class="text-base">(you will have to relog for your menu to reset changes successfully)</p>
   </div>

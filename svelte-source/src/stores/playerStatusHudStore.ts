@@ -71,32 +71,36 @@ const store = () => {
     return fallback;
   }
 
-  const playerHudUIState: playerStatusType = {
-    designMode: false,
-    designProgress: 0,
-    globalIconSettings: getLocalStorage("globalIconSettings",
-      (({ isShowing, name, icon, progressValue, ...o }) => o)(defaultHudIcon())),
-    icons: {
-      voice: getLocalStorage("voice", defaultHudIcon("voice", true, faMicrophone)),
-      health: getLocalStorage("health", defaultHudIcon("health", true, faHeart)),
-      armor: getLocalStorage("armor", defaultHudIcon("armor", true, faShieldAlt)),
-      hunger: getLocalStorage("hunger", defaultHudIcon("hunger", true, faHamburger)),
-      thirst: getLocalStorage("thirst", defaultHudIcon("thirst", true, faTint)),
-      stress: getLocalStorage("stress", defaultHudIcon("stress", false, faBrain)),
-      oxygen: getLocalStorage("oxygen", defaultHudIcon("oxygen", false, faLungs)),
-      armed: getLocalStorage("armed", defaultHudIcon("armed", false, faStream)),
-      parachute: getLocalStorage("parachute", defaultHudIcon("parachute", false, faParachuteBox)),
-      engine: getLocalStorage("engine", defaultHudIcon("engine", false, faOilCan)),
-      harness: getLocalStorage("harness", defaultHudIcon("harness", false, faUserSlash)),
-      cruise: getLocalStorage("cruise", defaultHudIcon("cruise", false, faTachometerAltFast)),
-      nitro: getLocalStorage("nitro", defaultHudIcon("nitro", false, faMeteor)),
-      dev: getLocalStorage("dev", defaultHudIcon("dev", false, faTerminal)),
-    },
-    saveUIState: "ready",
-    show: false,
-    showingOrder: ["voice", "health", "armor", "hunger", "thirst", "stress", "oxygen", "armed",
-      "parachute", "engine", "harness", "cruise", "nitro", "dev"],
+  function getDefaultSettings(): playerStatusType {
+    return {
+      designMode: false,
+      designProgress: 0,
+      globalIconSettings: getLocalStorage("globalIconSettings",
+        (({ isShowing, name, icon, progressValue, ...o }) => o)(defaultHudIcon())),
+      icons: {
+        voice: getLocalStorage("voice", defaultHudIcon("voice", true, faMicrophone)),
+        health: getLocalStorage("health", defaultHudIcon("health", true, faHeart)),
+        armor: getLocalStorage("armor", defaultHudIcon("armor", true, faShieldAlt)),
+        hunger: getLocalStorage("hunger", defaultHudIcon("hunger", true, faHamburger)),
+        thirst: getLocalStorage("thirst", defaultHudIcon("thirst", true, faTint)),
+        stress: getLocalStorage("stress", defaultHudIcon("stress", false, faBrain)),
+        oxygen: getLocalStorage("oxygen", defaultHudIcon("oxygen", false, faLungs)),
+        armed: getLocalStorage("armed", defaultHudIcon("armed", false, faStream)),
+        parachute: getLocalStorage("parachute", defaultHudIcon("parachute", false, faParachuteBox)),
+        engine: getLocalStorage("engine", defaultHudIcon("engine", false, faOilCan)),
+        harness: getLocalStorage("harness", defaultHudIcon("harness", false, faUserSlash)),
+        cruise: getLocalStorage("cruise", defaultHudIcon("cruise", false, faTachometerAltFast)),
+        nitro: getLocalStorage("nitro", defaultHudIcon("nitro", false, faMeteor)),
+        dev: getLocalStorage("dev", defaultHudIcon("dev", false, faTerminal)),
+      },
+      saveUIState: "ready",
+      show: false,
+      showingOrder: ["voice", "health", "armor", "hunger", "thirst", "stress", "oxygen", "armed",
+        "parachute", "engine", "harness", "cruise", "nitro", "dev"],
+    }
   }
+
+  const playerHudUIState: playerStatusType = getDefaultSettings();
   
   const { subscribe, set, update } = writable(playerHudUIState);
 
@@ -119,6 +123,10 @@ const store = () => {
   }, 0);
 
   const methods = {
+    resetPlayerStatusIcons() {
+      localStorage.removeItem(playerStoreLocalStorageName);
+      set(getDefaultSettings()); 
+    },
     updateAllIconsSettings(settingName: keyof optionalHudIconType, value: any) {
       update(state => {
         for (let icon in state.icons) {

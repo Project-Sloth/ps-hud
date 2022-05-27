@@ -23,123 +23,131 @@ const store = () => {
     return fallback;
   }
 
-  const colorEffectState: colorEffectStoreType = {
-    globalColorSettings: getLocalStorage("globalColorSettings",
-      {
-        editableColors: defaultEditableColor(),
-        editSingleIconName: "voice",
-        editSingleIconStage: 0,
-        iconColor: "",
-        iconContrast: 100,
-        iconDropShadowAmount: 0,
-        innerColor: "",
-        outlineColor: "",
-        outlineContrast: 100,
-        outlineDropShadowAmount: 0,
-        progressColor: "",
-        progressContrast: 100,
-        progressDropShadowAmount: 0,
-      }),
-    icons: {
-      voice: getLocalStorage("voice", {
-        currentEffect: 0,
-        colorEffects: [
-          defaultColorEffect("not-talking", "#FFFFFF"),
-          defaultColorEffect("talking", "#FFFF3E"),
-          defaultColorEffect("radio-talking", "#D64763"),
-        ],
-        editableColors: defaultEditableColor(),
-      }),
-      health: getLocalStorage("health", {
-        currentEffect: 0,
-        colorEffects: [
-          defaultColorEffect("alive", "#21ab61"),
-          defaultColorEffect("dead", "#ff0000"),
-        ],
-        editableColors: defaultEditableColor(),
-      }),
-      armor: getLocalStorage("armor", {
-        currentEffect: 0,
-        colorEffects: [
-          defaultColorEffect("armor", "#326dbf"),
-          defaultColorEffect("no-armor", "#ff0000")
-        ],
-        editableColors: defaultEditableColor(),
-      }),
-      hunger: getLocalStorage("hunger", {
-        currentEffect: 0,
-        colorEffects: [
-          defaultColorEffect("normal", "#dd6e14"),
-          defaultColorEffect("starving", "#ff0000"),
-        ],
-        editableColors: defaultEditableColor(),
-      }),
-      thirst: getLocalStorage("thirst", {
-        currentEffect: 0,
-        colorEffects: [
-          defaultColorEffect("normal", "#1a7cad"),
-          defaultColorEffect("thirsty", "#ff0000"),
-        ],
-        editableColors: defaultEditableColor(),
-      }),
-      stress: getLocalStorage("stress", {
-        currentEffect: 0,
-        colorEffects: [defaultColorEffect("normal", "#dc0606")],
-        editableColors: defaultEditableColor(),
-      }),
-      oxygen: getLocalStorage("oxygen", {
-        currentEffect: 0,
-        colorEffects: [defaultColorEffect("normal", "#8aa8bd")],
-        editableColors: defaultEditableColor(),
-      }),
-      armed: getLocalStorage("armed", {
-        currentEffect: 0,
-        colorEffects: [defaultColorEffect("normal", "#ff4885")],
-        editableColors: defaultEditableColor(),
-      }),
-      parachute: getLocalStorage("parachute", {
-        currentEffect: 0,
-        colorEffects: [defaultColorEffect("normal", "#b9ff28")],
-        editableColors: defaultEditableColor(),
-      }),
-      engine: getLocalStorage("engine", {
-        currentEffect: 0,
-        colorEffects: [
-          defaultColorEffect("no-damage", "#3FA554"),
-          defaultColorEffect("minor-damage", "#dd6e14"),
-          defaultColorEffect("major-damage", "#ff0000"),
-        ],
-        editableColors: defaultEditableColor(),
-      }),
-      harness: getLocalStorage("harness", {
-        currentEffect: 0,
-        colorEffects: [defaultColorEffect("normal", "#b648ff")],
-        editableColors: defaultEditableColor(),
-      }),
-      cruise: getLocalStorage("cruise", {
-        currentEffect: 0,
-        colorEffects: [defaultColorEffect("normal", "#ff4885")],
-        editableColors: defaultEditableColor(),
-      }),
-      nitro: getLocalStorage("nitro", {
-        currentEffect: 0,
-        colorEffects: [
-          defaultColorEffect("no-nitro", "#ffffff"),
-          defaultColorEffect("active-nitro", "#D64763"),
-        ],
-        editableColors: defaultEditableColor(),
-      }),
-      dev: getLocalStorage("dev", {
-        currentEffect: 0,
-        colorEffects: [defaultColorEffect("normal", "#000000")],
-        editableColors: defaultEditableColor(),
-      }),
+  function getDefaultSettings(): colorEffectStoreType {
+    return {
+      globalColorSettings: getLocalStorage("globalColorSettings",
+        {
+          editableColors: defaultEditableColor(),
+          editSingleIconName: "voice",
+          editSingleIconStage: 0,
+          iconColor: "",
+          iconContrast: 100,
+          iconDropShadowAmount: 0,
+          innerColor: "",
+          outlineColor: "",
+          outlineContrast: 100,
+          outlineDropShadowAmount: 0,
+          progressColor: "",
+          progressContrast: 100,
+          progressDropShadowAmount: 0,
+        }),
+      icons: {
+        voice: getLocalStorage("voice", {
+          currentEffect: 0,
+          colorEffects: [
+            defaultColorEffect("not-talking", "#FFFFFF"),
+            defaultColorEffect("talking", "#FFFF3E"),
+            defaultColorEffect("radio-talking", "#D64763"),
+          ],
+          editableColors: defaultEditableColor(),
+        }),
+        health: getLocalStorage("health", {
+          currentEffect: 0,
+          colorEffects: [
+            defaultColorEffect("alive", "#21ab61"),
+            defaultColorEffect("dead", "#ff0000"),
+          ],
+          editableColors: defaultEditableColor(),
+        }),
+        armor: getLocalStorage("armor", {
+          currentEffect: 0,
+          colorEffects: [
+            defaultColorEffect("armor", "#326dbf"),
+            defaultColorEffect("no-armor", "#ff0000")
+          ],
+          editableColors: defaultEditableColor(),
+        }),
+        hunger: getLocalStorage("hunger", {
+          currentEffect: 0,
+          colorEffects: [
+            defaultColorEffect("normal", "#dd6e14"),
+            defaultColorEffect("starving", "#ff0000"),
+          ],
+          editableColors: defaultEditableColor(),
+        }),
+        thirst: getLocalStorage("thirst", {
+          currentEffect: 0,
+          colorEffects: [
+            defaultColorEffect("normal", "#1a7cad"),
+            defaultColorEffect("thirsty", "#ff0000"),
+          ],
+          editableColors: defaultEditableColor(),
+        }),
+        stress: getLocalStorage("stress", {
+          currentEffect: 0,
+          colorEffects: [defaultColorEffect("normal", "#dc0606")],
+          editableColors: defaultEditableColor(),
+        }),
+        oxygen: getLocalStorage("oxygen", {
+          currentEffect: 0,
+          colorEffects: [defaultColorEffect("normal", "#8aa8bd")],
+          editableColors: defaultEditableColor(),
+        }),
+        armed: getLocalStorage("armed", {
+          currentEffect: 0,
+          colorEffects: [defaultColorEffect("normal", "#ff4885")],
+          editableColors: defaultEditableColor(),
+        }),
+        parachute: getLocalStorage("parachute", {
+          currentEffect: 0,
+          colorEffects: [defaultColorEffect("normal", "#b9ff28")],
+          editableColors: defaultEditableColor(),
+        }),
+        engine: getLocalStorage("engine", {
+          currentEffect: 0,
+          colorEffects: [
+            defaultColorEffect("no-damage", "#3FA554"),
+            defaultColorEffect("minor-damage", "#dd6e14"),
+            defaultColorEffect("major-damage", "#ff0000"),
+          ],
+          editableColors: defaultEditableColor(),
+        }),
+        harness: getLocalStorage("harness", {
+          currentEffect: 0,
+          colorEffects: [defaultColorEffect("normal", "#b648ff")],
+          editableColors: defaultEditableColor(),
+        }),
+        cruise: getLocalStorage("cruise", {
+          currentEffect: 0,
+          colorEffects: [defaultColorEffect("normal", "#ff4885")],
+          editableColors: defaultEditableColor(),
+        }),
+        nitro: getLocalStorage("nitro", {
+          currentEffect: 0,
+          colorEffects: [
+            defaultColorEffect("no-nitro", "#ffffff"),
+            defaultColorEffect("active-nitro", "#D64763"),
+          ],
+          editableColors: defaultEditableColor(),
+        }),
+        dev: getLocalStorage("dev", {
+          currentEffect: 0,
+          colorEffects: [defaultColorEffect("normal", "#000000")],
+          editableColors: defaultEditableColor(),
+        }),
+      }
     }
   }
+
+  const colorEffectState: colorEffectStoreType = getDefaultSettings();
 
   const { subscribe, set, update } = writable(colorEffectState);
 
   const methods = {
+    resetColorEffects() {
+      localStorage.removeItem(colorStoreLocalStorageName);
+      set(getDefaultSettings()); 
+    },
     receiveUIUpdateMessage(data) {
       if (!data || !Object.keys(data).length) {
         return;

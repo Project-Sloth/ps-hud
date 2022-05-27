@@ -51,39 +51,43 @@ const store = () => {
     return fallback;
   }
 
-  const menuStatusState: menuStatus = {
-    show: false || DebugStore,
-    isRestarting: false,
-    adminOnly: false || DebugStore,
-    isAdmin: false || DebugStore,
-    isChangeCompassFPSChecked: getLocalStorage("isChangeCompassFPSChecked", "Optimized"),
-    isChangeFPSChecked: getLocalStorage("isChangeFPSChecked", "Optimized"),
-    isCineamticModeChecked: getLocalStorage("isCineamticModeChecked", false),
-    isCinematicNotifyChecked: getLocalStorage("isCinematicNotifChecked", true),
-    isCompassFollowChecked: getLocalStorage("isCompassFollowChecked", true),
-    isDegreesShowChecked: getLocalStorage("isDegreesShowChecked", true),
-    isHideMapChecked: getLocalStorage("isHideMapChecked", true),
-    isListSoundsChecked: getLocalStorage("isListSoundsChecked", true),
-    isLowFuelAlertChecked: getLocalStorage("isLowFuelChecked", true),
-    isMapNotifyChecked: getLocalStorage("isMapNotifChecked", true),
-    isOpenMenuSoundsChecked: getLocalStorage("isOpenMenuSoundsChecked", true),
-    isOutCompassChecked: getLocalStorage("isOutCompassChecked", true),
-    isOutMapChecked: getLocalStorage("isOutMapChecked", true),
-    isPointerShowChecked: getLocalStorage("isPointerShowChecked", true),
-    isResetSoundsChecked: getLocalStorage("isResetSoundsChecked", true),
-    isShowCompassChecked: getLocalStorage("isShowCompassChecked", true),
-    isShowStreetsChecked: getLocalStorage("isShowStreetsChecked", true),
-    isStaticArmorChecked: getLocalStorage("isStaticArmorChecked", false),
-    isStaticEngineChecked: getLocalStorage("isStaticEngineChecked", false),
-    isStaticHealthChecked: getLocalStorage("isStaticHealthChecked", false),
-    isStaticHungerChecked: getLocalStorage("isStaticHungerChecked", false),
-    isStaticNitroChecked: getLocalStorage("isStaticNitroChecked", false),
-    isStaticOxygenChecked: getLocalStorage("isStaticOxygenChecked", false),
-    isStaticStressChecked: getLocalStorage("isStaticStressChecked", false),
-    isStaticThirstChecked: getLocalStorage("isStaticThirstChecked", false),
-    isToggleMapBordersChecked: getLocalStorage("isToggleMapBordersChecked", true), 
-    isToggleMapShapeChecked: getLocalStorage("isToggleMapShapeChecked", "circle"),
+  function getDefaultSettings(): menuStatus {
+    return {
+      show: false || DebugStore,
+      isRestarting: false,
+      adminOnly: false || DebugStore,
+      isAdmin: false || DebugStore,
+      isChangeCompassFPSChecked: getLocalStorage("isChangeCompassFPSChecked", "Optimized"),
+      isChangeFPSChecked: getLocalStorage("isChangeFPSChecked", "Optimized"),
+      isCineamticModeChecked: getLocalStorage("isCineamticModeChecked", false),
+      isCinematicNotifyChecked: getLocalStorage("isCinematicNotifChecked", true),
+      isCompassFollowChecked: getLocalStorage("isCompassFollowChecked", true),
+      isDegreesShowChecked: getLocalStorage("isDegreesShowChecked", true),
+      isHideMapChecked: getLocalStorage("isHideMapChecked", true),
+      isListSoundsChecked: getLocalStorage("isListSoundsChecked", true),
+      isLowFuelAlertChecked: getLocalStorage("isLowFuelChecked", true),
+      isMapNotifyChecked: getLocalStorage("isMapNotifChecked", true),
+      isOpenMenuSoundsChecked: getLocalStorage("isOpenMenuSoundsChecked", true),
+      isOutCompassChecked: getLocalStorage("isOutCompassChecked", true),
+      isOutMapChecked: getLocalStorage("isOutMapChecked", true),
+      isPointerShowChecked: getLocalStorage("isPointerShowChecked", true),
+      isResetSoundsChecked: getLocalStorage("isResetSoundsChecked", true),
+      isShowCompassChecked: getLocalStorage("isShowCompassChecked", true),
+      isShowStreetsChecked: getLocalStorage("isShowStreetsChecked", true),
+      isStaticArmorChecked: getLocalStorage("isStaticArmorChecked", false),
+      isStaticEngineChecked: getLocalStorage("isStaticEngineChecked", false),
+      isStaticHealthChecked: getLocalStorage("isStaticHealthChecked", false),
+      isStaticHungerChecked: getLocalStorage("isStaticHungerChecked", false),
+      isStaticNitroChecked: getLocalStorage("isStaticNitroChecked", false),
+      isStaticOxygenChecked: getLocalStorage("isStaticOxygenChecked", false),
+      isStaticStressChecked: getLocalStorage("isStaticStressChecked", false),
+      isStaticThirstChecked: getLocalStorage("isStaticThirstChecked", false),
+      isToggleMapBordersChecked: getLocalStorage("isToggleMapBordersChecked", true), 
+      isToggleMapShapeChecked: getLocalStorage("isToggleMapShapeChecked", "circle"),
+    }
   }
+
+  const menuStatusState: menuStatus = getDefaultSettings();
 
   const { subscribe, set, update } = writable(menuStatusState);
 
@@ -111,6 +115,12 @@ const store = () => {
         methods.closeMenu();
       }
     },
+    openMenu() {
+      update(state => {
+        state.show = true;
+        return state;
+      });
+    },
     receiveMessage() {
       methods.openMenu();
     },
@@ -127,12 +137,10 @@ const store = () => {
         return state;
       })
     },
-    openMenu() {
-      update(state => {
-        state.show = true;
-        return state;
-      });
-    }
+    resetHudMenuSetting() {
+      localStorage.removeItem(menuStoreLocalStorageName);
+      set(getDefaultSettings());
+    },
   };
 
   return {

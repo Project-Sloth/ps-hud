@@ -22,16 +22,24 @@ const store = () => {
     return fallback;
   }
 
-  const playerStatusLayoutState: playerStatusLayoutType = {
-    layout: getLocalStorage("layout", "standard"),
-    iconBetweenSpacing: getLocalStorage("iconBetweenSpacing", 2),
-    xAxisSpacing: getLocalStorage("xAxisSpacing", 0),
-    yAxisSpacing: getLocalStorage("yAxisSpacing", 0),
-  };
+  function getDefaultSettings(): playerStatusLayoutType {
+    return {
+      layout: getLocalStorage("layout", "standard"),
+      iconBetweenSpacing: getLocalStorage("iconBetweenSpacing", 2),
+      xAxisSpacing: getLocalStorage("xAxisSpacing", 0),
+      yAxisSpacing: getLocalStorage("yAxisSpacing", 0),
+    };
+  }
+
+  const playerStatusLayoutState: playerStatusLayoutType = getDefaultSettings();
 
   const { subscribe, set, update } = writable(playerStatusLayoutState);
 
   const methods = {
+    resetLayout() {
+      localStorage.removeItem(layoutStoreLocalStorageName);
+      set(getDefaultSettings());
+    },
     receiveUIUpdateMessage(data: playerStatusLayoutType) {
       update(state => {
         state.layout = data.layout;
