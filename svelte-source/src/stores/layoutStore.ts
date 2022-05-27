@@ -10,14 +10,15 @@ type playerStatusLayoutType = {
 }
 
 const store = () => {
-  let stored = localStorage.getItem(layoutStoreLocalStorageName);
+  let stored: string = localStorage.getItem(layoutStoreLocalStorageName);
+  let storedObject: object = {};
   if (stored) {
-    stored = JSON.parse(stored);
+    storedObject = JSON.parse(stored);
   }
 
   function getLocalStorage(key: string, fallback: any) {
-    if (stored && stored[key] != null) {
-      return stored[key];
+    if (storedObject && storedObject[key] != null) {
+      return storedObject[key];
     }
     return fallback;
   }
@@ -37,6 +38,7 @@ const store = () => {
 
   const methods = {
     resetLayout() {
+      storedObject = {};
       localStorage.removeItem(layoutStoreLocalStorageName);
       set(getDefaultSettings());
     },

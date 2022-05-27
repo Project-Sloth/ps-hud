@@ -59,14 +59,15 @@ type playerHudUpdateMessageType = {
 }
   
 const store = () => {
-  let stored = localStorage.getItem(playerStoreLocalStorageName);
+  let stored: string = localStorage.getItem(playerStoreLocalStorageName);
+  let storedObject: object = {};
   if (stored) {
-    stored = JSON.parse(stored);
+    storedObject = JSON.parse(stored);
   }
 
   function getLocalStorage(key: iconNamesKind | "globalIconSettings", fallback: any) {
-    if (stored && stored[key] != null) {
-      return stored[key];
+    if (storedObject && storedObject[key] != null) {
+      return storedObject[key];
     }
     return fallback;
   }
@@ -124,8 +125,9 @@ const store = () => {
 
   const methods = {
     resetPlayerStatusIcons() {
+      storedObject = {};
       localStorage.removeItem(playerStoreLocalStorageName);
-      set(getDefaultSettings()); 
+      set({...getDefaultSettings(), show: true}); 
     },
     updateAllIconsSettings(settingName: keyof optionalHudIconType, value: any) {
       update(state => {

@@ -284,7 +284,7 @@ RegisterNUICallback('resetHudSounds', function(data, cb)
     if data.checked then
         Menu.isResetSoundsChecked = true
     else
-        menu.isResetSoundsChecked = false
+        Menu.isResetSoundsChecked = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
     saveSettings()

@@ -11,14 +11,15 @@ interface colorEffectStoreType {
 
 
 const store = () => {
-  let stored = localStorage.getItem(colorStoreLocalStorageName);
+  let stored: string = localStorage.getItem(colorStoreLocalStorageName);
+  let storedObject: object = {};
   if (stored) {
-    stored = JSON.parse(stored);
+    storedObject = JSON.parse(stored);
   }
 
   function getLocalStorage(key: iconNamesKind | "globalColorSettings", fallback: any) {
-    if (stored && stored[key] != null) {
-      return stored[key];
+    if (storedObject && storedObject[key] != null) {
+      return storedObject[key];
     }
     return fallback;
   }
@@ -145,6 +146,7 @@ const store = () => {
 
   const methods = {
     resetColorEffects() {
+      storedObject = {};
       localStorage.removeItem(colorStoreLocalStorageName);
       set(getDefaultSettings()); 
     },

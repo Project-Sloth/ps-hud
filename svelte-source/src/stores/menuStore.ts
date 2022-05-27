@@ -39,14 +39,15 @@ type menuStatus = {
 }
 
 const store = () => {
-  let stored = localStorage.getItem(menuStoreLocalStorageName);
+  let stored: string = localStorage.getItem(menuStoreLocalStorageName);
+  let storedObject: object = {};
   if (stored) {
-    stored = JSON.parse(stored);
+    storedObject = JSON.parse(stored);
   }
 
   function getLocalStorage(key: string, fallback: any) {
-    if (stored && stored[key] != null) {
-      return stored[key];
+    if (storedObject && storedObject[key] != null) {
+      return storedObject[key];
     }
     return fallback;
   }
@@ -138,8 +139,9 @@ const store = () => {
       })
     },
     resetHudMenuSetting() {
+      storedObject = {};
       localStorage.removeItem(menuStoreLocalStorageName);
-      set(getDefaultSettings());
+      set({...getDefaultSettings(), show: true});
     },
   };
 
