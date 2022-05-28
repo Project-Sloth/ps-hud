@@ -20,12 +20,6 @@
     $MenuStore.isChangeFPSChecked = fpsSetting;
     fetchNui("changeFPS", {fps: fpsSetting})
   }
-
-  function handleIsChangeCompassFPSChecked(checked: boolean) {
-    let fpsSetting: "optimized" | "synced" = checked ? "optimized" : "synced";
-    $MenuStore.isChangeCompassFPSChecked = fpsSetting;
-    fetchNui("changeCompassFPS", {fps: fpsSetting});
-  }
 </script>
 
 <div class="text-sm flex flex-col text-[#e8e8e8]">
@@ -47,6 +41,8 @@
       MenuStore.resetHudMenuSetting();
       ColorEffectStore.resetColorEffects();
       LayoutStore.resetLayout();
+      // Send updated menu settings to client lua
+      MenuStore.sendMenuSettingsToClient();
     }}/>
     <p class="text-base">If you want to reset your settings back to default; click this shiny button!</p>
     <p class="text-base">(you will have to relog for your menu to reset changes successfully)</p>
@@ -199,12 +195,6 @@
     <p>Compass</p>
   </div>
   <div class="mx-4 mb-4 flex flex-col">
-    <!-- <Switch  checked={$MenuStore.isChangeCompassFPSChecked == "optimized"} checkedText="Compass FPS Optimized (30 FPS)" unCheckedText="Compass FPS Synced (60 FPS)"
-      handleUpdateFunction={(checked) => handleIsChangeCompassFPSChecked(checked)}/>
-    <p class="font-semibold text-base mb-1">
-      Synced FPS option will result in less optimization, but keep your compass in real time, however, it will also be more demanding on your machine.
-    </p> -->
-
     <Checkbox bind:checked={$MenuStore.isShowCompassChecked}
       primaryText={"Compass Enabled"} handleUpdateFunction={(checked) => fetchNui("showCompassBase", {checked})}
       secondaryText={"Disabling this will make it so you can't see the compass navigation"}
@@ -216,10 +206,6 @@
     <Checkbox bind:checked={$MenuStore.isPointerShowChecked}
       primaryText={"Show Compass Pointer Enabled"} handleUpdateFunction={(checked) => fetchNui("showPointerIndex", {checked})}
       secondaryText={"Disabling this will make it so you can't see your pointer index to pinpoint your exact cardinal directions"}
-    />
-    <Checkbox bind:checked={$MenuStore.isDegreesShowChecked}
-      primaryText={"Show Compass Degrrees Enabled"} handleUpdateFunction={(checked) => fetchNui("showDegreesNum", {checked})}
-      secondaryText={"Disabling this will make it so you can't see your exact degrees"}
     />
   </div>
 

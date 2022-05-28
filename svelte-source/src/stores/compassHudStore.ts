@@ -57,7 +57,7 @@ const store = () => {
     },
     receiveHeadingMessage(data: headingHudUpdateMessage) {
       update(state => {
-        state.heading = data.value;
+        state.heading = data.value-90;
         return state;
       });
     },

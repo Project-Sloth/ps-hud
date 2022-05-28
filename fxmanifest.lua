@@ -14,6 +14,7 @@ shared_scripts {
 client_script 'client.lua'
 server_script 'server.lua'
 lua54 'yes'
+use_fxv2_oal 'yes'
 
 ui_page 'html/index.html'
 

@@ -9,12 +9,10 @@ type menuStatus = {
   isRestarting: boolean,
   adminOnly: boolean,
   isAdmin: boolean,
-  isChangeCompassFPSChecked: "optimized" | "synced",
   isChangeFPSChecked: "optimized" | "synced",
   isCineamticModeChecked: boolean,
   isCinematicNotifyChecked: boolean,
   isCompassFollowChecked: boolean,
-  isDegreesShowChecked: boolean,
   isHideMapChecked: boolean,
   isListSoundsChecked: boolean,
   isLowFuelAlertChecked: boolean,
@@ -58,12 +56,10 @@ const store = () => {
       isRestarting: false,
       adminOnly: false || DebugStore,
       isAdmin: false || DebugStore,
-      isChangeCompassFPSChecked: getLocalStorage("isChangeCompassFPSChecked", "Optimized"),
       isChangeFPSChecked: getLocalStorage("isChangeFPSChecked", "Optimized"),
       isCineamticModeChecked: getLocalStorage("isCineamticModeChecked", false),
       isCinematicNotifyChecked: getLocalStorage("isCinematicNotifChecked", true),
       isCompassFollowChecked: getLocalStorage("isCompassFollowChecked", true),
-      isDegreesShowChecked: getLocalStorage("isDegreesShowChecked", true),
       isHideMapChecked: getLocalStorage("isHideMapChecked", true),
       isListSoundsChecked: getLocalStorage("isListSoundsChecked", true),
       isLowFuelAlertChecked: getLocalStorage("isLowFuelChecked", true),
@@ -143,7 +139,36 @@ const store = () => {
       localStorage.removeItem(menuStoreLocalStorageName);
       set({...getDefaultSettings(), show: true});
     },
+    sendMenuSettingsToClient() {
+      update(state => {
+        fetchNui("updateMenuSettingsToClient", 
+        {
+          "showOutMap": state.isOutMapChecked,
+          "showOutCompass": state.isOutCompassChecked,
+          "showFollowCompass": state.isCompassFollowChecked,
+          "openMenuSounds": state.isOpenMenuSoundsChecked,
+          "resetHudSounds": state.isResetSoundsChecked,
+          "checklistSounds": state.isListSoundsChecked,
+          "showMapNotif": state.isMapNotifyChecked,
+          "showFuelAlert": state.isLowFuelAlertChecked,
+          "showCinematicNotif": state.isCinematicNotifyChecked,
+          "changeFPS": state.isChangeFPSChecked,
+          "ToggleMapShape": state.isToggleMapShapeChecked,
+          "HideMap": state.isHideMapChecked,
+          "ToggleMapBorders": state.isToggleMapBordersChecked,
+          "showCompassBase": state.isShowCompassChecked,
+          "showStreetsNames": state.isShowStreetsChecked,
+          "showPointerIndex": state.isPointerShowChecked,
+          "cinematicMode": state.isCineamticModeChecked,
+        });
+        return state;
+      })
+    }
   };
+
+  // Upon loading into server send the client the menu settings data
+  //  to be in sync with the ui settings
+  methods.sendMenuSettingsToClient();
 
   return {
     subscribe,

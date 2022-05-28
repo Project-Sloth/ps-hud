@@ -9,7 +9,17 @@
     easing: linear
   });
 
-  $:  progressTween.set($CompassHudStore.heading - 90);
+  let lastValue: number = $CompassHudStore.heading;
+
+  $:  {
+    // FROM 270 to -90                                              FROM -90 to 270
+    if ((lastValue > 230 && $CompassHudStore.heading < -50) || (lastValue < -50 && $CompassHudStore.heading > 230)) {
+      progressTween.set($CompassHudStore.heading, {duration: 0, easing: linear});
+    } else {
+      progressTween.set($CompassHudStore.heading, {duration: 600, easing: linear});
+    }
+    lastValue = $CompassHudStore.heading;
+  }
 </script>
 
 
@@ -30,7 +40,7 @@
         <div class="degrees"></div>
       {/if}
 
-      {#if $CompassHudStore.showCompass}
+      {#if $CompassHudStore.showCompass || DebugStore}
         <svg class="bezel" viewBox="{$progressTween} 0 180 5">
             <rect width="3"   stroke="black" fill="white" stroke-width="0.5" stroke-opacity="0.6" height="20" x="-90"/>
             <rect width="3"   stroke="black" fill="white" stroke-width="0.5" stroke-opacity="0.6" height="9"  x="-45"/>
