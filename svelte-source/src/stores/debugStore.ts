@@ -1,2 +1,2 @@
-const debugMode: boolean = true;
+const debugMode: boolean = false;
 export default debugMode;
