@@ -27,6 +27,16 @@ If you are still lost, Slothy has created a few GIF's to help guide you through 
 <br>
 <br>
 
+### ⚠️Important:
+If you don't want everyone on the server to be able to access the customizability options within the menu; make sure to change **Config.AdminOnly** to **true** instead of **false**. 
+
+This configuration setting is found in **ps-hud/config.lua** as shown in the GIF below
+
+![chrome_ZwsidhP73y](https://user-images.githubusercontent.com/91661118/171066080-6bc11bb8-7cde-460b-8d73-bbc329644c83.gif)
+
+<br>
+<br>
+
 ![Project Sloth GitHub Project PS-HUD Features Banner](https://user-images.githubusercontent.com/91661118/170896822-4c6fcf43-94a3-4afd-b651-1eb76244fd8d.png)
 
 
