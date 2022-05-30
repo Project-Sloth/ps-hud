@@ -134,7 +134,7 @@
     font-size: 2.2vh;
     text-align: center;
     text-shadow: 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0.6);
-    z-index: 9999;
+    z-index: 1;
   }
 
   .degrees {

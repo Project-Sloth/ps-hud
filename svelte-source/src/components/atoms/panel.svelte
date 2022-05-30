@@ -10,7 +10,7 @@
 </script>
 
 <div>
-	<button	class="header text-2xl flex-row items-center text-white"	on:click={() => {	group = group === name ? '' : name; }}>
+	<button	class="header text-2xl flex-row items-center text-white font-semibold"	on:click={() => {	group = group === name ? '' : name; }}>
 		<div class="min-w-8 grid justify-items-center">
 			<Fa icon={icon} scale={1} color={color}/>
 		</div>

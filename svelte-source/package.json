@@ -29,6 +29,7 @@
     "@neodrag/svelte": "^1.1.4",
     "d3-color": "^3.1.0",
     "svelte-fa": "^2.4.0",
+    "svelte-outclick": "^3.1.0",
     "svelte-select": "^4.4.7"
   }
 }

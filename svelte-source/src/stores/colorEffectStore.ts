@@ -194,8 +194,10 @@ const store = () => {
     },
     updateIconColorToProgressColor() {
       update(state => {
-        for (let iconColorEffect of Object.values(state.icons)) {
-          iconColorEffect.colorEffects[0].iconColor = iconColorEffect.colorEffects[0].progressColor;
+        for (const iconColorEffect of Object.values(state.icons)) {
+          for (const iconColorState of iconColorEffect.colorEffects) {
+            iconColorState.iconColor = iconColorState.progressColor;
+          }
         }
         return state;
       })

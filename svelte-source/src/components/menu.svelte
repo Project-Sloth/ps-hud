@@ -1,13 +1,12 @@
 <script lang="ts">
   import { draggable } from '@neodrag/svelte';
-  import { faSliders, faCircleNotch, faTableColumns} from '@fortawesome/free-solid-svg-icons'
+  import { faSliders, faCircleNotch } from '@fortawesome/free-solid-svg-icons'
   import Fa from 'svelte-fa'
 
   import MenuStore from '../stores/menuStore';
 
   import HudPanel from './menu/hudPanel.svelte';
   import StatusIconsPanel from './menu/statusIconsPanel.svelte';
-  import StatusLayout from './menu/statusLayout.svelte';
 
   let menuHandle;
   const screenWidth: number = screen.width;
@@ -16,7 +15,6 @@
   let tabArray: Array<{name: string, icon: any, content: any, adminOnly: boolean}> = [
     { name: "Hud Settings", icon: faSliders,     content: HudPanel, adminOnly: false },
     { name: "Status Icons", icon: faCircleNotch, content: StatusIconsPanel, adminOnly: true },
-    { name: "Status Layout", icon: faTableColumns, content: StatusLayout, adminOnly: true },
   ];
   let activeTab: {name: string, icon: any, content: any} = tabArray[0];
 

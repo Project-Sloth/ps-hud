@@ -11,6 +11,7 @@ specifiers:
   svelte: ^3.46.4
   svelte-check: ^2.4.5
   svelte-fa: ^2.4.0
+  svelte-outclick: ^3.1.0
   svelte-preprocess: ^4.10.4
   svelte-select: ^4.4.7
   tslib: ^2.3.1
@@ -26,6 +27,7 @@ dependencies:
   '@neodrag/svelte': 1.1.4
   d3-color: 3.1.0
   svelte-fa: 2.4.0
+  svelte-outclick: 3.1.0
   svelte-select: 4.4.7
 
 devDependencies:
@@ -965,6 +967,10 @@ packages:
     dependencies:
       svelte: 3.46.4
     dev: true
+
+  /svelte-outclick/3.1.0:
+    resolution: {integrity: sha512-1p/4UAuBfgfltMByTXjE3wbNAYaPihsB9HkhYrKgkiUgZSUtQ+Tpr/gxLu0LIsgft1EKt1izWg/VfzO+f5lQUA==}
+    dev: false
 
   /svelte-preprocess/4.10.4_a4wedpgrdfubev2kz3eftxjnq4:
     resolution: {integrity: sha512-fuwol0N4UoHsNQolLFbMqWivqcJ9N0vfWO9IuPAiX/5okfoGXURyJ6nECbuEIv0nU3M8Xe2I1ONNje2buk7l6A==}
