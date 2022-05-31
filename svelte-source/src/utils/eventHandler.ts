@@ -8,10 +8,11 @@ import ExternalStatusStore from "../stores/externalStatusStore";
 import LayoutStore from '../stores/layoutStore';
 import VehicleHudStore from '../stores/vehicleHudStore';
 import ColorEffectStore from '../stores/colorEffectStore';
-import layoutStore from '../stores/layoutStore';
+import ProfileStore from '../stores/profileStore';
 import { colorStoreLocalStorageName,
          playerStoreLocalStorageName,
-         layoutStoreLocalStorageName
+         layoutStoreLocalStorageName,
+         profileLocalStorageName,
 } from '../types/types';
 
 interface nuiMessage {
@@ -150,7 +151,7 @@ function serializeColorData(colorData) {
 export function saveUIDataToServer() {
   const playerStatusIcondata = get(PlayerHudStore);
   const colorData = get(ColorEffectStore);
-  const layoutdata = get(layoutStore);
+  const layoutdata = get(LayoutStore);
   const serializedIconData = serializeIconData(playerStatusIcondata.icons);
   const serializedColorData = serializeColorData(colorData.icons);
   const sendData = {
@@ -165,7 +166,8 @@ export function saveUIDataToServer() {
 export async function saveUIDataToLocalStorage() {
   const playerStatusIcondata = get(PlayerHudStore);
   const colorData = get(ColorEffectStore);
-  const layoutdata = get(layoutStore);
+  const layoutData = get(LayoutStore);
+  const profileData = get(ProfileStore);
 
   localStorage.setItem(colorStoreLocalStorageName, JSON.stringify(
     {
@@ -179,5 +181,7 @@ export async function saveUIDataToLocalStorage() {
       globalIconSettings: playerStatusIcondata.globalIconSettings,
     }));
 
-  localStorage.setItem(layoutStoreLocalStorageName, JSON.stringify(layoutdata));
+  localStorage.setItem(layoutStoreLocalStorageName, JSON.stringify(layoutData));
+
+  localStorage.setItem(profileLocalStorageName, JSON.stringify( {"profiles": profileData} ));
 }

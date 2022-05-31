@@ -10,7 +10,7 @@ import MenuStore from './menuStore';
 
 type saveUIType = "ready" | "updating";
 
-type playerStatusType = {
+export type playerStatusType = {
   designMode: boolean,
   designProgress: number,
   globalIconSettings: optionalHudIconType,

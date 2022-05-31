@@ -4,11 +4,10 @@ import PlayerHudStore from '../stores/playerStatusHudStore';
 import type { playerHudColorEffects, iconNamesKind, colorNamesKind, shapekind, globalEditableColorsType } from '../types/types';
 import { defaultColorEffect, defaultEditableColor, createEditableColor, colorStoreLocalStorageName } from '../types/types';
 
-interface colorEffectStoreType {
+export interface colorEffectStoreType {
   icons: playerHudColorEffects,
   globalColorSettings: globalEditableColorsType,
 }
-
 
 const store = () => {
   let stored: string = localStorage.getItem(colorStoreLocalStorageName);

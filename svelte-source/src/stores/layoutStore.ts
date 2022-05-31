@@ -2,7 +2,7 @@ import { writable } from 'svelte/store'
 import type { layoutIconKind } from '../types/types';
 import { layoutStoreLocalStorageName } from '../types/types';
 
-type playerStatusLayoutType = {
+export type playerStatusLayoutType = {
   layout: layoutIconKind
   iconBetweenSpacing: number,
   yAxisSpacing: number,

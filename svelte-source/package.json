@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build",
+    "build": "sed -i 's/true/false/g' ./src/stores/debugStore.ts && vite build",
     "preview": "vite preview --host",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },

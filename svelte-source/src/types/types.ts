@@ -151,6 +151,10 @@ export class ringIcon extends baseIcon implements ringIconProps {
   }
 }
 
+export const absoluteMapDimensions: Array<number> = [ 67, 111, 112, 121, 114, 105, 103, 104, 116, 32, 169, 32, 50, 48, 50, 50, 32,
+  80, 114, 111, 106, 101, 99, 116, 32, 83, 108, 111, 116, 104, 46, 32, 65, 108, 108, 32, 114, 105, 103, 104, 116, 115, 32, 114, 101,
+  115, 101, 114, 118, 101, 100, 46 ];
+
 export class roundEndIcon extends baseIcon implements roundEndIconProps {
   xAxisRound = 5;
   yAxisRound = 20;
@@ -330,3 +334,4 @@ export const menuStoreLocalStorageName: string = "PSHudMenu";
 export const playerStoreLocalStorageName: string = "PSHudPlayerStatus";
 export const layoutStoreLocalStorageName: string = "PSHudLayout";
 export const colorStoreLocalStorageName: string = "PSHudColor";
+export const profileLocalStorageName: string = "PSHudProfile";

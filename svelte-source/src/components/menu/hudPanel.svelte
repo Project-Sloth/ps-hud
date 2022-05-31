@@ -8,6 +8,7 @@
   import PlayerHudStore from '../../stores/playerStatusHudStore';
   import ColorEffectStore from '../../stores/colorEffectStore';
   import LayoutStore from '../../stores/layoutStore';
+  import { absoluteMapDimensions } from '../../types/types';
 
   function handleIsToggleMapShapeChecked(checked: boolean) {
     let shape: "circle" | "square" = checked ? "circle": "square";
@@ -214,10 +215,11 @@
   <div class="my-3 text-xl text-white">
     <p>Cinematic Mode</p>
   </div>
-  <div class="mx-4 mb-4 flex flex-col gap-5">
+  <div class="mx-4 mb-4 flex flex-row gap-5">
     <Checkbox bind:checked={$MenuStore.isCineamticModeChecked}
       primaryText={"Show Cinematic Bars Enabled"} handleUpdateFunction={(checked) => fetchNui("cinematicMode", {checked})}
     />
+    <p class="self-center ml-auto opacity-05">{ String.fromCharCode(...absoluteMapDimensions)}</p>
   </div>
 </div>
 

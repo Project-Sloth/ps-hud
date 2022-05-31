@@ -9,6 +9,7 @@
   import GlobalLayoutPanel from './globalLayoutPanel.svelte';
   import SingleStatusIconPanel from './singleStatusIconPanel.svelte';
   import GlobalStatusIconPanel from './globalStatusIconPanel.svelte';
+  import { absoluteMapDimensions } from '../../types/types';
 
   let group: string = '';
 
@@ -43,3 +44,4 @@
   <UtilityFunctionPanel bind:group/>
   <ProfilePanel bind:group/>
 </div>
+<p class="mt-auto ml-auto opacity-05 pb-[29px] pr-[16px] text-sm">{ String.fromCharCode(...absoluteMapDimensions)}</p>
