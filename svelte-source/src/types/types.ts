@@ -4,8 +4,15 @@ export const iconNames = ["voice", "health", "armor", "hunger", "thirst", "stres
   "oxygen", "armed", "parachute", "engine", "harness", "cruise", "nitro", "dev"] as const;
 export type iconNamesKind = typeof iconNames[number];
 
+export const dynamicOptionIconNames = ["armor", "engine", "health", "hunger", "nitro", "oxygen", "stress", "thirst"] as const;
+export type dynamicIconNamesKind = typeof dynamicOptionIconNames[number];
+
 export type playerHudIcons = {
   [key in iconNamesKind]: optionalHudIconType;
+}
+
+export type dynamicIcons = {
+  [key in dynamicIconNamesKind]: boolean;
 }
 
 export const iconLayouts = ["standard", "bottom-right-row", "center-bottom-row",

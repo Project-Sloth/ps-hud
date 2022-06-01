@@ -6,20 +6,12 @@
   import MenuStore from '../../stores/menuStore';
   import { fetchNui } from '../../utils/eventHandler';
   import PlayerHudStore from '../../stores/playerStatusHudStore';
-  import ColorEffectStore from '../../stores/colorEffectStore';
-  import LayoutStore from '../../stores/layoutStore';
   import { absoluteMapDimensions } from '../../types/types';
 
   function handleIsToggleMapShapeChecked(checked: boolean) {
     let shape: "circle" | "square" = checked ? "circle": "square";
     $MenuStore.isToggleMapShapeChecked = shape;
     fetchNui("ToggleMapShape", {shape: shape})
-  }
-
-  function handleIsChangeFPSChecked(checked: boolean) {
-    let fpsSetting: "optimized" | "synced" = checked ? "optimized" : "synced";
-    $MenuStore.isChangeFPSChecked = fpsSetting;
-    fetchNui("changeFPS", {fps: fpsSetting})
   }
 </script>
 
@@ -32,18 +24,16 @@
       <p>Reset HUD </p>
     </div>
   
-    <Button name="Reset Hud" buttonClass="whitespace-nowrap" disable={$MenuStore.isRestarting} disableText={"Resetting Hud..."}
+    <Button name="Reset Hud" buttonClass="whitespace-nowrap hover:bg-red-600" disable={$MenuStore.isRestarting} disableText={"Resetting Hud..."}
       on:click={() => {fetchNui("restartHud"); $MenuStore.isRestarting = true;}}
     />
     <p class="text-base">If your hud is acting up, give it a good ol' reset! Or you can do /resethud</p>
 
-    <Button name="Reset Settings" on:click={() => {
-      PlayerHudStore.resetPlayerStatusIcons();
-      MenuStore.resetHudMenuSetting();
-      ColorEffectStore.resetColorEffects();
-      LayoutStore.resetLayout();
-      // Send updated menu settings to client lua
-      MenuStore.sendMenuSettingsToClient();
+    <Button name="Reset Settings" buttonClass="hover:bg-red-600"
+      on:click={() => {
+        MenuStore.resetHudMenuSetting();
+        // Send updated menu settings to client lua
+        MenuStore.sendMenuSettingsToClient();
     }}/>
     <p class="text-base">If you want to reset your settings back to default; click this shiny button!</p>
     <p class="text-base">(you will have to relog for your menu to reset changes successfully)</p>
@@ -105,42 +95,42 @@
     <p>Status</p>
   </div>
   <div class="mx-4 mb-4 flex flex-col">
-    <Checkbox bind:checked={$MenuStore.isStaticHealthChecked}
+    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.health}
       primaryText={"Show Health Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("health", checked);
         fetchNui("dynamicChange");
       }}
     />
-    <Checkbox bind:checked={$MenuStore.isStaticArmorChecked}
+    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.armor}
       primaryText={"Show Armor Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("armor", checked);
         fetchNui("dynamicChange");
       }}
     />
-    <Checkbox bind:checked={$MenuStore.isStaticHungerChecked}
+    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.hunger}
       primaryText={"Show Hunger Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("hunger", checked);
         fetchNui("dynamicChange");
       }}
     />
-    <Checkbox bind:checked={$MenuStore.isStaticThirstChecked}
+    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.thirst}
       primaryText={"Show Thirst Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("thirst", checked);
         fetchNui("dynamicChange");
       }}
     />
-    <Checkbox bind:checked={$MenuStore.isStaticStressChecked}
+    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.stress}
       primaryText={"Show Stress Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("stress", checked);
         fetchNui("dynamicChange");
       }}
     />
-    <Checkbox bind:checked={$MenuStore.isStaticOxygenChecked}
+    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.oxygen}
       primaryText={"Show Oxygen Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("oxygen", checked);
@@ -155,12 +145,6 @@
     <p>Vehicle</p>
   </div>
   <div class="mx-4 mb-4 flex flex-col">
-    <Switch checked={$MenuStore.isChangeFPSChecked == "optimized"} checkedText="Speedometer FPS is Optimized (30 FPS)" unCheckedText="Speedometer FPS is Synced (60 FPS)"
-      handleUpdateFunction={(checked) => handleIsChangeFPSChecked(checked)}/>
-    <p class="font-semibold text-base pb-2">
-      Synced FPS option will result in less optimization, but keep your speedometer in real time, however, it will also be more demanding on your machine.
-    </p>
-
     <Switch checked={$MenuStore.isToggleMapShapeChecked == "circle"} checkedText="Minimap Circle" unCheckedText="Minimap Square"
       handleUpdateFunction={(checked) => handleIsToggleMapShapeChecked(checked)}
     />
@@ -168,20 +152,20 @@
       Whether it's square or circle you desire, you have the ability to choose!
     </p>
 
-    <Checkbox bind:checked={$MenuStore.isHideMapChecked}
+    <Checkbox bind:checked={$MenuStore.isMapEnabledChecked}
       primaryText={"Minimap Enabled"} handleUpdateFunction={(checked) => fetchNui("HideMap", {checked})}
     />
     <Checkbox bind:checked={$MenuStore.isToggleMapBordersChecked}
       primaryText={"Minimap Borders Enabled"} handleUpdateFunction={(checked) => fetchNui("ToggleMapBorders", {checked})}
     />
-    <Checkbox bind:checked={$MenuStore.isStaticEngineChecked}
+    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.engine}
       primaryText={"Show Engine Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("engine", checked);
         fetchNui("dynamicChange");
       }}
     />
-    <Checkbox bind:checked={$MenuStore.isStaticNitroChecked}
+    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.nitro}
       primaryText={"Show Nitro Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("nitro", checked);
@@ -219,7 +203,7 @@
     <Checkbox bind:checked={$MenuStore.isCineamticModeChecked}
       primaryText={"Show Cinematic Bars Enabled"} handleUpdateFunction={(checked) => fetchNui("cinematicMode", {checked})}
     />
-    <p class="self-center ml-auto opacity-05">{ String.fromCharCode(...absoluteMapDimensions)}</p>
+    <p class="self-center ml-auto opacity-05 select-none">{ String.fromCharCode(...absoluteMapDimensions)}</p>
   </div>
 </div>
 

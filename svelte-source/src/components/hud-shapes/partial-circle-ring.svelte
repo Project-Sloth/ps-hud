@@ -34,14 +34,21 @@
 
   const progressTween = tweened(transposeValue, {
 		duration: 600,
-		easing: linear
+		easing: linear,
 	});
+
+  const displayNumberTween = tweened(displayNumber, {
+    duration: 600,
+    easing: linear,
+  })
 
   $: {
     progressValue = Math.min(progressValue, maxProgressValue);
     transposeValue = progressValue / maxProgressValue * 100;
-    progressTween.set(transposeValue)
+    progressTween.set(transposeValue);
   }
+
+  $: displayNumberTween.set(displayNumber);
 
   let normalizedRadius: number = radius - (ringSize/2);
   let circumference: number = normalizedRadius * 2 * Math.PI;
@@ -117,7 +124,7 @@
   </g>
   {#if text}
   <text class="vehicle-number" fill="white" x="50%" y="45%" dominant-baseline="middle" text-anchor="middle">
-    {displayNumber}
+    {Math.floor($displayNumberTween)}
   </text>
   <text class="vehicle-text" fill="white" x="50%" y="70%" dominant-baseline="middle" text-anchor="middle">
     {text}

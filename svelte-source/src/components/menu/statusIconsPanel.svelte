@@ -1,7 +1,9 @@
 <script lang="ts">
   import Button from '../atoms/button.svelte';
   import { saveUIDataToServer } from '../../utils/eventHandler';
-  import PlayerHudUIStore from '../../stores/playerStatusHudStore';
+  import PlayerHudStore from '../../stores/playerStatusHudStore';
+  import ColorEffectStore from '../../stores/colorEffectStore';
+  import LayoutStore from '../../stores/layoutStore';
   import MenuStore from '../../stores/menuStore';
   import Switch from '../atoms/switch.svelte';
   import ProfilePanel from './profilePanel.svelte';
@@ -26,12 +28,18 @@
     </div>
     <div class="text-base">
       <p>Design Mode</p>
-      <Switch center bind:checked={$PlayerHudUIStore.designMode}/>
+      <Switch center bind:checked={$PlayerHudStore.designMode}/>
     </div>
     <div class="flex flex-1 min-w-min justify-end">
+      <Button name="Reset Status Icon Settings" buttonClass="mr-5 hover:bg-red-600"
+        on:click={() => {
+          PlayerHudStore.resetPlayerStatusIcons();
+          ColorEffectStore.resetColorEffects();
+          LayoutStore.resetLayout();
+        }}/>
       {#if $MenuStore.adminOnly && $MenuStore.isAdmin}
-        <Button name="Save Changes To Server" buttonClass={"h-10 w-55 whitespace-nowrap"} disable={$PlayerHudUIStore.saveUIState == "ready" ? false : true}
-          on:click={() => { saveUIDataToServer(); $PlayerHudUIStore.saveUIState = "updating" }}
+        <Button name="Save Changes To Server" buttonClass={"my-auto"} disable={$PlayerHudStore.saveUIState == "ready" ? false : true}
+          on:click={() => { saveUIDataToServer(); $PlayerHudStore.saveUIState = "updating" }}
         />
       {/if}
     </div>
@@ -44,4 +52,4 @@
   <UtilityFunctionPanel bind:group/>
   <ProfilePanel bind:group/>
 </div>
-<p class="mt-auto ml-auto opacity-05 pb-[29px] pr-[16px] text-sm">{ String.fromCharCode(...absoluteMapDimensions)}</p>
+<p class="mt-auto ml-auto opacity-05 pb-[29px] pr-[16px] text-sm select-none">{ String.fromCharCode(...absoluteMapDimensions)}</p>

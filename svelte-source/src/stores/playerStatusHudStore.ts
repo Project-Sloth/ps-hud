@@ -3,10 +3,9 @@ import { faHeart, faShieldAlt, faHamburger, faTint, faBrain, faStream,
   faParachuteBox, faMeteor, faLungs, faOilCan, faUserSlash,
   faTachometerAltFast, faTerminal, faHeadset, faMicrophone,
 } from '@fortawesome/free-solid-svg-icons'
-import type { playerHudIcons, shapekind, iconNamesKind, optionalHudIconType } from '../types/types';
-import { defaultHudIcon, createShapeIcon, playerStoreLocalStorageName } from '../types/types';
+import type { playerHudIcons, shapekind, iconNamesKind, optionalHudIconType, dynamicIcons, dynamicIconNamesKind } from '../types/types';
+import { defaultHudIcon, createShapeIcon, iconNames, playerStoreLocalStorageName } from '../types/types';
 import ColorEffectStore from './colorEffectStore';
-import MenuStore from './menuStore';
 
 type saveUIType = "ready" | "updating";
 
@@ -17,7 +16,8 @@ export type playerStatusType = {
   icons: playerHudIcons,
   saveUIState: saveUIType,
   show: boolean,
-  showingOrder: Array<keyof playerHudIcons>
+  showingOrder: Array<keyof playerHudIcons>,
+  dynamicIcons: dynamicIcons,
 }
 
 type playerHudShowMessageType = {
@@ -57,6 +57,10 @@ type playerHudUpdateMessageType = {
   cinematic: boolean,
   dev: boolean,
 }
+
+function capAmountToHundred(num: number) {
+  return Math.min(num, 100);
+}
   
 const store = () => {
   let stored: string = localStorage.getItem(playerStoreLocalStorageName);
@@ -65,7 +69,7 @@ const store = () => {
     storedObject = JSON.parse(stored);
   }
 
-  function getLocalStorage(key: iconNamesKind | "globalIconSettings", fallback: any) {
+  function getLocalStorage(key: iconNamesKind | keyof playerStatusType, fallback: any) {
     if (storedObject && storedObject[key] != null) {
       return storedObject[key];
     }
@@ -80,10 +84,10 @@ const store = () => {
         (({ isShowing, name, icon, progressValue, ...o }) => o)(defaultHudIcon())),
       icons: {
         voice: getLocalStorage("voice", defaultHudIcon("voice", true, faMicrophone)),
-        health: getLocalStorage("health", defaultHudIcon("health", true, faHeart)),
-        armor: getLocalStorage("armor", defaultHudIcon("armor", true, faShieldAlt)),
-        hunger: getLocalStorage("hunger", defaultHudIcon("hunger", true, faHamburger)),
-        thirst: getLocalStorage("thirst", defaultHudIcon("thirst", true, faTint)),
+        health: getLocalStorage("health", defaultHudIcon("health", false, faHeart)),
+        armor: getLocalStorage("armor", defaultHudIcon("armor", false, faShieldAlt)),
+        hunger: getLocalStorage("hunger", defaultHudIcon("hunger", false, faHamburger)),
+        thirst: getLocalStorage("thirst", defaultHudIcon("thirst", false, faTint)),
         stress: getLocalStorage("stress", defaultHudIcon("stress", false, faBrain)),
         oxygen: getLocalStorage("oxygen", defaultHudIcon("oxygen", false, faLungs)),
         armed: getLocalStorage("armed", defaultHudIcon("armed", false, faStream)),
@@ -94,6 +98,11 @@ const store = () => {
         nitro: getLocalStorage("nitro", defaultHudIcon("nitro", false, faMeteor)),
         dev: getLocalStorage("dev", defaultHudIcon("dev", false, faTerminal)),
       },
+      dynamicIcons: getLocalStorage("dynamicIcons", {
+        armor: false, engine: false, health: false,
+        hunger: false, nitro: false, oxygen: false,
+        stress: false, thirst: false,
+      }),
       saveUIState: "ready",
       show: false,
       showingOrder: ["voice", "health", "armor", "hunger", "thirst", "stress", "oxygen", "armed",
@@ -104,24 +113,6 @@ const store = () => {
   const playerHudUIState: playerStatusType = getDefaultSettings();
   
   const { subscribe, set, update } = writable(playerHudUIState);
-
-  let staticArmor: boolean, staticEngine: boolean, staticHealth: boolean, staticHunger: boolean,
-      staticNitro: boolean, staticOxygen: boolean, staticStress: boolean, staticThirst: boolean = false;
-
-  // Setting up menuStore subscribe method to update whether to show icons
-  // Need setTimeout to resolve import initialization
-  setTimeout(() => {
-    MenuStore.subscribe((val => {
-      staticArmor  = val.isStaticArmorChecked;
-      staticEngine = val.isStaticEngineChecked;
-      staticHealth = val.isStaticHealthChecked;
-      staticHunger = val.isStaticHungerChecked;
-      staticNitro  = val.isStaticNitroChecked;
-      staticOxygen = val.isStaticOxygenChecked;
-      staticStress = val.isStaticStressChecked;
-      staticThirst = val.isStaticThirstChecked;
-    }))
-  }, 0);
 
   const methods = {
     resetPlayerStatusIcons() {
@@ -220,32 +211,51 @@ const store = () => {
      })
     },
     updateShowingDynamicIcon(iconName: iconNamesKind, staticShow: boolean) {
+      let result: boolean = false;
       update(state => {
         switch (iconName) {
           case "armor":
             state.icons.armor.isShowing = methods.staticGenericZeroHandleShow(staticShow, state.icons.armor.progressValue);
+            result = state.icons.armor.isShowing;
             break;
           case "engine":
             state.icons.engine.isShowing = methods.staticEngineHandleShow(staticShow, state.icons.engine.progressValue);
+            result = state.icons.engine.isShowing;
             break;
           case "health":
             state.icons.health.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.icons.health.progressValue);
+            result = state.icons.health.isShowing;
             break;
           case "hunger":
             state.icons.hunger.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.icons.hunger.progressValue);
+            result = state.icons.hunger.isShowing;
             break;
           case "nitro":
             state.icons.nitro.isShowing = methods.staticNitroHandleShow(staticShow, state.icons.nitro.progressValue, state.icons.engine.progressValue);
+            result = state.icons.nitro.isShowing;
             break;
           case "oxygen":
             state.icons.oxygen.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.icons.oxygen.progressValue);
+            result = state.icons.oxygen.isShowing;
             break;
           case "stress":
             state.icons.stress.isShowing = methods.staticGenericZeroHandleShow(staticShow, state.icons.stress.progressValue);
+            result = state.icons.stress.isShowing;
             break;
           case "thirst":
             state.icons.thirst.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.icons.thirst.progressValue);
+            result = state.icons.thirst.isShowing;
             break;
+        }
+        return state;
+      })
+      return result;
+    },
+    updateAllShowingDynamicIcons(val: boolean) {
+      update(state => {
+        for (const icon in state.dynamicIcons) {
+          state.dynamicIcons[icon] = val;
+          state.icons[icon].isShowing = methods.updateShowingDynamicIcon(icon as dynamicIconNamesKind, val);
         }
         return state;
       })
@@ -259,23 +269,23 @@ const store = () => {
     receiveStatusUpdateMessage(data: playerHudUpdateMessageType) {
       update(state => {
         state.show = data.show;
-        state.icons.health.progressValue = data.health;
-        state.icons.armor.progressValue = data.armor;
-        state.icons.thirst.progressValue = data.thirst;
-        state.icons.hunger.progressValue = data.hunger;
-        state.icons.stress.progressValue = data.stress;
+        state.icons.health.progressValue = capAmountToHundred(data.health);
+        state.icons.armor.progressValue = capAmountToHundred(data.armor);
+        state.icons.thirst.progressValue = capAmountToHundred(data.thirst);
+        state.icons.hunger.progressValue = capAmountToHundred(data.hunger);
+        state.icons.stress.progressValue = capAmountToHundred(data.stress);
         // Should be 1.5, 3, 6 so * 16.6 to show progress
-        state.icons.voice.progressValue = data.voice * 16.6;
-        state.icons.oxygen.progressValue = data.oxygen;
-        state.icons.parachute.progressValue = data.parachute;
-        state.icons.engine.progressValue = data.engine;
+        state.icons.voice.progressValue = capAmountToHundred(data.voice * 16.6);
+        state.icons.oxygen.progressValue = capAmountToHundred(data.oxygen);
+        state.icons.parachute.progressValue = capAmountToHundred(data.parachute);
+        state.icons.engine.progressValue = capAmountToHundred(data.engine);
         // I am guessing harness hp max is 20?
-        state.icons.harness.progressValue = data.hp*5;
-        state.icons.cruise.progressValue = data.speed;
+        state.icons.harness.progressValue = capAmountToHundred(data.hp*5);
+        state.icons.cruise.progressValue = capAmountToHundred(data.speed);
         // This needs to be a number so default to 0
-        state.icons.nitro.progressValue = data.nos || 0;
+        state.icons.nitro.progressValue = capAmountToHundred(data.nos || 0);
 
-        state.icons.health.isShowing = methods.staticGenericHundredHandleShow(staticHealth, state.icons.health.progressValue);
+        state.icons.health.isShowing = methods.staticGenericHundredHandleShow(state.dynamicIcons.health, state.icons.health.progressValue);
 
         if (data.playerDead) {
           ColorEffectStore.updateIconEffectStage("health", 1);
@@ -284,7 +294,7 @@ const store = () => {
           ColorEffectStore.updateIconEffectStage("health", 0);
         }
 
-        state.icons.armor.isShowing = methods.staticGenericZeroHandleShow(staticArmor, state.icons.armor.progressValue);
+        state.icons.armor.isShowing = methods.staticGenericZeroHandleShow(state.dynamicIcons.armor, state.icons.armor.progressValue);
   
         if (data.armor <= 0) {
           ColorEffectStore.updateIconEffectStage("armor", 1);
@@ -292,7 +302,7 @@ const store = () => {
           ColorEffectStore.updateIconEffectStage("armor", 0);
         }
   
-        state.icons.hunger.isShowing = methods.staticGenericHundredHandleShow(staticHunger, state.icons.hunger.progressValue);
+        state.icons.hunger.isShowing = methods.staticGenericHundredHandleShow(state.dynamicIcons.hunger, state.icons.hunger.progressValue);
 
         if (data.hunger <= 30){
           ColorEffectStore.updateIconEffectStage("hunger", 1);
@@ -300,7 +310,7 @@ const store = () => {
           ColorEffectStore.updateIconEffectStage("hunger", 0);
         }
 
-        state.icons.thirst.isShowing = methods.staticGenericHundredHandleShow(staticThirst, state.icons.thirst.progressValue);
+        state.icons.thirst.isShowing = methods.staticGenericHundredHandleShow(state.dynamicIcons.thirst, state.icons.thirst.progressValue);
 
         if (data.thirst <= 30) {
           ColorEffectStore.updateIconEffectStage("thirst", 1);
@@ -308,11 +318,11 @@ const store = () => {
           ColorEffectStore.updateIconEffectStage("thirst", 0);
         }
 
-        state.icons.stress.isShowing = methods.staticGenericZeroHandleShow(staticStress, state.icons.stress.progressValue);
+        state.icons.stress.isShowing = methods.staticGenericZeroHandleShow(state.dynamicIcons.stress, state.icons.stress.progressValue);
 
-        state.icons.oxygen.isShowing = methods.staticGenericHundredHandleShow(staticOxygen, state.icons.oxygen.progressValue);
+        state.icons.oxygen.isShowing = methods.staticGenericHundredHandleShow(state.dynamicIcons.oxygen, state.icons.oxygen.progressValue);
 
-        state.icons.engine.isShowing = methods.staticEngineHandleShow(staticEngine, state.icons.engine.progressValue);
+        state.icons.engine.isShowing = methods.staticEngineHandleShow(state.dynamicIcons.engine, state.icons.engine.progressValue);
 
         if (data.engine <= 45) {
           ColorEffectStore.updateIconEffectStage("engine", 2);
@@ -322,7 +332,7 @@ const store = () => {
           ColorEffectStore.updateIconEffectStage("engine", 0);
         } 
   
-        state.icons.nitro.isShowing = methods.staticNitroHandleShow(staticNitro, state.icons.nitro.progressValue, state.icons.engine.progressValue);
+        state.icons.nitro.isShowing = methods.staticNitroHandleShow(state.dynamicIcons.nitro, state.icons.nitro.progressValue, state.icons.engine.progressValue);
 
         if (data.nitroActive) {
           ColorEffectStore.updateIconEffectStage("nitro", 1);

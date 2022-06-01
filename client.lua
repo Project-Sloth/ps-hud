@@ -32,7 +32,7 @@ local w = 0
 local radioTalking = false
 local Menu = {
     isOutMapChecked = true, -- isOutMapChecked
-    isOutCompassChecked = true, -- isOutMapChecked
+    isOutCompassChecked = true, -- isOutCompassChecked
     isCompassFollowChecked = true, -- isCompassFollowChecked
     isOpenMenuSoundsChecked = true, -- isOpenMenuSoundsChecked
     isResetSoundsChecked = true, -- isResetSoundsChecked
@@ -40,8 +40,7 @@ local Menu = {
     isMapNotifChecked = true, -- isMapNotifChecked
     isLowFuelChecked = true, -- isLowFuelChecked
     isCinematicNotifChecked = true, -- isCinematicNotifChecked
-    isChangeFPSChecked = true, -- isChangeFPSChecked
-    isHideMapChecked = false, -- isHideMapChecked
+    isMapEnabledChecked = false, -- isMapEnabledChecked
     isToggleMapBordersChecked = true, -- isToggleMapBordersChecked
     isDynamicEngineChecked = true, -- isDynamicEngineChecked
     isDynamicNitroChecked = true, -- isDynamicNitroChecked
@@ -74,30 +73,9 @@ local function CinematicShow(bool)
 end
 
 local function loadSettings()
-    -- for k,v in pairs(settings) do
-    --     if k == 'isToggleMapShapeChecked' then
-    --         Menu.isToggleMapShapeChecked = v
-    --         SendNUIMessage({ test = true, event = k, toggle = v})
-    --     elseif k == 'isCineamticModeChecked' then
-    --         Menu.isCineamticModeChecked = v
-    --         CinematicShow(v)
-    --         SendNUIMessage({ test = true, event = k, toggle = v})
-    --     elseif k == 'isChangeFPSChecked' then
-    --         Menu[k] = v
-    --         local val = v and 'Optimized' or 'Synced'
-    --         SendNUIMessage({ test = true, event = k, toggle = val})
-    --     else
-    --         Menu[k] = v
-    --         SendNUIMessage({ test = true, event = k, toggle = v})
-    --     end
-    -- end
     QBCore.Functions.Notify(Lang:t("notify.hud_settings_loaded"), "success")
     Wait(1000)
     TriggerEvent("hud:client:LoadMap")
-end
-
-local function saveSettings()
-    SetResourceKvp('hudSettings', json.encode(Menu))
 end
 
 local function SendAdminStatus()
@@ -263,7 +241,6 @@ RegisterNUICallback('openMenuSounds', function(data, cb)
         Menu.isOpenMenuSoundsChecked = false
     end 
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNetEvent("hud:client:playOpenMenuSounds", function()
@@ -287,7 +264,6 @@ RegisterNUICallback('resetHudSounds', function(data, cb)
         Menu.isResetSoundsChecked = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNetEvent("hud:client:playResetHudSounds", function()
@@ -305,7 +281,6 @@ RegisterNUICallback('checklistSounds', function(data, cb)
         Menu.isListSoundsChecked = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNetEvent("hud:client:playHudChecklistSound", function()
@@ -323,7 +298,6 @@ RegisterNUICallback('showOutMap', function(data, cb)
         Menu.isOutMapChecked = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNUICallback('saveUISettings', function(data, cb)
@@ -342,7 +316,6 @@ RegisterNUICallback('showOutCompass', function(data, cb)
         Menu.isOutCompassChecked = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNUICallback('showFollowCompass', function(data, cb)
@@ -354,7 +327,6 @@ RegisterNUICallback('showFollowCompass', function(data, cb)
         Menu.isCompassFollowChecked = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNUICallback('showMapNotif', function(data, cb)
@@ -366,7 +338,6 @@ RegisterNUICallback('showMapNotif', function(data, cb)
         Menu.isMapNotifChecked = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNUICallback('showFuelAlert', function(data, cb)
@@ -378,7 +349,6 @@ RegisterNUICallback('showFuelAlert', function(data, cb)
         Menu.isLowFuelChecked = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNUICallback('showCinematicNotif', function(data, cb)
@@ -390,7 +360,6 @@ RegisterNUICallback('showCinematicNotif', function(data, cb)
         Menu.isCinematicNotifChecked = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 -- Status
@@ -401,29 +370,16 @@ RegisterNUICallback('dynamicChange', function(_, cb)
 end)
 
 -- Vehicle
-RegisterNUICallback('changeFPS', function(data, cb)
-    cb({})
-    Wait(50)
-    if (data.fps == "optimized") then
-        Menu.isChangeFPSChecked = true
-    else
-        Menu.isChangeFPSChecked = false
-    end
-    TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
-end)
-
 RegisterNUICallback('HideMap', function(data, cb)
     cb({})
     Wait(50)
     if data.checked then
-        Menu.isHideMapChecked = true
+        Menu.isMapEnabledChecked = true
     else
-        Menu.isHideMapChecked = false
+        Menu.isMapEnabledChecked = false
     end
-    DisplayRadar(not Menu.isHideMapChecked)
+    DisplayRadar(Menu.isMapEnabledChecked)
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNetEvent("hud:client:LoadMap", function()
@@ -516,13 +472,12 @@ end)
 RegisterNUICallback('ToggleMapShape', function(data, cb)
     cb({})
     Wait(50)
-    if not Menu.isHideMapChecked then
+    if Menu.isMapEnabledChecked then
         Menu.isToggleMapShapeChecked = data.shape
         Wait(50)
         TriggerEvent("hud:client:LoadMap")
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNUICallback('ToggleMapBorders', function(data, cb)
@@ -545,7 +500,6 @@ RegisterNUICallback('ToggleMapBorders', function(data, cb)
         showCircleB = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 -- Compass
@@ -558,7 +512,6 @@ RegisterNUICallback('showCompassBase', function(data, cb)
         Menu.isCompassShowChecked = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNUICallback('showStreetsNames', function(data, cb)
@@ -570,7 +523,6 @@ RegisterNUICallback('showStreetsNames', function(data, cb)
         Menu.isShowStreetsChecked = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNUICallback('showPointerIndex', function(data, cb)
@@ -582,7 +534,6 @@ RegisterNUICallback('showPointerIndex', function(data, cb)
         Menu.isPointerShowChecked = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNUICallback('showDegreesNum', function(data, cb)
@@ -594,7 +545,6 @@ RegisterNUICallback('showDegreesNum', function(data, cb)
         Menu.isDegreesShowChecked = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNUICallback('changeCompassFPS', function(data, cb)
@@ -606,7 +556,6 @@ RegisterNUICallback('changeCompassFPS', function(data, cb)
         Menu.isChangeCompassFPSChecked = false
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
 end)
 
 RegisterNUICallback('cinematicMode', function(data, cb)
@@ -625,11 +574,34 @@ RegisterNUICallback('cinematicMode', function(data, cb)
         local player = PlayerPedId()
         local vehicle = GetVehiclePedIsIn(player)
         if (IsPedInAnyVehicle(player) and not IsThisModelABicycle(vehicle)) or not Menu.isOutMapChecked then
-            DisplayRadar(1)
+            DisplayRadar(true)
         end
     end
     TriggerEvent("hud:client:playHudChecklistSound")
-    saveSettings()
+end)
+
+RegisterNUICallback('updateMenuSettingsToClient', function(data, cb)
+    Menu.isOutMapChecked = data.isOutMapChecked
+    Menu.isOutCompassChecked = data.isOutCompassChecked
+    Menu.isCompassFollowChecked = data.isCompassFollowChecked
+    Menu.isOpenMenuSoundsChecked = data.isOpenMenuSoundsChecked
+    Menu.isResetSoundsChecked = data.isResetSoundsChecked
+    Menu.isListSoundsChecked = data.isListSoundsChecked
+    Menu.isMapNotifChecked = data.isMapNotifyChecked
+    Menu.isLowFuelChecked = data.isLowFuelAlertChecked
+    Menu.isCinematicNotifChecked = data.isCinematicNotifyChecked
+    Menu.isMapEnabledChecked = data.isMapEnabledChecked
+    Menu.isToggleMapShapeChecked = data.isToggleMapShapeChecked
+    Menu.isToggleMapBordersChecked = data.isToggleMapBordersChecked
+    Menu.isCompassShowChecked = data.isShowCompassChecked
+    Menu.isShowStreetsChecked = data.isShowStreetsChecked
+    Menu.isPointerShowChecked = data.isPointerShowChecked
+    CinematicShow(data.isCineamticModeChecked)
+    cb({})
+    if Menu.isMapEnabledChecked then
+        Wait(50)
+        TriggerEvent("hud:client:LoadMap")
+    end
 end)
 
 RegisterNetEvent("hud:client:EngineHealth", function(newEngine)
@@ -736,7 +708,7 @@ RegisterNetEvent('hud:client:EnhancementEffect', function(data)
             enhancementName = data.enhancementName,
         })
     else
-        print("PS-hud error: data invalid from client event call: hud:client:EnhancementEffect")
+        print("PS-Hud error: data invalid from client event call: hud:client:EnhancementEffect")
     end
 end)
 
@@ -886,11 +858,7 @@ CreateThread(function()
     local wasInVehicle = false
     while true do        
         if LocalPlayer.state.isLoggedIn then
-            if Menu.isChangeFPSChecked then
-                Wait(500)
-            else
-                Wait(50)
-            end
+            Wait(500)
 
             local show = true
             local player = PlayerPedId()
@@ -974,7 +942,7 @@ CreateThread(function()
 
             if IsPedInAnyVehicle(player) and not IsThisModelABicycle(vehicle) then
                 if not wasInVehicle then
-                    DisplayRadar(true)
+                    DisplayRadar(Menu.isMapEnabledChecked)
                 end
 
                 wasInVehicle = true

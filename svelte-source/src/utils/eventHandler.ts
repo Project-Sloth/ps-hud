@@ -179,6 +179,7 @@ export async function saveUIDataToLocalStorage() {
     {
       ...playerStatusIcondata.icons,
       globalIconSettings: playerStatusIcondata.globalIconSettings,
+      dynamicIcons: playerStatusIcondata.dynamicIcons,
     }));
 
   localStorage.setItem(layoutStoreLocalStorageName, JSON.stringify(layoutData));

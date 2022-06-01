@@ -15,7 +15,7 @@
     </div>
   {/if}
   {#if $MoneyHudStore.showUpdate}
-    <div id="money-change">
+    <div transition:fade|local="{{duration: 1000}}">
       {#if $MoneyHudStore.plus}
         <p id="money"><span id="plus">+&nbsp;</span><span id="money">{$MoneyHudStore.amount}</span></p>
       {:else if $MoneyHudStore.minus}

@@ -3,17 +3,17 @@ import { fetchNui } from '../utils/eventHandler';
 import DebugStore from './debugStore';
 import { menuStoreLocalStorageName } from '../types/types';
 import { saveUIDataToLocalStorage } from '../utils/eventHandler';
+import PlayerHudStore from '../stores/playerStatusHudStore';
 
 type menuStatus = {
   show: boolean,
   isRestarting: boolean,
   adminOnly: boolean,
   isAdmin: boolean,
-  isChangeFPSChecked: "optimized" | "synced",
   isCineamticModeChecked: boolean,
   isCinematicNotifyChecked: boolean,
   isCompassFollowChecked: boolean,
-  isHideMapChecked: boolean,
+  isMapEnabledChecked: boolean,
   isListSoundsChecked: boolean,
   isLowFuelAlertChecked: boolean,
   isMapNotifyChecked: boolean,
@@ -24,14 +24,6 @@ type menuStatus = {
   isResetSoundsChecked: boolean,
   isShowCompassChecked: boolean,
   isShowStreetsChecked: boolean,
-  isStaticArmorChecked: boolean,
-  isStaticEngineChecked: boolean,
-  isStaticHealthChecked: boolean,
-  isStaticHungerChecked: boolean,
-  isStaticNitroChecked: boolean,
-  isStaticOxygenChecked: boolean,
-  isStaticStressChecked: boolean,
-  isStaticThirstChecked: boolean,
   isToggleMapBordersChecked: boolean, 
   isToggleMapShapeChecked: "circle" | "square"
 }
@@ -56,11 +48,10 @@ const store = () => {
       isRestarting: false,
       adminOnly: false || DebugStore,
       isAdmin: false || DebugStore,
-      isChangeFPSChecked: getLocalStorage("isChangeFPSChecked", "Optimized"),
       isCineamticModeChecked: getLocalStorage("isCineamticModeChecked", false),
       isCinematicNotifyChecked: getLocalStorage("isCinematicNotifChecked", true),
       isCompassFollowChecked: getLocalStorage("isCompassFollowChecked", true),
-      isHideMapChecked: getLocalStorage("isHideMapChecked", true),
+      isMapEnabledChecked: getLocalStorage("isHideMapChecked", true),
       isListSoundsChecked: getLocalStorage("isListSoundsChecked", true),
       isLowFuelAlertChecked: getLocalStorage("isLowFuelChecked", true),
       isMapNotifyChecked: getLocalStorage("isMapNotifChecked", true),
@@ -71,14 +62,6 @@ const store = () => {
       isResetSoundsChecked: getLocalStorage("isResetSoundsChecked", true),
       isShowCompassChecked: getLocalStorage("isShowCompassChecked", true),
       isShowStreetsChecked: getLocalStorage("isShowStreetsChecked", true),
-      isStaticArmorChecked: getLocalStorage("isStaticArmorChecked", false),
-      isStaticEngineChecked: getLocalStorage("isStaticEngineChecked", false),
-      isStaticHealthChecked: getLocalStorage("isStaticHealthChecked", false),
-      isStaticHungerChecked: getLocalStorage("isStaticHungerChecked", false),
-      isStaticNitroChecked: getLocalStorage("isStaticNitroChecked", false),
-      isStaticOxygenChecked: getLocalStorage("isStaticOxygenChecked", false),
-      isStaticStressChecked: getLocalStorage("isStaticStressChecked", false),
-      isStaticThirstChecked: getLocalStorage("isStaticThirstChecked", false),
       isToggleMapBordersChecked: getLocalStorage("isToggleMapBordersChecked", true), 
       isToggleMapShapeChecked: getLocalStorage("isToggleMapShapeChecked", "circle"),
     }
@@ -137,29 +120,40 @@ const store = () => {
     resetHudMenuSetting() {
       storedObject = {};
       localStorage.removeItem(menuStoreLocalStorageName);
-      set({...getDefaultSettings(), show: true});
+      update(state => {
+        let newState: menuStatus = { 
+          ...getDefaultSettings(),
+          show: true,
+          adminOnly: state.adminOnly,
+          isAdmin: state.isAdmin
+        };
+        state = newState;
+        return state;
+      });
+      // Call PlayerStatus Reset Dynamic icon settings to false
+      PlayerHudStore.updateAllShowingDynamicIcons(false);
+
     },
     sendMenuSettingsToClient() {
       update(state => {
         fetchNui("updateMenuSettingsToClient", 
         {
-          "showOutMap": state.isOutMapChecked,
-          "showOutCompass": state.isOutCompassChecked,
-          "showFollowCompass": state.isCompassFollowChecked,
-          "openMenuSounds": state.isOpenMenuSoundsChecked,
-          "resetHudSounds": state.isResetSoundsChecked,
-          "checklistSounds": state.isListSoundsChecked,
-          "showMapNotif": state.isMapNotifyChecked,
-          "showFuelAlert": state.isLowFuelAlertChecked,
-          "showCinematicNotif": state.isCinematicNotifyChecked,
-          "changeFPS": state.isChangeFPSChecked,
-          "ToggleMapShape": state.isToggleMapShapeChecked,
-          "HideMap": state.isHideMapChecked,
-          "ToggleMapBorders": state.isToggleMapBordersChecked,
-          "showCompassBase": state.isShowCompassChecked,
-          "showStreetsNames": state.isShowStreetsChecked,
-          "showPointerIndex": state.isPointerShowChecked,
-          "cinematicMode": state.isCineamticModeChecked,
+          "isOutMapChecked": state.isOutMapChecked,
+          "isOutCompassChecked": state.isOutCompassChecked,
+          "isCompassFollowChecked": state.isCompassFollowChecked,
+          "isOpenMenuSoundsChecked": state.isOpenMenuSoundsChecked,
+          "isResetSoundsChecked": state.isResetSoundsChecked,
+          "isListSoundsChecked": state.isListSoundsChecked,
+          "isMapNotifyChecked": state.isMapNotifyChecked,
+          "isLowFuelAlertChecked": state.isLowFuelAlertChecked,
+          "isCinematicNotifyChecked": state.isCinematicNotifyChecked,
+          "isToggleMapShapeChecked": state.isToggleMapShapeChecked,
+          "isMapEnabledChecked": state.isMapEnabledChecked,
+          "isToggleMapBordersChecked": state.isToggleMapBordersChecked,
+          "isShowCompassChecked": state.isShowCompassChecked,
+          "isShowStreetsChecked": state.isShowStreetsChecked,
+          "isPointerShowChecked": state.isPointerShowChecked,
+          "isCineamticModeChecked": state.isCineamticModeChecked,
         });
         return state;
       })

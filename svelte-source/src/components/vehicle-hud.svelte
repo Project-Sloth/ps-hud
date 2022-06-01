@@ -32,7 +32,15 @@
     </div>
   {/if}
 
-  {#if $VehicleHudStore.showSeatBelt}
+  <!-- When in heli or plane -->
+  {#if $VehicleHudStore.showSeatBelt && $VehicleHudStore.showAltitude}
+    <div transition:fade|local="{{duration: 500}}">
+      <div class="responsive" id="seatbeltAltitude">
+        <Fa icon={faUserSlash} scale={1.1} style="color:{$VehicleHudStore.seatbeltColor}"/>
+      </div>
+    </div>
+  <!-- When in car -->
+  {:else if $VehicleHudStore.showSeatBelt}
     <div transition:fade|local="{{duration: 500}}">
       <div class="responsive" id="seatbelt">
         <Fa icon={faUserSlash} scale={1.1} style="color:{$VehicleHudStore.seatbeltColor}"/>
@@ -144,6 +152,11 @@
     left: 4.1vw!important;
     bottom: 8.5vh!important;
   }
+  #seatbeltAltitude {
+    position: relative;
+    left: 2.8vw!important;
+    bottom: 12vh!important;
+  }
 }
 
 @media (width: 1920px) and (height: 1440px) {
@@ -168,6 +181,11 @@
   #seatbelt {
     position: relative;
     left: 7.5vw!important;
+  }
+  #seatbeltAltitude {
+    position: relative;
+    left: 5.5vw!important;
+    bottom: 11vh!important;
   }
 }
 
@@ -194,6 +212,11 @@
     position: relative;
     left: 6.5vw!important;
   }
+  #seatbeltAltitude {
+    position: relative;
+    left: 4.75vw!important;
+    bottom: 11vh!important;
+  }
 }
 
 @media (width: 1920px) and (height: 1080px) {
@@ -219,12 +242,17 @@
     position: relative;
     left: 6.5vw!important;
   }
+  #seatbeltAltitude {
+    position: relative;
+    left: 4.7vw!important;
+    bottom: 11vh!important;
+  }
 }
 
 @media (width: 1280px) and (height: 720px) {
   .responsive {
     margin-left: 30vh!important;
-    transform: scale(0.65, 0.65);
+    transform: scale(1, 1);
     bottom: 5.8vh!important;
   }
   #speedometer {
@@ -242,7 +270,12 @@
   }
   #seatbelt {
     position: relative;
-    left: 7.5vw!important;
+    left: 7.7vw!important;
+  }
+  #seatbeltAltitude {
+    position: relative;
+    left: 5.9vw!important;
+    bottom: 13vh!important;
   }
 }
 </style>

@@ -88,15 +88,15 @@ const store = () => {
         state.bank = data.bank;
         state.cash = data.cash;
         state.minus = data.minus;
-        state.plus = data.plus;
+        state.plus = !data.minus;
 
         if (data.type == "cash") {
           state.showCash = true;
         } else if (data.type == "bank") {
           state.showBank = true;
         }
-        setTimeout(() => methods.finishShowingUpdate(), 2000);
-        setTimeout(() => methods.finishShowingMoney(data.type), 3000);
+        setTimeout(() => methods.finishShowingUpdate(), 3000);
+        setTimeout(() => methods.finishShowingMoney(data.type), 4000);
 
         return state;
       });
