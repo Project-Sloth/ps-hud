@@ -15,7 +15,6 @@
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
-  export let innerColorOpacity: number = 1;
   export let name: string = "";
   export let outlineColor: string = "red";
   export let outlineContrast: number = 100;
@@ -64,10 +63,9 @@
     </linearGradient>
   </defs> -->
   <defs>
-    <clipPath id="{name}-cut-out-hexring">
+    <clipPath viewBox="0 0 12 12" id="{name}-cut-out-hexring">
         <path d="M11.7 1.1732C11.8856 1.06603 12.1144 1.06603 12.3 1.17321L21.2263 6.3268C21.4119 6.43397 21.5263 6.63205 21.5263 6.84641V17.1536C21.5263 17.3679 21.4119 17.566 21.2263 17.6732L12.3 22.8268C12.1144 22.934 11.8856 22.934 11.7 22.8268L2.77372 17.6732C2.58808 17.566 2.47372 17.3679 2.47372 17.1536V6.84641C2.47372 6.63205 2.58808 6.43397 2.77372 6.32679L11.7 1.1732Z"
           class="stroke-cap-round"
-          stroke-width={width/2}
         />
     </clipPath>
   </defs>
@@ -78,20 +76,11 @@
     transform="
       { rotateDegree > 0 ? "rotate("+rotateDegree+" "+12+" "+12+")": ""}"
   >
-    <line
-      x1="50%"
-      y1={24}
-      x2="50%"
-      y2={0}
-      stroke={"black"}
-      stroke-width={width}
-      clip-path="url(#{name}-cut-out-hexring)"
-    />
     {#if displayOutline}
     <path d="M11.7 1.1732C11.8856 1.06603 12.1144 1.06603 12.3 1.17321L21.2263 6.3268C21.4119 6.43397 21.5263 6.63205 21.5263 6.84641V17.1536C21.5263 17.3679 21.4119 17.566 21.2263 17.6732L12.3 22.8268C12.1144 22.934 11.8856 22.934 11.7 22.8268L2.77372 17.6732C2.58808 17.566 2.47372 17.3679 2.47372 17.1536V6.84641C2.47372 6.63205 2.58808 6.43397 2.77372 6.32679L11.7 1.1732Z"
       class="stroke-cap-round"
       stroke={outlineColor}
-      fill={innerColor}
+      fill={"transparent"}
       stroke-width={ringSize}
       stroke-dasharray={pathLength +' ' + pathLength}
       stroke-dashoffset={0}
@@ -111,6 +100,13 @@
       style="filter: {progressDropShadowAmount ? "drop-shadow(0px 0px "+progressDropShadowAmount+"px "+progressColor+")": ""}
                      {"contrast("+progressContrast+"%)"};"
     />
+    <svg viewBox="0 0 {24+ringSize+0.38} {24+ringSize+0.38}">
+      <path d="M11.7 1.1732C11.8856 1.06603 12.1144 1.06603 12.3 1.17321L21.2263 6.3268C21.4119 6.43397 21.5263 6.63205 21.5263 6.84641V17.1536C21.5263 17.3679 21.4119 17.566 21.2263 17.6732L12.3 22.8268C12.1144 22.934 11.8856 22.934 11.7 22.8268L2.77372 17.6732C2.58808 17.566 2.47372 17.3679 2.47372 17.1536V6.84641C2.47372 6.63205 2.58808 6.43397 2.77372 6.32679L11.7 1.1732Z"
+      class="stroke-cap-round"
+      fill={innerColor}
+      transform="translate({0.45+ringSize/2.5}, {0.45+ringSize/2.5})"
+      />
+    </svg>
   </g>
   <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
                     {"contrast("+iconContrast+"%)"};">

@@ -24,7 +24,7 @@ export type layoutPresetKind = typeof layoutPresets[number];
 
 export const shapes = [
   "badge", "circle-ring", "circle-ring-whole", "circle-circle-fill", "circle-square-fill", "circle-whole", //"cylinder",
-  "diamond-ring", "diamond-whole", "hexagon-ring", "hexagon-whole", "horizontal-bar",
+  "diamond-ring", "diamond-whole", "hexagon-ring", "hexagon-whole", "horizontal-bar", "icon",
   "icon-percentage", "pill-ring", "pill-whole",
   "square-circular-fill", "square-ring", "square-whole", "star-ring", "triangle-ring", 
   // "vertical-bar",
@@ -342,3 +342,7 @@ export const playerStoreLocalStorageName: string = "PSHudPlayerStatus";
 export const layoutStoreLocalStorageName: string = "PSHudLayout";
 export const colorStoreLocalStorageName: string = "PSHudColor";
 export const profileLocalStorageName: string = "PSHudProfile";
+
+export function capAmountToHundred(num: number) {
+  return Math.min(num, 100);
+}

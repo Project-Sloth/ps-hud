@@ -4,7 +4,7 @@ import { faHeart, faShieldAlt, faHamburger, faTint, faBrain, faStream,
   faTachometerAltFast, faTerminal, faHeadset, faMicrophone,
 } from '@fortawesome/free-solid-svg-icons'
 import type { playerHudIcons, shapekind, iconNamesKind, optionalHudIconType, dynamicIcons, dynamicIconNamesKind } from '../types/types';
-import { defaultHudIcon, createShapeIcon, iconNames, playerStoreLocalStorageName } from '../types/types';
+import { defaultHudIcon, createShapeIcon, capAmountToHundred, playerStoreLocalStorageName } from '../types/types';
 import ColorEffectStore from './colorEffectStore';
 
 type saveUIType = "ready" | "updating";
@@ -56,10 +56,6 @@ type playerHudUpdateMessageType = {
   engine: number,
   cinematic: boolean,
   dev: boolean,
-}
-
-function capAmountToHundred(num: number) {
-  return Math.min(num, 100);
 }
   
 const store = () => {
@@ -406,6 +402,14 @@ const store = () => {
         state.saveUIState = "ready";
         return state;
       });
+    },
+    receiveProfileData(data) {
+      methods.receiveUIUpdateMessage(data.icons);
+      update(state => {
+        state.globalIconSettings = data.globalIconSettings;
+        state.showingOrder = data.showingOrder;
+        return state;
+      })
     },
     staticGenericZeroHandleShow(staticSetting: boolean, currentValue: number): boolean {
       if (staticSetting) {

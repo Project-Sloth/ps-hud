@@ -19,6 +19,8 @@
   import SquareCircularFill from './hud-shapes/square-circular-fill.svelte';
   import SquareWhole from './hud-shapes/square-whole.svelte';
   import IconPercentage from './hud-shapes/icon-percentage.svelte';
+  import Icon from './hud-shapes/icon.svelte';
+
   export let hudIconInfo: optionalHudIconMetaShapeType = {};
 
   let shapeProps: shapePropsType;
@@ -62,6 +64,8 @@
   <SquareWhole {...shapeProps} />
 {:else if hudIconInfo.shape == 'icon-percentage'}
   <IconPercentage {...shapeProps} />
+{:else if hudIconInfo.shape == "icon"}
+  <Icon {...shapeProps} />
 {:else if hudIconInfo.shape == 'pill-ring'}
   <PillRing {...shapeProps} />
 {:else if hudIconInfo.shape == 'pill-whole'}

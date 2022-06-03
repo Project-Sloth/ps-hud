@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store'
+import { capAmountToHundred } from '../types/types'
 
 type vehicleStatusType = {
   fuelColor: string,
@@ -66,7 +67,8 @@ const store = () => {
         state.show = data.show;
         state.speed = data.speed;
         state.altitude = data.altitude;
-        state.fuel = data.fuel * 0.71;
+        console.log("Fuel Amount:", data.fuel);
+        state.fuel = capAmountToHundred(data.fuel);
         state.showSeatBelt = data.showSeatbelt;
         state.showAltitude = data.showAltitude;
         state.showSquareBorder = data.showSquareB;

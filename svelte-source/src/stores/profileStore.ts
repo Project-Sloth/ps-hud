@@ -52,10 +52,13 @@ const store = () => {
     },
     applyProfileToHud(index: number) {
       update(state => {
-        let saveStateObject: savedDataObject = JSON.parse(state[index].savedData);
-        PlayerHudStore.receiveUIUpdateMessage(saveStateObject.playerStatusIconData.icons);
-        ColorEffectStore.receiveUIUpdateMessage(saveStateObject.colorData.icons);
-        LayoutStore.receiveUIUpdateMessage(saveStateObject.layoutData as any);
+        // User could create a profile without saving hud to profile before apply
+        if (state[index] && state[index].savedData) {
+          let saveStateObject: savedDataObject = JSON.parse(state[index].savedData);
+          PlayerHudStore.receiveProfileData(saveStateObject.playerStatusIconData);
+          ColorEffectStore.receiveUIUpdateMessage(saveStateObject.colorData.icons);
+          LayoutStore.receiveUIUpdateMessage(saveStateObject.layoutData as any);
+        }
         return state;
       });
     },
