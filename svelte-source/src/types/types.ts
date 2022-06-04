@@ -24,7 +24,7 @@ export type layoutPresetKind = typeof layoutPresets[number];
 
 export const shapes = [
   "badge", "circle-ring", "circle-ring-whole", "circle-circle-fill", "circle-square-fill", "circle-whole", //"cylinder",
-  "diamond-ring", "diamond-whole", "hexagon-ring", "hexagon-whole", "horizontal-bar", "icon",
+  "diamond-ring", "diamond-whole", "hexagon-ring", "hexagon-whole", "horizontal-bar", //"icon",
   "icon-percentage", "pill-ring", "pill-whole",
   "square-circular-fill", "square-ring", "square-whole", "star-ring", "triangle-ring", 
   // "vertical-bar",

@@ -72,6 +72,22 @@ local function CinematicShow(bool)
     end
 end
 
+local function hasHarness(items)
+    local ped = PlayerPedId()
+    if not IsPedInAnyVehicle(ped, false) then return end
+
+    local _harness = false
+    if items then 
+        for _, v in pairs(items) do
+            if v.name == 'harness' then
+                _harness = true
+            end
+        end
+    end
+
+    harness = _harness
+end
+
 local function loadSettings()
     QBCore.Functions.Notify(Lang:t("notify.hud_settings_loaded"), "success")
     Wait(1000)
@@ -1067,13 +1083,7 @@ CreateThread(function()
         if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
             if IsPedInAnyVehicle(ped, false) then
-                QBCore.Functions.TriggerCallback('hud:server:HasHarness', function(hasItem)
-                    if hasItem then
-                        harness = true
-                    else
-                        harness = false
-                    end
-                end, "harness")
+                hasHarness(PlayerData.items)
             end
         end
     end
@@ -1118,8 +1128,10 @@ CreateThread(function() -- Shooting
                     if math.random() < config.StressChance then
                         TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
                     end
+                    Wait(100)
+                else
+                    Wait(500)
                 end
-                Wait(8)
             else
                 Wait(1000)
             end

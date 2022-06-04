@@ -169,7 +169,18 @@ const store = () => {
     updateAllDefaultEffectColorSetting(colorSetting: colorNamesKind, newValue: any) {
       update(state => {
         for (let iconColorEffect of Object.keys(state.icons)) {
-          state.icons[iconColorEffect].colorEffects[0][colorSetting] = newValue;
+          switch (colorSetting) {
+            case "progressDropShadowAmount":
+            case "iconDropShadowAmount":
+            case "outlineDropShadowAmount":
+              for (let effectStage of state.icons[iconColorEffect].colorEffects) {
+                effectStage[colorSetting] = newValue;
+              }
+              break;
+            default:
+              state.icons[iconColorEffect].colorEffects[0][colorSetting] = newValue;
+              break;
+          }
         }
         state.globalColorSettings[colorSetting as any] = newValue;
         return state;

@@ -64,8 +64,8 @@
   <SquareWhole {...shapeProps} />
 {:else if hudIconInfo.shape == 'icon-percentage'}
   <IconPercentage {...shapeProps} />
-{:else if hudIconInfo.shape == "icon"}
-  <Icon {...shapeProps} />
+<!-- {:else if hudIconInfo.shape == "icon"}
+  <Icon {...shapeProps} /> -->
 {:else if hudIconInfo.shape == 'pill-ring'}
   <PillRing {...shapeProps} />
 {:else if hudIconInfo.shape == 'pill-whole'}

@@ -67,7 +67,6 @@ const store = () => {
         state.show = data.show;
         state.speed = data.speed;
         state.altitude = data.altitude;
-        console.log("Fuel Amount:", data.fuel);
         state.fuel = capAmountToHundred(data.fuel);
         state.showSeatBelt = data.showSeatbelt;
         state.showAltitude = data.showAltitude;
