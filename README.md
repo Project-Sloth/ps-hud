@@ -16,6 +16,7 @@ Ultra customizable hud featuring a unique and robust settings menu. Change eveyt
 
 ### Start installing now
 We will now provide you with a step-by-step guide for the installation process. Shouldn't take too long and it shouldn't be too confusing either! 
+* Do not rename this hud or you will encounter issues.
 
 ### Step 1:
 Go ahead and start by dragging and dropping ps-hud into your designated resources folder.
