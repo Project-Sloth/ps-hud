@@ -16,8 +16,6 @@ Ultra customizable hud featuring a unique and robust settings menu. Change eveyt
 
 ### Start installing now
 We will now provide you with a step-by-step guide for the installation process. Shouldn't take too long and it shouldn't be too confusing either! 
-* Do not rename this hud or you will encounter issues.
-* If your map is pulsating or flickering, ensure your custom minimap resource before ps-hud. 
 
 
 ### Step 1:
@@ -34,6 +32,7 @@ If you are still lost, Slothy has created a few GIF's to help guide you through 
 - If you don't want everyone on the server to be able to access the customizability options within the menu; make sure to change **Config.AdminOnly** to **true** instead of **false**. 
 - This configuration setting is found in **ps-hud/config.lua** as shown in the GIF below
 - If you are using custom maps for your minimap make sure to ensure ps-hud before they (custom minimap resource) get loaded in
+- **Do not rename this hud or you will encounter issues.**
 
 ![chrome_ZwsidhP73y](https://user-images.githubusercontent.com/91661118/171066080-6bc11bb8-7cde-460b-8d73-bbc329644c83.gif)
 
