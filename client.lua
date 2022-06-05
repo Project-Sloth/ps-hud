@@ -72,17 +72,16 @@ local function CinematicShow(bool)
     end
 end
 
-local function hasHarness(items)
+local function hasHarness()
     local ped = PlayerPedId()
     if not IsPedInAnyVehicle(ped, false) then return end
 
     local _harness = false
-    if items then 
-        for _, v in pairs(items) do
-            if v.name == 'harness' then
-                _harness = true
-            end
-        end
+    local hasHarness = exports['qb-smallresources']:HasHarness()
+    if hasHarness then
+        _harness = true
+    else
+        _harness = false
     end
 
     harness = _harness
@@ -1083,7 +1082,7 @@ CreateThread(function()
         if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
             if IsPedInAnyVehicle(ped, false) then
-                hasHarness(PlayerData.items)
+                hasHarness()
             end
         end
     end
