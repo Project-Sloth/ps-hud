@@ -2,6 +2,7 @@
   import { tweened } from 'svelte/motion';
   import { linear  } from 'svelte/easing';
   import Fa from 'svelte-fa';
+  import IconPart from './parts/icon-part.svelte';
 
   export let height: number = 50;
   export let icon: any = null;
@@ -56,11 +57,7 @@
       <feMergeNode in="shadowMatrixOuter5"/>
     </feMerge>
   </filter>
-  <g class="glow" style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
-      {"contrast("+iconContrast+"%)"};">
-    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-    translateY={iconTranslateY || 0.20} style="color:{iconColor}"/>
-  </g>
+  <IconPart {icon} {iconColor} {iconContrast} {iconDropShadowAmount} {iconScaling} {iconTranslateX} {iconTranslateY}/>
   <text class="font-semibold text-lg" fill="white" x="55%" y="20%" dominant-baseline="middle" text-anchor="middle">
     {Math.round($progressTween)+"%"}
   </text>

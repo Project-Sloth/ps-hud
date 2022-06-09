@@ -2,7 +2,7 @@
   import { fade } from 'svelte/transition';
   import VehicleHudStore from '../stores/vehicleHudStore';
   import DebugStore from '../stores/debugStore';
-  import PartialCircleRing from './hud-shapes/partial-circle-ring.svelte';
+  import PartialCircleRing from './shapes/partial-circle-ring.svelte';
   import { faGasPump, faUserSlash } from '@fortawesome/free-solid-svg-icons';
   import Fa from 'svelte-fa';
 

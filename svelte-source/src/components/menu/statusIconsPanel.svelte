@@ -14,6 +14,7 @@
   import { absoluteMapDimensions } from '../../types/types';
 
   let group: string = '';
+  const { designMode, saveUIState } = PlayerHudStore;
 
 </script>
 
@@ -28,7 +29,7 @@
     </div>
     <div class="text-base">
       <p>Design Mode</p>
-      <Switch center bind:checked={$PlayerHudStore.designMode}/>
+      <Switch center bind:checked={$designMode}/>
     </div>
     <div class="flex flex-1 min-w-min justify-end">
       <Button name="Reset Status Icon Settings" buttonClass="mr-5 hover:bg-red-600"
@@ -38,8 +39,8 @@
           LayoutStore.resetLayout();
         }}/>
       {#if $MenuStore.adminOnly && $MenuStore.isAdmin}
-        <Button name="Save Changes To Server" buttonClass={"my-auto"} disable={$PlayerHudStore.saveUIState == "ready" ? false : true}
-          on:click={() => { saveUIDataToServer(); $PlayerHudStore.saveUIState = "updating" }}
+        <Button name="Save Changes To Server" buttonClass={"my-auto"} disable={$saveUIState == "ready" ? false : true}
+          on:click={() => { saveUIDataToServer(); $saveUIState = "updating" }}
         />
       {/if}
     </div>

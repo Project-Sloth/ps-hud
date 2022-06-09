@@ -1,18 +1,18 @@
 import type { IconDefinition } from '@fortawesome/free-solid-svg-icons'
+import type { Writable } from 'svelte/store';
 
 export const iconNames = ["voice", "health", "armor", "hunger", "thirst", "stress",
-  "oxygen", "armed", "parachute", "engine", "harness", "cruise", "nitro", "dev"] as const;
+  "oxygen", "armed", "parachute", "engine", "harness", "cruise", "nitro", "dev", "playerid"] as const;
 export type iconNamesKind = typeof iconNames[number];
 
-export const dynamicOptionIconNames = ["armor", "engine", "health", "hunger", "nitro", "oxygen", "stress", "thirst"] as const;
-export type dynamicIconNamesKind = typeof dynamicOptionIconNames[number];
+export const dynamicOptionIconNames = ["armor", "engine", "health", "hunger", "nitro", "oxygen", "stress", "thirst", "playerid"] as const;
 
 export type playerHudIcons = {
   [key in iconNamesKind]: optionalHudIconType;
 }
 
-export type dynamicIcons = {
-  [key in dynamicIconNamesKind]: boolean;
+export type playerHudIconsStore = {
+  [key in iconNamesKind]: Writable<optionalHudIconType>;
 }
 
 export const iconLayouts = ["standard", "bottom-right-row", "center-bottom-row",
@@ -33,6 +33,7 @@ export type shapekind = typeof shapes[number];
 
 export interface baseIconInfo {
   isShowing: boolean,
+  dynamicShow: boolean,
   name: string,
   shape: shapekind,
 }
@@ -77,6 +78,7 @@ export class baseIcon implements baseIconProps {
   iconTranslateX = 0;
   iconTranslateY = 0;
   isShowing = true;
+  dynamicShow = false;
   name = "";
   progressValue = 100;
   shape: shapekind = "circle-whole";
@@ -104,6 +106,9 @@ export class baseIcon implements baseIconProps {
         break;
       case "horizontal-bar":
         this.iconScaling = 0.60;
+        break;
+      case "icon-percentage":
+        this.iconTranslateY = 0.20;
         break;
     }
     this.shape = shape;
@@ -245,8 +250,8 @@ export type optionalPlayerHudIconsType = Partial<{ [Property in keyof playerHudI
 
 const DEFAULTICONSHAPE: shapekind = "circle-ring";
 
-export function defaultHudIcon(name: string = "", showing: boolean = false, icon: object = null): any {
-  return createShapeIcon(DEFAULTICONSHAPE, { isShowing: showing, icon: icon, name: name });
+export function defaultHudIcon(name: string = "", showing: boolean = false, icon: object = null, progressValue = 100): any {
+  return createShapeIcon(DEFAULTICONSHAPE, { isShowing: showing, icon: icon, name: name, progressValue});
 }
 
 export type shapePropsType = Omit<optionalHudIconType, "shape" | "isShowing" | "name" >;

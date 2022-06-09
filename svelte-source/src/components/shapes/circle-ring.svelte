@@ -1,7 +1,7 @@
 <script lang="ts">
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
-  import Fa from 'svelte-fa'
+  import IconPart from './parts/icon-part.svelte';
 
   export let displayOutline: boolean = true;
   export let height: number = 50;
@@ -13,6 +13,7 @@
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
+  export let innerColor: string = "#212121";
   export let name: string = "";
   export let outlineColor: string = "red";
   export let outlineContrast: number = 100;
@@ -37,30 +38,16 @@
     progressTween.set(progressValue)
   }
 
-  // Outer ring
   let normalizedRadius: number = radius - (ringSize/2);
   let circumference: number = normalizedRadius * 2 * Math.PI;
   let strokeDashoffset: number = circumference - $progressTween / 100 * circumference;
-
-  // inner circle
-  let innerRadius: number = radius*0.80;
-  let innerNormalizedRadius: number = innerRadius - (innerRadius/2);
-  let innerCircumference: number = innerNormalizedRadius * 2 * Math.PI;
-  let innerStrokeDashoffset: number = innerCircumference - $progressTween / 100 * innerCircumference;
 
   $: radius = height > width ? height/2 : width/2;
   $: {
     normalizedRadius = radius - (ringSize/2);
     circumference = normalizedRadius * 2 * Math.PI;
-
-    innerRadius = (radius - ringSize)*0.80;
-    innerNormalizedRadius =  innerRadius - (innerRadius/2);
-    innerCircumference = innerNormalizedRadius * 2 * Math.PI;
   }
-  $: {
-    strokeDashoffset = circumference - $progressTween / 100 * circumference;
-    innerStrokeDashoffset = innerCircumference - $progressTween / 100 * innerCircumference;
-  }
+  $: strokeDashoffset = circumference - $progressTween / 100 * circumference;
 </script>
 
 <svg
@@ -74,35 +61,34 @@
     { rotateDegree > 0 ? "rotate("+rotateDegree+" "+radius+" "+radius+")": ""}
     { "translate("+translateX+" "+translateY+")" }"
   >
-    {#if displayOutline}
-      <circle
-        fill="transparent"
-        stroke={outlineColor}
-        stroke-dashoffset={0}
-        stroke-dasharray={circumference + ' ' + circumference}
-        stroke-width={ringSize}
-        r={normalizedRadius}
-        cx={radius}
-        cy={radius}
-        transform="rotate(-90, {radius}, {radius})"
-        style="filter: {outlineDropShadowAmount ? "drop-shadow(0px 0px "+outlineDropShadowAmount+"px "+outlineColor+")": ""}
-                       {"contrast("+outlineContrast+"%)"};"
-      />
-    {/if}
     <circle
-      fill={"transparent"}
-      stroke={progressColor}
-      stroke-opacity={0.6}
-      stroke-dashoffset={innerStrokeDashoffset}
-      stroke-dasharray={innerCircumference + ' ' + innerCircumference}
-      stroke-width={innerRadius}
-      r={innerNormalizedRadius}
+      fill={innerColor}
+      stroke="transparent"
+      stroke-dashoffset={0}
+      stroke-dasharray={circumference +' ' + circumference}
+      stroke-width={ringSize-0.6}
+      r={normalizedRadius - (ringSize/2) + 0.1}
       cx={radius}
       cy={radius}
       transform="rotate(-90, {radius}, {radius})"
     />
+    {#if displayOutline}
     <circle
-      stroke={progressColor}
+      fill="transparent"
+      stroke={outlineColor}
+      stroke-dashoffset={0}
+      stroke-dasharray={circumference + ' ' + circumference}
+      stroke-width={ringSize}
+      r={normalizedRadius}
+      cx={radius}
+      cy={radius}
+      transform="rotate(-90, {radius}, {radius})"
+      style="filter: {outlineDropShadowAmount ? "drop-shadow(0px 0px "+outlineDropShadowAmount+"px "+outlineColor+")": ""}
+                     {"contrast("+outlineContrast+"%)"};"
+    />
+  {/if}
+    <circle
+      stroke="{progressColor}"
       fill="transparent"
       stroke-dashoffset={strokeDashoffset}
       stroke-dasharray={circumference + ' ' + circumference}
@@ -115,9 +101,5 @@
                      {"contrast("+progressContrast+"%)"};"
     />
   </g>
-  <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
-                    {"contrast("+iconContrast+"%)"};">
-    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-    translateY={iconTranslateY} style="color:{iconColor}"/>
-  </g>
+  <IconPart {icon} {iconColor} {iconContrast} {iconDropShadowAmount} {iconScaling} {iconTranslateX} {iconTranslateY}/>
 </svg>

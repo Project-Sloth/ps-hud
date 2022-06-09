@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
+  import type { Writable } from 'svelte/store'
   import MenuStore from "./stores/menuStore";
   import { EventHandler } from "./utils/eventHandler";
   import MetaLayout from "./components/meta-layout.svelte";
@@ -15,20 +16,21 @@
 
   // TODO: fix this so this gets made and destoried from design mode
   let interval;
+  const designProgress: any = PlayerHudStore.designProgress;
 
   const moveProgress = () => {
     let isUp: boolean = true;
     interval = setInterval(() => {
       if (isUp) {
-        $PlayerHudStore.designProgress += 15
-        if ($PlayerHudStore.designProgress > 100) {
-          $PlayerHudStore.designProgress = 100;
+        $designProgress += 15
+        if ($designProgress > 100) {
+          $designProgress = 100;
           isUp = !isUp;
         }
       } else {
-        $PlayerHudStore.designProgress -= 15
-        if ($PlayerHudStore.designProgress < 0) {
-          $PlayerHudStore.designProgress = 0;
+        $designProgress -= 15
+        if ($designProgress < 0) {
+          $designProgress = 0;
           isUp = !isUp;
         }
       }

@@ -8,6 +8,8 @@
   import PlayerHudStore from '../../stores/playerStatusHudStore';
   import { absoluteMapDimensions } from '../../types/types';
 
+  const { health, armor, hunger, thirst, stress, oxygen, playerid, engine, nitro } = PlayerHudStore.icons;
+
   function handleIsToggleMapShapeChecked(checked: boolean) {
     let shape: "circle" | "square" = checked ? "circle": "square";
     $MenuStore.isToggleMapShapeChecked = shape;
@@ -21,7 +23,7 @@
       <PSLogo />
     </div>
     <div class="-mx-4 mb-4 text-2xl text-white">
-      <p>Reset HUD </p>
+      <p>Hud Settings</p>
     </div>
   
     <Button name="Reset Hud" buttonClass="whitespace-nowrap hover:bg-red-600" disable={$MenuStore.isRestarting} disableText={"Resetting Hud..."}
@@ -36,7 +38,6 @@
         MenuStore.sendMenuSettingsToClient();
     }}/>
     <p class="text-base">If you want to reset your settings back to default; click this shiny button!</p>
-    <p class="text-base">(you will have to relog for your menu to reset changes successfully)</p>
   </div>
 
   <hr>
@@ -95,47 +96,54 @@
     <p>Status</p>
   </div>
   <div class="mx-4 mb-4 flex flex-col">
-    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.health}
+    <Checkbox bind:checked={$health.dynamicShow}
       primaryText={"Show Health Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("health", checked);
         fetchNui("dynamicChange");
       }}
     />
-    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.armor}
+    <Checkbox bind:checked={$armor.dynamicShow}
       primaryText={"Show Armor Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("armor", checked);
         fetchNui("dynamicChange");
       }}
     />
-    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.hunger}
+    <Checkbox bind:checked={$hunger.dynamicShow}
       primaryText={"Show Hunger Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("hunger", checked);
         fetchNui("dynamicChange");
       }}
     />
-    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.thirst}
+    <Checkbox bind:checked={$thirst.dynamicShow}
       primaryText={"Show Thirst Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("thirst", checked);
         fetchNui("dynamicChange");
       }}
     />
-    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.stress}
+    <Checkbox bind:checked={$stress.dynamicShow}
       primaryText={"Show Stress Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("stress", checked);
         fetchNui("dynamicChange");
       }}
     />
-    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.oxygen}
+    <Checkbox bind:checked={$oxygen.dynamicShow}
       primaryText={"Show Oxygen Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("oxygen", checked);
         fetchNui("dynamicChange");
       }}
+    />
+    <Checkbox bind:checked={$playerid.dynamicShow}
+      primaryText={"Show Player ID"}
+      handleUpdateFunction={(checked) => {
+        $playerid.isShowing = checked;
+        fetchNui("dynamicChange");
+        }}
     />
   </div>
 
@@ -149,7 +157,7 @@
       handleUpdateFunction={(checked) => handleIsToggleMapShapeChecked(checked)}
     />
     <p class="font-semibold text-base pb-2">
-      Whether it's square or circle you desire, you have the ability to choose!
+      Choose between circle or square minimap
     </p>
 
     <Checkbox bind:checked={$MenuStore.isMapEnabledChecked}
@@ -158,14 +166,14 @@
     <Checkbox bind:checked={$MenuStore.isToggleMapBordersChecked}
       primaryText={"Minimap Borders Enabled"} handleUpdateFunction={(checked) => fetchNui("ToggleMapBorders", {checked})}
     />
-    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.engine}
+    <Checkbox bind:checked={$engine.dynamicShow}
       primaryText={"Show Engine Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("engine", checked);
         fetchNui("dynamicChange");
       }}
     />
-    <Checkbox bind:checked={$PlayerHudStore.dynamicIcons.nitro}
+    <Checkbox bind:checked={$nitro.dynamicShow}
       primaryText={"Show Nitro Always"}
       handleUpdateFunction={(checked) => {
         PlayerHudStore.updateShowingDynamicIcon("nitro", checked);

@@ -12,12 +12,14 @@
   export let options: optionalPlayerHudIconsType = {};
   export let optionsForAll: optionalHudIconType = {};
 
-  let globalIconList: Array<keyof playerHudIcons> = $PlayerHudStore.showingOrder;
+  const { designMode, designProgress, showingOrder, singleIcons } = PlayerHudStore;
+
+  let globalIconList: Array<keyof playerHudIcons> = $showingOrder;
   
   $: editSingleIconName = $ColorEffectStore.globalColorSettings.editSingleIconName;
 
   $: {
-    let globalIconList = $PlayerHudStore.showingOrder;
+    let globalIconList = $showingOrder;
     if (isReversed) {
       globalIconList = globalIconList.reverse();
     }
@@ -27,21 +29,22 @@
 </script>
 
 {#each iconsToShow.length ? iconsToShow : globalIconList as iconName }
-  {@const currentEffectIndex = $PlayerHudStore.designMode ? 
+  {@const currentEffectIndex = $designMode ? 
     editSingleIconName == iconName ? $ColorEffectStore.globalColorSettings.editSingleIconStage : 0 : $ColorEffectStore.icons[iconName].currentEffect}
   {@const currentEffect = $ColorEffectStore.icons[iconName].colorEffects[currentEffectIndex]}
   {@const buffColorEffect = $ExternalStatusStore[iconName]}
+
   
-  {#if ($PlayerHudStore.icons[iconName].isShowing && !iconsToNotShow.includes(iconName)) || $PlayerHudStore.designMode}
+  {#if ($singleIcons[iconName].isShowing && !iconsToNotShow.includes(iconName)) || $designMode}
     <div transition:fade|local="{{duration: 1000}}" class="my-auto">
       <MetaShape hudIconInfo={
         {
-          ...$PlayerHudStore.icons[iconName],
+          ...$singleIcons[iconName],
           progressColor: currentEffect.progressColor,
           progressContrast: currentEffect.progressContrast,
           progressDropShadowAmount: currentEffect.progressDropShadowAmount,
-          progressValue: $PlayerHudStore.designMode ?
-            $PlayerHudStore.designProgress : $PlayerHudStore.icons[iconName].progressValue,
+          progressValue: $designMode ?
+            $designProgress : $singleIcons[iconName].progressValue,
           iconColor: buffColorEffect ? buffColorEffect.iconColor : currentEffect.iconColor,
           iconContrast: currentEffect.iconContrast,
           iconDropShadowAmount: currentEffect.iconDropShadowAmount,
@@ -59,7 +62,7 @@
   <!-- Only show buffs since only buffs will have names in them -->
   {#if statusIcon.name}
     <div transition:fade|local="{{duration: 1000}}" class="my-auto">
-      {#if statusIcon.isShowing || $PlayerHudStore.designMode}
+      {#if statusIcon.isShowing || $designMode}
         <!-- Future reference when we want to dynamically show buff during duration of buff -->
         <!-- <div transition:fade|local="{{duration: 1000}}" class="my-auto"> -->
           <MetaShape hudIconInfo={statusIcon}/>

@@ -135,6 +135,11 @@ const store = () => {
           colorEffects: [defaultColorEffect("normal", "#000000")],
           editableColors: defaultEditableColor(),
         }),
+        playerid: getLocalStorage("playerid", {
+          currentEffect: 0,
+          colorEffects: [defaultColorEffect("normal", "#000000")],
+          editableColors: defaultEditableColor(),
+        })
       }
     }
   }

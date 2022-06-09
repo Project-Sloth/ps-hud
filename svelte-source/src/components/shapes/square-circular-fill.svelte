@@ -1,7 +1,7 @@
 <script lang="ts">
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
-  import Fa from 'svelte-fa'
+  import IconPart from './parts/icon-part.svelte';
 
   export let height: number = 50;
   export let icon: any = null;
@@ -11,7 +11,6 @@
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
-  export let innerColor: string = "#212121";
   export let name: string = "";
   export let outlineColor: string = "red";
   export let outlineContrast: number = 100;
@@ -20,69 +19,71 @@
   export let progressContrast: number = 100;
   export let progressDropShadowAmount: number = 0;
   export let progressValue: number = 100;
-  export let ringSize: number = 4;
   export let rotateDegree: number = 0;
   export let translateX: number = 0;
   export let translateY: number = 0;
   export let width: number = 50;
 
-  let strokeDashoffset: number = 10;
+
+  let radius: number = 25;
 
   const progressTween = tweened(progressValue, {
 		duration: 600,
 		easing: cubicOut
 	});
 
-  $: progressTween.set(progressValue);
-  $: strokeDashoffset = height - $progressTween / 100 * height;
+  $: {
+    progressTween.set(progressValue)
+  }
 
+  let normalizedRadius: number = radius;
+  let circumference = normalizedRadius * 2 * Math.PI;
+  let strokeDashoffset: number = circumference - $progressTween / 100 * circumference;
+
+  $: {
+    radius = height > width ? height : width;
+    normalizedRadius = radius;
+    circumference = normalizedRadius * 2 * Math.PI;
+    strokeDashoffset = circumference - $progressTween / 100 * circumference;
+  }
 </script>
 
 <svg
-  height={height}
-  width={width}
-  overflow="visible"
+  width={radius}
+  height={radius}
+  viewBox = "0 0 {radius*2} {radius*2}"
+>
+  <g 
   transform="
-    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+0+" "+0+")": ""}
+    { rotateDegree > 0 ? "rotate("+rotateDegree+" "+width+" "+height+")": ""}
     { "translate("+translateX+" "+translateY+")" }"
   >
-  <g>
-    <line
+    <circle
       stroke={outlineColor}
-      x1="50%"
-      y1="100%"
-      x2="50%"
-      y2="0%"
-      stroke-width={width}
+      fill="transparent"
+      stroke-dashoffset={0}
+      stroke-dasharray={circumference + ' ' + circumference}
+      stroke-width={normalizedRadius*2}
+      r={normalizedRadius}
+      cx={radius}
+      cy={radius}
+      transform="rotate(-90, {radius}, {radius})"
       style="filter: {outlineDropShadowAmount ? "drop-shadow(0px 0px "+outlineDropShadowAmount+"px "+outlineColor+")": ""}
                      {"contrast("+outlineContrast+"%)"};"
     />
-    <line
-      x1="50%"
-      y1="100%"
-      x2="50%"
-      y2="0%"
-      stroke={progressColor} 
-      fill="transparent" 
-      stroke-dasharray={height}
+    <circle
+      stroke="{progressColor}"
+      fill="transparent"
       stroke-dashoffset={strokeDashoffset}
-      stroke-width={width}
+      stroke-dasharray={circumference + ' ' + circumference}
+      stroke-width={normalizedRadius*2}
+      r={normalizedRadius}
+      cx={radius}
+      cy={radius}
+      transform="rotate(-90, {radius}, {radius})"
       style="filter: {progressDropShadowAmount ? "drop-shadow(0px 0px "+progressDropShadowAmount+"px "+progressColor+")": ""}
                      {"contrast("+progressContrast+"%)"};"
     />
-    <line
-      stroke={innerColor}
-      x1="50%"
-      y1={height-ringSize}
-      x2="50%"
-      y2={ringSize}
-      stroke-width={width - (ringSize*2)}
-    />
   </g>
-  <g transform="rotate( {-rotateDegree} {height/2} {width/2})"
-     style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
-                    {"contrast("+iconContrast+"%)"};">
-    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-    translateY={iconTranslateY} style="color:{iconColor};"/>
-  </g>
+  <IconPart {icon} {iconColor} {iconContrast} {iconDropShadowAmount} {iconScaling} {iconTranslateX} {iconTranslateY}/>
 </svg>

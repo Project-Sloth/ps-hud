@@ -2,7 +2,7 @@
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
   import { onMount } from 'svelte';
-  import Fa from 'svelte-fa';
+  import IconPart from './parts/icon-part.svelte';
 
   export let height: number = 50;
   export let icon: any = null;
@@ -92,11 +92,5 @@
     style="filter: {progressDropShadowAmount ? "drop-shadow(0px 0px "+progressDropShadowAmount+"px "+progressColor+")": ""}
                    {"contrast("+progressContrast+"%)"};"
   />
-  <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
-                    {"contrast("+iconContrast+"%)"};">
-    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-      translateY={iconTranslateY } flip={"horizontal"} style="color:{iconColor}"
-    />
-  </g>
-  <!-- || 0.10 -->
+  <IconPart flip={"horizontal"} {icon} {iconColor} {iconContrast} {iconDropShadowAmount} {iconScaling} {iconTranslateX} {iconTranslateY}/>
 </svg>
