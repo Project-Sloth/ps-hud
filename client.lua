@@ -112,6 +112,19 @@ local function sendUIUpdateMessage(data)
     })
 end
 
+local function sendLocalesMessage()
+    local locale = Lang:locale()
+    SendNUIMessage({
+        action = "locales",
+        locales = {
+            status_icons = locale.status_icons,
+            layouts = locale.layouts,
+            utility_functions = locale.utility_functions,
+            custom_profiles = locale.custom_profiles,
+        },
+    })
+end
+
 local function HandleSetupResource()
     QBCore.Functions.TriggerCallback('hud:server:getRank', function(isAdminOrGreater)
         if isAdminOrGreater then
@@ -127,6 +140,7 @@ local function HandleSetupResource()
             sendUIUpdateMessage(UIConfig)
         end
     end
+    sendLocalesMessage()
 end
 
 RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
@@ -1205,6 +1219,7 @@ end)
 CreateThread(function()
     while true do
         SetRadarBigmapEnabled(false, false)
+        -- This is probably what is causing pulsing with other minimap map resources
         SetRadarZoom(1000)
         Wait(500)
     end
@@ -1266,7 +1281,7 @@ local lastCrossroadCheck = {}
 
 local function getCrossroads(player)
     local updateTick = GetGameTimer()
-    if updateTick - lastCrossroadUpdate > 5000 then
+    if updateTick - lastCrossroadUpdate > 1500 then
         local pos = GetEntityCoords(player)
         local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
         lastCrossroadUpdate = updateTick
