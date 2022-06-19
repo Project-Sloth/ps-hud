@@ -128,7 +128,6 @@ const store = () => {
     },
     saveUIDataToLocalStorage() {
       const data = methods.getSaveableData();
-      console.log("Hello!");
       localStorage.setItem(playerStoreLocalStorageName, JSON.stringify({...data.icons, globalIconSettings: data.globalIconSettings, showingOrder: data.showingOrder}));
     },
     updateAllIconsSettings(settingName: keyof optionalHudIconType, value: any) {

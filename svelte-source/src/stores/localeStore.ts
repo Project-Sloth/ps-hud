@@ -1,7 +1,8 @@
+import { fetchNui } from '../utils/eventHandler';
 import { readable } from 'svelte/store';
-import type { localesState } from '../types/types';
+import type { localeState } from '../types/types';
 
-function defaultLocales(): localesState {
+function defaultLocales(): localeState {
   return {
       hudSettings: {
         hud_settings: "Hud Settings",
@@ -92,7 +93,7 @@ function defaultLocales(): localesState {
         single_icon_color_section: "Single Icon Color Section",
         icon_state: "Icon State",
         icon_status_to_edit: "Icon Status To Edit",
-        statusIconNames: [
+        status_icon_names: [
           "Voice", "Health", "Armor", "Hunger", "Thirst", "Stress", "Oxygen", "Armed", "Parachute",
           "Engine", "Harness", "Cruise", "Nitro", "Dev", "Playerid"
         ],
@@ -107,7 +108,7 @@ function defaultLocales(): localesState {
     layouts: {
         global_status_layout_settings: "Global Status Icon Layout Settings",
         icon_layout: "Icon Layout",
-        layoutNames: [
+        layout_names: [
           "Standard", "Bottom Right Row", "Center Bottom Row", "Left Bottom Column",
           "Right Bottom Column", "Top Left Row", "Top Right Row"
         ],
@@ -131,9 +132,18 @@ function defaultLocales(): localesState {
 }
 
 const store = () => {
-  const initialVal: localesState = defaultLocales();
+  const initialVal: localeState = defaultLocales();
   const { subscribe } = readable(initialVal, (set) => {
-
+    fetchNui("getLocaleData", {}).then((localeData: {action: string, locales: localeState}) => {
+      let fallbackObj = defaultLocales()
+      set({
+        statusIcons: localeData.locales.statusIcons || fallbackObj.statusIcons,
+        hudSettings: localeData.locales.hudSettings || fallbackObj.hudSettings,
+        layouts: localeData.locales.layouts || fallbackObj.layouts,
+        utilityFunctions: localeData.locales.utilityFunctions || fallbackObj.utilityFunctions,
+        customProfiles: localeData.locales.customProfiles || fallbackObj.customProfiles,
+      });
+    });
   });
 
   const methods = {

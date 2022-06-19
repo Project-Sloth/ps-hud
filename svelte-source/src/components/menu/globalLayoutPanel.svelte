@@ -16,7 +16,7 @@
     <div class="flex justify-center mb-4">
       <div class="w-55">
         <p class="text-lg text-center mb-2">{$LocaleStore.layouts.icon_layout}</p>
-        <Select valuesArray={iconLayouts} labelArray={$LocaleStore.layouts.layoutNames} value={$LayoutStore.layout} handleSelectFunction={LayoutStore.updateLayout}/>
+        <Select valuesArray={iconLayouts} labelArray={$LocaleStore.layouts.layout_names} value={$LayoutStore.layout} handleSelectFunction={LayoutStore.updateLayout}/>
       </div>
     </div>
 

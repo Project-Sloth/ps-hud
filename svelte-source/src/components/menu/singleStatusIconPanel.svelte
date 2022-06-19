@@ -35,7 +35,7 @@
     colorArray = $ColorEffectStore.icons[singleIconName].colorEffects;
     colorStatesArray = colorArray.map(x => x.name);
     // voice_state_strings
-    labelArray = $LocaleStore.statusIcons[singleIconName+"_state_strings"] || null;
+    labelArray = $LocaleStore.statusIcons[`${singleIconName}_state_strings`] || null;
   }
 
   $: {
@@ -49,7 +49,7 @@
     <div class="flex-1">
       <div class="max-w-50 ml-8">
         <p class="text-lg text-center mb-2">{$LocaleStore.statusIcons.icon_status_to_edit}</p>
-        <Select valuesArray={iconNames} value={singleIconName} labelArray={$LocaleStore.statusIcons.statusIconNames}
+        <Select valuesArray={iconNames} value={singleIconName} labelArray={$LocaleStore.statusIcons.status_icon_names}
           handleSelectFunction={(shapeName) => {
             singleIconName = shapeName;
             iconIndex = iconNames.findIndex((element) => element == shapeName);

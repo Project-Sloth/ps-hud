@@ -9,7 +9,6 @@
 
   function humanReadableString(str, index) {
     if (labelArray && index <= labelArray.length) {
-      console.log("here!!");
       return {value: str, label: labelArray[index]}
     } else {
       var i: number, frags = str.split('-');

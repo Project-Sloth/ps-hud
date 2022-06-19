@@ -238,11 +238,6 @@ export function createShapeIcon(shape: shapekind, optionalProps={}): optionalHud
   }
 }
 
-export interface shapeIcons {
-  "horizontal-bar": textIcon,
-  "icon-percentage": baseIconProps,
-}
-
 export type optionalHudIconType = Partial<baseIconProps & borderIconProps & ringIconProps & roundEndIcon & pillRingIcon>;
 export type optionalHudIconMetaShapeType = optionalHudIconType & Partial<colorNameObj>;
 
@@ -436,7 +431,7 @@ export interface statusIconsStrings {
   single_status_icon_settings: string
   single_icon_size_position_section: string
   single_icon_color_section: string
-  statusIconNames: Array<string>
+  status_icon_names: Array<string>
   icon_state: string
   icon_status_to_edit: string
   voice_state_strings: Array<string>
@@ -448,85 +443,13 @@ export interface statusIconsStrings {
   nitro_state_strings: Array<string>
 }
 
-export type statusIconStringPartition = Omit<statusIconsStrings, "shapes" | "statusIconNames" | "voice_state_strings" |
-  "health_state_strings" | "armor_state_strings" | "hunger_state_strings" | "thirst_state_strings" | "engine_state_strings" | "nitro_state_strings">
-
-export interface statusIconLocalsMessage extends statusIconStringPartition{
-  badge: string
-  circle_ring: string
-  circle_ring_whole: string
-  circle_circle_fill: string
-  circle_square_fill: string
-  circle_whole: string
-  diamond_ring: string
-  diamond_whole: string
-  flower: string
-  hexagon_ring: string
-  hexagon_whole: string
-  horizontal_bar: string
-  icon_percentage: string
-  pill_ring: string
-  pill_whole: string
-  square_circular_fill: string
-  square_ring: string
-  square_whole: string
-  star_ring: string
-  triangle_ring: string
-
-  icon_state: string
-  icon_status_to_edit: string
-  voice_icon: string
-  voice_icon_not_talking: string
-  voice_icon_talking: string
-  voice_icon_radio_talking: string
-  health_icon: string
-  health_icon_alive: string
-  health_icon_dead: string
-  armor_icon: string
-  armor_icon_armor: string
-  armor_icon_no_armor: string
-  hunger_icon: string
-  hunger_normal: string
-  hunger_starving: string
-  thirst_icon: string
-  thirst_icon_thirst_normal: string
-  thirst_icon_thirst_thirsty: string
-  stress_icon: string
-  oxygen_icon: string
-  armed_icon: string
-  parachute_icon: string
-  engine_icon: string
-  engine_icon_no_damage: string
-  engine_icon_minor_damage: string
-  engine_icon_major_damage: string
-  harness_icon: string
-  cruise_icon: string
-  nitro_icon: string
-  nitro_icon_no_nitro: string
-  nitro_icon_active_nitro: string
-  dev_icon: string
-  playerid_icon: string
-}
-
 export interface layoutStrings {
   global_status_layout_settings: string
   icon_layout: string
-  layoutNames: Array<string>
+  layout_names: Array<string>
   between_icon_spacing: string
   y_axis_spacing: string
   x_axis_spacing: string
-}
-
-export type layoutStringPartition = Omit<layoutStrings, "layoutNames">
-
-export interface layoutLocalesMessage extends layoutStringPartition{
-  standard: string
-  bottom_right_row: string
-  center_bottom_row: string
-  left_bottom_column: string
-  right_bottom_column: string
-  top_left_row: string
-  top_right_row: string
 }
 
 export interface utilityStrings {
@@ -543,18 +466,10 @@ export interface customProfileStrings {
   delete_profile: string
 }
 
-export interface localesState {
+export interface localeState {
   hudSettings: hudStrings
   statusIcons: statusIconsStrings
   layouts: layoutStrings
-  utilityFunctions: utilityStrings
-  customProfiles: customProfileStrings
-}
-
-export interface localesDataMessage {
-  hudSettings: hudStrings
-  statusIcons: statusIconLocalsMessage
-  layouts: layoutLocalesMessage
   utilityFunctions: utilityStrings
   customProfiles: customProfileStrings
 }

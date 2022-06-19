@@ -111,18 +111,6 @@ local function sendUIUpdateMessage(data)
     })
 end
 
-local function sendLocalesMessage()
-    SendNUIMessage({
-        action = "locales",
-        locales = {
-            status_icons = JSTranslations.status_icons,
-            layouts = JSTranslations.layouts,
-            utility_functions = JSTranslations.utility_functions,
-            custom_profiles = JSTranslations.custom_profiles,
-        },
-    })
-end
-
 local function HandleSetupResource()
     QBCore.Functions.TriggerCallback('hud:server:getRank', function(isAdminOrGreater)
         if isAdminOrGreater then
@@ -138,7 +126,6 @@ local function HandleSetupResource()
             sendUIUpdateMessage(UIConfig)
         end
     end
-    sendLocalesMessage()
 end
 
 RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
@@ -184,6 +171,20 @@ RegisterCommand('menu', function()
     SendNUIMessage({ action = "open" })
     showMenu = true
 end)
+
+RegisterNUICallback('getLocaleData', function(_, cb)
+    cb({
+        action = "locales",
+        locales = {
+            hudSettings = JSTranslations.hud_settings,
+            statusIcons = JSTranslations.status_icons,
+            layouts = JSTranslations.layouts,
+            utilityFunctions = JSTranslations.utility_functions,
+            customProfiles = JSTranslations.custom_profiles,
+        },
+    })
+end)
+
 
 RegisterNUICallback('closeMenu', function(_, cb)
     cb({})
