@@ -5,18 +5,23 @@
   export let handleSelectFunction: (val) => void = () => null;
   export let value: any = null;
   export let selectedIndex: number = 0;
+  export let labelArray: ReadonlyArray<any> = null;
 
-  function humanReadableString(str) {
-    var i: number, frags = str.split('-');
-    for (i=0; i<frags.length; i++) {
-      frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
+  function humanReadableString(str, index) {
+    if (labelArray && index <= labelArray.length) {
+      console.log("here!!");
+      return {value: str, label: labelArray[index]}
+    } else {
+      var i: number, frags = str.split('-');
+      for (i=0; i<frags.length; i++) {
+        frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
+      }
+      return {value: str, label: frags.join(' ')};
     }
-    return {value: str, label: frags.join(' ')};
   }
 
   let items: Array<any>;
   let itemvalue;
-
   $: {
     items = valuesArray.map(humanReadableString);
     itemvalue = items[0];

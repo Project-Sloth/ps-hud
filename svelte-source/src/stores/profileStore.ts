@@ -1,8 +1,9 @@
 import { writable } from 'svelte/store'
 import { profileLocalStorageName } from '../types/types';
+import type { optionalHudIconType, playerHudIcons } from '../types/types';
 import { get } from 'svelte/store';
 import ColorEffectStore, { colorEffectStoreType } from '../stores/colorEffectStore';
-import PlayerHudStore, { playerStatusType } from '../stores/playerStatusHudStore';
+import PlayerHudStore from '../stores/playerStatusHudStore';
 import LayoutStore, { playerStatusLayoutType } from '../stores/layoutStore';
 
 interface profileType {
@@ -12,7 +13,11 @@ interface profileType {
 }
 
 interface savedDataObject {
-  playerStatusIconData: playerStatusType
+  playerStatusIconData: {
+    icons: playerHudIcons
+    globalIconSettings: optionalHudIconType
+    showingOrder: Array<keyof playerHudIcons>
+  }
   colorData: colorEffectStoreType
   layoutData: playerStatusLayoutType
 }
@@ -42,21 +47,21 @@ const store = () => {
   const { subscribe, set, update } = writable(playerStatusLayoutState);
 
   const methods = {
-    addNewProfile() {
+    addNewProfile(profileName: string) {
       update(state => {
         let length: number = state.length+1;
-        let newProfileName: string = "Profile#"+length;
+        let newProfileName: string = profileName+"#"+length;
         state = [...state, {name: newProfileName, editingName: false, savedData: ""}];
         return state;
       });
     },
     applyProfileToHud(index: number) {
       update(state => {
-        // User could create a profile without saving hud to profile before apply
+        // User could create a profile without saving hud to profile before clicking apply profile to hud
         if (state[index] && state[index].savedData) {
           let saveStateObject: savedDataObject = JSON.parse(state[index].savedData);
           PlayerHudStore.receiveProfileData(saveStateObject.playerStatusIconData);
-          ColorEffectStore.receiveUIUpdateMessage(saveStateObject.colorData.icons);
+          ColorEffectStore.receiveUIUpdateMessage(saveStateObject.colorData.icons, saveStateObject.playerStatusIconData.icons);
           LayoutStore.receiveUIUpdateMessage(saveStateObject.layoutData as any);
         }
         return state;
@@ -69,7 +74,7 @@ const store = () => {
       });
     },
     saveHUDToProfile(index: number) {
-      const playerStatusIconData = get(PlayerHudStore);
+      const playerStatusIconData = PlayerHudStore.getSaveableData();
       const colorData = get(ColorEffectStore);
       const layoutData = get(LayoutStore);
       let saveState: savedDataObject = { playerStatusIconData, colorData, layoutData}

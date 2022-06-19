@@ -1,8 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local PlayerData = QBCore.Functions.GetPlayerData()
-local config = Config
 local UIConfig = UIConfig
-local speedMultiplier = config.UseMPH and 2.23694 or 3.6
+local speedMultiplier = Config.UseMPH and 2.23694 or 3.6
 local seatbeltOn = false
 local cruiseOn = false
 local showAltitude = false
@@ -113,14 +112,13 @@ local function sendUIUpdateMessage(data)
 end
 
 local function sendLocalesMessage()
-    local locale = Lang:locale()
     SendNUIMessage({
         action = "locales",
         locales = {
-            status_icons = locale.status_icons,
-            layouts = locale.layouts,
-            utility_functions = locale.utility_functions,
-            custom_profiles = locale.custom_profiles,
+            status_icons = JSTranslations.status_icons,
+            layouts = JSTranslations.layouts,
+            utility_functions = JSTranslations.utility_functions,
+            custom_profiles = JSTranslations.custom_profiles,
         },
     })
 end
@@ -135,7 +133,7 @@ local function HandleSetupResource()
         SendAdminStatus()
     end)
     if Config.AdminOnly then
-        -- Send the client what the saved ui config is (enforced by the server)
+        -- Send the client what the saved ui Config is (enforced by the server)
         if next(UIConfig) then
             sendUIUpdateMessage(UIConfig)
         end
@@ -245,20 +243,6 @@ end)
 RegisterCommand('resethud', function()
     Wait(50)
     restartHud()
-end)
-
-RegisterNUICallback('resetStorage', function(_, cb)
-    cb({})
-    Wait(50)
-    TriggerEvent("hud:client:resetStorage")
-end)
-
-RegisterNetEvent("hud:client:resetStorage", function()
-    Wait(50)
-    if Menu.isResetSoundsChecked then
-        TriggerServerEvent("InteractSound_SV:PlayOnSource", "airwrench", 0.1)
-    end
-    QBCore.Functions.TriggerCallback('hud:server:getMenu', function(menu) loadSettings(menu); SetResourceKvp('hudSettings', json.encode(menu)) end)
 end)
 
 -- Notifications
@@ -757,7 +741,7 @@ RegisterKeyMapping('+engine', 'Toggle Engine', 'keyboard', 'G')
 
 local function IsWhitelistedWeaponArmed(weapon)
     if weapon then
-        for _, v in pairs(config.WhitelistedWeaponArmed) do
+        for _, v in pairs(Config.WhitelistedWeaponArmed) do
             if weapon == v then
                 return true
             end
@@ -834,6 +818,7 @@ local prevVehicleStats = {
 }
 
 local function updateShowVehicleHud(show)
+    if Config.DisableCarHud then return end
     if prevVehicleStats[1] ~= show then
         prevVehicleStats[1] = show
         prevVehicleStats[3] = false
@@ -847,6 +832,7 @@ local function updateShowVehicleHud(show)
 end
 
 local function updateVehicleHud(data)
+    if Config.DisableCarHud then return end
     local shouldUpdate = false
     for k, v in pairs(data) do
         if prevVehicleStats[k] ~= v then shouldUpdate = true break end
@@ -874,6 +860,7 @@ local lastFuelUpdate = 0
 local lastFuelCheck = {}
 
 local function getFuelLevel(vehicle)
+    if Config.DisableCarHud then return end
     local updateTick = GetGameTimer()
     if (updateTick - lastFuelUpdate) > 2000 then
         lastFuelUpdate = updateTick
@@ -1040,23 +1027,25 @@ CreateThread(function()
 end)
 
 -- Low fuel
-CreateThread(function()
-    while true do
-        if LocalPlayer.state.isLoggedIn then
-            local ped = PlayerPedId()
-            if IsPedInAnyVehicle(ped, false) and not IsThisModelABicycle(GetEntityModel(GetVehiclePedIsIn(ped, false))) then
-                if exports[Config.FuelScript]:GetFuel(GetVehiclePedIsIn(ped, false)) <= 20 then -- At 20% Fuel Left
-                    if Menu.isLowFuelChecked then
-                        TriggerServerEvent("InteractSound_SV:PlayOnSource", "pager", 0.10)
-                        QBCore.Functions.Notify(Lang:t("notify.low_fuel"), "error")
-                        Wait(60000) -- repeats every 1 min until empty
+if Config.DisableCarHud == false then
+    CreateThread(function()
+        while true do
+            if LocalPlayer.state.isLoggedIn then
+                local ped = PlayerPedId()
+                if IsPedInAnyVehicle(ped, false) and not IsThisModelABicycle(GetEntityModel(GetVehiclePedIsIn(ped, false))) then
+                    if exports[Config.FuelScript]:GetFuel(GetVehiclePedIsIn(ped, false)) <= 20 then -- At 20% Fuel Left
+                        if Menu.isLowFuelChecked then
+                            TriggerServerEvent("InteractSound_SV:PlayOnSource", "pager", 0.10)
+                            QBCore.Functions.Notify(Lang:t("notify.low_fuel"), "error")
+                            Wait(60000) -- repeats every 1 min until empty
+                        end
                     end
                 end
             end
+            Wait(10000)
         end
-        Wait(10000)
-    end
-end)
+    end)
+end
 
 -- Money HUD
 
@@ -1090,18 +1079,19 @@ RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus)
 end)
 
 -- Harness Check
-
-CreateThread(function()
-    while true do
-        Wait(1000)
-        if LocalPlayer.state.isLoggedIn then
-            local ped = PlayerPedId()
-            if IsPedInAnyVehicle(ped, false) then
-                hasHarness(PlayerData.items)
+if Config.DisableCarHud == false then
+    CreateThread(function()
+        while true do
+            Wait(1000)
+            if LocalPlayer.state.isLoggedIn then
+                local ped = PlayerPedId()
+                if IsPedInAnyVehicle(ped, false) then
+                    hasHarness(PlayerData.items)
+                end
             end
         end
-    end
-end)
+    end)
+end
 
 -- Stress Gain
 
@@ -1111,7 +1101,7 @@ CreateThread(function() -- Speeding
             local ped = PlayerPedId()
             if IsPedInAnyVehicle(ped, false) then
                 local speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * speedMultiplier
-                local stressSpeed = seatbeltOn and config.MinimumSpeed or config.MinimumSpeedUnbuckled
+                local stressSpeed = seatbeltOn and Config.MinimumSpeed or Config.MinimumSpeedUnbuckled
                 if speed >= stressSpeed then
                     TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
                 end
@@ -1123,7 +1113,7 @@ end)
 
 local function IsWhitelistedWeaponStress(weapon)
     if weapon then
-        for _, v in pairs(config.WhitelistedWeaponStress) do
+        for _, v in pairs(Config.WhitelistedWeaponStress) do
             if weapon == v then
                 return true
             end
@@ -1139,7 +1129,7 @@ CreateThread(function() -- Shooting
             local weapon = GetSelectedPedWeapon(ped)
             if weapon ~= `WEAPON_UNARMED` then
                 if IsPedShooting(ped) and not IsWhitelistedWeaponStress(weapon) then
-                    if math.random() < config.StressChance then
+                    if math.random() < Config.StressChance then
                         TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
                     end
                     Wait(100)
@@ -1158,7 +1148,7 @@ end)
 -- Stress Screen Effects
 
 local function GetBlurIntensity(stresslevel)
-    for k, v in pairs(config.Intensity['blur']) do
+    for k, v in pairs(Config.Intensity['blur']) do
         if stresslevel >= v.min and stresslevel <= v.max then
             return v.intensity
         end
@@ -1167,7 +1157,7 @@ local function GetBlurIntensity(stresslevel)
 end
 
 local function GetEffectInterval(stresslevel)
-    for k, v in pairs(config.EffectInterval) do
+    for k, v in pairs(Config.EffectInterval) do
         if stresslevel >= v.min and stresslevel <= v.max then
             return v.timeout
         end
@@ -1202,7 +1192,7 @@ CreateThread(function()
                     Wait(BlurIntensity)
                     TriggerScreenblurFadeOut(1000.0)
                 end
-            elseif stress >= config.MinimumStress then
+            elseif stress >= Config.MinimumStress then
                 local BlurIntensity = GetBlurIntensity(stress)
                 TriggerScreenblurFadeIn(1000.0)
                 Wait(BlurIntensity)

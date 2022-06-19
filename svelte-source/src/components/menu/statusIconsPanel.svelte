@@ -12,6 +12,7 @@
   import SingleStatusIconPanel from './singleStatusIconPanel.svelte';
   import GlobalStatusIconPanel from './globalStatusIconPanel.svelte';
   import { absoluteMapDimensions } from '../../types/types';
+  import LocaleStore from '../../stores/localeStore';
 
   let group: string = '';
   const { designMode, saveUIState } = PlayerHudStore;
@@ -23,23 +24,23 @@
     <div class="flex-1 flex flex-col justify-center min-w-min">
       <div>
         <div class="flex flex-row items-center">
-          <p class="ml-3 p-0">Status Icons Settings</p>
+          <p class="ml-3 p-0">{$LocaleStore.statusIcons.status_icons_settings}</p>
         </div>
       </div>
     </div>
     <div class="text-base">
-      <p>Design Mode</p>
+      <p>{$LocaleStore.statusIcons.design_mode}</p>
       <Switch center bind:checked={$designMode}/>
     </div>
     <div class="flex flex-1 min-w-min justify-end">
-      <Button name="Reset Status Icon Settings" buttonClass="mr-5 hover:bg-red-600"
+      <Button name={$LocaleStore.statusIcons.reset_status_icons} buttonClass="mr-5 hover:bg-red-600"
         on:click={() => {
           PlayerHudStore.resetPlayerStatusIcons();
           ColorEffectStore.resetColorEffects();
           LayoutStore.resetLayout();
         }}/>
       {#if $MenuStore.adminOnly && $MenuStore.isAdmin}
-        <Button name="Save Changes To Server" buttonClass={"my-auto"} disable={$saveUIState == "ready" ? false : true}
+        <Button name={$LocaleStore.statusIcons.save_changes_to_server} buttonClass={"my-auto"} disable={$saveUIState == "ready" ? false : true}
           on:click={() => { saveUIDataToServer(); $saveUIState = "updating" }}
         />
       {/if}

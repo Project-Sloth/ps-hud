@@ -10,10 +10,10 @@ import VehicleHudStore from '../stores/vehicleHudStore';
 import ColorEffectStore from '../stores/colorEffectStore';
 import ProfileStore from '../stores/profileStore';
 import { colorStoreLocalStorageName,
-         playerStoreLocalStorageName,
          layoutStoreLocalStorageName,
          profileLocalStorageName,
 } from '../types/types';
+import type { playerHudColorEffects } from '../types/types';
 
 interface nuiMessage {
   data: {
@@ -103,7 +103,7 @@ export function EventHandler() {
         }
         PlayerHudStore.receiveUIUpdateMessage(event.data.icons);
         LayoutStore.receiveUIUpdateMessage(event.data.layout);
-        ColorEffectStore.receiveUIUpdateMessage(event.data.colors);
+        ColorEffectStore.receiveUIUpdateMessage(event.data.colors, event.data.icons);
         break;
     }
   }
@@ -121,7 +121,16 @@ export async function fetchNui(eventName: string, data: unknown = {}) {
     body: JSON.stringify(data),
   };
 
-  const resourceName = "ps-hud";
+  const getResourceName = () => {
+    try {
+      // @ts-ignore
+      return window.GetParentResourceName();
+    } catch(err) {
+      return "ps-hud";
+    }
+  }
+
+  const resourceName = getResourceName();
 
   try {
     const resp = await fetch(`https://${resourceName}/${eventName}`, options);
@@ -134,22 +143,25 @@ function serializeIconData(iconData) {
   let result = {};
   for(const [key, value] of Object.entries(iconData)) {
     let newObject = (({ icon, isShowing, name, progressValue, ...o }) => o)(value as any)
-    result[key] = newObject;
+    result[key] = Object.values(newObject);
   }
   return result;
 }
 
-function serializeColorData(colorData) {
+function serializeColorData(colorData: playerHudColorEffects) {
   let result = {};
   for(const [key, value] of Object.entries(colorData)) {
-    let newObject = (({ currentEffect, editableColors, ...o }) => o)(value as any)
-    result[key] = newObject;
+    result[key] = {};
+    for(const state of value.colorEffects) {
+      result[key][state.name] = Object.values(state);
+    }
   }
+  console.log("result", result);
   return result;
 }
 
 export function saveUIDataToServer() {
-  const playerStatusIcondata = get(PlayerHudStore);
+  const playerStatusIcondata = PlayerHudStore.getSaveableData()
   const colorData = get(ColorEffectStore);
   const layoutdata = get(LayoutStore);
   const serializedIconData = serializeIconData(playerStatusIcondata.icons);
@@ -160,11 +172,13 @@ export function saveUIDataToServer() {
     colors: serializedColorData,
   };
 
+  let saveString: string = JSON.stringify(sendData);
+  console.log("Save string", saveString);
+
   fetchNui('saveUISettings', sendData);
 }
 
 export async function saveUIDataToLocalStorage() {
-  const playerStatusIcondata = get(PlayerHudStore);
   const colorData = get(ColorEffectStore);
   const layoutData = get(LayoutStore);
   const profileData = get(ProfileStore);
@@ -175,12 +189,7 @@ export async function saveUIDataToLocalStorage() {
       globalColorSettings: colorData.globalColorSettings
     }));
 
-  localStorage.setItem(playerStoreLocalStorageName, JSON.stringify(
-    {
-      ...playerStatusIcondata.icons,
-      globalIconSettings: playerStatusIcondata.globalIconSettings,
-      dynamicIcons: playerStatusIcondata.dynamicIcons,
-    }));
+  PlayerHudStore.saveUIDataToLocalStorage();
 
   localStorage.setItem(layoutStoreLocalStorageName, JSON.stringify(layoutData));
 

@@ -13,6 +13,7 @@
   import VehicleHud from './components/vehicle-hud.svelte';
 
   EventHandler();
+  document.onkeyup = MenuStore.handleKeyUp;
 
   // TODO: fix this so this gets made and destoried from design mode
   let interval;
@@ -39,8 +40,6 @@
 
   moveProgress();
   onDestroy(() => clearInterval(interval));
-
-  document.onkeyup = MenuStore.handleKeyUp;
 </script>
 
 <svelte:head>

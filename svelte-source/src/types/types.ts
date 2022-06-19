@@ -1,5 +1,5 @@
 import type { IconDefinition } from '@fortawesome/free-solid-svg-icons'
-import type { Writable } from 'svelte/store';
+import type { DefaultStoreType } from '../utils/defaultStore';
 
 export const iconNames = ["voice", "health", "armor", "hunger", "thirst", "stress",
   "oxygen", "armed", "parachute", "engine", "harness", "cruise", "nitro", "dev", "playerid"] as const;
@@ -12,7 +12,7 @@ export type playerHudIcons = {
 }
 
 export type playerHudIconsStore = {
-  [key in iconNamesKind]: Writable<optionalHudIconType>;
+  [key in iconNamesKind]: DefaultStoreType<optionalHudIconType>;
 }
 
 export const iconLayouts = ["standard", "bottom-right-row", "center-bottom-row",
@@ -250,7 +250,7 @@ export type optionalPlayerHudIconsType = Partial<{ [Property in keyof playerHudI
 
 const DEFAULTICONSHAPE: shapekind = "circle-ring";
 
-export function defaultHudIcon(name: string = "", showing: boolean = false, icon: object = null, progressValue = 100): any {
+export function defaultHudIcon(name: string = "", showing: boolean = false, icon: object = null, progressValue = 100): optionalHudIconType {
   return createShapeIcon(DEFAULTICONSHAPE, { isShowing: showing, icon: icon, name: name, progressValue});
 }
 
@@ -350,4 +350,211 @@ export const profileLocalStorageName: string = "PSHudProfile";
 
 export function capAmountToHundred(num: number) {
   return Math.min(num, 100);
+}
+
+export interface hudStrings {
+  hud_settings: string
+  reset_hud: string
+  reset_hud_desc: string
+  reset_hud_button_text: string
+  reset_hud_settings: string
+  reset_hud_settings_desc: string
+  options: string
+  show_minimap: string
+  show_minimap_desc: string
+  show_compass_only: string
+  show_compass_only_desc: string
+  show_compass_follow: string
+  show_compass_follow_desc: string
+  notifications: string
+  menu_sound_effect: string
+  reset_hud_sound_effect: string
+  gui_sound_effect: string
+  map_notification: string
+  low_fuel_alert: string
+  cinematic_mode_notification: string
+  status: string
+  show_health: string
+  show_armor: string
+  show_hunger: string
+  show_thirst: string
+  show_stress: string
+  show_oxygen: string
+  show_player_id: string
+  vehicle: string
+  minimap_circle: string
+  minimap_square: string
+  minimap_choose: string
+  minimap_check: string
+  minimap_border_check: string
+  show_engine: string
+  show_nitro: string
+  compass: string
+  compass_enabled: string
+  compass_enabled_desc: string
+  show_street_names: string
+  show_street_names_desc: string
+  show_compass_pointer: string
+  show_compass_pointer_desc: string
+  cinematic_mode: string
+  show_cinematic: string
+}
+
+export interface statusIconsStrings {
+  status_icons: string
+  status_icons_settings: string
+  design_mode: string
+  reset_status_icons: string
+  save_changes_to_server: string
+  global_status_icons_settings: string
+  icon_shape: string
+  global_size_position_section: string
+  shapes: Array<string>
+  width_size: string
+  height_size: string
+  ring_size: string
+  show_progress_outline: string
+  x_axis_position: string
+  y_axis_position: string
+  rotation: string
+  icon_x_axis_position: string
+  icon_y_axis_position: string
+  icon_size: string
+  x_axis_curve: string
+  y_axis_curve: string
+  global_color_section: string
+  progress_color: string
+  progress_contrast: string
+  progress_shadow: string
+  icon_color: string
+  icon_contrast: string
+  icon_shadow: string
+  outline_color: string
+  outline_contrast: string
+  outline_shadow: string
+  inner_color: string
+  single_status_icon_settings: string
+  single_icon_size_position_section: string
+  single_icon_color_section: string
+  statusIconNames: Array<string>
+  icon_state: string
+  icon_status_to_edit: string
+  voice_state_strings: Array<string>
+  health_state_strings: Array<string>
+  armor_state_strings: Array<string>
+  hunger_state_strings: Array<string>
+  thirst_state_strings: Array<string>
+  engine_state_strings: Array<string>
+  nitro_state_strings: Array<string>
+}
+
+export type statusIconStringPartition = Omit<statusIconsStrings, "shapes" | "statusIconNames" | "voice_state_strings" |
+  "health_state_strings" | "armor_state_strings" | "hunger_state_strings" | "thirst_state_strings" | "engine_state_strings" | "nitro_state_strings">
+
+export interface statusIconLocalsMessage extends statusIconStringPartition{
+  badge: string
+  circle_ring: string
+  circle_ring_whole: string
+  circle_circle_fill: string
+  circle_square_fill: string
+  circle_whole: string
+  diamond_ring: string
+  diamond_whole: string
+  flower: string
+  hexagon_ring: string
+  hexagon_whole: string
+  horizontal_bar: string
+  icon_percentage: string
+  pill_ring: string
+  pill_whole: string
+  square_circular_fill: string
+  square_ring: string
+  square_whole: string
+  star_ring: string
+  triangle_ring: string
+
+  icon_state: string
+  icon_status_to_edit: string
+  voice_icon: string
+  voice_icon_not_talking: string
+  voice_icon_talking: string
+  voice_icon_radio_talking: string
+  health_icon: string
+  health_icon_alive: string
+  health_icon_dead: string
+  armor_icon: string
+  armor_icon_armor: string
+  armor_icon_no_armor: string
+  hunger_icon: string
+  hunger_normal: string
+  hunger_starving: string
+  thirst_icon: string
+  thirst_icon_thirst_normal: string
+  thirst_icon_thirst_thirsty: string
+  stress_icon: string
+  oxygen_icon: string
+  armed_icon: string
+  parachute_icon: string
+  engine_icon: string
+  engine_icon_no_damage: string
+  engine_icon_minor_damage: string
+  engine_icon_major_damage: string
+  harness_icon: string
+  cruise_icon: string
+  nitro_icon: string
+  nitro_icon_no_nitro: string
+  nitro_icon_active_nitro: string
+  dev_icon: string
+  playerid_icon: string
+}
+
+export interface layoutStrings {
+  global_status_layout_settings: string
+  icon_layout: string
+  layoutNames: Array<string>
+  between_icon_spacing: string
+  y_axis_spacing: string
+  x_axis_spacing: string
+}
+
+export type layoutStringPartition = Omit<layoutStrings, "layoutNames">
+
+export interface layoutLocalesMessage extends layoutStringPartition{
+  standard: string
+  bottom_right_row: string
+  center_bottom_row: string
+  left_bottom_column: string
+  right_bottom_column: string
+  top_left_row: string
+  top_right_row: string
+}
+
+export interface utilityStrings {
+  utility_functions: string
+  copy_progress_colors: string
+}
+
+export interface customProfileStrings {
+  customization_profiles: string
+  add_new_profile: string
+  profile_name: string
+  save_hud_to_profile: string
+  apply_profile_to_hud: string
+  delete_profile: string
+}
+
+export interface localesState {
+  hudSettings: hudStrings
+  statusIcons: statusIconsStrings
+  layouts: layoutStrings
+  utilityFunctions: utilityStrings
+  customProfiles: customProfileStrings
+}
+
+export interface localesDataMessage {
+  hudSettings: hudStrings
+  statusIcons: statusIconLocalsMessage
+  layouts: layoutLocalesMessage
+  utilityFunctions: utilityStrings
+  customProfiles: customProfileStrings
 }

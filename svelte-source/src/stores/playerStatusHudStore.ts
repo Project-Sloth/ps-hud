@@ -1,4 +1,4 @@
-import { Writable, writable, derived, get } from 'svelte/store'
+import { derived, get } from 'svelte/store'
 import { faHeart, faShieldAlt, faHamburger, faTint, faBrain, faStream,
   faParachuteBox, faMeteor, faLungs, faOilCan, faUserSlash,
   faTachometerAltFast, faTerminal, faHeadset, faMicrophone,
@@ -6,17 +6,19 @@ import { faHeart, faShieldAlt, faHamburger, faTint, faBrain, faStream,
 import type { playerHudIcons, playerHudIconsStore, shapekind, iconNamesKind, optionalHudIconType } from '../types/types';
 import { defaultHudIcon, createShapeIcon, capAmountToHundred, playerStoreLocalStorageName, dynamicOptionIconNames } from '../types/types';
 import ColorEffectStore from './colorEffectStore';
+import {FunctionDefaultStore, DefaultStore} from '../utils/defaultStore';
+import type { DefaultStoreType } from '../utils/defaultStore';
 
 type saveUIType = "ready" | "updating";
 
 export type playerStatusType = {
-  designMode: Writable<boolean>,
-  designProgress: Writable<number>,
-  globalIconSettings: Writable<optionalHudIconType>,
+  designMode: DefaultStoreType<boolean>,
+  designProgress: DefaultStoreType<number>,
+  globalIconSettings: DefaultStoreType<optionalHudIconType>,
   icons: playerHudIconsStore,
-  saveUIState: Writable<saveUIType>,
-  show: Writable<boolean>,
-  showingOrder: Writable<Array<keyof playerHudIcons>>,
+  saveUIState: DefaultStoreType<saveUIType>,
+  show: DefaultStoreType<boolean>,
+  showingOrder: DefaultStoreType<Array<keyof playerHudIcons>>,
 }
 
 type playerHudShowMessageType = {
@@ -56,7 +58,7 @@ const store = () => {
     storedObject = JSON.parse(stored);
   }
 
-  function getLocalStorage(key: iconNamesKind | keyof playerStatusType, fallback: any) {
+  function getLocalStorage<T>(key: iconNamesKind | keyof playerStatusType, fallback: T): T {
     if (storedObject && storedObject[key] != null) {
       return storedObject[key];
     }
@@ -65,43 +67,69 @@ const store = () => {
 
   function getDefaultSettings(): playerStatusType {
     return {
-      designMode: writable(false),
-      designProgress: writable(0),
-      globalIconSettings: writable(getLocalStorage("globalIconSettings",
+      designMode: DefaultStore(false),
+      designProgress: DefaultStore(0),
+      globalIconSettings: FunctionDefaultStore(() => getLocalStorage("globalIconSettings",
         (({ isShowing, name, icon, progressValue, ...o }) => o)(defaultHudIcon()))),
       icons: {
-        voice: writable(getLocalStorage("voice", defaultHudIcon("voice", true, faMicrophone, 100))),
-        health: writable(getLocalStorage("health", defaultHudIcon("health", false, faHeart, 100))),
-        armor: writable(getLocalStorage("armor", defaultHudIcon("armor", false, faShieldAlt, 0))),
-        hunger: writable(getLocalStorage("hunger", defaultHudIcon("hunger", false, faHamburger, 100))),
-        thirst: writable(getLocalStorage("thirst", defaultHudIcon("thirst", false, faTint, 100))),
-        stress: writable(getLocalStorage("stress", defaultHudIcon("stress", false, faBrain, 0))),
-        oxygen: writable(getLocalStorage("oxygen", defaultHudIcon("oxygen", false, faLungs, 100))),
-        armed: writable(getLocalStorage("armed", defaultHudIcon("armed", false, faStream, 0))),
-        parachute: writable(getLocalStorage("parachute", defaultHudIcon("parachute", false, faParachuteBox, 0))),
-        engine: writable(getLocalStorage("engine", defaultHudIcon("engine", false, faOilCan, 100))),
-        harness: writable(getLocalStorage("harness", defaultHudIcon("harness", false, faUserSlash, 0))),
-        cruise: writable(getLocalStorage("cruise", defaultHudIcon("cruise", false, faTachometerAltFast, 0))),
-        nitro: writable(getLocalStorage("nitro", defaultHudIcon("nitro", false, faMeteor, 0))),
-        dev: writable(getLocalStorage("dev", defaultHudIcon("dev", false, faTerminal, 0))),
-        playerid: writable(getLocalStorage("playerid", defaultHudIcon("playerid", false, null, 100))),
+        voice: FunctionDefaultStore(() => getLocalStorage("voice", defaultHudIcon("voice", true, faMicrophone, 100))),
+        health: FunctionDefaultStore(() => getLocalStorage("health", defaultHudIcon("health", false, faHeart, 100))),
+        armor: FunctionDefaultStore(() => getLocalStorage("armor", defaultHudIcon("armor", false, faShieldAlt, 0))),
+        hunger: FunctionDefaultStore(() => getLocalStorage("hunger", defaultHudIcon("hunger", false, faHamburger, 100))),
+        thirst: FunctionDefaultStore(() => getLocalStorage("thirst", defaultHudIcon("thirst", false, faTint, 100))),
+        stress: FunctionDefaultStore(() => getLocalStorage("stress", defaultHudIcon("stress", false, faBrain, 0))),
+        oxygen: FunctionDefaultStore(() => getLocalStorage("oxygen", defaultHudIcon("oxygen", false, faLungs, 100))),
+        armed: FunctionDefaultStore(() => getLocalStorage("armed", defaultHudIcon("armed", false, faStream, 0))),
+        parachute: FunctionDefaultStore(() => getLocalStorage("parachute", defaultHudIcon("parachute", false, faParachuteBox, 0))),
+        engine: FunctionDefaultStore(() => getLocalStorage("engine", defaultHudIcon("engine", false, faOilCan, 100))),
+        harness: FunctionDefaultStore(() => getLocalStorage("harness", defaultHudIcon("harness", false, faUserSlash, 0))),
+        cruise: FunctionDefaultStore(() => getLocalStorage("cruise", defaultHudIcon("cruise", false, faTachometerAltFast, 0))),
+        nitro: FunctionDefaultStore(() => getLocalStorage("nitro", defaultHudIcon("nitro", false, faMeteor, 0))),
+        dev: FunctionDefaultStore(() => getLocalStorage("dev", defaultHudIcon("dev", false, faTerminal, 0))),
+        playerid: FunctionDefaultStore(() => getLocalStorage("playerid", defaultHudIcon("playerid", false, null, 100))),
       },
-      saveUIState: writable("ready"),
-      show: writable(false),
-      showingOrder: writable(["voice", "health", "armor", "hunger", "thirst", "stress", "oxygen", "armed",
-        "parachute", "engine", "harness", "cruise", "nitro", "dev", "playerid"]),
+      saveUIState: DefaultStore("ready"),
+      show: DefaultStore(false),
+      showingOrder: FunctionDefaultStore(() => getLocalStorage("showingOrder", ["voice", "health", "armor", "hunger", "thirst", "stress", "oxygen", "armed",
+        "parachute", "engine", "harness", "cruise", "nitro", "dev", "playerid"])),
     }
   }
 
   const playerHudUIState: playerStatusType = getDefaultSettings();
-  
-  // const { subscribe, set, update } = writable(playerHudUIState);
+
+  let singleIcons = {};
+  for (const [name, icon] of Object.entries(playerHudUIState.icons)) {
+    singleIcons[name] = icon;
+  }
 
   const methods = {
+    getSaveableData() {
+      const saveData: {icons: playerHudIcons, globalIconSettings: optionalHudIconType, showingOrder: Array<keyof playerHudIcons>} =
+        { icons: {} as any, globalIconSettings: null, showingOrder: null };
+      for (const [name, icon] of Object.entries(playerHudUIState.icons)) {
+        saveData.icons[name] = get(icon);
+      }
+      saveData["globalIconSettings"] = get(playerHudUIState.globalIconSettings);
+      saveData["showingOrder"] = get(playerHudUIState.showingOrder);
+      return saveData;
+    },
     resetPlayerStatusIcons() {
       storedObject = {};
       localStorage.removeItem(playerStoreLocalStorageName);
-      //TODO set({...getDefaultSettings(), show: true}); 
+      playerHudUIState.designMode.resetValue();
+      playerHudUIState.designProgress.resetValue();
+      playerHudUIState.globalIconSettings.resetValue();
+      playerHudUIState.saveUIState.resetValue();
+      playerHudUIState.showingOrder.resetValue();
+      for (const icon of Object.values(playerHudUIState.icons)) {
+        icon.resetValue();
+      }
+      playerHudUIState.show.set(true);
+    },
+    saveUIDataToLocalStorage() {
+      const data = methods.getSaveableData();
+      console.log("Hello!");
+      localStorage.setItem(playerStoreLocalStorageName, JSON.stringify({...data.icons, globalIconSettings: data.globalIconSettings, showingOrder: data.showingOrder}));
     },
     updateAllIconsSettings(settingName: keyof optionalHudIconType, value: any) {
       for (let icon of Object.values(playerHudUIState.icons)) {
@@ -174,115 +202,85 @@ const store = () => {
       methods.updateAllIconsSettings("width", width)
     },
     updateIconShape(iconName: iconNamesKind, shape: shapekind) {
-      // update(state => {
-        playerHudUIState.icons[iconName].update(state => {
-          let defaultShape = createShapeIcon(shape, 
-            {
-              icon: state.icon,
-              isShowing: state.isShowing, 
-              name: state.name,
-              progressValue: state.progressValue
-            });
-          state = defaultShape;
-          return state;
-        });
-        // state.icons[iconName] = defaultShape;
-        // state.icons[iconName].shape = shape;
-      //   return state;
-      // })
+      playerHudUIState.icons[iconName].update(state => {
+        let defaultShape = createShapeIcon(shape, 
+          {
+            icon: state.icon,
+            isShowing: state.isShowing, 
+            name: state.name,
+            progressValue: state.progressValue
+          });
+        state = defaultShape;
+        return state;
+      });
     },
     updateIconSetting(iconName: iconNamesKind, settingName: keyof optionalHudIconType, value: any) {
-      // update(state => {
-        // keyof optionalHudIconType does not want to work, so we force any to pass type check
-        // keyof should work since its the exact same type as what key we are trying
-        playerHudUIState.icons[iconName].update(state =>{
-          state[settingName as any] = value;
-          return state;
-        });
-        // state.icons[iconName][settingName as any] = value;
-        // return state;
-    //  })
+      playerHudUIState.icons[iconName].update(state =>{
+        state[settingName as any] = value;
+        return state;
+      });
     },
     updateShowingDynamicIcon(iconName: iconNamesKind, staticShow: boolean) {
       let result: boolean = false;
-      // update(state => {
-        switch (iconName) {
-          case "armor":
-            playerHudUIState.icons.armor.update(state => {
-              state.isShowing = methods.staticGenericZeroHandleShow(staticShow, state.progressValue);
-              result = state.isShowing;
-              return state;
-            });
-            // state.icons.armor.isShowing = methods.staticGenericZeroHandleShow(staticShow, state.icons.armor.progressValue);
-            // result = state.icons.armor.isShowing;
-            break;
-          case "engine":
-            playerHudUIState.icons.engine.update(state => {
-              state.isShowing = methods.staticEngineHandleShow(staticShow, state.progressValue);
-              result = state.isShowing;
-              return state;
-            });
-            // state.icons.engine.isShowing = methods.staticEngineHandleShow(staticShow, state.icons.engine.progressValue);
-            // result = state.icons.engine.isShowing;
-            break;
-          case "health":
-            playerHudUIState.icons.health.update(state => {
-              state.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.progressValue);
-              result = state.isShowing;
-              return state;
-            });
-            // state.icons.health.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.icons.health.progressValue);
-            // result = state.icons.health.isShowing;
-            break;
-          case "hunger":
-            playerHudUIState.icons.hunger.update(state => {
-              state.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.progressValue);
-              result = state.isShowing;
-              return state;
-            })
-            // state.icons.hunger.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.icons.hunger.progressValue);
-            // result = state.icons.hunger.isShowing;
-            break;
-          case "nitro":
-            const engineProgressValue = get(playerHudUIState.icons.engine).progressValue;
-            playerHudUIState.icons.nitro.update(state => {
-              state.isShowing = methods.staticNitroHandleShow(staticShow, state.progressValue, engineProgressValue);
-              result = state.isShowing;
-              return state;
-            });
-            // state.icons.nitro.isShowing = methods.staticNitroHandleShow(staticShow, state.icons.nitro.progressValue, state.icons.engine.progressValue);
-            // result = state.icons.nitro.isShowing;
-            break;
-          case "oxygen":
-            playerHudUIState.icons.oxygen.update(state => {
-              state.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.progressValue);
-              result = state.isShowing;
-              return state;
-            })
-            // state.icons.oxygen.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.icons.oxygen.progressValue);
-            // result = state.icons.oxygen.isShowing;
-            break;
-          case "stress":
-            playerHudUIState.icons.stress.update(state => {
-              state.isShowing = methods.staticGenericZeroHandleShow(staticShow, state.progressValue);
-              result = state.isShowing;
-              return state;
-            })
-            // state.icons.stress.isShowing = methods.staticGenericZeroHandleShow(staticShow, state.icons.stress.progressValue);
-            // result = state.icons.stress.isShowing;
-            break;
-          case "thirst":
-            playerHudUIState.icons.thirst.update(state => {
-              state.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.progressValue);
-              result = state.isShowing;
-              return state;
-            })
-            // state.icons.thirst.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.icons.thirst.progressValue);
-            // result = state.icons.thirst.isShowing;
-            break;
-        }
-      //   return state;
-      // })
+      switch (iconName) {
+        case "armor":
+          playerHudUIState.icons.armor.update(state => {
+            state.isShowing = methods.staticGenericZeroHandleShow(staticShow, state.progressValue);
+            result = state.isShowing;
+            return state;
+          });
+          break;
+        case "engine":
+          playerHudUIState.icons.engine.update(state => {
+            state.isShowing = methods.staticEngineHandleShow(staticShow, state.progressValue);
+            result = state.isShowing;
+            return state;
+          });
+          break;
+        case "health":
+          playerHudUIState.icons.health.update(state => {
+            state.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.progressValue);
+            result = state.isShowing;
+            return state;
+          });
+          break;
+        case "hunger":
+          playerHudUIState.icons.hunger.update(state => {
+            state.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.progressValue);
+            result = state.isShowing;
+            return state;
+          })
+          break;
+        case "nitro":
+          const engineProgressValue = get(playerHudUIState.icons.engine).progressValue;
+          playerHudUIState.icons.nitro.update(state => {
+            state.isShowing = methods.staticNitroHandleShow(staticShow, state.progressValue, engineProgressValue);
+            result = state.isShowing;
+            return state;
+          });
+          break;
+        case "oxygen":
+          playerHudUIState.icons.oxygen.update(state => {
+            state.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.progressValue);
+            result = state.isShowing;
+            return state;
+          })
+          break;
+        case "stress":
+          playerHudUIState.icons.stress.update(state => {
+            state.isShowing = methods.staticGenericZeroHandleShow(staticShow, state.progressValue);
+            result = state.isShowing;
+            return state;
+          })
+          break;
+        case "thirst":
+          playerHudUIState.icons.thirst.update(state => {
+            state.isShowing = methods.staticGenericHundredHandleShow(staticShow, state.progressValue);
+            result = state.isShowing;
+            return state;
+          })
+          break;
+      }
       return result;
     },
     updateAllShowingDynamicIcons(val: boolean) {
@@ -529,19 +527,10 @@ const store = () => {
     }
   }
 
-  const singleIcons = derived(Object.values(playerHudUIState.icons), (values) => {
-    console.log("Values", values);
-    let storeObject = {};
-    for (let icon of values) {
-      storeObject[icon.name] = icon;
-    }
-    return storeObject;
-  })
-
   return {
     ...playerHudUIState,
     singleIcons,
-    ...methods
+    ...methods,
   }
 }
 

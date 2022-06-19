@@ -194,10 +194,6 @@ RegisterNetEvent('hud:server:saveUIData', function(data)
     TriggerClientEvent('hud:client:UpdateUISettings', -1, uiConfigData)
 end)
 
-QBCore.Functions.CreateCallback('hud:server:getMenu', function(source, cb)
-    cb(Config.Menu)
-end) 
-
 QBCore.Functions.CreateCallback('hud:server:getRank', function(source, cb)
     local src = source
     if QBCore.Functions.HasPermission(src, 'admin') or IsPlayerAceAllowed(src, 'command') then

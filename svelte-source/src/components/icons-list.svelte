@@ -5,6 +5,7 @@
   import type { playerHudIcons, optionalPlayerHudIconsType, optionalHudIconType } from '../types/types';
   import { fade } from 'svelte/transition';
   import MetaShape from './meta-shape.svelte';
+  import IconItem from './icon-item.svelte';
 
   export let isReversed: boolean = false;
   export let iconsToShow: Array<keyof playerHudIcons> = [];
@@ -34,28 +35,9 @@
   {@const currentEffect = $ColorEffectStore.icons[iconName].colorEffects[currentEffectIndex]}
   {@const buffColorEffect = $ExternalStatusStore[iconName]}
 
-  
-  {#if ($singleIcons[iconName].isShowing && !iconsToNotShow.includes(iconName)) || $designMode}
-    <div transition:fade|local="{{duration: 1000}}" class="my-auto">
-      <MetaShape hudIconInfo={
-        {
-          ...$singleIcons[iconName],
-          progressColor: currentEffect.progressColor,
-          progressContrast: currentEffect.progressContrast,
-          progressDropShadowAmount: currentEffect.progressDropShadowAmount,
-          progressValue: $designMode ?
-            $designProgress : $singleIcons[iconName].progressValue,
-          iconColor: buffColorEffect ? buffColorEffect.iconColor : currentEffect.iconColor,
-          iconContrast: currentEffect.iconContrast,
-          iconDropShadowAmount: currentEffect.iconDropShadowAmount,
-          outlineColor: currentEffect.outlineColor,
-          outlineContrast: currentEffect.outlineContrast,
-          outlineDropShadowAmount: currentEffect.outlineDropShadowAmount,
-          innerColor: currentEffect.innerColor,
-        }}
-      />
-    </div>
-  {/if}
+
+  <IconItem singleIconStore={singleIcons[iconName]} designMode={$designMode} designProgress={$designProgress} 
+    iconToNotShow={!iconsToNotShow.includes(iconName)} {buffColorEffect} {currentEffect}/>
 {/each}
 
 {#each Object.entries($ExternalStatusStore) as [iconName, statusIcon] (iconName) }
