@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
   import MenuStore from "./stores/menuStore";
-  import { EventHandler } from "./utils/eventHandler";
+  import { EventHandler, getConfigData } from "./utils/eventHandler";
   import MetaLayout from "./components/meta-layout.svelte";
   import Menu from "./components/menu.svelte";
   import DebugStore from './stores/debugStore';
@@ -39,7 +39,8 @@
 
   moveProgress();
   onDestroy(() => clearInterval(interval));
-  // getConfigData();
+
+  getConfigData();
 </script>
 
 <svelte:head>

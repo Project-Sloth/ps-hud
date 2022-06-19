@@ -190,6 +190,7 @@ RegisterNUICallback('getConfigData', function(_, cb)
         action = "configData",
         data = {
             speedometerText = Config.SpeedometerText,
+            currencyText = Config.CurrencyText,
         }
     })
 end)

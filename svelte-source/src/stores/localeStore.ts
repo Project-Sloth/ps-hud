@@ -135,7 +135,7 @@ const store = () => {
   const initialVal: localeState = defaultLocales();
   const { subscribe } = readable(initialVal, (set) => {
     fetchNui("getLocaleData", {}).then((localeData: {action: string, locales: localeState}) => {
-      let fallbackObj = defaultLocales()
+      let fallbackObj = defaultLocales();
       set({
         statusIcons: localeData.locales.statusIcons || fallbackObj.statusIcons,
         hudSettings: localeData.locales.hudSettings || fallbackObj.hudSettings,

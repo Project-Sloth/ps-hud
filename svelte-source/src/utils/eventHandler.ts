@@ -15,6 +15,9 @@ import { colorStoreLocalStorageName,
 } from '../types/types';
 import type { playerHudColorEffects } from '../types/types';
 
+let { currencyText } = MoneyHudStore;
+let { speedometerText } = VehicleHudStore;
+
 interface nuiMessage {
   data: {
     action: string,
@@ -196,6 +199,20 @@ export async function saveUIDataToLocalStorage() {
   localStorage.setItem(profileLocalStorageName, JSON.stringify( {"profiles": profileData} ));
 }
 
+interface configDataMessage {
+  speedometerText: string
+  currencyText: string
+}
+
 export function getConfigData() {
-  
+  fetchNui("getConfigData", {}).then((configMessage: {action: string, data: configDataMessage}) => {
+    speedometerText.update((state) => {
+      state = configMessage.data.speedometerText || state;
+      return state;
+    });
+    currencyText.update((state) => {
+      state = configMessage.data.currencyText || state;
+      return state;
+    });
+  });
 }

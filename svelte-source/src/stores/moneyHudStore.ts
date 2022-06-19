@@ -1,14 +1,16 @@
 import { writable } from 'svelte/store'
+import type { Writable } from 'svelte/store';
 
 type moneyStatus = {
-  cash: number,
-  bank: number,
-  amount: number,
-  plus: boolean,
-  minus: boolean,
-  showCash: boolean,
-  showBank: boolean,
-  showUpdate: boolean
+  currencyText: Writable<string>,
+  cash: Writable<number>,
+  bank: Writable<number>,
+  amount: Writable<number>,
+  plus: Writable<boolean>,
+  minus: Writable<boolean>,
+  showCash: Writable<boolean>,
+  showBank: Writable<boolean>,
+  showUpdate: Writable<boolean>,
 }
 
 type moneyType = "cash" | "bank";
@@ -34,94 +36,72 @@ type moneyShowAccountsMessage = {
 const store = () => {
 
   const moneyStatusState: moneyStatus = {
-    cash: 0,
-    bank: 0,
-    amount: 0,
-    plus: false,
-    minus: false,
-    showCash: false,
-    showBank: false,
-    showUpdate: false,
+    currencyText: writable("$"),
+    cash: writable(0),
+    bank: writable(0),
+    amount: writable(0),
+    plus: writable(false),
+    minus: writable(false),
+    showCash: writable(false),
+    showBank: writable(false),
+    showUpdate: writable(false),
   }
-
-  const { subscribe, set, update } = writable(moneyStatusState);
 
   const methods = {
     finishShowingUpdate() {
-      update(state => {
-        state.showUpdate = false;
-        return state;
-      });
+      moneyStatusState.showUpdate.set(false);
     },
     finishShowingMoney(type: moneyType) {
-      update(state => {
-        if (type == "cash") {
-          state.showCash = false;
-        } else {
-          state.showBank = false;
-        }
-        return state;
-      });
-    },
-    formatMoney(value: number) {
-      const formatter = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-        minimumFractionDigits: 0,
-      });
-      return formatter.format(value);
+      if (type == "cash") {
+        moneyStatusState.showCash.set(false);
+      } else {
+        moneyStatusState.showBank.set(false);
+      }
     },
     receiveShowConstantMessage(data: moneyShowConstantMessage) {
-      update(state => {
-        state.showCash = true;
-        state.showBank = true;
-        state.cash = data.cash;
-        state.bank = data.bank;
-
-        return state;
-      });
+      moneyStatusState.showCash.set(true);
+      moneyStatusState.showBank.set(true);
+      moneyStatusState.cash.set(data.cash);
+      moneyStatusState.bank.set(data.bank);
     },
     receiveUpdateMessage(data: moneyUpdateMessage) {
-      update(state => {
-        state.showUpdate = true;
-        state.amount = data.amount;
-        state.bank = data.bank;
-        state.cash = data.cash;
-        state.minus = data.minus;
-        state.plus = !data.minus;
+      moneyStatusState.showUpdate.set(true);
+      moneyStatusState.amount.set(data.amount);
+      moneyStatusState.bank.set(data.bank);
+      moneyStatusState.cash.set(data.cash);
+      moneyStatusState.minus.set(data.minus);
+      moneyStatusState.plus.set(!data.minus);
 
-        if (data.type == "cash") {
-          state.showCash = true;
-        } else if (data.type == "bank") {
-          state.showBank = true;
-        }
-        setTimeout(() => methods.finishShowingUpdate(), 3000);
-        setTimeout(() => methods.finishShowingMoney(data.type), 4000);
-
-        return state;
-      });
+      if (data.type == "cash") {
+        moneyStatusState.showCash.set(true);
+      } else if (data.type == "bank") {
+        moneyStatusState.showBank.set(true);
+      }
+      setTimeout(() => methods.finishShowingUpdate(), 3000);
+      setTimeout(() => methods.finishShowingMoney(data.type), 4000);
     },
     receiveShowAccountsMessage(data: moneyShowAccountsMessage) {
-      update(state => {
-        if (data.type == "cash" && !state.showCash) {
-          state.showCash = true;
-          state.cash = data.cash;
-        } else if (data.type == "bank" && !state.showBank) {
-          state.showBank = true;
-          state.bank = data.bank;
+      moneyStatusState.showCash.update((showCash) => {
+        if (data.type == "cash" && !showCash) {
+          showCash = true;
+          moneyStatusState.cash.set(data.cash);
         }
-        setTimeout(() => methods.finishShowingMoney(data.type), 3500);
-        
-        return state;
+        return showCash;
       });
+      moneyStatusState.showBank.update((showBank) => {
+        if (data.type == "bank" && !showBank) {
+          showBank = true;
+          moneyStatusState.bank.set(data.bank);
+        }
+        return showBank;
+      });
+      setTimeout(() => methods.finishShowingMoney(data.type), 3500);
     },
   }
 
 
   return {
-    subscribe,
-    set,
-    update,
+    ...moneyStatusState,
     ...methods
   };
 }

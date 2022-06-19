@@ -1,25 +1,27 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
   import MoneyHudStore from '../stores/moneyHudStore'
+
+  let { amount, bank, cash, currencyText, minus, plus, showCash, showBank, showUpdate } = MoneyHudStore;
 </script>
 
 <div id="money-container">
-  {#if $MoneyHudStore.showCash}
+  {#if $showCash}
     <div transition:fade|local="{{duration: 1000}}">
-      <p><span id="sign">$&nbsp;</span><span id="money">{$MoneyHudStore.cash}</span></p>
+      <p><span id="sign">{$currencyText}&nbsp;</span><span id="money">{$cash}</span></p>
     </div>
   {/if}
-  {#if $MoneyHudStore.showBank}
+  {#if $showBank}
     <div transition:fade|local="{{duration: 1000}}">
-      <p><span id="sign">$&nbsp;</span><span id="bank">{$MoneyHudStore.bank}</span></p>
+      <p><span id="sign">{$currencyText}&nbsp;</span><span id="bank">{$bank}</span></p>
     </div>
   {/if}
-  {#if $MoneyHudStore.showUpdate}
+  {#if $showUpdate}
     <div transition:fade|local="{{duration: 1000}}">
-      {#if $MoneyHudStore.plus}
-        <p id="money"><span id="plus">+&nbsp;</span><span id="money">{$MoneyHudStore.amount}</span></p>
-      {:else if $MoneyHudStore.minus}
-        <p id="minus"><span id="minus">-&nbsp;</span><span id="money">{$MoneyHudStore.amount}</span></p>
+      {#if $plus}
+        <p id="money"><span id="plus">+&nbsp;</span><span id="money">{$amount}</span></p>
+      {:else if $minus}
+        <p id="minus"><span id="minus">-&nbsp;</span><span id="money">{$amount}</span></p>
       {/if}
     </div>
   {/if}
