@@ -195,3 +195,7 @@ export async function saveUIDataToLocalStorage() {
 
   localStorage.setItem(profileLocalStorageName, JSON.stringify( {"profiles": profileData} ));
 }
+
+export function getConfigData() {
+  
+}

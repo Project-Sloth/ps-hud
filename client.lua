@@ -14,7 +14,7 @@ local thirst = 100
 local cashAmount = 0
 local bankAmount = 0
 local nitroActive = 0
-local harness = 0
+local harness = false
 local hp = 100
 local armed = 0
 local parachute = -1
@@ -71,21 +71,21 @@ local function CinematicShow(bool)
     end
 end
 
-local function hasHarness(items)
-    local ped = PlayerPedId()
-    if not IsPedInAnyVehicle(ped, false) then return end
+-- local function hasHarness(items)
+--     local ped = PlayerPedId()
+--     if not IsPedInAnyVehicle(ped, false) then return end
 
-    local _harness = false
-    if items then 
-        for _, v in pairs(items) do
-            if v.name == 'harness' then
-                _harness = true
-            end
-        end
-    end
+--     local _harness = false
+--     if items then 
+--         for _, v in pairs(items) do
+--             if v.name == 'harness' then
+--                 _harness = true
+--             end
+--         end
+--     end
 
-    harness = _harness
-end
+--     harness = _harness
+-- end
 
 local function loadSettings()
     QBCore.Functions.Notify(Lang:t("notify.hud_settings_loaded"), "success")
@@ -185,6 +185,14 @@ RegisterNUICallback('getLocaleData', function(_, cb)
     })
 end)
 
+RegisterNUICallback('getConfigData', function(_, cb)
+    cb({
+        action = "configData",
+        data = {
+            speedometerText = Config.SpeedometerText,
+        }
+    })
+end)
 
 RegisterNUICallback('closeMenu', function(_, cb)
     cb({})
@@ -964,6 +972,7 @@ CreateThread(function()
                 end
 
                 wasInVehicle = true
+                harness = exports['qb-smallresources']:HasHarness()
                 
                 updatePlayerHud({
                     show,
@@ -1080,19 +1089,19 @@ RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus)
 end)
 
 -- Harness Check
-if Config.DisableCarHud == false then
-    CreateThread(function()
-        while true do
-            Wait(1000)
-            if LocalPlayer.state.isLoggedIn then
-                local ped = PlayerPedId()
-                if IsPedInAnyVehicle(ped, false) then
-                    hasHarness(PlayerData.items)
-                end
-            end
-        end
-    end)
-end
+-- if Config.DisableCarHud == false then
+--     CreateThread(function()
+--         while true do
+--             Wait(1000)
+--             if LocalPlayer.state.isLoggedIn then
+--                 local ped = PlayerPedId()
+--                 if IsPedInAnyVehicle(ped, false) then
+--                     hasHarness(PlayerData.items)
+--                 end
+--             end
+--         end
+--     end)
+-- end
 
 -- Stress Gain
 

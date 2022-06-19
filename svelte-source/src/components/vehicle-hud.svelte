@@ -7,43 +7,45 @@
   import Fa from 'svelte-fa';
 
   // TODO see if most of these components can be under the same responsive class div, need to test once this is working
+
+  let { show, speed, fuel, fuelColor, showAltitude, altitude, showSeatBelt, seatbeltColor, speedometerText } = VehicleHudStore;
 </script>
 
-{#if $VehicleHudStore.show || DebugStore}
+{#if $show || DebugStore}
   <div class="responsive" id="speedometer">
     <PartialCircleRing maxLengthDisplay={66} rotateDegree={212} ringSize={5.5} progressColor={"white"}
-      outlineColor={"white"} outlineColorOpacity={0.6} height={60} width={60} progressValue={$VehicleHudStore.speed}
-      text={"MPH"} displayNumber={$VehicleHudStore.speed} maxProgressValue={180}
+      outlineColor={"white"} outlineColorOpacity={0.6} height={60} width={60} progressValue={$speed}
+      text={$speedometerText} displayNumber={$speed} maxProgressValue={180}
     />
   </div>
   <div class="responsive" id="fuelgauge">
-    <PartialCircleRing maxLengthDisplay={69} rotateDegree={235} ringSize={3.5} progressColor={$VehicleHudStore.fuelColor}
-      outlineColor={$VehicleHudStore.fuelColor} outlineColorOpacity={0.6} height={36} width={36} progressValue={$VehicleHudStore.fuel}
+    <PartialCircleRing maxLengthDisplay={69} rotateDegree={235} ringSize={3.5} progressColor={$fuelColor}
+      outlineColor={$fuelColor} outlineColorOpacity={0.6} height={36} width={36} progressValue={$fuel}
       icon={faGasPump} iconColor={"white"} iconScaling={0.38}
     />
   </div>
   
-  {#if $VehicleHudStore.showAltitude}
+  {#if $showAltitude}
     <div class="responsive" id="altitudegauge">
       <PartialCircleRing maxLengthDisplay={75} rotateDegree={225} ringSize={5.5} progressColor={"white"}
-        outlineColor={"white"} outlineColorOpacity={0.6} height={60} width={60} progressValue={$VehicleHudStore.altitude}
-        text={"ALT"} displayNumber={$VehicleHudStore.altitude} maxProgressValue={750}
+        outlineColor={"white"} outlineColorOpacity={0.6} height={60} width={60} progressValue={$altitude}
+        text={"ALT"} displayNumber={$altitude} maxProgressValue={750}
       />
     </div>
   {/if}
 
   <!-- When in heli or plane -->
-  {#if $VehicleHudStore.showSeatBelt && $VehicleHudStore.showAltitude}
+  {#if $showSeatBelt && $showAltitude}
     <div transition:fade|local="{{duration: 500}}">
       <div class="responsive" id="seatbeltAltitude">
-        <Fa icon={faUserSlash} scale={1.1} style="color:{$VehicleHudStore.seatbeltColor}"/>
+        <Fa icon={faUserSlash} scale={1.1} style="color:{$seatbeltColor}"/>
       </div>
     </div>
   <!-- When in car -->
-  {:else if $VehicleHudStore.showSeatBelt}
+  {:else if $showSeatBelt}
     <div transition:fade|local="{{duration: 500}}">
       <div class="responsive" id="seatbelt">
-        <Fa icon={faUserSlash} scale={1.1} style="color:{$VehicleHudStore.seatbeltColor}"/>
+        <Fa icon={faUserSlash} scale={1.1} style="color:{$seatbeltColor}"/>
       </div>
     </div>
   {/if}

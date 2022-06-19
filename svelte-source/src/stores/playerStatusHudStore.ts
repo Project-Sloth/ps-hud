@@ -374,7 +374,7 @@ const store = () => {
         return state;
       })
 
-      playerHudUIState.icons.armor.update(state => {
+      playerHudUIState.icons.armed.update(state => {
         if (data.armed) {
           state.isShowing = true;
         } else {
