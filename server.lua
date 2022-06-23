@@ -17,6 +17,15 @@ QBCore.Commands.Add("dev", "Enable/Disable developer Mode", {}, false, function(
     TriggerClientEvent("qb-admin:client:ToggleDevmode", source)
 end, 'admin')
 
+local notified = false
+function notification()
+    if not notified then
+        notified = true
+        Wait(30000)
+        notified = false
+    end
+end
+
 RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
@@ -58,7 +67,10 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
     end
     Player.Functions.SetMetaData('stress', newStress)
     TriggerClientEvent('hud:client:UpdateStress', src, newStress)
-    TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_removed"))
+    if not notified then
+        TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_removed"))
+        notification()
+    end
 end)
 
 RegisterNetEvent('hud:server:saveUIData', function(data)
