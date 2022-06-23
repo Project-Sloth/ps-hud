@@ -1074,9 +1074,15 @@ RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus)
     })
 end)
 
--- Harness Check
+-- Harness Check / Seatbelt Check
 
 CreateThread(function()
+    while IsPedInAnyVehicle(PlayerPedId(), false) do
+        Wait(1500)
+        if seatbeltOn ~= true then
+            TriggerEvent("InteractSound_CL:PlayOnOne","beltalarm",0.6)
+        end
+    end
     while true do
         Wait(1000)
         if LocalPlayer.state.isLoggedIn then
