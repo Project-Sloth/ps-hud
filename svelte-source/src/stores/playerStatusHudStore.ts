@@ -59,7 +59,7 @@ type playerHudUpdateMessageType = {
 }
   
 const store = () => {
-  let stored: string = localStorage.getItem(playerStoreLocalStorageName);
+  const stored: string = localStorage.getItem(playerStoreLocalStorageName);
   let storedObject: object = {};
   if (stored) {
     storedObject = JSON.parse(stored);
@@ -118,7 +118,7 @@ const store = () => {
     },
     updateAllIconsSettings(settingName: keyof optionalHudIconType, value: any) {
       update(state => {
-        for (let icon in state.icons) {
+        for (const icon in state.icons) {
           if (settingName in state.icons[icon]) {
             state.icons[icon][settingName] = value;
           }
@@ -149,8 +149,8 @@ const store = () => {
     },
     updateAllShapes(shape: shapekind) {
       update(state => {
-        for (let icon in state.icons) {
-          let defaultShape = createShapeIcon(shape, 
+        for (const icon in state.icons) {
+          const defaultShape = createShapeIcon(shape, 
             {
               icon: state.icons[icon].icon,
               isShowing: state.icons[icon].isShowing,
@@ -186,7 +186,7 @@ const store = () => {
     },
     updateIconShape(iconName: iconNamesKind, shape: shapekind) {
       update(state => {
-         let defaultShape = createShapeIcon(shape, 
+         const defaultShape = createShapeIcon(shape, 
           {
             icon: state.icons[iconName].icon,
             isShowing: state.icons[iconName].isShowing, 
