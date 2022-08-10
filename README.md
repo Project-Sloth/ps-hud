@@ -85,4 +85,4 @@ https://user-images.githubusercontent.com/89323760/170898540-5e3abd16-38bb-45d6-
 ### Credits:
 Inspiration and some code snippets from [Svelte & Lua Boilerplate](https://github.com/project-error/svelte-lua-boilerplate) by [Project Error](https://github.com/project-error)
 
-##### Copyright © 2022 Project Sloth. All rights reserved.
+##### Copyright © 2022 Project Sloth.
