@@ -4,7 +4,7 @@
 Reworked the CSS and JS to allow to just drop in an image for the menu in the ps-hud
 
 ### To Change the Logo :- 
-### ```Head to ps-hud/html/Logo.png change the png here and Rename the png to Logo.png only for it to work.```
+```Head to ps-hud/html/Logo.png change the png here and Rename the png to Logo.png only for it to work.```
 <br>
 ### Note- ```Capitalization matters so it should be Logo.png only!!```
 
