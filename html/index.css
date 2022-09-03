@@ -904,7 +904,7 @@ button,[type=button],[type=reset],[type=submit]{
 button,[role=button]{
     cursor:pointer
 }
-canvas,svg{
+canvas,svg,img{
     display:block;
     vertical-align:middle
 }
@@ -917,6 +917,11 @@ hr{
     height:0;
     color:inherit;
     border-top-width:1px
+}
+img{
+    border-style:solid;
+    max-width:100%;
+    height:auto
 }
 input::placeholder{
     opacity:1;
@@ -1578,4 +1583,3 @@ p,hr{
         grid-template-columns:repeat(6,minmax(0,1fr))
     }
 }
- 
