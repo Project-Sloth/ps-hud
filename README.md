@@ -1,3 +1,15 @@
+## Forked from Project Sloth :-
+
+### My Edit:
+Reworked the CSS and JS to allow to just drop in an image for the menu in the ps-hud
+
+### To Change the Logo :- 
+### ```Head to ps-hud/html/Logo.png change the png here and Rename the png to Logo.png only for it to work.```
+<br>
+### Note- ```Capitalization matters so it should be Logo.png only!!```
+
+_______________________________________________________________________________________________________________________________________________________________________
+
 ![Project Sloth GitHub Project PS-HUD Banner](https://user-images.githubusercontent.com/91661118/170896135-fead50a0-2a4b-432d-8469-038acfb4f2f3.png)
 
 ### ps-hud
