@@ -22,7 +22,7 @@ local ResetStress = false
 
 RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
-    local Player = ESX.Get.PlayerFromId(src)
+    local Player = ESX.GetPlayerFromId(src)
     local newStress
     if not Player or (Config.DisablePoliceStress and Player.PlayerData.job.name == 'police') then return end
     if not ResetStress then
@@ -44,7 +44,7 @@ end)
 
 RegisterNetEvent('hud:server:RelieveStress', function(amount)
     local src = source
-    local Player = ESX.Get.PlayerFromId(src)
+    local Player = ESX.GetPlayerFromId(src)
     local newStress
     if not Player then return end
     if not ResetStress then
@@ -72,7 +72,7 @@ RegisterNetEvent('hud:server:saveUIData', function(data)
 	end
 
     -- Ensure a player is invoking this net event
-    local Player = ESX.Get.PlayerFromId(src)
+    local Player = ESX.GetPlayerFromId(src)
 	if not Player then return end
 
     local uiConfigData = {}
