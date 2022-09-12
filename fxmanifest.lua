@@ -5,9 +5,10 @@ description 'ps-hud'
 version '2.1.0'
 
 shared_scripts {
-	'@qb-core/shared/locale.lua',
+	'@es_extended/imports.lua',
 	'locales/en.lua',
 	'config.lua',
+	'seatbelt.lua',
 	'uiconfig.lua'
 }
 

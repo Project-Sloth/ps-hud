@@ -1,5 +1,29 @@
 ![Project Sloth GitHub Project PS-HUD Banner](https://user-images.githubusercontent.com/91661118/170896135-fead50a0-2a4b-432d-8469-038acfb4f2f3.png)
 
+### Sorta Important
+
+- ALL CREDITS TO THE ORIGINAL CREATORS (PROJECT SLOTH)
+- I TAKE 0 CREDIT
+- I DID NOT CREATE ANY OF THIS 
+- I JUST CONVERTED IT 
+- I HOPE YOU ENJOY 
+### Notes
+Stress is broken because i never used it on my server. If you wanna use it uncomment lines 954 to 956 on client.lua to read stress. you will however, gonna have to convert the other parts yourself. Sorry. This was my first try at somthing like this. Also is the first script im actually releasing so, I did use some references for help
+
+
+Thanks to project sloth for this hud (og post)
+https://forum.cfx.re/t/project-sloth-free-ps-hud/4862971
+Thanks to the creators of Dx Hud (I used this as a reference)
+https://forum.cfx.re/t/free-esx-dx-hud/4817329
+Thanks to the creators/converters of esx_smallresources (seatbelt.lua didnt even touch this its the exact same)
+https://forum.cfx.re/t/esx-free-esx-smallresources/4806823
+
+
+
+If you need help join my dc
+https://discord.gg/Qs3KNaY3Ub
+--Skrippy--
+
 ### ps-hud
 Ultra customizable hud featuring a unique and robust settings menu. Change eveything about your experience!
 
@@ -85,4 +109,4 @@ https://user-images.githubusercontent.com/89323760/170898540-5e3abd16-38bb-45d6-
 ### Credits:
 Inspiration and some code snippets from [Svelte & Lua Boilerplate](https://github.com/project-error/svelte-lua-boilerplate) by [Project Error](https://github.com/project-error)
 
-##### Copyright © 2022 Project Sloth.
+##### Copyright © 2022 Project Sloth. All rights reserved.
