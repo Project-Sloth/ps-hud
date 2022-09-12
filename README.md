@@ -13,8 +13,10 @@ Stress is broken because i never used it on my server. If you wanna use it uncom
 
 Thanks to project sloth for this hud (og post)
 https://forum.cfx.re/t/project-sloth-free-ps-hud/4862971
+
 Thanks to the creators of Dx Hud (I used this as a reference)
 https://forum.cfx.re/t/free-esx-dx-hud/4817329
+
 Thanks to the creators/converters of esx_smallresources (seatbelt.lua didnt even touch this its the exact same)
 https://forum.cfx.re/t/esx-free-esx-smallresources/4806823
 
