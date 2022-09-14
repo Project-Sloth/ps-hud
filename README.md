@@ -22,6 +22,8 @@ https://forum.cfx.re/t/free-esx-dx-hud/4817329
 Thanks to the creators/converters of esx_smallresources (seatbelt.lua didnt even touch this its the exact same)
 https://forum.cfx.re/t/esx-free-esx-smallresources/4806823
 
+Thanks to SunnysTTV for help with the locales
+
 Proof i am allowed to do this 
 https://cdn.discordapp.com/attachments/1016562752514441236/1018761741481553950/general___Project_Sloth_-_Discord_9_11_2022_11_51_45_PM_2.png
 
