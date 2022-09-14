@@ -21,7 +21,7 @@ local modifierDensity = true
 
 -- Register Key
 
-RegisterCommand('toggleseatbelt', function()
+RegisterCommand('/toggleseatbelt', function()
     if IsPedInAnyVehicle(PlayerPedId(), false) then
         local class = GetVehicleClass(GetVehiclePedIsUsing(PlayerPedId()))
         if class ~= 8 and class ~= 13 and class ~= 14 then
@@ -30,7 +30,6 @@ RegisterCommand('toggleseatbelt', function()
     end
 end, false)
 
-RegisterKeyMapping('toggleseatbelt', 'Toggle Seatbelt', 'keyboard', 'B')
 
 -- Events
 
