@@ -108,11 +108,6 @@ end
 CreateThread(function()
     while true do
         sleep = 1000
-        if IsControlJustReleased(0, Config.Control) and GetLastInputMethod(0) then
-            SeatbeltON = not SeatbeltON 
-            if SeatbeltON then
-            Citizen.Wait(1)
-            end
         if IsPedInAnyVehicle(PlayerPedId()) then
             sleep = 10
             if seatbeltOn or harnessOn then
@@ -122,7 +117,6 @@ CreateThread(function()
         else
             seatbeltOn = false
             harnessOn = false
-        end
         end
         Wait(sleep)
     end
