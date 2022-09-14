@@ -8,11 +8,12 @@ shared_scripts {
 	'@es_extended/imports.lua',
 	'locales/en.lua',
 	'config.lua',
-	'seatbelt.lua',
 	'uiconfig.lua'
 }
 
-client_script 'client.lua'
+client_script  { 'client.lua',
+		'seatbelt.lua'
+}
 server_script 'server.lua'
 lua54 'yes'
 use_fxv2_oal 'yes'
