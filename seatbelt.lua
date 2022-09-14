@@ -21,7 +21,7 @@ local modifierDensity = true
 
 -- Register Key
 
-RegisterCommand('/toggleseatbelt', function()
+RegisterCommand('toggleseatbelt', function()
     if IsPedInAnyVehicle(PlayerPedId(), false) then
         local class = GetVehicleClass(GetVehiclePedIsUsing(PlayerPedId()))
         if class ~= 8 and class ~= 13 and class ~= 14 then
@@ -29,7 +29,6 @@ RegisterCommand('/toggleseatbelt', function()
         end
     end
 end, false)
-
 
 -- Events
 
@@ -109,6 +108,11 @@ end
 CreateThread(function()
     while true do
         sleep = 1000
+        if IsControlJustReleased(0, Config.Control) and GetLastInputMethod(0) then
+            SeatbeltON = not SeatbeltON 
+            if SeatbeltON then
+            Citizen.Wait(1)
+            end
         if IsPedInAnyVehicle(PlayerPedId()) then
             sleep = 10
             if seatbeltOn or harnessOn then
@@ -118,6 +122,7 @@ CreateThread(function()
         else
             seatbeltOn = false
             harnessOn = false
+        end
         end
         Wait(sleep)
     end

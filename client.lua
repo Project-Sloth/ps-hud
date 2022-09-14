@@ -95,6 +95,7 @@ end
 
 local function loadSettings()
     --QBCore.Functions.Notify(Lang:t("notify.hud_settings_loaded"), "success")
+    ESX.ShowNotification(Translation[Config.Locale]["hud_settings_loaded"], "success", 3000)
     Wait(1000)
     TriggerEvent("hud:client:LoadMap")
 end
@@ -192,7 +193,7 @@ RegisterKeyMapping('menu', 'Open Menu', 'keyboard', Config.OpenMenu)
 local function restartHud()
     TriggerEvent("hud:client:playResetHudSounds")
     --QBCore.Functions.Notify(Lang:t("notify.hud_restart"), "error")
-    ESX.ShowNotification("Hud Is Restarting", "info", 3000)
+    ESX.ShowNotification(Translation[Config.Locale]["hud_restart"], "info", 3000)
     Wait(1500)
     if IsPedInAnyVehicle(PlayerPedId()) then
         SendNUIMessage({
@@ -222,7 +223,7 @@ local function restartHud()
     })
     Wait(500)
     --QBCore.Functions.Notify(Lang:t("notify.hud_start"), "success")
-    ESX.ShowNotification("Hud Has Been Restarted!", "success", 3000)
+    ESX.ShowNotification(Translation[Config.Locale]["hud_start"], "success", 3000)
     SendNUIMessage({
         action = 'menu',
         topic = 'restart',
@@ -427,7 +428,7 @@ RegisterNetEvent("hud:client:LoadMap", function()
         end
         if Menu.isMapNotifChecked then
             --QBCore.Functions.Notify(Lang:t("notify.load_square_map"))
-            ESX.ShowNotification("Square Map Loading", "info", 3000)
+            ESX.ShowNotification(Translation[Config.Locale]["load_square_map"], "info", 3000)
         end
         SetMinimapClipType(0)
         AddReplaceTexture("platform:/textures/graphics", "radarmasksm", "squaremap", "radarmasksm")
@@ -457,7 +458,7 @@ RegisterNetEvent("hud:client:LoadMap", function()
         Wait(1200)
         if Menu.isMapNotifChecked then
             --QBCore.Functions.Notify(Lang:t("notify.loaded_square_map"))
-            ESX.ShowNotification("Square Map Loaded!", "success", 3000)
+            ESX.ShowNotification(Translation[Config.Locale]["loaded_square_map"], "success", 3000)
         end
     elseif Menu.isToggleMapShapeChecked == "circle" then
         RequestStreamedTextureDict("circlemap", false)
@@ -466,7 +467,7 @@ RegisterNetEvent("hud:client:LoadMap", function()
         end
         if Menu.isMapNotifChecked then
             --QBCore.Functions.Notify(Lang:t("notify.load_circle_map"))
-            ESX.ShowNotification("Circle Map Loading", "info", 3000)
+            ESX.ShowNotification(Translation[Config.Locale]["load_circle_map"], "info", 3000)
         end
         SetMinimapClipType(1)
         AddReplaceTexture("platform:/textures/graphics", "radarmasksm", "circlemap", "radarmasksm")
@@ -496,7 +497,7 @@ RegisterNetEvent("hud:client:LoadMap", function()
         Wait(1200)
         if Menu.isMapNotifChecked then
             --QBCore.Functions.Notify(Lang:t("notify.loaded_circle_map"))
-            ESX.ShowNotification("Circle Map Loaded", "success", 3000)
+            ESX.ShowNotification(Translation[Config.Locale]["loaded_circle_map"], "success", 3000)
         end
     end
 end)
@@ -597,13 +598,13 @@ RegisterNUICallback('cinematicMode', function(data, cb)
         CinematicShow(true)
         if Menu.isCinematicNotifChecked then
             --QBCore.Functions.Notify(Lang:t("notify.cinematic_on"))
-            ESX.ShowNotification("Cinematic Mode On", "success", 3000)
+            ESX.ShowNotification(Translation[Config.Locale]["cinematic_on"], "success", 3000)
         end
     else
         CinematicShow(false)
         if Menu.isCinematicNotifChecked then
             --QBCore.Functions.Notify(Lang:t("notify.cinematic_off"), 'error')
-            ESX.ShowNotification("Cinematic Mode Off", "success", 3000)
+            ESX.ShowNotification(Translation[Config.Locale]["cinematic_off"], "success", 3000)
         end
         local player = PlayerPedId()
         local vehicle = GetVehiclePedIsIn(player)
@@ -751,15 +752,17 @@ RegisterCommand('/engine', function()
     if vehicle == 0 or GetPedInVehicleSeat(vehicle, -1) ~= PlayerPedId() then return end
     if GetIsVehicleEngineRunning(vehicle) then
         --QBCore.Functions.Notify(Lang:t("notify.engine_off"))
-        ESX.ShowNotification("Engine Has Been Turned Off", "success", 3000)
+        ESX.ShowNotification(Translation[Config.Locale]["engine_off"], "success", 3000)
     else
         --QBCore.Functions.Notify(Lang:t("notify.engine_on"))
-        ESX.ShowNotification("Engine Has Been Turned On", "success", 3000)
+        ESX.ShowNotification(Translation[Config.Locale]["engine_on"], "success", 3000)
     end
     SetVehicleEngineOn(vehicle, not GetIsVehicleEngineRunning(vehicle), false, true)
 end)
 
 RegisterKeyMapping('/engine', 'Toggle Engine', 'keyboard', 'G')
+
+RegisterKeyMapping('/toggleseatbelt', 'Toggle Seatbelt', 'keyboard', 'B')
 
 local function IsWhitelistedWeaponArmed(weapon)
     if weapon then
@@ -883,7 +886,8 @@ local function getFuelLevel(vehicle)
     local updateTick = GetGameTimer()
     if (updateTick - lastFuelUpdate) > 2000 then
         lastFuelUpdate = updateTick
-        lastFuelCheck = GetVehicleFuelLevel(vehicle)
+        lastFuelCheck = GetVehicleFuelLevel(vehicle)                                    --- IF USING LEGACY/DIFFERENT FUEL SYSTEM COMMENT THIS OUT
+        --lastFuelCheck = math.floor(exports[Config.FuelScript]:GetFuel(vehicle))       --- UNCOMMENT THIS
     end
     return lastFuelCheck
 end
@@ -1070,11 +1074,12 @@ CreateThread(function()
         if ESX.IsPlayerLoaded then
             local ped = PlayerPedId()
             if IsPedInAnyVehicle(ped, false) and not IsThisModelABicycle(GetEntityModel(GetVehiclePedIsIn(ped, false))) then
-                if GetVehicleFuelLevel(GetVehiclePedIsIn(ped, false)) <= 20 then -- At 20% Fuel Left
+                if GetVehicleFuelLevel(GetVehiclePedIsIn(ped, false)) <= 20 then -- At 20% Fuel Left                            IF NOT USING OX FUEL COMMENT THIS OUT
+                  ---  if exports[Config.FuelScript]:GetFuel(GetVehiclePedIsIn(ped, false)) <= 20 then -- At 20% Fuel Left      IF USING LEGACYFUEL/ OTHER FUEL UNCOMMENT THIS
                     if Menu.isLowFuelChecked then
                         TriggerServerEvent("InteractSound_SV:PlayOnSource", "pager", 0.10)
                         --QBCore.Functions.Notify(Lang:t("notify.low_fuel"), "error")
-                        ESX.ShowNotification("Low Fuel", "info", 3000)
+                        ESX.ShowNotification(Translation[Config.Locale]["low_fuel"], "info", 3000)
                         Wait(60000) -- repeats every 1 min until empty
                     end
                 end
