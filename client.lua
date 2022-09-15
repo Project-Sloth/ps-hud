@@ -3,6 +3,14 @@ ESX = nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
+--- Keymapping Shi
+RegisterKeyMapping('togglecruise', 'Toggle Cruise Control', 'keyboard', 'Y')
+
+RegisterKeyMapping('menu', 'Open Menu', 'keyboard', Config.OpenMenu)
+
+RegisterKeyMapping('/engine', 'Toggle Engine', 'keyboard', 'G')
+
+RegisterKeyMapping('/toggleseatbelt', 'Toggle Seatbelt', 'keyboard', 'B')
 
 local PlayerData = ESX.GetPlayerData()
 local config = Config
@@ -187,7 +195,7 @@ RegisterNUICallback('closeMenu', function(_, cb)
     SetNuiFocus(false, false)
 end)
 
-RegisterKeyMapping('menu', 'Open Menu', 'keyboard', Config.OpenMenu)
+
 
 -- Reset hud
 local function restartHud()
@@ -760,9 +768,7 @@ RegisterCommand('/engine', function()
     SetVehicleEngineOn(vehicle, not GetIsVehicleEngineRunning(vehicle), false, true)
 end)
 
-RegisterKeyMapping('/engine', 'Toggle Engine', 'keyboard', 'G')
 
-RegisterKeyMapping('/toggleseatbelt', 'Toggle Seatbelt', 'keyboard', 'B')
 
 local function IsWhitelistedWeaponArmed(weapon)
     if weapon then
