@@ -1003,6 +1003,18 @@ CreateThread(function()
                 if not wasInVehicle then
                     DisplayRadar(Menu.isMapEnabledChecked)
                 end
+		
+		TriggerEvent('esx_status:getStatus', 'hunger', function(status)
+                    if status then hunger = status.val / 10000 end
+                  end)
+                  
+               --     TriggerEvent('esx_status:getStatus', 'stress', function(status)
+                --      if status then stress = status.val / 10000 end                              ---- STRESS SHI UNCOMMENT THIS
+                --    end)
+
+                  TriggerEvent('esx_status:getStatus', 'thirst', function(status)
+                    if status then thirst = status.val / 10000 end
+                  end)
 
                 wasInVehicle = true
                 
