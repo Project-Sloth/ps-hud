@@ -4,7 +4,7 @@ ESX = nil
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 --- Keymapping Shi
-RegisterKeyMapping('togglecruise', 'Toggle Cruise Control', 'keyboard', Config.CruiseControl)
+
 
 RegisterKeyMapping('menu', 'Open Menu', 'keyboard', Config.OpenMenu)
 
