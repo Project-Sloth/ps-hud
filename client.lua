@@ -4,13 +4,13 @@ ESX = nil
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 --- Keymapping Shi
-RegisterKeyMapping('togglecruise', 'Toggle Cruise Control', 'keyboard', 'Y')
+RegisterKeyMapping('togglecruise', 'Toggle Cruise Control', 'keyboard', Config.CruiseControl)
 
 RegisterKeyMapping('menu', 'Open Menu', 'keyboard', Config.OpenMenu)
 
-RegisterKeyMapping('/engine', 'Toggle Engine', 'keyboard', 'G')
+RegisterKeyMapping('/engine', 'Toggle Engine', 'keyboard', Config.StartEngine)
 
-RegisterKeyMapping('/toggleseatbelt', 'Toggle Seatbelt', 'keyboard', 'B')
+RegisterKeyMapping('/toggleseatbelt', 'Toggle Seatbelt', 'keyboard', Config.ToggleSeatbelt)
 
 local PlayerData = ESX.GetPlayerData()
 local config = Config
