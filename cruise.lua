@@ -47,7 +47,7 @@ local function TriggerCruiseControl()
                 while CruisedSpeed > 0 and IsInVehicle() == Player do
                     Wait(0)
                     if not IsTurningOrHandBraking() and GetVehicleSpeed() <
-                        (CruisedSpeed - 1.5) then
+                        (CruisedSpeed - 3.7) then
                         CruisedSpeed = 0
                         TriggerEvent('seatbelt:client:ToggleCruise')
                         TriggerEvent('Notification',"Cruise Deactivated", "error")
