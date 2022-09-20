@@ -928,7 +928,8 @@ CreateThread(function()
 
             -- Stamina
             if not IsEntityInWater(player) then
-               oxygen = 100 - GetPlayerSprintStaminaRemaining(player)
+               oxygen = 100 - GetPlayerStamina(playerId)
+		--GetPlayerSprintStaminaRemaining(player)
                 --oxygen = GetPlayerStamina(playerId)
             end 
             
