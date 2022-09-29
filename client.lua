@@ -1024,12 +1024,22 @@ CreateThread(function()
     end
 end)
 
+function isElectric(vehicle)
+    local noBeeps = false
+    for k, v in pairs(Config.FuelBlacklist) do
+        if GetEntityModel(vehicle) == GetHashKey(v) then
+            noBeeps = true
+        end
+    end
+    return noBeeps
+end
+
 -- Low fuel
 CreateThread(function()
     while true do
         if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
-            if IsPedInAnyVehicle(ped, false) and not IsThisModelABicycle(GetEntityModel(GetVehiclePedIsIn(ped, false))) then
+            if IsPedInAnyVehicle(ped, false) and not IsThisModelABicycle(GetEntityModel(GetVehiclePedIsIn(ped, false))) and not isElectric(GetVehiclePedIsIn(ped, false)) then
                 if exports[Config.FuelScript]:GetFuel(GetVehiclePedIsIn(ped, false)) <= 20 then -- At 20% Fuel Left
                     if Menu.isLowFuelChecked then
                         TriggerServerEvent("InteractSound_SV:PlayOnSource", "pager", 0.10)
