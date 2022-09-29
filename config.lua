@@ -138,11 +138,4 @@ Config.FuelBlacklist = {
 	"dilettante",
 	"khamelion",
 	"wheelchair",
-    "bmx",
-    "tribike3",
-    "fixter",
-    "cruiser",
-    "scorcher",
-    "tribike2",
-    "tribike",
 }
