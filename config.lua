@@ -117,3 +117,25 @@ Config.EffectInterval = {
         timeout = math.random(15000, 20000)
     }
 }
+
+Config.FuelBlacklist = {
+	"surge",
+	"iwagen",
+	"voltic",
+	"voltic2",
+	"raiden",
+	"cyclone",
+	"tezeract",
+	"neon",
+	"omnisegt",
+	"iwagen",
+	"caddy",
+	"caddy2",
+	"caddy3",
+	"airtug",
+	"rcbandito",
+	"imorgon",
+	"dilettante",
+	"khamelion",
+	"wheelchair",
+}
