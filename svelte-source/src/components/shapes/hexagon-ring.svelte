@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
-  import Fa from 'svelte-fa';
+  import IconPart from './parts/icon-part.svelte';
 
   export let displayOutline: boolean = true;
   export let height: number = 50;
@@ -108,9 +108,5 @@
       />
     </svg>
   </g>
-  <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
-                    {"contrast("+iconContrast+"%)"};">
-    <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
-      translateY={iconTranslateY} flip={"horizontal"} style="color:{iconColor}"/>
-  </g>
+  <IconPart flip={"horizontal"} {icon} {iconColor} {iconContrast} {iconDropShadowAmount} {iconScaling} {iconTranslateX} {iconTranslateY}/>
 </svg>

@@ -1,15 +1,17 @@
 <script lang="ts">
   import VehicleHudStore from '../stores/vehicleHudStore';
   import DebugStore from '../stores/debugStore';
+
+  let { show, showSquareBorder, showCircleBorder } = VehicleHudStore;
 </script>
 
-{#if $VehicleHudStore.show || DebugStore}
+{#if $show || DebugStore}
   <div class="mapborder">
-    {#if $VehicleHudStore.showSquareBorder || DebugStore}
-      <div class="square" />
+    {#if $showSquareBorder || DebugStore}
+      <div class="square"/>
     {/if}
-    {#if $VehicleHudStore.showCircleBorder}
-      <div class="circle" />
+    {#if $showCircleBorder}
+      <div class="circle"/>
     {/if}
   </div>
 {/if}

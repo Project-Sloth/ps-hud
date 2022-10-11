@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "sed -i 's/false/true/g' ./src/stores/debugStore.ts && vite --host",
-    "build": "sed -i 's/true/false/g' ./src/stores/debugStore.ts && vite build",
+    "dev": "vite --host",
+    "build": "vite build",
     "preview": "vite preview --host",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },

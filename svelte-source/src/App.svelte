@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
   import MenuStore from "./stores/menuStore";
-  import { EventHandler } from "./utils/eventHandler";
+  import { EventHandler, getConfigData } from "./utils/eventHandler";
   import MetaLayout from "./components/meta-layout.svelte";
   import Menu from "./components/menu.svelte";
   import DebugStore from './stores/debugStore';
@@ -12,23 +12,25 @@
   import VehicleHud from './components/vehicle-hud.svelte';
 
   EventHandler();
+  document.onkeyup = MenuStore.handleKeyUp;
 
   // TODO: fix this so this gets made and destoried from design mode
   let interval;
+  const designProgress: any = PlayerHudStore.designProgress;
 
   const moveProgress = () => {
     let isUp: boolean = true;
     interval = setInterval(() => {
       if (isUp) {
-        $PlayerHudStore.designProgress += 15
-        if ($PlayerHudStore.designProgress > 100) {
-          $PlayerHudStore.designProgress = 100;
+        $designProgress += 15
+        if ($designProgress > 100) {
+          $designProgress = 100;
           isUp = !isUp;
         }
       } else {
-        $PlayerHudStore.designProgress -= 15
-        if ($PlayerHudStore.designProgress < 0) {
-          $PlayerHudStore.designProgress = 0;
+        $designProgress -= 15
+        if ($designProgress < 0) {
+          $designProgress = 0;
           isUp = !isUp;
         }
       }
@@ -38,7 +40,7 @@
   moveProgress();
   onDestroy(() => clearInterval(interval));
 
-  document.onkeyup = MenuStore.handleKeyUp;
+  getConfigData();
 </script>
 
 <svelte:head>

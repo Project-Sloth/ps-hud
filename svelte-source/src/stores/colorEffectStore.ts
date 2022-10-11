@@ -1,7 +1,5 @@
 import { writable } from 'svelte/store';
-import { get } from 'svelte/store';
-import PlayerHudStore from '../stores/playerStatusHudStore';
-import type { playerHudColorEffects, iconNamesKind, colorNamesKind, shapekind, globalEditableColorsType } from '../types/types';
+import type { playerHudColorEffects, iconNamesKind, colorNamesKind, shapekind, globalEditableColorsType, playerHudIcons } from '../types/types';
 import { defaultColorEffect, defaultEditableColor, createEditableColor, colorStoreLocalStorageName } from '../types/types';
 
 export interface colorEffectStoreType {
@@ -135,6 +133,11 @@ const store = () => {
           colorEffects: [defaultColorEffect("normal", "#000000")],
           editableColors: defaultEditableColor(),
         }),
+        playerid: getLocalStorage("playerid", {
+          currentEffect: 0,
+          colorEffects: [defaultColorEffect("normal", "#000000")],
+          editableColors: defaultEditableColor(),
+        })
       }
     }
   }
@@ -149,17 +152,16 @@ const store = () => {
       localStorage.removeItem(colorStoreLocalStorageName);
       set(getDefaultSettings()); 
     },
-    receiveUIUpdateMessage(data) {
+    receiveUIUpdateMessage(data: playerHudColorEffects, statusIconData: playerHudIcons) {
       if (!data || !Object.keys(data).length) {
         return;
       }
-      let statusIconData = get(PlayerHudStore);
       update(state => {
         let key: any, value: any;
         for ([key, value] of Object.entries(data)) {
           state.icons[key] = {
             currentEffect: 0,
-            editableColors: createEditableColor(statusIconData.icons[key].shape),
+            editableColors: createEditableColor(statusIconData[key].shape),
             colorEffects: value.colorEffects,
           }
         }

@@ -1,19 +1,21 @@
 import { writable } from 'svelte/store'
+import type { Writable } from 'svelte/store'
 import { capAmountToHundred } from '../types/types'
 
 type vehicleStatusType = {
-  fuelColor: string,
-  altitude: number,
-  fuel: number,
-  speed: number,
-  show: boolean,
-  showAltitude: boolean,
-  showSeatBelt: boolean,
-  showSquare: boolean,
-  showSquareBorder: boolean,
-  ShowCircle: boolean,
-  showCircleBorder: boolean,
-  seatbeltColor: string,
+  fuelColor: Writable<string>,
+  altitude: Writable<number>,
+  fuel: Writable<number>,
+  speed: Writable<number>,
+  show: Writable<boolean>,
+  showAltitude: Writable<boolean>,
+  showSeatBelt: Writable<boolean>,
+  showSquare: Writable<boolean>,
+  showSquareBorder: Writable<boolean>,
+  ShowCircle: Writable<boolean>,
+  showCircleBorder: Writable<boolean>,
+  seatbeltColor: Writable<string>,
+  speedometerText: Writable<string>,
 }
 
 type vehicleHudUpdateMessageType = {
@@ -38,68 +40,55 @@ type vehicleHudShowMessage = {
 const store = () => {
 
   const vehicleStatusState: vehicleStatusType = {
-    fuelColor: "#FFFFFF",
-    altitude: 0,
-    fuel: 0,
-    speed: 0,
-    show: false,
-    showAltitude: false,
-    showSeatBelt: false,
-    showSquare: false,
-    showSquareBorder: false,
-    ShowCircle: false,
-    showCircleBorder: false,
-    seatbeltColor: "#e85b14",
+    fuelColor: writable("#FFFFFF"),
+    altitude: writable(0),
+    fuel: writable(0),
+    speed: writable(0),
+    show: writable(false),
+    showAltitude: writable(false),
+    showSeatBelt: writable(false),
+    showSquare: writable(false),
+    showSquareBorder: writable(false),
+    ShowCircle: writable(false),
+    showCircleBorder: writable(false),
+    seatbeltColor: writable("#e85b14"),
+    speedometerText: writable("MPH"),
   }
-
-  const { subscribe, set, update } = writable(vehicleStatusState);
 
   const methods = {
     receiveShowMessage(data: vehicleHudShowMessage) {
-      update(state => {
-        state.show = data.show;
-        state.showSeatBelt = data.seatbelt;
-        return state;
-      })
+      vehicleStatusState.show.set(data.show);
+      vehicleStatusState.showSeatBelt.set(data.seatbelt);
     },
     receiveUpdateMessage(data: vehicleHudUpdateMessageType) {
-      update(state => {
-        state.show = data.show;
-        state.speed = data.speed;
-        state.altitude = data.altitude;
-        state.fuel = capAmountToHundred(data.fuel);
-        state.showSeatBelt = data.showSeatbelt;
-        state.showAltitude = data.showAltitude;
-        state.showSquareBorder = data.showSquareB;
-        state.showCircleBorder = data.showCircleB;
+      let newShow: boolean = data.show;
+      if (data.isPaused) {
+        newShow = false;
+      }
+      vehicleStatusState.show.set(newShow);
+      vehicleStatusState.speed.set(data.speed);
+      vehicleStatusState.altitude.set(data.altitude);
+      vehicleStatusState.fuel.set(capAmountToHundred(data.fuel));
+      vehicleStatusState.showSeatBelt.set(data.showSeatbelt);
+      vehicleStatusState.showAltitude.set(data.showAltitude);
+      vehicleStatusState.showSquareBorder.set(data.showSquareB);
+      vehicleStatusState.showCircleBorder.set(data.showCircleB);
+      vehicleStatusState.showSeatBelt.set(!data.seatbelt);
 
-        if (data.seatbelt) {
-          state.showSeatBelt = false;
-        } else {
-          state.showSeatBelt = true;
-        }
-
-        if (data.fuel <= 20) {
-          state.fuelColor = "#ff0000";
-        } else if (data.fuel <= 30) {
-          state.fuelColor = "#dd6e14";
-        } else {
-          state.fuelColor = "#FFFFFF";
-        }
-
-        if (data.isPaused) {
-          state.show = false;
-        }
-
-        return state;
-      });
+      let newFuelColor: string = "#FFFFFF";
+      if (data.fuel <= 20) {
+        newFuelColor = "#ff0000";
+      } else if (data.fuel <= 30) {
+        newFuelColor = "#dd6e14";
+      } else {
+        newFuelColor = "#FFFFFF";
+      }
+      vehicleStatusState.fuelColor.set(newFuelColor);
     }
   }
 
   return {
-    subscribe,
-    set,
-    update,
+    ...vehicleStatusState,
     ...methods
   }
 }

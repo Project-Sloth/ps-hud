@@ -6,6 +6,7 @@
   import IconsList from './icons-list.svelte';
 
   let layout: layoutIconKind = "standard";
+  const { show } = PlayerHudUIStore;
 
   function condtionalHealthBarText(val: number) {
     if (val <= 0) {
@@ -31,7 +32,7 @@
 
 </script> 
 
-{#if $PlayerHudUIStore.show || DebugStore}
+{#if $show || DebugStore}
   {#if layout == "center-bottom-row"}
     <div class="absolute bottom-[0.3vw] w-100vw">
       <div class="static flex flex-row mx-auto" style="width: max-content;">

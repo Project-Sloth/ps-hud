@@ -1,18 +1,18 @@
 import type { IconDefinition } from '@fortawesome/free-solid-svg-icons'
+import type { DefaultStoreType } from '../utils/defaultStore';
 
 export const iconNames = ["voice", "health", "armor", "hunger", "thirst", "stress",
-  "oxygen", "armed", "parachute", "engine", "harness", "cruise", "nitro", "dev"] as const;
+  "oxygen", "armed", "parachute", "engine", "harness", "cruise", "nitro", "dev", "playerid"] as const;
 export type iconNamesKind = typeof iconNames[number];
 
-export const dynamicOptionIconNames = ["armor", "engine", "health", "hunger", "nitro", "oxygen", "stress", "thirst"] as const;
-export type dynamicIconNamesKind = typeof dynamicOptionIconNames[number];
+export const dynamicOptionIconNames = ["armor", "engine", "health", "hunger", "nitro", "oxygen", "stress", "thirst", "playerid"] as const;
 
 export type playerHudIcons = {
   [key in iconNamesKind]: optionalHudIconType;
 }
 
-export type dynamicIcons = {
-  [key in dynamicIconNamesKind]: boolean;
+export type playerHudIconsStore = {
+  [key in iconNamesKind]: DefaultStoreType<optionalHudIconType>;
 }
 
 export const iconLayouts = ["standard", "bottom-right-row", "center-bottom-row",
@@ -33,6 +33,7 @@ export type shapekind = typeof shapes[number];
 
 export interface baseIconInfo {
   isShowing: boolean,
+  dynamicShow: boolean,
   name: string,
   shape: shapekind,
 }
@@ -77,6 +78,7 @@ export class baseIcon implements baseIconProps {
   iconTranslateX = 0;
   iconTranslateY = 0;
   isShowing = true;
+  dynamicShow = false;
   name = "";
   progressValue = 100;
   shape: shapekind = "circle-whole";
@@ -104,6 +106,9 @@ export class baseIcon implements baseIconProps {
         break;
       case "horizontal-bar":
         this.iconScaling = 0.60;
+        break;
+      case "icon-percentage":
+        this.iconTranslateY = 0.20;
         break;
     }
     this.shape = shape;
@@ -233,11 +238,6 @@ export function createShapeIcon(shape: shapekind, optionalProps={}): optionalHud
   }
 }
 
-export interface shapeIcons {
-  "horizontal-bar": textIcon,
-  "icon-percentage": baseIconProps,
-}
-
 export type optionalHudIconType = Partial<baseIconProps & borderIconProps & ringIconProps & roundEndIcon & pillRingIcon>;
 export type optionalHudIconMetaShapeType = optionalHudIconType & Partial<colorNameObj>;
 
@@ -245,8 +245,8 @@ export type optionalPlayerHudIconsType = Partial<{ [Property in keyof playerHudI
 
 const DEFAULTICONSHAPE: shapekind = "circle-ring";
 
-export function defaultHudIcon(name: string = "", showing: boolean = false, icon: object = null): any {
-  return createShapeIcon(DEFAULTICONSHAPE, { isShowing: showing, icon: icon, name: name });
+export function defaultHudIcon(name: string = "", showing: boolean = false, icon: object = null, progressValue = 100): optionalHudIconType {
+  return createShapeIcon(DEFAULTICONSHAPE, { isShowing: showing, icon: icon, name: name, progressValue});
 }
 
 export type shapePropsType = Omit<optionalHudIconType, "shape" | "isShowing" | "name" >;
@@ -345,4 +345,131 @@ export const profileLocalStorageName: string = "PSHudProfile";
 
 export function capAmountToHundred(num: number) {
   return Math.min(num, 100);
+}
+
+export interface hudStrings {
+  hud_settings: string
+  reset_hud: string
+  reset_hud_desc: string
+  reset_hud_button_text: string
+  reset_hud_settings: string
+  reset_hud_settings_desc: string
+  options: string
+  show_minimap: string
+  show_minimap_desc: string
+  show_compass_only: string
+  show_compass_only_desc: string
+  show_compass_follow: string
+  show_compass_follow_desc: string
+  notifications: string
+  menu_sound_effect: string
+  reset_hud_sound_effect: string
+  gui_sound_effect: string
+  map_notification: string
+  low_fuel_alert: string
+  cinematic_mode_notification: string
+  status: string
+  show_health: string
+  show_armor: string
+  show_hunger: string
+  show_thirst: string
+  show_stress: string
+  show_oxygen: string
+  show_player_id: string
+  vehicle: string
+  minimap_circle: string
+  minimap_square: string
+  minimap_choose: string
+  minimap_check: string
+  minimap_border_check: string
+  show_engine: string
+  show_nitro: string
+  compass: string
+  compass_enabled: string
+  compass_enabled_desc: string
+  show_street_names: string
+  show_street_names_desc: string
+  show_compass_pointer: string
+  show_compass_pointer_desc: string
+  cinematic_mode: string
+  show_cinematic: string
+}
+
+export interface statusIconsStrings {
+  status_icons: string
+  status_icons_settings: string
+  design_mode: string
+  reset_status_icons: string
+  save_changes_to_server: string
+  global_status_icons_settings: string
+  icon_shape: string
+  global_size_position_section: string
+  shapes: Array<string>
+  width_size: string
+  height_size: string
+  ring_size: string
+  show_progress_outline: string
+  x_axis_position: string
+  y_axis_position: string
+  rotation: string
+  icon_x_axis_position: string
+  icon_y_axis_position: string
+  icon_size: string
+  x_axis_curve: string
+  y_axis_curve: string
+  global_color_section: string
+  progress_color: string
+  progress_contrast: string
+  progress_shadow: string
+  icon_color: string
+  icon_contrast: string
+  icon_shadow: string
+  outline_color: string
+  outline_contrast: string
+  outline_shadow: string
+  inner_color: string
+  single_status_icon_settings: string
+  single_icon_size_position_section: string
+  single_icon_color_section: string
+  status_icon_names: Array<string>
+  icon_state: string
+  icon_status_to_edit: string
+  voice_state_strings: Array<string>
+  health_state_strings: Array<string>
+  armor_state_strings: Array<string>
+  hunger_state_strings: Array<string>
+  thirst_state_strings: Array<string>
+  engine_state_strings: Array<string>
+  nitro_state_strings: Array<string>
+}
+
+export interface layoutStrings {
+  global_status_layout_settings: string
+  icon_layout: string
+  layout_names: Array<string>
+  between_icon_spacing: string
+  y_axis_spacing: string
+  x_axis_spacing: string
+}
+
+export interface utilityStrings {
+  utility_functions: string
+  copy_progress_colors: string
+}
+
+export interface customProfileStrings {
+  customization_profiles: string
+  add_new_profile: string
+  profile_name: string
+  save_hud_to_profile: string
+  apply_profile_to_hud: string
+  delete_profile: string
+}
+
+export interface localeState {
+  hudSettings: hudStrings
+  statusIcons: statusIconsStrings
+  layouts: layoutStrings
+  utilityFunctions: utilityStrings
+  customProfiles: customProfileStrings
 }

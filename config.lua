@@ -1,13 +1,22 @@
 Config = {}
 
 Config.OpenMenu = 'I' -- https://docs.fivem.net/docs/game-references/input-mapper-parameter-ids/keyboard/
+
+-- Stress Config Options
 Config.StressChance = 0.1 -- Default: 10% -- Percentage Stress Chance When Shooting (0-1)
-Config.UseMPH = true -- If true speed math will be done as MPH, if false KPH will be used (YOU HAVE TO CHANGE CONTENT IN STYLES.CSS TO DISPLAY THE CORRECT TEXT)
 Config.MinimumStress = 50 -- Minimum Stress Level For Screen Shaking
 Config.MinimumSpeedUnbuckled = 50 -- Going Over This Speed Will Cause Stress
 Config.MinimumSpeed = 100 -- Going Over This Speed Will Cause Stress
 Config.DisablePoliceStress = false -- Default: false, If true will disable stress for people with the police job
+
+-- Car Hud Config Options
+Config.UseMPH = true -- If true speed math will be done as MPH, if false KMH math will be used for the speed
+Config.SpeedometerText = "MPH" -- Change to KMH or other to change what text shows in the speedometer
+Config.DisableCarHud = false
 Config.FuelScript = 'LegacyFuel' -- change to lj-fuel if you use lj-fuel or something else if you use any other LegcyFuel compatible script
+
+-- Currency Config Options
+Config.CurrencyText = '$' -- Change to currency symbol you want to show
 
 -- Admin only to change hud icons/shapes
 Config.AdminOnly = false
