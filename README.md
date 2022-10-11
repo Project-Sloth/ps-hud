@@ -8,6 +8,12 @@ Ultra customizable hud featuring a unique and robust settings menu. Change eveyt
 ### Optional:
 * [ps-buffs](https://github.com/Project-Sloth/ps-buffs)
 
+### ⚠️Important:
+- **If the minimap is pulsating or flickering, make sure if you are using custom maps that you ensure ps-hud BEFORE map resource.**
+- **Do not rename this resource from ps-hud or you will encounter issues.**
+- Locale is now supported. Make sure that your qb-core is update. You can update it [here](https://github.com/qbcore-framework/qb-core).
+- **This script is fully open source, it has no obfuscation.** Svelte compiled the js when it gets build and original source code is here [svelte-source](https://github.com/Project-Sloth/ps-hud/tree/main/svelte-source).
+
 <br>
 <br>
 
@@ -16,6 +22,7 @@ Ultra customizable hud featuring a unique and robust settings menu. Change eveyt
 
 ### Start installing now
 We will now provide you with a step-by-step guide for the installation process. Shouldn't take too long and it shouldn't be too confusing either! 
+
 
 ### Step 1:
 Go ahead and start by dragging and dropping ps-hud into your designated resources folder.
@@ -27,10 +34,10 @@ If you are still lost, Slothy has created a few GIF's to help guide you through 
 <br>
 <br>
 
-### ⚠️Important:
-If you don't want everyone on the server to be able to access the customizability options within the menu; make sure to change **Config.AdminOnly** to **true** instead of **false**. 
+### Admin Only Setting:
+If you don't want your community to be able to access the customizability options within the menu; make sure to change **Config.AdminOnly** to **true** instead of **false**. Keep in mind as well, while **true**, the changes you save will override for everyone on the server.
 
-This configuration setting is found in **ps-hud/config.lua** as shown in the GIF below
+This configuration setting is found in **ps-hud/config.lua** as shown in the GIF below.
 
 ![chrome_ZwsidhP73y](https://user-images.githubusercontent.com/91661118/171066080-6bc11bb8-7cde-460b-8d73-bbc329644c83.gif)
 
@@ -72,8 +79,10 @@ https://user-images.githubusercontent.com/89323760/170896590-0a9af313-19c3-4981-
 #### Icon layout and spacing:
 https://user-images.githubusercontent.com/89323760/170898540-5e3abd16-38bb-45d6-840e-5a2619c2076b.mp4
 
+# DMCA Protection Certificate
+![image](https://user-images.githubusercontent.com/82112471/172012054-2ae213da-3a42-41d7-a5b8-9a3208809e93.png)
 
 ### Credits:
 Inspiration and some code snippets from [Svelte & Lua Boilerplate](https://github.com/project-error/svelte-lua-boilerplate) by [Project Error](https://github.com/project-error)
 
-##### Copyright © 2022 Project Sloth. All rights reserved.
+##### Copyright © 2022 Project Sloth.

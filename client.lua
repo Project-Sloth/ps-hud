@@ -71,6 +71,7 @@ local function CinematicShow(bool)
     end
 end
 
+
 -- local function hasHarness(items)
 --     local ped = PlayerPedId()
 --     if not IsPedInAnyVehicle(ped, false) then return end
@@ -83,7 +84,6 @@ end
 --             end
 --         end
 --     end
-
 --     harness = _harness
 -- end
 
@@ -1037,6 +1037,16 @@ CreateThread(function()
     end
 end)
 
+function isElectric(vehicle)
+    local noBeeps = false
+    for k, v in pairs(Config.FuelBlacklist) do
+        if GetEntityModel(vehicle) == GetHashKey(v) then
+            noBeeps = true
+        end
+    end
+    return noBeeps
+end
+
 -- Low fuel
 if Config.DisableCarHud == false then
     CreateThread(function()
@@ -1103,6 +1113,7 @@ end)
 --         end
 --     end)
 -- end
+
 
 -- Stress Gain
 
