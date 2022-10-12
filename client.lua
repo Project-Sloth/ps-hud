@@ -1087,15 +1087,17 @@ end)
 -- Harness Check / Seatbelt Check
 
 CreateThread(function()
-    while true do
-        Wait(1500)
-        if LocalPlayer.state.isLoggedIn then
-            local ped = PlayerPedId()
-            if IsPedInAnyVehicle(ped, false) then
-                hasHarness()
-                local veh = GetEntityModel(GetVehiclePedIsIn(ped, false))
-                if seatbeltOn ~= true and IsThisModelACar(veh) then
-                    TriggerEvent("InteractSound_CL:PlayOnOne", "beltalarm", 0.6)
+    if Config.BeltAlert then
+        while true do
+            Wait(1500)
+            if LocalPlayer.state.isLoggedIn then
+                local ped = PlayerPedId()
+                if IsPedInAnyVehicle(ped, false) then
+                    hasHarness()
+                    local veh = GetEntityModel(GetVehiclePedIsIn(ped, false))
+                    if seatbeltOn ~= true and IsThisModelACar(veh) then
+                        TriggerEvent("InteractSound_CL:PlayOnOne", "beltalarm", 0.6)
+                    end
                 end
             end
         end
