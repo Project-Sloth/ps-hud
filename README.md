@@ -1,7 +1,7 @@
 ## Notes
 I only merged the changes of the 2 branches of [ps-hud](https://github.com/Project-Sloth/ps-hud) (main & dev) and added a check for resetting the HUD (so it won't show vehicle hud again if disabled). Fairly sure this will be an update soon to the original resource, I'm just impatient XD. As always, all credit goes to the PS Team.
 
-- Known Issues: Map borders don't work
+- Known Issues: Map borders don't work when Car HUD disabled.
 
 ![Project Sloth GitHub Project PS-HUD Banner](https://user-images.githubusercontent.com/91661118/170896135-fead50a0-2a4b-432d-8469-038acfb4f2f3.png)
 
