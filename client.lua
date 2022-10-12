@@ -210,7 +210,7 @@ local function restartHud()
     TriggerEvent("hud:client:playResetHudSounds")
     QBCore.Functions.Notify(Lang:t("notify.hud_restart"), "error")
     Wait(1500)
-    if IsPedInAnyVehicle(PlayerPedId()) then
+    if IsPedInAnyVehicle(PlayerPedId()) and not Config.DisableCarHud then
         SendNUIMessage({
             action = 'car',
             topic = 'display',
