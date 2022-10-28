@@ -8,14 +8,14 @@ local Translations = {
         ["loaded_square_map"] = "Čtvercová mapa byla načtena!",
         ["load_circle_map"] = "Kruhová mapa se načítá...",
         ["loaded_circle_map"] = "Kruhová mapa byla načtena!",
-        ["cinematic_on"] = "Cinematic Mode On!", -- Same as in English
-        ["cinematic_off"] = "Cinematic Mode Off!", -- Same as in English
+        ["cinematic_on"] = "Filmový mód aktivován", 
+        ["cinematic_off"] = "Filmový mód deaktivován", 
         ["engine_on"] = "Motor nastartován!",
         ["engine_off"] = "Motor vypnut!",
         ["low_fuel"] = "Nedostatek paliva!",
         ["access_denied"] = "Na toto nemáš oprávnění!",
-        ["stress_gain"] = "Cítíš se být vystresovaná!",
-        ["stress_removed"] = "Cítíš se volněj!"
+        ["stress_gain"] = "Cítíš se vystresovaně!",
+        ["stress_removed"] = "Cítíš se volněji!"
     }
 }
 Lang = Locale:new({phrases = Translations, warnOnMissing = true})
