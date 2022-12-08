@@ -6,7 +6,7 @@
 - I TAKE 0 CREDIT
 - I DID NOT CREATE ANY OF THIS 
 - I JUST CONVERTED IT 
-- I HOPE YOU ENJOY 
+- START IT LAST 
 ### Notes
 Stress is broken because i never used it on my server. If you wanna use it uncomment lines 954 to 956 on client.lua to read stress. you will however, gonna have to convert the other parts yourself. Sorry. This was my first try at somthing like this. Also is the first script im actually releasing so, I did use some references for help
 
