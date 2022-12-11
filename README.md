@@ -79,9 +79,6 @@ https://user-images.githubusercontent.com/89323760/170896590-0a9af313-19c3-4981-
 #### Icon layout and spacing:
 https://user-images.githubusercontent.com/89323760/170898540-5e3abd16-38bb-45d6-840e-5a2619c2076b.mp4
 
-# DMCA Protection Certificate
-![image](https://user-images.githubusercontent.com/82112471/172012054-2ae213da-3a42-41d7-a5b8-9a3208809e93.png)
-
 ### Credits:
 Inspiration and some code snippets from [Svelte & Lua Boilerplate](https://github.com/project-error/svelte-lua-boilerplate) by [Project Error](https://github.com/project-error)
 
