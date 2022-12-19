@@ -56,7 +56,7 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
     if newStress > 100 then
         newStress = 100
     end
-    Player.set('stress', newStress, true)
+    Player.set('stress', newStress)
     TriggerClientEvent('hud:client:UpdateStress', src, newStress)
     --TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_removed"))
 end)
