@@ -16,9 +16,9 @@ local ResetStress = false
   --  TriggerClientEvent('hud:client:ShowAccounts', source, 'bank', bankamount)
 --end)
 
---RegisterCommand("dev", "Enable/Disable developer Mode", {}, false, function(source, args)
-    --TriggerClientEvent("qb-admin:client:ToggleDevmode", source)
---end, 'admin')
+ESX.RegisterCommand('dev', "admin", function(xPlayer, args, showError)
+	xPlayer.triggerEvent('hud:client:ToggleDevmode')
+end, true, {help = 'Enable/Disable developer Mode'})
 
 RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
