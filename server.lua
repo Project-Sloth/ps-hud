@@ -1,7 +1,4 @@
-ESX = nil
-
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-
+ESX = exports['es_extended']:getSharedObject()
 local ResetStress = false
 
 --RegisterCommand('cash', 'Check Cash Balance', {}, false, function(source, args)
@@ -197,14 +194,9 @@ RegisterNetEvent('hud:server:saveUIData', function(data)
     TriggerClientEvent('hud:client:UpdateUISettings', 1, uiConfigData)
 end)
 
-
-
 ESX.RegisterServerCallback('hud:server:getMenu', function(source, cb)
     cb(Config.Menu)
 end) 
-
-
-
 
 
 ESX.RegisterServerCallback('hud:server:getRank', function(source, cb)
@@ -223,6 +215,8 @@ ESX.RegisterServerCallback('hud:server:getRank', function(source, cb)
     end
 end)
 
+-- Commented Block needs to be translated to your preferred inventory system. 
+--[[
 ESX.RegisterUsableItem("harness", function(source, item)
     local src = source
     local Player = ESX.GetPlayerFromId(src)
@@ -252,4 +246,5 @@ RegisterNetEvent('seatbelt:DoHarnessDamage', function(hp, data)
         Player.Functions.SetInventory(Player.PlayerData.items)
     end
 end)
+]]
 

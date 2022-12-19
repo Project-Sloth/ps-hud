@@ -1,11 +1,6 @@
-ESX = nil
+ESX = exports['es_extended']:getSharedObject()
 
-
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-
---- Keymapping Shi
-
-
+-- Keymapping Shi
 RegisterKeyMapping('menu', 'Open Menu', 'keyboard', Config.OpenMenu)
 
 RegisterKeyMapping('/engine', 'Toggle Engine', 'keyboard', Config.StartEngine)
