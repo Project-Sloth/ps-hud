@@ -23,10 +23,10 @@ RegisterNetEvent('hud:server:GainStress', function(amount)
     local newStress
     if not Player or (Config.DisablePoliceStress and Player.PlayerData.job.name == 'police') then return end
     if not ResetStress then
-        if not Player(src).state['stress'] then
-            Player(src).state['stress'] = 0
+        if not Player.get('stress') then
+            Player.get('stress') = 0
         end
-        newStress = Player(src).state['stress'] + amount
+        newStress = Player.get('stress') + amount
         if newStress <= 0 then newStress = 0 end
     else
         newStress = 0
@@ -34,7 +34,7 @@ RegisterNetEvent('hud:server:GainStress', function(amount)
     if newStress > 100 then
         newStress = 100
     end
-    Player(src).state:set('stress', newStress, true)
+    Player.set('stress', newStress)
     TriggerClientEvent('hud:client:UpdateStress', src, newStress)
     --TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_gain"), 'error', 1500)
 end)
@@ -45,10 +45,10 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
     local newStress
     if not Player then return end
     if not ResetStress then
-        if not Player(src).state['stress'] then
-            Player(src).state['stress'] = 0
+        if not Player.get('stress') then
+            Player.get('stress') = 0
         end
-        newStress = Player(src).state['stress'] - amount
+        newStress = Player.get('stress') - amount
         if newStress <= 0 then newStress = 0 end
     else
         newStress = 0
@@ -56,13 +56,14 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
     if newStress > 100 then
         newStress = 100
     end
-    Player(src).state:set('stress', newStress, true)
+    Player.set('stress', newStress, true)
     TriggerClientEvent('hud:client:UpdateStress', src, newStress)
     --TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_removed"))
 end)
 
 RegisterNetEvent('hud:server:saveUIData', function(data)
     local src = source
+    local xPlayer = ESX.GetPlayerFromId(src)
 	-- Check Permissions
     if not xPlayer.getGroup(src, 'admin') and not IsPlayerAceAllowed(src, 'command') then
 		return
