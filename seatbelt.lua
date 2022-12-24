@@ -64,7 +64,15 @@ RegisterNetEvent('seatbelt:client:UseHarness', function(ItemData) -- On Item Use
             end)
         end
     else
-        TriggerEvent('Notification','You\'re not in a car.', 'error')
+        if Config.NotificationType == "ESX" then
+            ESX.ShowNotification('You\'re not in a car.', "error", 3000)
+        elseif Config.NotificationType == "ox_lib" then
+            lib.notify({
+                description = 'You\'re not in a car.',
+                type = "error",
+                duration = 3000,
+            })
+        end
     end
 end)
 
