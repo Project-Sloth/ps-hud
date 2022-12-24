@@ -1,7 +1,4 @@
-ESX = nil
-
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-
+ESX = exports['es_extended']:getSharedObject()
 local ResetStress = false
 
 --RegisterCommand('cash', 'Check Cash Balance', {}, false, function(source, args)
@@ -16,9 +13,9 @@ local ResetStress = false
   --  TriggerClientEvent('hud:client:ShowAccounts', source, 'bank', bankamount)
 --end)
 
---RegisterCommand("dev", "Enable/Disable developer Mode", {}, false, function(source, args)
-    --TriggerClientEvent("qb-admin:client:ToggleDevmode", source)
---end, 'admin')
+ESX.RegisterCommand('dev', "admin", function(xPlayer, args, showError)
+	xPlayer.triggerEvent('hud:client:ToggleDevmode')
+end, true, {help = 'Enable/Disable developer Mode'})
 
 RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
@@ -26,10 +23,10 @@ RegisterNetEvent('hud:server:GainStress', function(amount)
     local newStress
     if not Player or (Config.DisablePoliceStress and Player.PlayerData.job.name == 'police') then return end
     if not ResetStress then
-        if not Player.PlayerData.metadata['stress'] then
-            Player.PlayerData.metadata['stress'] = 0
+        if not Player.get('stress') then
+            Player.get('stress') = 0
         end
-        newStress = Player.PlayerData.metadata['stress'] + amount
+        newStress = Player.get('stress') + amount
         if newStress <= 0 then newStress = 0 end
     else
         newStress = 0
@@ -37,7 +34,7 @@ RegisterNetEvent('hud:server:GainStress', function(amount)
     if newStress > 100 then
         newStress = 100
     end
-    Player.Functions.SetMetaData('stress', newStress)
+    Player.set('stress', newStress)
     TriggerClientEvent('hud:client:UpdateStress', src, newStress)
     --TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_gain"), 'error', 1500)
 end)
@@ -48,10 +45,10 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
     local newStress
     if not Player then return end
     if not ResetStress then
-        if not Player.PlayerData.metadata['stress'] then
-            Player.PlayerData.metadata['stress'] = 0
+        if not Player.get('stress') then
+            Player.get('stress') = 0
         end
-        newStress = Player.PlayerData.metadata['stress'] - amount
+        newStress = Player.get('stress') - amount
         if newStress <= 0 then newStress = 0 end
     else
         newStress = 0
@@ -59,13 +56,14 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
     if newStress > 100 then
         newStress = 100
     end
-    Player.Functions.SetMetaData('stress', newStress)
+    Player.set('stress', newStress)
     TriggerClientEvent('hud:client:UpdateStress', src, newStress)
     --TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_removed"))
 end)
 
 RegisterNetEvent('hud:server:saveUIData', function(data)
     local src = source
+    local xPlayer = ESX.GetPlayerFromId(src)
 	-- Check Permissions
     if not xPlayer.getGroup(src, 'admin') and not IsPlayerAceAllowed(src, 'command') then
 		return
@@ -197,14 +195,9 @@ RegisterNetEvent('hud:server:saveUIData', function(data)
     TriggerClientEvent('hud:client:UpdateUISettings', 1, uiConfigData)
 end)
 
-
-
 ESX.RegisterServerCallback('hud:server:getMenu', function(source, cb)
     cb(Config.Menu)
 end) 
-
-
-
 
 
 ESX.RegisterServerCallback('hud:server:getRank', function(source, cb)
@@ -223,6 +216,8 @@ ESX.RegisterServerCallback('hud:server:getRank', function(source, cb)
     end
 end)
 
+-- Commented Block needs to be translated to your preferred inventory system. 
+--[[
 ESX.RegisterUsableItem("harness", function(source, item)
     local src = source
     local Player = ESX.GetPlayerFromId(src)
@@ -252,4 +247,5 @@ RegisterNetEvent('seatbelt:DoHarnessDamage', function(hp, data)
         Player.Functions.SetInventory(Player.PlayerData.items)
     end
 end)
+]]
 
