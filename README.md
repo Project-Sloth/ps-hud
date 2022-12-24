@@ -8,7 +8,7 @@
 - I JUST CONVERTED IT 
 - START IT LAST 
 ### Notes
-Stress is broken because i never used it on my server. If you wanna use it uncomment lines 954 to 956 on client.lua to read stress. you will however, gonna have to convert the other parts yourself. Sorry. This was my first try at somthing like this. Also is the first script im actually releasing so, I did use some references for help
+Stress should work now?. If you wanna use it uncomment lines 954 to 956 on client.lua to read stress. you will however, gonna have to convert the other parts yourself. Sorry. This was my first try at somthing like this. Also is the first script im actually releasing so, I did use some references for help
 
 to use as is, you will need ox fuel. if not you will have to change the lines for fuel. If you need help with that feel free to join my dc. 
 
