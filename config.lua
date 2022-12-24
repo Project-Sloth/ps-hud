@@ -2,6 +2,8 @@ Config = {}
 Config.Locale = 'en' -- Use Search function here in config.lua. Search for "Locale" for fast access to translations
 -- Languages default by Project Sloth: ar, cs, da, de, en, es, fa, fi, fr, ge, it, nl, pl, pt, sk, sv, tr
 
+Config.NotificationType = "ESX" -- ESX, ox_lib
+
 Config.OpenMenu = 'I' -- https://docs.fivem.net/docs/game-references/input-mapper-parameter-ids/keyboard/
 Config.CruiseControl = 'CAPITAL' -- https://docs.fivem.net/docs/game-references/input-mapper-parameter-ids/keyboard/
 Config.StartEngine = 'G' -- https://docs.fivem.net/docs/game-references/input-mapper-parameter-ids/keyboard/

@@ -41,8 +41,15 @@ local function TriggerCruiseControl()
             CruisedSpeedMph = TransformToMph(CruisedSpeed) -- Comment me for mp/h
             -- CruisedSpeedKm = TransformToKm(CruisedSpeed) -- Uncomment me for km/h
             TriggerEvent('seatbelt:client:ToggleCruise')
-            TriggerEvent('Notification',"Cruise Activated: " .. CruisedSpeedMph .." MP/H") -- Comment me for mp/h
-            -- QBCore.Functions.Notify("Cruise Activated: " .. CruisedSpeedKm ..  " km/h") -- Uncomment me for km/h
+            if Config.NotificationType == "ESX" then
+                ESX.ShowNotification("Cruise Activated: " .. CruisedSpeedMph .." MP/H", "info", 3000)
+            elseif Config.NotificationType == "ox_lib" then
+                lib.notify({
+                    description = "Cruise Activated: " .. CruisedSpeedMph .." MP/H",
+                    type = "info",
+                    duration = 3000,
+                })
+            end
             CreateThread(function()
                 while CruisedSpeed > 0 and IsInVehicle() == Player do
                     Wait(0)
@@ -50,7 +57,15 @@ local function TriggerCruiseControl()
                         (CruisedSpeed - 3.7) then
                         CruisedSpeed = 0
                         TriggerEvent('seatbelt:client:ToggleCruise')
-                        TriggerEvent('Notification',"Cruise Deactivated", "error")
+                        if Config.NotificationType == "ESX" then
+                            ESX.ShowNotification("Cruise Deactivated", "error", 3000)
+                        elseif Config.NotificationType == "ox_lib" then
+                            lib.notify({
+                                description = "Cruise Deactivated",
+                                type = "error",
+                                duration = 3000,
+                            })
+                        end
                         Wait(2000)
                         break
                     end
@@ -67,7 +82,15 @@ local function TriggerCruiseControl()
                     if IsControlJustPressed(2, 72) then
                         CruisedSpeed = 0
                         TriggerEvent('seatbelt:client:ToggleCruise')
-                        TriggerEvent('Notification',"Cruise Deactivated", "error")
+                        if Config.NotificationType == "ESX" then
+                            ESX.ShowNotification("Cruise Deactivated", "error", 3000)
+                        elseif Config.NotificationType == "ox_lib" then
+                            lib.notify({
+                                description = "Cruise Deactivated",
+                                type = "error",
+                                duration = 3000,
+                            })
+                        end
                         Wait(2000)
                         break
                     end
@@ -85,11 +108,17 @@ RegisterCommand('togglecruise', function()
             Player = PlayerPedId()
             TriggerCruiseControl()
         else
-            TriggerEvent('Notification',"Cruise control unavailable", "error")
+            if Config.NotificationType == "ESX" then
+                ESX.ShowNotification("Cruise control unavailable", "error", 3000)
+            elseif Config.NotificationType == "ox_lib" then
+                lib.notify({
+                    description = "Cruise control unavailable",
+                    type = "error",
+                    duration = 3000,
+                })
+            end
         end
     end
 end, false)
 
 RegisterKeyMapping('togglecruise', 'Toggle Cruise Control', 'keyboard', Config.CruiseControl)
-
-

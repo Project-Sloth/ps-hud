@@ -97,8 +97,15 @@ end
 
 
 local function loadSettings()
-    --QBCore.Functions.Notify(Lang:t("notify.hud_settings_loaded"), "success")
-    ESX.ShowNotification(Translation[Config.Locale]["hud_settings_loaded"], "success", 3000)
+    if Config.NotificationType == "ESX" then
+        ESX.ShowNotification(Translation[Config.Locale]["hud_settings_loaded"], "success", 3000)
+    elseif Config.NotificationType == "ox_lib" then
+        lib.notify({
+            description = Translation[Config.Locale]["hud_settings_loaded"],
+            type = "success",
+            duration = 3000,
+        })
+    end
     Wait(1000)
     TriggerEvent("hud:client:LoadMap")
 end
@@ -195,8 +202,15 @@ end)
 -- Reset hud
 local function restartHud()
     TriggerEvent("hud:client:playResetHudSounds")
-    --QBCore.Functions.Notify(Lang:t("notify.hud_restart"), "error")
-    ESX.ShowNotification(Translation[Config.Locale]["hud_restart"], "info", 3000)
+    if Config.NotificationType == "ESX" then
+        ESX.ShowNotification(Translation[Config.Locale]["hud_restart"], "info", 3000)
+    elseif Config.NotificationType == "ox_lib" then
+        lib.notify({
+            description = Translation[Config.Locale]["hud_restart"],
+            type = "info",
+            duration = 3000,
+        })
+    end
     Wait(1500)
     if IsPedInAnyVehicle(PlayerPedId()) then
         SendNUIMessage({
@@ -225,8 +239,15 @@ local function restartHud()
         show = true,
     })
     Wait(500)
-    --QBCore.Functions.Notify(Lang:t("notify.hud_start"), "success")
-    ESX.ShowNotification(Translation[Config.Locale]["hud_start"], "success", 3000)
+    if Config.NotificationType == "ESX" then
+        ESX.ShowNotification(Translation[Config.Locale]["hud_start"], "success", 3000)
+    elseif Config.NotificationType == "ox_lib" then
+        lib.notify({
+            description = Translation[Config.Locale]["hud_start"],
+            type = "success",
+            duration = 3000,
+        })
+    end
     SendNUIMessage({
         action = 'menu',
         topic = 'restart',
@@ -430,8 +451,15 @@ RegisterNetEvent("hud:client:LoadMap", function()
             Wait(150)
         end
         if Menu.isMapNotifChecked then
-            --QBCore.Functions.Notify(Lang:t("notify.load_square_map"))
-            ESX.ShowNotification(Translation[Config.Locale]["load_square_map"], "info", 3000)
+            if Config.NotificationType == "ESX" then
+                ESX.ShowNotification(Translation[Config.Locale]["load_square_map"], "info", 3000)
+            elseif Config.NotificationType == "ox_lib" then
+                lib.notify({
+                    description = Translation[Config.Locale]["load_square_map"],
+                    type = "info",
+                    duration = 3000,
+                })
+            end
         end
         SetMinimapClipType(0)
         AddReplaceTexture("platform:/textures/graphics", "radarmasksm", "squaremap", "radarmasksm")
@@ -460,8 +488,15 @@ RegisterNetEvent("hud:client:LoadMap", function()
         end
         Wait(1200)
         if Menu.isMapNotifChecked then
-            --QBCore.Functions.Notify(Lang:t("notify.loaded_square_map"))
-            ESX.ShowNotification(Translation[Config.Locale]["loaded_square_map"], "success", 3000)
+            if Config.NotificationType == "ESX" then
+                ESX.ShowNotification(Translation[Config.Locale]["loaded_square_map"], "success", 3000)
+            elseif Config.NotificationType == "ox_lib" then
+                lib.notify({
+                    description = Translation[Config.Locale]["loaded_square_map"],
+                    type = "success",
+                    duration = 3000,
+                })
+            end
         end
     elseif Menu.isToggleMapShapeChecked == "circle" then
         RequestStreamedTextureDict("circlemap", false)
@@ -469,8 +504,15 @@ RegisterNetEvent("hud:client:LoadMap", function()
             Wait(150)
         end
         if Menu.isMapNotifChecked then
-            --QBCore.Functions.Notify(Lang:t("notify.load_circle_map"))
-            ESX.ShowNotification(Translation[Config.Locale]["load_circle_map"], "info", 3000)
+            if Config.NotificationType == "ESX" then
+                ESX.ShowNotification(Translation[Config.Locale]["load_circle_map"], "info", 3000)
+            elseif Config.NotificationType == "ox_lib" then
+                lib.notify({
+                    description = Translation[Config.Locale]["load_circle_map"],
+                    type = "info",
+                    duration = 3000,
+                })
+            end
         end
         SetMinimapClipType(1)
         AddReplaceTexture("platform:/textures/graphics", "radarmasksm", "circlemap", "radarmasksm")
@@ -499,8 +541,15 @@ RegisterNetEvent("hud:client:LoadMap", function()
         end
         Wait(1200)
         if Menu.isMapNotifChecked then
-            --QBCore.Functions.Notify(Lang:t("notify.loaded_circle_map"))
-            ESX.ShowNotification(Translation[Config.Locale]["loaded_circle_map"], "success", 3000)
+            if Config.NotificationType == "ESX" then
+                ESX.ShowNotification(Translation[Config.Locale]["loaded_circle_map"], "success", 3000)
+            elseif Config.NotificationType == "ox_lib" then
+                lib.notify({
+                    description = Translation[Config.Locale]["loaded_circle_map"],
+                    type = "success",
+                    duration = 3000,
+                })
+            end
         end
     end
 end)
@@ -600,14 +649,28 @@ RegisterNUICallback('cinematicMode', function(data, cb)
     if data.checked then
         CinematicShow(true)
         if Menu.isCinematicNotifChecked then
-            --QBCore.Functions.Notify(Lang:t("notify.cinematic_on"))
-            ESX.ShowNotification(Translation[Config.Locale]["cinematic_on"], "success", 3000)
+            if Config.NotificationType == "ESX" then
+                ESX.ShowNotification(Translation[Config.Locale]["cinematic_on"], "success", 3000)
+            elseif Config.NotificationType == "ox_lib" then
+                lib.notify({
+                    description = Translation[Config.Locale]["cinematic_on"],
+                    type = "success",
+                    duration = 3000,
+                })
+            end
         end
     else
         CinematicShow(false)
         if Menu.isCinematicNotifChecked then
-            --QBCore.Functions.Notify(Lang:t("notify.cinematic_off"), 'error')
-            ESX.ShowNotification(Translation[Config.Locale]["cinematic_off"], "success", 3000)
+            if Config.NotificationType == "ESX" then
+                ESX.ShowNotification(Translation[Config.Locale]["cinematic_off"], "success", 3000)
+            elseif Config.NotificationType == "ox_lib" then
+                lib.notify({
+                    description = Translation[Config.Locale]["cinematic_off"],
+                    type = "success",
+                    duration = 3000,
+                })
+            end
         end
         local player = PlayerPedId()
         local vehicle = GetVehiclePedIsIn(player)
@@ -754,11 +817,25 @@ RegisterCommand('/engine', function()
     local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
     if vehicle == 0 or GetPedInVehicleSeat(vehicle, -1) ~= PlayerPedId() then return end
     if GetIsVehicleEngineRunning(vehicle) then
-        --QBCore.Functions.Notify(Lang:t("notify.engine_off"))
-        ESX.ShowNotification(Translation[Config.Locale]["engine_off"], "success", 3000)
+        if Config.NotificationType == "ESX" then
+            ESX.ShowNotification(Translation[Config.Locale]["engine_off"], "success", 3000)
+        elseif Config.NotificationType == "ox_lib" then
+            lib.notify({
+                description = Translation[Config.Locale]["engine_off"],
+                type = "success",
+                duration = 3000,
+            })
+        end
     else
-        --QBCore.Functions.Notify(Lang:t("notify.engine_on"))
-        ESX.ShowNotification(Translation[Config.Locale]["engine_on"], "success", 3000)
+        if Config.NotificationType == "ESX" then
+            ESX.ShowNotification(Translation[Config.Locale]["engine_on"], "success", 3000)
+        elseif Config.NotificationType == "ox_lib" then
+            lib.notify({
+                description = Translation[Config.Locale]["engine_on"],
+                type = "success",
+                duration = 3000,
+            })
+        end
     end
     SetVehicleEngineOn(vehicle, not GetIsVehicleEngineRunning(vehicle), false, true)
 end)
@@ -1092,8 +1169,15 @@ CreateThread(function()
                   ---  if exports[Config.FuelScript]:GetFuel(GetVehiclePedIsIn(ped, false)) <= 20 then -- At 20% Fuel Left      IF USING LEGACYFUEL/ OTHER FUEL UNCOMMENT THIS
                     if Menu.isLowFuelChecked then
                         TriggerServerEvent("InteractSound_SV:PlayOnSource", "pager", 0.10)
-                        --QBCore.Functions.Notify(Lang:t("notify.low_fuel"), "error")
-                        ESX.ShowNotification(Translation[Config.Locale]["low_fuel"], "info", 3000)
+                        if Config.NotificationType == "ESX" then
+                            ESX.ShowNotification(Translation[Config.Locale]["low_fuel"], "info", 3000)
+                        elseif Config.NotificationType == "ox_lib" then
+                            lib.notify({
+                                description = Translation[Config.Locale]["low_fuel"],
+                                type = "info",
+                                duration = 3000,
+                            })
+                        end
                         Wait(60000) -- repeats every 1 min until empty
                     end
                 end
@@ -1429,5 +1513,3 @@ CreateThread(function()
         end
     end
 end)
-
-
