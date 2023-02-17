@@ -46,7 +46,7 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
     if not Player then return end
     if not ResetStress then
         if not Player.get('stress') then
-            Player.get('stress') = 0
+            Player.set(‘stress’, 0)
         end
         newStress = Player.get('stress') - amount
         if newStress <= 0 then newStress = 0 end
