@@ -1,6 +1,6 @@
 <script lang="ts">
-  import VehicleHudStore from '../stores/vehicleHudStore';
   import DebugStore from '../stores/debugStore';
+  import VehicleHudStore from '../stores/vehicleHudStore';
 </script>
 
 {#if $VehicleHudStore.show || DebugStore}
@@ -93,6 +93,18 @@
       bottom: -1vh!important;
     }
   }
+
+  @media (width: 2560px) and (height: 1080px) {
+    .square {
+        left: -0.25vw !important;
+        bottom: -1.8vh !important;
+    }
+    .circle {
+        left: 0.15vw !important;
+        width: 27.6vh !important;
+        bottom: -1vh !important;
+    }
+}
 
   @media (width: 1920px) and (height: 1440px) {
     .square {

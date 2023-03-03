@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { tweened } from 'svelte/motion';
+  import Fa from 'svelte-fa';
   import { linear } from 'svelte/easing';
-  import Fa from 'svelte-fa'
+  import { tweened } from 'svelte/motion';
 
   export let displayOutline: boolean = true;
   export let height: number = 50;
@@ -186,6 +186,15 @@
   .vehicle-text {
     font-size: 0.7vh!important;
   }
+}
+
+@media (width: 2560px) and (height: 1080px) {
+    .vehicle-number {
+        font-size: 1.7vh !important;
+    }
+    .vehicle-text {
+        font-size: 0.9vh !important;
+    }
 }
 
 @media (width: 1920px) and (height: 1440px) {
