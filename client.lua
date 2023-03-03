@@ -180,7 +180,7 @@ RegisterNUICallback('closeMenu', function(_, cb)
     SetNuiFocus(false, false)
 end)
 
-RegisterKeyMapping('menu', 'Open Menu', 'keyboard', Config.OpenMenu)
+RegisterKeyMapping('menu', Lang:t('info.open_menu'), 'keyboard', Config.OpenMenu)
 
 -- Reset hud
 local function restartHud()
@@ -613,10 +613,6 @@ RegisterNUICallback('updateMenuSettingsToClient', function(data, cb)
     Menu.isPointerShowChecked = data.isPointerShowChecked
     CinematicShow(data.isCineamticModeChecked)
     cb({})
-    if Menu.isMapEnabledChecked then
-        Wait(50)
-        TriggerEvent("hud:client:LoadMap")
-    end
 end)
 
 RegisterNetEvent("hud:client:EngineHealth", function(newEngine)
@@ -738,7 +734,7 @@ RegisterCommand('+engine', function()
     SetVehicleEngineOn(vehicle, not GetIsVehicleEngineRunning(vehicle), false, true)
 end)
 
-RegisterKeyMapping('+engine', 'Toggle Engine', 'keyboard', 'G')
+RegisterKeyMapping('+engine', Lang:t('info.toggle_engine'), 'keyboard', 'G')
 
 local function IsWhitelistedWeaponArmed(weapon)
     if weapon then
