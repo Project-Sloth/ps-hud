@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition';
-  import VehicleHudStore from '../stores/vehicleHudStore';
-  import DebugStore from '../stores/debugStore';
-  import PartialCircleRing from './hud-shapes/partial-circle-ring.svelte';
   import { faGasPump, faUserSlash } from '@fortawesome/free-solid-svg-icons';
   import Fa from 'svelte-fa';
+  import { fade } from 'svelte/transition';
+  import DebugStore from '../stores/debugStore';
+  import VehicleHudStore from '../stores/vehicleHudStore';
+  import PartialCircleRing from './hud-shapes/partial-circle-ring.svelte';
 
   // TODO see if most of these components can be under the same responsive class div, need to test once this is working
 </script>
@@ -12,13 +12,13 @@
 {#if $VehicleHudStore.show || DebugStore}
   <div class="responsive" id="speedometer">
     <PartialCircleRing maxLengthDisplay={66} rotateDegree={212} ringSize={5.5} progressColor={"white"}
-      outlineColor={"white"} outlineColorOpacity={0.6} height={60} width={60} progressValue={$VehicleHudStore.speed}
+      outlineColor={"black"} outlineColorOpacity={0.6} height={60} width={60} progressValue={$VehicleHudStore.speed}
       text={"MPH"} displayNumber={$VehicleHudStore.speed} maxProgressValue={180}
     />
   </div>
   <div class="responsive" id="fuelgauge">
     <PartialCircleRing maxLengthDisplay={69} rotateDegree={235} ringSize={3.5} progressColor={$VehicleHudStore.fuelColor}
-      outlineColor={$VehicleHudStore.fuelColor} outlineColorOpacity={0.6} height={36} width={36} progressValue={$VehicleHudStore.fuel}
+      outlineColor={"black"} outlineColorOpacity={0.6} height={36} width={36} progressValue={$VehicleHudStore.fuel}
       icon={faGasPump} iconColor={"white"} iconScaling={0.38}
     />
   </div>
@@ -26,7 +26,7 @@
   {#if $VehicleHudStore.showAltitude}
     <div class="responsive" id="altitudegauge">
       <PartialCircleRing maxLengthDisplay={75} rotateDegree={225} ringSize={5.5} progressColor={"white"}
-        outlineColor={"white"} outlineColorOpacity={0.6} height={60} width={60} progressValue={$VehicleHudStore.altitude}
+        outlineColor={"black"} outlineColorOpacity={0.6} height={60} width={60} progressValue={$VehicleHudStore.altitude}
         text={"ALT"} displayNumber={$VehicleHudStore.altitude} maxProgressValue={750}
       />
     </div>
@@ -157,6 +157,37 @@
     left: 2.8vw!important;
     bottom: 12vh!important;
   }
+}
+
+@media (width: 2560px) and (height: 1080px) {
+    .responsive {
+        margin-left: 33.5vh !important;
+        transform: scale(1.3);
+        bottom: 7.2vh !important;
+    }
+    #speedometer {
+        position: relative;
+        left: 0vw !important;
+    }
+    #fuelgauge {
+        position: relative;
+        left: 2vw !important;
+        bottom: 5.95vh !important;
+    }
+    #altitudegauge {
+        position: relative;
+        left: 4vw !important;
+    }
+    #seatbelt {
+        position: relative;
+        left: 4.1vw !important;
+        bottom: 8.5vh !important;
+    }
+    #seatbeltAltitude {
+        position: relative;
+        left: 2.8vw !important;
+        bottom: 12vh !important;
+    }
 }
 
 @media (width: 1920px) and (height: 1440px) {
