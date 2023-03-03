@@ -2,11 +2,12 @@ fx_version 'cerulean'
 game 'gta5'
 
 description 'ps-hud'
-version '2.1.0'
+version '2.1.1'
 
 shared_scripts {
 	'@qb-core/shared/locale.lua',
 	'locales/en.lua',
+	'locales/*.lua',
 	'config.lua',
 	'uiconfig.lua'
 }
