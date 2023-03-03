@@ -18,6 +18,7 @@ local Translations = {
         ["stress_removed"] = "Feeling More Relaxed!"
     },
     info = {
+        ["toggle_engine"] = "Toggle Engine",
         ["open_menu"] = "Open Menu",
         ["check_cash_balance"] = "Check Cash Balance",
         ["check_bank_balance"] = "Check Bank Balance",
