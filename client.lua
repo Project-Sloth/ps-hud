@@ -613,10 +613,6 @@ RegisterNUICallback('updateMenuSettingsToClient', function(data, cb)
     Menu.isPointerShowChecked = data.isPointerShowChecked
     CinematicShow(data.isCineamticModeChecked)
     cb({})
-    if Menu.isMapEnabledChecked then
-        Wait(50)
-        TriggerEvent("hud:client:LoadMap")
-    end
 end)
 
 RegisterNetEvent("hud:client:EngineHealth", function(newEngine)
