@@ -18,4 +18,11 @@ local Translations = {
         ["stress_removed"] = "Stressisi on nyt loppunut! Otathan ihan clillisti sit"
     }
 }
-Lang = Locale:new({phrases = Translations, warnOnMissing = true})
+
+if GetConvar('qb_locale', 'en') == 'fi' then
+    Lang = Locale:new({
+        phrases = Translations,
+        warnOnMissing = true,
+        fallbackLang = Lang,
+    })
+end

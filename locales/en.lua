@@ -16,6 +16,16 @@ local Translations = {
         ["access_denied"] = "You Are Not Authorized!",
         ["stress_gain"] = "Feeling More Stressed!",
         ["stress_removed"] = "Feeling More Relaxed!"
+    },
+    info = {
+        ["open_menu"] = "Open Menu",
+        ["check_cash_balance"] = "Check Cash Balance",
+        ["check_bank_balance"] = "Check Bank Balance",
+        ["toggle_dev_mode"] = "Enable/Disable developer Mode",
     }
 }
-Lang = Locale:new({phrases = Translations, warnOnMissing = true})
+
+Lang = Lang or Locale:new({
+    phrases = Translations,
+    warnOnMissing = true
+})

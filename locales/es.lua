@@ -16,6 +16,19 @@ local Translations = {
         ["access_denied"] = "¿Que haces? ¡No estas autorizado!",
         ["stress_gain"] = "Te estás sintiéndo más estresado/a.",
         ["stress_removed"] = "Te estás sintiéndo más relajado/a."
+    },
+    info = {
+        ["open_menu"] = "Abrir menú",
+        ["check_cash_balance"] = "Revisar balance de efectivo",
+        ["check_bank_balance"] = "Revisar balance de banco",
+        ["toggle_dev_mode"] = "Habilitar/deshabilitar modo desarrollador",
     }
 }
-Lang = Locale:new({phrases = Translations, warnOnMissing = true})
+
+if GetConvar('qb_locale', 'en') == 'es' then
+    Lang = Locale:new({
+        phrases = Translations,
+        warnOnMissing = true,
+        fallbackLang = Lang,
+    })
+end
