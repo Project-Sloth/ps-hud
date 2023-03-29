@@ -13,7 +13,10 @@ shared_scripts {
 }
 
 client_script 'client.lua'
-server_script 'server.lua'
+server_scripts {
+	'server.lua',
+	'versioncheck.lua'
+}
 lua54 'yes'
 use_fxv2_oal 'yes'
 
