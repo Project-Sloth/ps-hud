@@ -1070,6 +1070,7 @@ end)
 RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus)
     cashAmount = PlayerData.money['cash']
     bankAmount = PlayerData.money['bank']
+		if type == 'cash' and amount == 0 then return end
     SendNUIMessage({
         action = 'updatemoney',
         cash = cashAmount,
