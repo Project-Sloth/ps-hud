@@ -1084,13 +1084,13 @@ end)
 
 CreateThread(function()
     while true do
-        Wait(1500)
+        Wait(3000)
         if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
             if IsPedInAnyVehicle(ped, false) then
                 hasHarness()
                 local veh = GetEntityModel(GetVehiclePedIsIn(ped, false))
-                if seatbeltOn ~= true and IsThisModelACar(veh) then
+                if seatbeltOn ~= true and IsThisModelACar(veh) and GetIsVehicleEngineRunning(veh) then
                     TriggerEvent("InteractSound_CL:PlayOnOne", "beltalarm", 0.6)
                 end
             end
