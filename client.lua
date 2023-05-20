@@ -1053,31 +1053,20 @@ end)
 
 RegisterNetEvent('hud:client:ShowAccounts', function(type, amount)
     if type == 'cash' then
-        SendNUIMessage({
-            action = 'show',
-            type = 'cash',
-            cash = amount
-        })
+        QBCore.Functions.Notify("Cash: $" .. amount, "success")
     else
-        SendNUIMessage({
-            action = 'show',
-            type = 'bank',
-            bank = amount
-        })
+        QBCore.Functions.Notify("Bank: $" .. amount, "success")
     end
 end)
 
 RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus)
     cashAmount = PlayerData.money['cash']
     bankAmount = PlayerData.money['bank']
-    SendNUIMessage({
-        action = 'updatemoney',
-        cash = cashAmount,
-        bank = bankAmount,
-        amount = amount,
-        minus = isMinus,
-        type = type
-    })
+    if type == 'cash' then
+        QBCore.Functions.Notify((isMinus and "-" or "+") .. "$" .. amount .. " (Cash: $" .. cashAmount .. ")", "success")
+    else
+        QBCore.Functions.Notify((isMinus and "-" or "+") .. "$" .. amount .. " (Bank: $" .. bankAmount .. ")", "success")
+    end
 end)
 
 -- Harness Check / Seatbelt Check
