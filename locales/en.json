@@ -20,5 +20,10 @@
     "open_menu" : "Open Menu",
     "check_cash_balance" : "Check Cash Balance",
     "check_bank_balance" : "Check Bank Balance",
-    "toggle_dev_mode" : "Enable/Disable developer Mode"
+    "toggle_dev_mode" : "Enable/Disable developer Mode",
+
+    "seatbelt_not_incar" : "You are not in the vehicle",
+    "seatbelt_attaching_harness" : "Wearing Harnesses",
+    "seatbelt_removing_harness" : "Removing Harness",
+    "seatbelt_toggle" : "Putting On/Removing Seat Belts"
 }
