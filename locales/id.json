@@ -1,0 +1,29 @@
+{
+    "hud_settings_loaded" : "Pengaturan HUD Berhasil Dimuat!",
+    "hud_restart" : "HUD Di Mulai Ulang!",
+    "hud_start" : "HUD Sekarang Dimulai!",
+    "hud_command_info" : "Perintah ini mengatur ulang pengaturan HUD Anda saat ini!",
+    "load_square_map" : "Memuat Peta Persegi...",
+    "loaded_square_map" : "Peta Persegi Telah Dimuat!",
+    "load_circle_map" : "Memuat Peta Lingkaran...",
+    "loaded_circle_map" : "Peta Lingkaran Telah Dimuat!",
+    "cinematic_on" : "Mode Sinematik Aktif!",
+    "cinematic_off" : "Mode Sinematik Mati!",
+    "engine_on" : "Mesin Di Nyalakan!",
+    "engine_off" : "Mesin Di Matikan!",
+    "low_fuel" : "Bahan Bakar Hampir Habis!",
+    "access_denied" : "Anda Tidak Memiliki Akses!",
+    "stress_gain" : "Merasa Lebih Stres!",
+    "stress_removed" : "Merasa Lebih Santai!",
+
+    "toggle_engine" : "Menghidupkan/Mematikan Mesin",
+    "open_menu" : "Membuka Menu",
+    "check_cash_balance" : "Cek Jumlah Uang",
+    "check_bank_balance" : "Cek Jumlah Uang Di Bank",
+    "toggle_dev_mode" : "Menyalakan/Mematikan Mode Developer",
+
+    "seatbelt_not_incar" : "Kamu tidak berada di dalam kendaraan",
+    "seatbelt_attaching_harness" : "Memakai Harness",
+    "seatbelt_removing_harness" : "Melepas Harness",
+    "seatbelt_toggle" : "Memakai/Melepas Sabuk Pengaman"
+}
