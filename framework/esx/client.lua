@@ -65,5 +65,6 @@ end)
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(playerData)
+    if not LocalPlayer.state.isLoggedIn then LocalPlayer.state:set('isLoggedIn', true, false) end
     TriggerEvent('HUD:PlayerLoaded')
 end)
