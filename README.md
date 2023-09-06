@@ -5,10 +5,10 @@ Ultra customizable hud featuring a unique and robust settings menu. Change eveyt
 
 ![Project Sloth Buttons 2](https://user-images.githubusercontent.com/91661118/170895968-c4224105-5c87-4947-af94-8e8bd792f566.png)
 
+### Unsupported ESX Version made by [reyyghi](https://github.com/reyyghi)
+
 ### Dependencies:
 * [ox_lib](https://github.com/overextended/ox_lib/releases)
-
-### Unsupported ESX Version made by [reyyghi](https://github.com/reyyghi)
 
 ### Optional:
 * [ps-buffs](https://github.com/Project-Sloth/ps-buffs)
