@@ -8,6 +8,8 @@ Ultra customizable hud featuring a unique and robust settings menu. Change eveyt
 ### Dependencies:
 * [ox_lib](https://github.com/overextended/ox_lib/releases)
 
+### Unsupported ESX Version made by [reyyghi](https://github.com/reyyghi)
+
 ### Optional:
 * [ps-buffs](https://github.com/Project-Sloth/ps-buffs)
 
