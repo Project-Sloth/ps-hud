@@ -5,8 +5,6 @@ Ultra customizable hud featuring a unique and robust settings menu. Change eveyt
 
 ![Project Sloth Buttons 2](https://user-images.githubusercontent.com/91661118/170895968-c4224105-5c87-4947-af94-8e8bd792f566.png)
 
-### Unsupported ESX Version made by [reyyghi](https://github.com/reyyghi)
-
 ### Optional:
 * [ps-buffs](https://github.com/Project-Sloth/ps-buffs)
 
@@ -84,4 +82,6 @@ https://user-images.githubusercontent.com/89323760/170898540-5e3abd16-38bb-45d6-
 ### Credits:
 Inspiration and some code snippets from [Svelte & Lua Boilerplate](https://github.com/project-error/svelte-lua-boilerplate) by [Project Error](https://github.com/project-error)
 
-##### Copyright © 2022 Project Sloth.
+### Unsupported [ESX Version](https://github.com/reyyghi/ps-hud) made by [reyyghi](https://github.com/reyyghi)
+
+#### Copyright © 2022 Project Sloth.
