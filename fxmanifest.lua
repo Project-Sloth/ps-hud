@@ -12,8 +12,18 @@ shared_scripts {
 	'uiconfig.lua'
 }
 
-client_script 'client.lua'
-server_script 'server.lua'
+client_scripts{ 
+	
+	'bridge/client.lua',
+	'bridge/client/*.lua',
+	'client/*.lua',
+}
+
+server_script {
+	'bridge/server.lua',
+	'bridge/server/*.lua',
+	'server/*.lua'
+}
 lua54 'yes'
 use_fxv2_oal 'yes'
 
