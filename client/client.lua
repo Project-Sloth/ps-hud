@@ -1061,21 +1061,23 @@ end)
 
 -- Stress Gain
 
-CreateThread(function() -- Speeding
-    while true do
-        if LocalPlayer.state.isLoggedIn then
-            local ped = PlayerPedId()
-            if IsPedInAnyVehicle(ped, false) then
-                local speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * speedMultiplier
-                local stressSpeed = seatbeltOn and config.MinimumSpeed or config.MinimumSpeedUnbuckled
-                if speed >= stressSpeed then
-                    TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
+if Config.EnableStress then
+    CreateThread(function() -- Speeding
+        while true do
+            if LocalPlayer.state.isLoggedIn then
+                local ped = PlayerPedId()
+                if IsPedInAnyVehicle(ped, false) then
+                    local speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * speedMultiplier
+                    local stressSpeed = seatbeltOn and config.MinimumSpeed or config.MinimumSpeedUnbuckled
+                    if speed >= stressSpeed then
+                        TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
+                    end
                 end
             end
+            Wait(10000)
         end
-        Wait(10000)
-    end
-end)
+    end)
+end
 
 local function IsWhitelistedWeaponStress(weapon)
     if weapon then
