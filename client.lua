@@ -731,7 +731,7 @@ RegisterCommand('+engine', function()
     else
         QBCore.Functions.Notify(Lang:t("notify.engine_on"))
     end
-    SetVehicleEngineOn(vehicle, not GetIsVehicleEngineRunning(vehicle), false, true)
+    SetVehicleEngineOn(vehicle, true, false, true)
 end)
 
 RegisterKeyMapping('+engine', Lang:t('info.toggle_engine'), 'keyboard', 'G')
