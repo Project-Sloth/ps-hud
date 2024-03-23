@@ -136,11 +136,3 @@ end)
 CreateCallback('hud:server:getMenu', function(source, cb)
     cb(Config.Menu)
 end) 
-
-lib.callback.register('yflip-phone:server:banking:get-balance', function(source)
-    if GetResourceState("qb-management") == "started" then
-        return exports["qb-management"]:GetAccountBalance(jobName)
-    elseif GetResourceState("qb-banking") == "started" then
-        return exports["qb-management"]:GetAccountBalance(jobName)
-    end
- end)
