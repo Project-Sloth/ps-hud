@@ -13,7 +13,7 @@
   <div class="responsive" id="speedometer">
     <PartialCircleRing maxLengthDisplay={66} rotateDegree={212} ringSize={5.5} progressColor={"white"}
       outlineColor={"black"} outlineColorOpacity={0.6} height={60} width={60} progressValue={$VehicleHudStore.speed}
-      text={"MPH"} displayNumber={$VehicleHudStore.speed} maxProgressValue={180}
+      text={$VehicleHudStore.useMPH ? "MPH" : "KPH"} displayNumber={$VehicleHudStore.speed} maxProgressValue={180}
     />
   </div>
   <div class="responsive" id="fuelgauge">
@@ -22,7 +22,7 @@
       icon={faGasPump} iconColor={"white"} iconScaling={0.38}
     />
   </div>
-  
+
   {#if $VehicleHudStore.showAltitude}
     <div class="responsive" id="altitudegauge">
       <PartialCircleRing maxLengthDisplay={75} rotateDegree={225} ringSize={5.5} progressColor={"white"}
