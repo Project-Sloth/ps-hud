@@ -14,6 +14,7 @@ type vehicleStatusType = {
   ShowCircle: boolean,
   showCircleBorder: boolean,
   seatbeltColor: string,
+  useMPH: boolean,
 }
 
 type vehicleHudUpdateMessageType = {
@@ -26,7 +27,8 @@ type vehicleHudUpdateMessageType = {
   showAltitude: boolean,
   showSeatbelt: boolean,
   showSquareB: boolean,
-  showCircleB: boolean, 
+  showCircleB: boolean,
+  useMPH: boolean,
 }
 
 type vehicleHudShowMessage = {
@@ -50,6 +52,7 @@ const store = () => {
     ShowCircle: false,
     showCircleBorder: false,
     seatbeltColor: "#e85b14",
+    useMPH: true
   }
 
   const { subscribe, set, update } = writable(vehicleStatusState);
@@ -90,6 +93,7 @@ const store = () => {
         if (data.isPaused) {
           state.show = false;
         }
+        state.useMPH = data.useMPH;
 
         return state;
       });

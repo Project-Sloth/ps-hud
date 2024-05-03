@@ -8,6 +8,7 @@ Config.MinimumSpeedUnbuckled = 50 -- Going Over This Speed Will Cause Stress
 Config.MinimumSpeed = 100 -- Going Over This Speed Will Cause Stress
 Config.DisablePoliceStress = false -- Default: false, If true will disable stress for people with the police job
 Config.FuelScript = 'LegacyFuel' -- change to lj-fuel if you use lj-fuel or something else if you use any other LegcyFuel compatible script
+Config.VehicleEnabled = true -- Enable/Disable the vehicle portion of the HUD (this allows you to use a custom speedometer)
 
 -- Admin only to change hud icons/shapes
 Config.AdminOnly = false
@@ -138,4 +139,28 @@ Config.FuelBlacklist = {
 	"dilettante",
 	"khamelion",
 	"wheelchair",
+}
+
+Config.VehClassStress = { -- Enable/Disable gaining stress from vehicle classes in this table
+    ['0'] = true, -- Compacts
+    ['1'] = true, -- Sedans
+    ['2'] = true, -- SUVs
+    ['3'] = true, -- Coupes
+    ['4'] = true, -- Muscle
+    ['5'] = true,  -- Sports Classics
+    ['6'] = true, -- Sports
+    ['7'] = true, -- Super
+    ['8'] = false, -- Motorcycles
+    ['9'] = true, -- Off Road
+    ['10'] = true, -- Industrial
+    ['11'] = true,  -- Utility
+    ['12'] = true,  -- Vans
+    ['13'] = false, -- Cycles
+    ['14'] = false, -- Boats
+    ['15'] = false, -- Helicopters
+    ['16'] = false, -- Planes
+    ['18'] = false, -- Emergency
+    ['19'] = false, -- Military
+    ['20'] = false, -- Commercial
+    ['21'] = false  -- Trains
 }

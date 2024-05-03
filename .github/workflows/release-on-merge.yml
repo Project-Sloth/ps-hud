@@ -1,0 +1,57 @@
+name: Release on PR merge
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  release:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get version from file
+        id: extract_version
+        run: |
+          echo "version=$(cat version)" >> $GITHUB_OUTPUT
+      - name: Get commit messages
+        id: get_commit_messages
+        run: |
+          curl -s -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
+          "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/commits" \
+          | jq -r '.[].commit.message' > release_body.txt
+
+      - name: Update version in file
+        run: |
+          sed -i "s/VERSION_IDENTIFIER/${{ steps.extract_version.outputs.version }}/g" fxmanifest.lua
+
+      - name: Copy files
+        run: |
+          mkdir -p release/${{ github.event.repository.name }}
+          mkdir -p release/${{ github.event.repository.name }}/stream
+          mkdir -p release/${{ github.event.repository.name }}/locales
+          mkdir -p release/${{ github.event.repository.name }}/html
+          cp *.lua release/${{ github.event.repository.name }}
+          cp -r stream/* release/${{ github.event.repository.name }}/stream
+          cp -r locales/* release/${{ github.event.repository.name }}/locales
+          cp -r html/* release/${{ github.event.repository.name }}/html
+          cd release
+          zip -r ${{ github.event.repository.name }}.zip ${{ github.event.repository.name }}
+
+      - name: Generate Release
+        uses: shogo82148/actions-create-release@v1
+        id: release
+        with:
+          tag_name: v${{ steps.extract_version.outputs.version }}
+          release_name:
+          make_latest: true
+          body_path: release_body.txt
+
+      - name: Upload artifacts
+        uses: shogo82148/actions-upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: release/${{ github.event.repository.name }}.zip
