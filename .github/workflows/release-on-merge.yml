@@ -31,10 +31,16 @@ jobs:
       - name: Copy files
         run: |
           mkdir -p release/${{ github.event.repository.name }}
+          mkdir -p release/${{ github.event.repository.name }}/shared
+          mkdir -p release/${{ github.event.repository.name }}/server
+          mkdir -p release/${{ github.event.repository.name }}/client
           mkdir -p release/${{ github.event.repository.name }}/stream
           mkdir -p release/${{ github.event.repository.name }}/locales
           mkdir -p release/${{ github.event.repository.name }}/html
-          cp *.lua release/${{ github.event.repository.name }}
+          cp fxmanifest.lua release/${{ github.event.repository.name }}
+          cp -r shared/* release/${{ github.event.repository.name }}/shared
+          cp -r server/* release/${{ github.event.repository.name }}/server
+          cp -r client/* release/${{ github.event.repository.name }}/client
           cp -r stream/* release/${{ github.event.repository.name }}/stream
           cp -r locales/* release/${{ github.event.repository.name }}/locales
           cp -r html/* release/${{ github.event.repository.name }}/html
