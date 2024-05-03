@@ -5,15 +5,19 @@ description 'ps-hud'
 version 'VERSION_IDENTIFIER'
 
 shared_scripts {
-	'@qb-core/shared/locale.lua',
+    '@qb-core/shared/locale.lua',
 	'locales/en.lua',
 	'locales/*.lua',
-	'config.lua',
-	'uiconfig.lua'
+	'shared/*.lua',
 }
 
-client_script 'client.lua'
-server_script 'server.lua'
+client_scripts {
+    'client/*.lua'
+}
+server_scripts {
+    'server/*.lua'
+}
+
 lua54 'yes'
 use_fxv2_oal 'yes'
 
