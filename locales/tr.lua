@@ -16,6 +16,13 @@ local Translations = {
         ["access_denied"] = "Erişim Reddedildi!",
         ["stress_gain"] = "Daha Stresli Hissediyorsunuz!",
         ["stress_removed"] = "Daha Rahatlamış Hissediyorsunuz!"
+    },
+    info = {
+        ["toggle_engine"] = "Motoru Çalıştır",
+        ["open_menu"] = "Menüyü Aç",
+        ["check_cash_balance"] = "Nakit Miktarını Kontrol Et",
+        ["check_bank_balance"] = "Banka Bakiyesini Kontrol Et",
+        ["toggle_dev_mode"] = "Geliştirici Modunu Aktif Et/Kapat",
     }
 }
 
