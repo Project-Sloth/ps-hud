@@ -26,9 +26,9 @@ const store = () => {
   function getDefaultSettings(): playerStatusLayoutType {
     return {
       layout: getLocalStorage("layout", "standard"),
-      iconBetweenSpacing: getLocalStorage("iconBetweenSpacing", 2),
-      xAxisSpacing: getLocalStorage("xAxisSpacing", 0),
-      yAxisSpacing: getLocalStorage("yAxisSpacing", 0),
+      iconBetweenSpacing: getLocalStorage("iconBetweenSpacing", 10),
+      xAxisSpacing: getLocalStorage("xAxisSpacing", 20),
+      yAxisSpacing: getLocalStorage("yAxisSpacing", 2),
     };
   }
 
@@ -57,6 +57,15 @@ const store = () => {
         return state;
       })
     },
+    updateLayoutSettings(layout: layoutIconKind, xAxisSpacing: number, yAxisSpacing: number, iconBetwweenSpacing: number) {
+      update(state => {
+        state.layout = layout;
+        state.xAxisSpacing = xAxisSpacing;
+        state.yAxisSpacing = yAxisSpacing;
+        state.iconBetweenSpacing = iconBetwweenSpacing;
+        return state;
+      })
+    }
   };
 
   return {

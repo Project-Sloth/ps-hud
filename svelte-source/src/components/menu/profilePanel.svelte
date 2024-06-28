@@ -14,7 +14,7 @@
 <Panel name={$i18n.customizationProfiles} icon={faUser} color={"white"} bind:group>
   <div class="mx-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center">
     {#each $ProfileStore as profile, i}
-      <div class="flex flex-col justify-end items-center border-2 rounded-lg p-3 border-[#029772] my-3">
+      <div class="flex flex-col justify-end items-center border-2 p-3 border-[#029772] my-3">
         {#if !profile.editingName }
           <p class="text-xl font-semibold text-center cursor-pointer"
             on:click={() => profile.editingName = true}>

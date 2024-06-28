@@ -8,12 +8,21 @@
   import PlayerHudStore from '../../stores/playerStatusHudStore';
   import { absoluteMapDimensions } from '../../types/types';
   import { i18n } from '../../utils/i18n';
+  import { onMount } from 'svelte';
+  let img: string;
 
   function handleIsToggleMapShapeChecked(checked: boolean) {
     let shape: "circle" | "square" = checked ? "circle": "square";
     $MenuStore.isToggleMapShapeChecked = shape;
     fetchNui("ToggleMapShape", {shape: shape})
   }
+
+  onMount(async () => {
+    // Set the toggle map shape to the current setting
+    const image = await fetchNui('GetImage');
+    img = image.toString();
+  });
+
 </script>
 
 <div class="text-sm flex flex-col text-[#e8e8e8]">
@@ -214,5 +223,11 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+  }
+
+  .imgur {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 </style>

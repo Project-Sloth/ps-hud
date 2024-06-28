@@ -49,8 +49,8 @@
 
 <style>
   .themed {
-    --background: #292929;
-    --listBackground: #292929;
+    --background: #383838;
+    --listBackground: #383838;
     --itemIsActiveBG: var(--ps-hud-primary);
     --itemHoverBG: var(--ps-hud-primary-hover);
     --border: #171717;
