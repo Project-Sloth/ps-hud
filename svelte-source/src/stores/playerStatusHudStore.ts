@@ -1,11 +1,13 @@
 import { writable } from 'svelte/store'
-import { faHeart, faShieldAlt, faHamburger, faTint, faBrain, faStream,
-  faParachuteBox, faMeteor, faLungs, faOilCan, faUserSlash,
-  faTachometerAltFast, faTerminal, faHeadset, faMicrophone,
+import { faBrain,
+  faParachuteBox, faMeteor, faOilCan, faUserSlash,
+  faTachometerAltFast, faHeadset, faMicrophone,
 } from '@fortawesome/free-solid-svg-icons'
 import type { playerHudIcons, shapekind, iconNamesKind, optionalHudIconType, dynamicIcons, dynamicIconNamesKind } from '../types/types';
 import { defaultHudIcon, createShapeIcon, capAmountToHundred, playerStoreLocalStorageName } from '../types/types';
 import ColorEffectStore from './colorEffectStore';
+import LayoutStore from './layoutStore';
+import { heartBeatRegular, shieldHalf, drumStick, wineGlass, personRunning, personRifle, laptop } from '../utils/icons';
 
 type saveUIType = "ready" | "updating";
 
@@ -57,7 +59,7 @@ type playerHudUpdateMessageType = {
   cinematic: boolean,
   dev: boolean,
 }
-  
+
 const store = () => {
   let stored: string = localStorage.getItem(playerStoreLocalStorageName);
   let storedObject: object = {};
@@ -80,19 +82,19 @@ const store = () => {
         (({ isShowing, name, icon, progressValue, ...o }) => o)(defaultHudIcon())),
       icons: {
         voice: getLocalStorage("voice", defaultHudIcon("voice", true, faMicrophone)),
-        health: getLocalStorage("health", defaultHudIcon("health", false, faHeart)),
-        armor: getLocalStorage("armor", defaultHudIcon("armor", false, faShieldAlt)),
-        hunger: getLocalStorage("hunger", defaultHudIcon("hunger", false, faHamburger)),
-        thirst: getLocalStorage("thirst", defaultHudIcon("thirst", false, faTint)),
+        health: getLocalStorage("health", defaultHudIcon("health", false, heartBeatRegular)),
+        armor: getLocalStorage("armor", defaultHudIcon("armor", false, shieldHalf)),
+        hunger: getLocalStorage("hunger", defaultHudIcon("hunger", false, drumStick)),
+        thirst: getLocalStorage("thirst", defaultHudIcon("thirst", false, wineGlass)),
         stress: getLocalStorage("stress", defaultHudIcon("stress", false, faBrain)),
-        oxygen: getLocalStorage("oxygen", defaultHudIcon("oxygen", false, faLungs)),
-        armed: getLocalStorage("armed", defaultHudIcon("armed", false, faStream)),
+        oxygen: getLocalStorage("oxygen", defaultHudIcon("oxygen", false, personRunning)),
+        armed: getLocalStorage("armed", defaultHudIcon("armed", false, personRifle)),
         parachute: getLocalStorage("parachute", defaultHudIcon("parachute", false, faParachuteBox)),
         engine: getLocalStorage("engine", defaultHudIcon("engine", false, faOilCan)),
         harness: getLocalStorage("harness", defaultHudIcon("harness", false, faUserSlash)),
         cruise: getLocalStorage("cruise", defaultHudIcon("cruise", false, faTachometerAltFast)),
         nitro: getLocalStorage("nitro", defaultHudIcon("nitro", false, faMeteor)),
-        dev: getLocalStorage("dev", defaultHudIcon("dev", false, faTerminal)),
+        dev: getLocalStorage("dev", defaultHudIcon("dev", false, laptop)),
       },
       dynamicIcons: getLocalStorage("dynamicIcons", {
         armor: false, engine: false, health: false,
@@ -101,20 +103,20 @@ const store = () => {
       }),
       saveUIState: "ready",
       show: false,
-      showingOrder: ["voice", "health", "armor", "hunger", "thirst", "stress", "oxygen", "armed",
-        "parachute", "engine", "harness", "cruise", "nitro", "dev"],
+      showingOrder: ["voice", "health", "armor", "hunger", "thirst", "oxygen", "stress", "armed",
+        "parachute", "harness", "cruise", "nitro", "dev"],
     }
   }
 
   const playerHudUIState: playerStatusType = getDefaultSettings();
-  
+
   const { subscribe, set, update } = writable(playerHudUIState);
 
   const methods = {
     resetPlayerStatusIcons() {
       storedObject = {};
       localStorage.removeItem(playerStoreLocalStorageName);
-      set({...getDefaultSettings(), show: true}); 
+      set({...getDefaultSettings(), show: true});
     },
     updateAllIconsSettings(settingName: keyof optionalHudIconType, value: any) {
       update(state => {
@@ -147,10 +149,28 @@ const store = () => {
     updateAllRotateDegree(degree: number) {
       methods.updateAllIconsSettings("rotateDegree", degree)
     },
+    updateAllDashes(dashes: number) {
+      methods.updateAllIconsSettings("dashes", dashes);
+    },
+    updateAllDashGaps(gap: number) {
+      methods.updateAllIconsSettings("gap", gap);
+    },
+    updateAllBorderGap(borderGap: number) {
+      methods.updateAllIconsSettings("borderGap", borderGap);
+    },
+    updateAllIconRotateDegress(iconRotation: number) {
+      methods.updateAllIconsSettings("iconRotateDegree", iconRotation);
+    },
+    updateAllBorderSize(borderSize: number) {
+      methods.updateAllIconsSettings("borderSize", borderSize);
+    },
     updateAllShapes(shape: shapekind) {
+      if (shape == 'rotated-square' || shape == 'rotated-square-fill') {
+        LayoutStore.updateLayoutSettings("standard", 4, 4, 16);
+      }
       update(state => {
         for (let icon in state.icons) {
-          let defaultShape = createShapeIcon(shape, 
+          let defaultShape = createShapeIcon(shape,
             {
               icon: state.icons[icon].icon,
               isShowing: state.icons[icon].isShowing,
@@ -167,7 +187,7 @@ const store = () => {
             name: state.globalIconSettings.name,
         }));
         return state;
-      })
+      });
     },
     updateAllTranslateIconX(x: number) {
       methods.updateAllIconsSettings("iconTranslateX", x)
@@ -186,10 +206,10 @@ const store = () => {
     },
     updateIconShape(iconName: iconNamesKind, shape: shapekind) {
       update(state => {
-         let defaultShape = createShapeIcon(shape, 
+         let defaultShape = createShapeIcon(shape,
           {
             icon: state.icons[iconName].icon,
-            isShowing: state.icons[iconName].isShowing, 
+            isShowing: state.icons[iconName].isShowing,
             name: state.icons[iconName].name,
             progressValue: state.icons[iconName].progressValue
           });
@@ -291,13 +311,13 @@ const store = () => {
         }
 
         state.icons.armor.isShowing = methods.staticGenericZeroHandleShow(state.dynamicIcons.armor, state.icons.armor.progressValue);
-  
+
         if (data.armor <= 0) {
           ColorEffectStore.updateIconEffectStage("armor", 1);
         } else {
           ColorEffectStore.updateIconEffectStage("armor", 0);
         }
-  
+
         state.icons.hunger.isShowing = methods.staticGenericHundredHandleShow(state.dynamicIcons.hunger, state.icons.hunger.progressValue);
 
         if (data.hunger <= 30){
@@ -320,14 +340,14 @@ const store = () => {
 
         state.icons.engine.isShowing = methods.staticEngineHandleShow(state.dynamicIcons.engine, state.icons.engine.progressValue);
 
-        if (data.engine <= 45) {
+        if (data.engine <= 25) {
           ColorEffectStore.updateIconEffectStage("engine", 2);
-        } else if (data.engine <= 75 && data.engine >= 46 ) {
+        } else if (data.engine <= 75) {
           ColorEffectStore.updateIconEffectStage("engine", 1);
         } else if(data.engine <= 100) {
           ColorEffectStore.updateIconEffectStage("engine", 0);
-        } 
-  
+        }
+
         state.icons.nitro.isShowing = methods.staticNitroHandleShow(state.dynamicIcons.nitro, state.icons.nitro.progressValue, state.icons.engine.progressValue);
 
         if (data.nitroActive) {
@@ -335,7 +355,7 @@ const store = () => {
         } else {
           ColorEffectStore.updateIconEffectStage("nitro", 0);
         }
-  
+
         if (data.talking) {
           if (data.radioTalking) {
             ColorEffectStore.updateIconEffectStage("voice", 2);
@@ -357,25 +377,25 @@ const store = () => {
         } else {
           state.icons.cruise.isShowing = false;
         }
-  
+
         if (data.harness) {
           state.icons.harness.isShowing = true;
         } else {
           state.icons.harness.isShowing = false;
         }
-        
+
         if (data.armed) {
           state.icons.armed.isShowing = true;
         } else {
           state.icons.armed.isShowing = false;
         }
-  
+
         if (data.parachute >= 0 ) {
           state.icons.parachute.isShowing = true;
         } else {
           state.icons.parachute.isShowing = false;
         }
-  
+
         if (data.dev) {
           state.icons.dev.isShowing = true;
         } else {
@@ -416,7 +436,7 @@ const store = () => {
         return true;
       }
       if (currentValue == 0) {
-        return false; 
+        return false;
       }
       return true;
     },
@@ -431,7 +451,7 @@ const store = () => {
         }
       } else {
         if (currentValue >= 95) {
-          return false; 
+          return false;
         } else if (currentValue < 0){
           return false;
         } else {
@@ -444,7 +464,7 @@ const store = () => {
         return true;
       }
       if (currentValue >= 100) {
-        return false; 
+        return false;
       }
       return true;
     },

@@ -11,19 +11,19 @@
 
 {#if $VehicleHudStore.show || DebugStore}
   <div class="responsive" id="speedometer">
-    <PartialCircleRing maxLengthDisplay={66} rotateDegree={212} ringSize={5.5} progressColor={"white"}
+    <!-- <PartialCircleRing maxLengthDisplay={66} rotateDegree={212} ringSize={5.5} progressColor={"white"}
       outlineColor={"black"} outlineColorOpacity={0.6} height={60} width={60} progressValue={$VehicleHudStore.speed}
       text={$VehicleHudStore.useMPH ? "MPH" : "KPH"} displayNumber={$VehicleHudStore.speed} maxProgressValue={180}
-    />
+    /> -->
   </div>
-  <div class="responsive" id="fuelgauge">
+  <!-- <div class="responsive" id="fuelgauge">
     <PartialCircleRing maxLengthDisplay={69} rotateDegree={235} ringSize={3.5} progressColor={$VehicleHudStore.fuelColor}
       outlineColor={"black"} outlineColorOpacity={0.6} height={36} width={36} progressValue={$VehicleHudStore.fuel}
       icon={faGasPump} iconColor={"white"} iconScaling={0.38}
     />
-  </div>
+  </div> -->
 
-  {#if $VehicleHudStore.showAltitude}
+  {#if $VehicleHudStore.showAltitude || DebugStore}
     <div class="responsive" id="altitudegauge">
       <PartialCircleRing maxLengthDisplay={75} rotateDegree={225} ringSize={5.5} progressColor={"white"}
         outlineColor={"black"} outlineColorOpacity={0.6} height={60} width={60} progressValue={$VehicleHudStore.altitude}

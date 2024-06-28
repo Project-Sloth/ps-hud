@@ -1,7 +1,8 @@
 fx_version 'cerulean'
 game 'gta5'
 
-description 'ps-hud'
+description 'Ultra customizable hud featuring a unique and robust settings menu. Change eveything about your experience!'
+author 'Project-Sloth & GFive'
 version 'VERSION_IDENTIFIER'
 
 shared_scripts {
