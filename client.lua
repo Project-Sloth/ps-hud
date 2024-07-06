@@ -255,7 +255,7 @@ RegisterNUICallback('openMenuSounds', function(data, cb)
         Menu.isOpenMenuSoundsChecked = true
     else
         Menu.isOpenMenuSoundsChecked = false
-    end 
+    end
     TriggerEvent("hud:client:playHudChecklistSound")
 end)
 
@@ -880,7 +880,7 @@ end
 
 CreateThread(function()
     local wasInVehicle = false
-    while true do        
+    while true do
         if LocalPlayer.state.isLoggedIn then
             Wait(500)
 
@@ -888,7 +888,7 @@ CreateThread(function()
             local player = PlayerPedId()
             local playerId = PlayerId()
             local weapon = GetSelectedPedWeapon(player)
-            
+
             -- Player hud
             if not IsWhitelistedWeaponArmed(weapon) then
                 -- weapon ~= 0 fixes unarmed on Offroad vehicle Blzer Aqua showing armed bug
@@ -906,13 +906,13 @@ CreateThread(function()
             if not IsEntityInWater(player) then
                 oxygen = 100 - GetPlayerSprintStaminaRemaining(playerId)
             end
-            
+
             -- Oxygen
             if IsEntityInWater(player) then
                 oxygen = GetPlayerUnderwaterTimeRemaining(playerId) * 10
             end
 
-            -- Voice setup            
+            -- Voice setup
             local talking = NetworkIsPlayerTalking(playerId)
             local voice = 0
             if LocalPlayer.state['proximity'] then
@@ -970,7 +970,7 @@ CreateThread(function()
                 end
 
                 wasInVehicle = true
-                
+
                 updatePlayerHud({
                     show,
                     GetEntityHealth(player) - 100,
@@ -1122,8 +1122,11 @@ CreateThread(function() -- Speeding
             if IsPedInAnyVehicle(ped, false) then
                 local speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * speedMultiplier
                 local stressSpeed = seatbeltOn and config.MinimumSpeed or config.MinimumSpeedUnbuckled
-                if speed >= stressSpeed then
-                    TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
+                local vehClass = GetVehicleClass(GetVehiclePedIsIn(ped, false))
+                if Config.VehClassStress[tostring(vehClass)] then
+                    if speed >= stressSpeed then
+                        TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
+                    end
                 end
             end
         end
@@ -1317,9 +1320,9 @@ CreateThread(function()
             else
                 heading = tostring(round(360.0 - GetEntityHeading(player)))
             end
-            
-            if heading == '360' then 
-                heading = '0' 
+
+            if heading == '360' then
+                heading = '0'
             end
 
             local playerInVehcile = IsPedInAnyVehicle(player)
@@ -1327,9 +1330,9 @@ CreateThread(function()
             if heading ~= lastHeading or lastInVehicle ~= playerInVehcile then
                 if playerInVehcile then
                     local crossroads = getCrossroads(player)
-                    SendNUIMessage ({ 
-                        action = 'update', 
-                        value = heading 
+                    SendNUIMessage ({
+                        action = 'update',
+                        value = heading
                     })
                     updateBaseplateHud({
                         show,
@@ -1343,9 +1346,9 @@ CreateThread(function()
                     lastInVehicle = true
                 else
                     if not Menu.isOutCompassChecked then
-                        SendNUIMessage ({ 
-                            action = 'update', 
-                            value = heading 
+                        SendNUIMessage ({
+                            action = 'update',
+                            value = heading
                         })
                         SendNUIMessage ({
                             action = 'baseplate',
