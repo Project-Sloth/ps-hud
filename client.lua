@@ -1,4 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+local serverId = GetPlayerServerId(PlayerId())
 local PlayerData = QBCore.Functions.GetPlayerData()
 local config = Config
 local UIConfig = UIConfig
@@ -628,8 +629,20 @@ RegisterNetEvent('hud:client:UpdateNeeds', function(newHunger, newThirst) -- Tri
     thirst = newThirst
 end)
 
+AddStateBagChangeHandler('hunger', ('player:%s'):format(serverId), function(_, _, value)
+    hunger = value
+end)
+
+AddStateBagChangeHandler('thirst', ('player:%s'):format(serverId), function(_, _, value)
+    thirst = value
+end)
+
 RegisterNetEvent('hud:client:UpdateStress', function(newStress) -- Add this event with adding stress elsewhere
     stress = newStress
+end)
+
+AddStateBagChangeHandler('stress', ('player:%s'):format(serverId), function(_, _, value)
+    stress = value
 end)
 
 RegisterNetEvent('hud:client:ToggleShowSeatbelt', function()
