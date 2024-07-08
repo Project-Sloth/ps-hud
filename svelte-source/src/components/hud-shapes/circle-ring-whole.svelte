@@ -7,13 +7,12 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let shadowColor: string = "red";
   export let iconContrast: number = 100;
   export let iconDropShadowAmount: number = 0;
-  export let iconRotateDegree: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
-  export let name: string = "";
   export let outlineColor: string = "red";
   export let outlineContrast: number = 100;
   export let outlineDropShadowAmount: number = 0;
@@ -26,7 +25,7 @@
   export let translateX: number = 0;
   export let translateY: number = 0;
   export let width: number = 50;
-  
+
   let radius: number = 25;
 
   const progressTween = tweened(progressValue, {
@@ -69,7 +68,7 @@
   viewBox = "0 0 {radius * 2} {radius * 2}"
   overflow="visible"
 >
-  <g 
+  <g
     transform="
     { rotateDegree > 0 ? "rotate("+rotateDegree+" "+radius+" "+radius+")": ""}
     { "translate("+translateX+" "+translateY+")" }"
@@ -115,7 +114,7 @@
                      {"contrast("+progressContrast+"%)"};"
     />
   </g>
-  <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
+  <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+shadowColor+")": ""}
                     {"contrast("+iconContrast+"%)"};">
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
     translateY={iconTranslateY} style="color:{iconColor}"/>

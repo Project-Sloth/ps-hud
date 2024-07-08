@@ -11,8 +11,6 @@
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
-  export let innerColor: string = "#212121";
-  export let name: string = "";
   export let outlineColor: string = "red";
   export let outlineContrast: number = 100;
   export let outlineDropShadowAmount: number = 0;
@@ -20,7 +18,6 @@
   export let progressContrast: number = 100;
   export let progressDropShadowAmount: number = 0;
   export let progressValue: number = 100;
-  export let ringSize: number = 4;
   export let rotateDegree: number = 0;
   export let translateX: number = 0;
   export let translateY: number = 0;
@@ -62,21 +59,13 @@
       y1="100%"
       x2="50%"
       y2="0%"
-      stroke={progressColor} 
-      fill="transparent" 
+      stroke={progressColor}
+      fill="transparent"
       stroke-dasharray={height}
       stroke-dashoffset={strokeDashoffset}
       stroke-width={width}
       style="filter: {progressDropShadowAmount ? "drop-shadow(0px 0px "+progressDropShadowAmount+"px "+progressColor+")": ""}
                      {"contrast("+progressContrast+"%)"};"
-    />
-    <line
-      stroke={innerColor}
-      x1="50%"
-      y1={height-ringSize}
-      x2="50%"
-      y2={ringSize}
-      stroke-width={width - (ringSize*2)}
     />
   </g>
   <g transform="rotate( {-rotateDegree} {height/2} {width/2})"

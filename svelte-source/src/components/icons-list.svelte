@@ -13,7 +13,7 @@
   export let optionsForAll: optionalHudIconType = {};
 
   let globalIconList: Array<keyof playerHudIcons> = $PlayerHudStore.showingOrder;
-  
+
   $: editSingleIconName = $ColorEffectStore.globalColorSettings.editSingleIconName;
 
   $: {
@@ -23,15 +23,14 @@
     }
   }
 
-  // <MetaShape hudIconInfo={{...$PlayerHudUIStore.icons[shapeName], progressValue: num, ...optionsForAll, ...options[shapeName]}} />
 </script>
 
 {#each iconsToShow.length ? iconsToShow : globalIconList as iconName }
-  {@const currentEffectIndex = $PlayerHudStore.designMode ? 
+  {@const currentEffectIndex = $PlayerHudStore.designMode ?
     editSingleIconName == iconName ? $ColorEffectStore.globalColorSettings.editSingleIconStage : 0 : $ColorEffectStore.icons[iconName].currentEffect}
   {@const currentEffect = $ColorEffectStore.icons[iconName].colorEffects[currentEffectIndex]}
   {@const buffColorEffect = $ExternalStatusStore[iconName]}
-  
+
   {#if ($PlayerHudStore.icons[iconName].isShowing && !iconsToNotShow.includes(iconName)) || $PlayerHudStore.designMode}
     <div transition:fade|local="{{duration: 1000}}" class="my-auto">
       <MetaShape hudIconInfo={

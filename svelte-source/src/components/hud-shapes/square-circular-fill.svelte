@@ -11,7 +11,6 @@
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
-  export let name: string = "";
   export let outlineColor: string = "red";
   export let outlineContrast: number = 100;
   export let outlineDropShadowAmount: number = 0;
@@ -53,7 +52,7 @@
   height={radius}
   viewBox = "0 0 {radius*2} {radius*2}"
 >
-  <g 
+  <g
   transform="
     { rotateDegree > 0 ? "rotate("+rotateDegree+" "+width+" "+height+")": ""}
     { "translate("+translateX+" "+translateY+")" }"

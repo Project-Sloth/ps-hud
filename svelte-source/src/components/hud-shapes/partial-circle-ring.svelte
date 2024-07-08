@@ -7,13 +7,11 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
-  export let iconRotateDegree: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
   export let innerColorOpacity: number = 1;
-  export let name: string = "";
   export let outlineColor: string = "red";
   export let outlineColorOpacity: number = 0.4;
   export let progressColor: string = "red";
@@ -28,7 +26,7 @@
   export let showInnerBG: boolean = false;
   export let displayNumber: number = 0;
   export let text: string = "";
-  
+
   let radius: number = 25;
   let transposeValue: number = progressValue / maxProgressValue * 100;
 
@@ -62,7 +60,7 @@
   $: {
     strokeDashoffset = (circumference) - ($progressTween/(100/maxLengthDisplay)) / 100 * circumference;
   }
-  
+
   // track circle
   //       style="filter: drop-shadow(0px 0px 6px {progressColor}) contrast(200%);"
   // progress circle
@@ -77,7 +75,7 @@
   viewBox = "0 0 {radius * 2} {radius * 2}"
   overflow="visible"
 >
-  <g 
+  <g
     transform="
     { rotateDegree > 0 ? "rotate("+rotateDegree+" "+radius+" "+radius+")": ""}
     { "translate("+translateX+" "+translateY+")" }"
@@ -143,12 +141,12 @@
     font-size: 2.4vh;
     color: #ffffff;
     font-weight: 600;
-    text-shadow: -1px -1px 0 rgba(0,0,0, 0.7), 1px -1px 0 rgba(0,0,0, 0.7), -1px 1px 0 rgba(0,0,0, 0.7), 1px 1px 0 rgba(0,0,0, 0.7); 
+    text-shadow: -1px -1px 0 rgba(0,0,0, 0.7), 1px -1px 0 rgba(0,0,0, 0.7), -1px 1px 0 rgba(0,0,0, 0.7), 1px 1px 0 rgba(0,0,0, 0.7);
   }
 
   .vehicle-text {
     font-weight: 900;
-    text-shadow: -1px -1px 0 rgba(0,0,0, 0.7), 1px -1px 0 rgba(0,0,0, 0.7), -1px 1px 0 rgba(0,0,0, 0.7), 1px 1px 0 rgba(0,0,0, 0.7); 
+    text-shadow: -1px -1px 0 rgba(0,0,0, 0.7), 1px -1px 0 rgba(0,0,0, 0.7), -1px 1px 0 rgba(0,0,0, 0.7), 1px 1px 0 rgba(0,0,0, 0.7);
   }
 
 

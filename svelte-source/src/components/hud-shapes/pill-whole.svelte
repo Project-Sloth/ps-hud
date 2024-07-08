@@ -19,7 +19,6 @@
   export let progressContrast: number = 100;
   export let progressDropShadowAmount: number = 0;
   export let progressValue: number = 100;
-  export let ringSize: number = 4;
   export let rotateDegree: number = 0;
   export let translateX: number = 0;
   export let translateY: number = 0;
@@ -76,7 +75,7 @@
     y1="100%"
     x2="50%"
     y2="0%"
-    stroke={progressColor} 
+    stroke={progressColor}
     stroke-dasharray={height}
     stroke-dashoffset={strokeDashoffset}
     stroke-width={maximumAxis}

@@ -6,12 +6,12 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let shadowColor: string = "red";
   export let iconContrast: number = 100;
   export let iconDropShadowAmount: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
-  export let name: string = "";
   export let outlineColor: string = "red";
   export let outlineContrast: number = 100;
   export let outlineDropShadowAmount: number = 0;
@@ -29,7 +29,7 @@
   let normalizedRadius: number = radius - (stroke/2);
   let circumference = normalizedRadius * 2 * Math.PI;
   let strokeDashoffset: number = 0;
-  
+
   const progressTween = tweened(progressValue, {
     duration: 600,
     easing: cubicOut
@@ -54,7 +54,7 @@
   viewBox = "0 0 {radius * 2} {radius * 2}"
   overflow="visible"
 >
-  <g 
+  <g
     transform="
     { rotateDegree > 0 ? "rotate("+rotateDegree+" "+radius+" "+radius+")": ""}
     { "translate("+translateX+" "+translateY+")" }"
@@ -85,20 +85,8 @@
       style="filter: {progressDropShadowAmount ? "drop-shadow(0px 0px "+progressDropShadowAmount+"px "+progressColor+")": ""}
                      {"contrast("+progressContrast+"%)"};"
     />
-
-    <!-- This is the outer border -->
-    <!-- <circle
-      stroke="black"
-      fill="transparent"
-      stroke-width={3}
-      r={normalizedRadius*2 - 1.5}
-      cx={radius}
-      cy={radius}
-      transform="rotate(-90, {radius}, {radius})"
-    /> -->
-  
   </g>
-  <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
+  <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+shadowColor+")": ""}
                     {"contrast("+iconContrast+"%)"};">
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
     translateY={iconTranslateY} style="color:{iconColor}"/>

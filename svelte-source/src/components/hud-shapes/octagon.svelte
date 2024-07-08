@@ -7,8 +7,6 @@
   export let stroke: number = 1.5;
   export let progress: number = 2;
   export let progressColor: string = "stroke-red-500";
-  export let innerColor: string = "black";
-  export let icon = null;
 
   let octagon;
   let pathLength;

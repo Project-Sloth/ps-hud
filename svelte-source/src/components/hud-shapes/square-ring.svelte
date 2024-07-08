@@ -2,19 +2,17 @@
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
   import Fa from 'svelte-fa'
-  
+
   export let displayOutline: boolean = true;
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
   export let iconContrast: number = 100;
   export let iconDropShadowAmount: number = 0;
-  export let iconRotateDegree: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
-  export let name: string = "";
   export let outlineColor: string = "red";
   export let outlineContrast: number = 100;
   export let outlineDropShadowAmount: number = 0;

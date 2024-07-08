@@ -19,13 +19,11 @@
   export let progressContrast: number = 100;
   export let progressDropShadowAmount: number = 0;
   export let progressValue: number = 100;
-  export let rotateDegree: number = 0;
   export let translateX: number = 0;
   export let translateY: number = 0;
   export let width: number = 50;
   export let xAxisRound: number = 5;
   export let yAxisRound: number = 20;
-  export let name: string = "";
 
   let strokeDashoffset: number = 0;
 

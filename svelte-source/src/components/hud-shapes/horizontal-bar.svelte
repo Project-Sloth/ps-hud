@@ -12,7 +12,6 @@
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
-  export let name: string = "";
   export let outlineColor: string = "red";
   export let outlineContrast: number = 100;
   export let outlineDropShadowAmount: number = 0;
@@ -68,8 +67,8 @@
         y1="50%"
         x2="100%"
         y2="50%"
-        stroke={progressColor} 
-        fill="transparent" 
+        stroke={progressColor}
+        fill="transparent"
         stroke-dasharray={width}
         stroke-dashoffset={strokeDashoffset}
         stroke-width={width}

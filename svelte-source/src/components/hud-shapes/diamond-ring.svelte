@@ -10,12 +10,10 @@
   export let iconColor: string = "red";
   export let iconContrast: number = 100;
   export let iconDropShadowAmount: number = 0;
-  export let iconRotateDegree: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let innerColor: string = "#212121";
-  export let name: string = "";
   export let outlineColor: string = "red";
   export let outlineContrast: number = 100;
   export let outlineDropShadowAmount: number = 0;
@@ -57,7 +55,7 @@
 
 <div class="mx-[-7px]">
   <svg version="1.1" width={width} height={height} viewBox="0 0 16 16" transform="scale(-1,1)">
-    <g 
+    <g
       transform="
         { rotateDegree > 0 ? "rotate("+rotateDegree+" "+8+" "+8+")": ""}
         { "translate("+translateX+" "+translateY+")" }"

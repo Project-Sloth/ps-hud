@@ -7,6 +7,7 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let shadowColor: string = "red";
   export let iconContrast: number = 100;
   export let iconDropShadowAmount: number = 0;
   export let iconScaling: number = 0.45;
@@ -29,7 +30,7 @@
   let line: any = null;
   let pathLength: number = 0;
   let minimumAxis: number = height;
-  
+
   $: minimumAxis = height > width ? height : width;
 
   onMount(() => {
@@ -64,7 +65,7 @@
 
   <!-- stroke="black" -->
   <!-- opacity="0.75" -->
-  <g 
+  <g
     transform="
       { rotateDegree > 0 ? "rotate("+rotateDegree+" "+12+" "+12+")": ""}
       { "translate("+translateX+" "+translateY+")" }"
@@ -97,7 +98,7 @@
 
     <!-- stroke="url(#gradient-stroke)" -->
   </g>
-  <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
+  <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+shadowColor+")": ""}
                     {"contrast("+iconContrast+"%)"};">
     <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
       translateY={iconTranslateY} flip={"horizontal"} style="color:{iconColor}"/>

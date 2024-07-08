@@ -11,7 +11,6 @@
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
-  export let innerColor: string = "#212121";
   export let outlineColor: string = "red";
   export let outlineContrast: number = 100;
   export let outlineDropShadowAmount: number = 0;
@@ -19,13 +18,11 @@
   export let progressContrast: number = 100;
   export let progressDropShadowAmount: number = 0;
   export let progressValue: number = 100;
-  export let rotateDegree: number = 0;
   export let translateX: number = 0;
   export let translateY: number = 0;
   export let width: number = 50;
   export let xAxisRound: number = 5;
   export let yAxisRound: number = 20;
-  export let name: string = "";
   export let barHeight: number = 4;
   export let borderSize: number = 4;
 

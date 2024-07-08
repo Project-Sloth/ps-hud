@@ -11,9 +11,6 @@
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
   export let name: string = "";
-  export let outlineColor: string = "red";
-  export let outlineContrast: number = 100;
-  export let outlineDropShadowAmount: number = 0;
   export let progressColor: string = "red";
   export let progressContrast: number = 100;
   export let progressDropShadowAmount: number = 0;
@@ -30,7 +27,7 @@
   let normalizedRadius: number = radius - (stroke/2);
   let circumference = normalizedRadius * 2 * Math.PI;
   let strokeDashoffset: number = 0;
-  
+
   const progressTween = tweened(progressValue, {
     duration: 600,
     easing: cubicOut
@@ -66,7 +63,7 @@
       />
     </clipPath>
   </defs>
-  <g 
+  <g
     transform="
     { rotateDegree > 0 ? "rotate("+rotateDegree+" "+radius+" "+radius+")": ""}
     { "translate("+translateX+" "+translateY+")" }"
@@ -85,7 +82,7 @@
       y1="100%"
       x2="50%"
       y2="0%"
-      stroke={progressColor} 
+      stroke={progressColor}
       stroke-dasharray={minimumAxis}
       stroke-dashoffset={strokeDashoffset}
       stroke-width={minimumAxis}

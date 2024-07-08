@@ -10,7 +10,6 @@
   export let iconColor: string = "red";
   export let iconContrast: number = 100;
   export let iconDropShadowAmount: number = 0;
-  export let iconRotateDegree: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
@@ -58,7 +57,7 @@
   transform="scale(-1,1)"
   overflow="visible"
 >
-  <g 
+  <g
   transform="
     { rotateDegree > 0 ? "rotate("+rotateDegree+" "+19.35+" "+22+")": ""}
     { "translate("+translateX+" "+translateY+")" }"

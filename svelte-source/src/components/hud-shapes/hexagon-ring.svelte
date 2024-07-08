@@ -10,7 +10,6 @@
   export let iconColor: string = "red";
   export let iconContrast: number = 100;
   export let iconDropShadowAmount: number = 0;
-  export let iconRotateDegree: number = 0;
   export let iconScaling: number = 0.45;
   export let iconTranslateX: number = 0;
   export let iconTranslateY: number = 0;
@@ -25,8 +24,6 @@
   export let progressValue: number = 100;
   export let ringSize: number = 4;
   export let rotateDegree: number = 0;
-  export let translateX: number = 0;
-  export let translateY: number = 0;
   export let width: number = 50;
 
   let strokeDashoffset: number = 10;
@@ -72,7 +69,7 @@
 
   <!-- stroke="black" -->
   <!-- opacity="0.75" -->
-  <g 
+  <g
     transform="
       { rotateDegree > 0 ? "rotate("+rotateDegree+" "+12+" "+12+")": ""}"
   >

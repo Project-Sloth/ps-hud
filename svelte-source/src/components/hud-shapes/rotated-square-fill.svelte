@@ -2,8 +2,7 @@
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
   import Fa from 'svelte-fa'
-  
-  export let displayOutline: boolean = true;
+
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
@@ -15,8 +14,6 @@
   export let iconTranslateY: number = 0;
   export let name: string = "";
   export let progressColor: string = "red";
-  export let progressContrast: number = 100;
-  export let progressDropShadowAmount: number = 0;
   export let progressValue: number = 100;
   export let rotateDegree: number = 0;
   export let translateX: number = 0;

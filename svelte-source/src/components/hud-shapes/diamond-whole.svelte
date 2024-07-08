@@ -6,6 +6,7 @@
   export let height: number = 50;
   export let icon: any = null;
   export let iconColor: string = "red";
+  export let shadowColor: string = "red";
   export let iconContrast: number = 100;
   export let iconDropShadowAmount: number = 0;
   export let iconScaling: number = 0.45;
@@ -48,7 +49,7 @@
         />
       </clipPath>
     </defs>
-    <g 
+    <g
       transform="
         { rotateDegree > 0 ? "rotate("+rotateDegree+" "+8+" "+8+")": ""}
         { "translate("+translateX+" "+translateY+")" }"
@@ -73,7 +74,7 @@
                        {"contrast("+progressContrast+"%)"};"
       />
     </g>
-    <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+iconColor+")": ""}
+    <g style="filter: {iconDropShadowAmount ? "drop-shadow(0px 0px "+iconDropShadowAmount+"px "+shadowColor+")": ""}
                       {"contrast("+iconContrast+"%)"};">
       <Fa icon={icon} scale={iconScaling} translateX={iconTranslateX}
         translateY={iconTranslateY} style="color:{iconColor}"

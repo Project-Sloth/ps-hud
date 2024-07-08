@@ -58,27 +58,27 @@ export const shapes = [
   "circle-ring-whole",
   "circle-circle-fill",
   "circle-square-fill",
-  "circle-whole", //"cylinder",
+  "circle-fill",
+  "circle-whole",
+  "split-circle",
+  "inner-circle",
   "diamond-ring",
   "diamond-whole",
   "hexagon-ring",
   "hexagon-whole",
-  "horizontal-bar", //"icon",
+  "horizontal-bar",
   "icon-percentage",
   "pill-ring",
   "pill-whole",
+  "regular-square",
+  "rotated-square",
+  "rotated-square-fill",
   "square-circular-fill",
   "square-ring",
   "square-whole",
+  "square-fill",
   "star-ring",
   "triangle-ring",
-  "split-circle",
-  "inner-circle",
-  "rotated-square",
-  "regular-square",
-  "circle-fill",
-  "square-fill",
-  "rotated-square-fill",
   "transparent",
 ] as const;
 export type shapekind = (typeof shapes)[number];
@@ -344,6 +344,7 @@ export class pillRingIcon extends ringIcon implements roundEndIconProps {
         this.ringSize = 6.5;
     }
   }
+    barHeight: number;
 }
 
 export function createShapeIcon(
