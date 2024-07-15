@@ -21,6 +21,9 @@ jobs:
       - name: Install PNPM
         run: npm install -g pnpm
 
+      - name: Enter frontend directory
+        run: cd svelte-source
+
       - name: Install dependencies
         run: pnpm i
 
