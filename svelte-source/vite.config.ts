@@ -2,7 +2,6 @@ import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import WindiCSS from 'vite-plugin-windicss'
 import { minify } from "html-minifier";
-import viteCompression from 'vite-plugin-compression';
 
 const minifyHtml = () => {
   return {
@@ -22,7 +21,6 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [WindiCSS(), svelte(),
       isProduction && minifyHtml(),
-      // isProduction && viteCompression({algorithm: "brotliCompress", ext:".bz"})
     ],
     base: './', // fivem nui needs to have local dir reference, why god why
     build: {

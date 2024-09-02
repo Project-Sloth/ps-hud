@@ -14,7 +14,7 @@
   EventHandler();
 
   // TODO: fix this so this gets made and destoried from design mode
-  let interval;
+  let interval: number;
 
   const moveProgress = () => {
     let isUp: boolean = true;
