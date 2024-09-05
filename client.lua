@@ -871,7 +871,11 @@ local function getFuelLevel(vehicle)
     local updateTick = GetGameTimer()
     if (updateTick - lastFuelUpdate) > 2000 then
         lastFuelUpdate = updateTick
-        lastFuelCheck = math.floor(exports[Config.FuelScript]:GetFuel(vehicle))
+        if Config.Fuel.enable then
+            lastFuelCheck = math.floor(exports[Config.Fuel.script]:GetFuel(vehicle))
+        else
+            lastFuelCheck = Entity(vehicle).state.fuel
+        end
     end
     return lastFuelCheck
 end
@@ -1048,12 +1052,22 @@ CreateThread(function()
     while true do
         if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
-            if IsPedInAnyVehicle(ped, false) and not IsThisModelABicycle(GetEntityModel(GetVehiclePedIsIn(ped, false))) and not isElectric(GetVehiclePedIsIn(ped, false)) then
-                if exports[Config.FuelScript]:GetFuel(GetVehiclePedIsIn(ped, false)) <= 20 then -- At 20% Fuel Left
+            local vehicle = GetVehiclePedIsIn(ped, false)
+            
+            if IsPedInAnyVehicle(ped, false) and not IsThisModelABicycle(GetEntityModel(vehicle)) and not isElectric(vehicle) then
+                local fuelLevel
+                
+                if Config.Fuel.enable then
+                    fuelLevel = exports[Config.Fuel.script]:GetFuel(vehicle)
+                else
+                    fuelLevel = Entity(vehicle).state.fuel
+                end
+                
+                if fuelLevel <= 20 then
                     if Menu.isLowFuelChecked then
                         TriggerServerEvent("InteractSound_SV:PlayOnSource", "pager", 0.10)
                         QBCore.Functions.Notify(Lang:t("notify.low_fuel"), "error")
-                        Wait(60000) -- repeats every 1 min until empty
+                        Wait(60000)
                     end
                 end
             end
